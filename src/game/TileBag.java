@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 /**
  * ...
+ *
+ * @auther Andreas Eleftheriades
+ * @StudentID 1906277
  */
 public class TileBag {
-
-    /**
-     * List that hows tiles that will be used in current game
-     */
+    
     private ArrayList<Tile> tileBag;
 
     /**
@@ -32,7 +32,7 @@ public class TileBag {
 
     /**
      * Adds tile to tile bag
-     * @param tile 
+     * @param tile - passed tile to be added
      */
     public void addTiles(Tile tile){
         tileBag.add(tile);
