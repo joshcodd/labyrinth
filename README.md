@@ -5,10 +5,11 @@ An implementation of Labyrinth, the board game by Ravensburger. Built using Java
 ## How to use this repository
 
 1.  Clone the repository.
-2.  Work on your features, make sure that you have the working copy. (**git pull origin master**)
-3.   Stage your changes. (**git add .**) (the '.' means all)
-4.  Commit your changes to your local copy (**git commit -m "Commit message"**) Please keep commit messages short, i.e "Add insert functionality." or just "Add insert."
-5.  Push your changes to this repository. (**git push origin master**)
+2.  Work on your features, make sure that you have the working copy(**git pull**).
+3.  Work on the dev branch (**git checkout dev**).
+4.  Stage your changes. (**git add .**) (the '.' means all)
+5.  Commit your changes to your local copy (**git commit -m "Commit message"**) Please keep commit messages short, i.e "Add insert functionality." or just "Add insert."
+6.  Push your changes to the dev branch. (**git push origin dev**)
 
 ## Reporting bugs
 
