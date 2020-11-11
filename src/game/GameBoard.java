@@ -125,7 +125,7 @@ class testGB{
 
         gb.insertTile("ins", "UP", 1);
         System.out.println();
-        System.out.println(gb.insertTile("ins", "UP", 1));
+        //System.out.println(gb.insertTile("ins", "UP", 1));
 
         gb.printBoard();
     }
