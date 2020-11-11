@@ -4,10 +4,8 @@ package game;
 import java.util.ArrayList;
 
 /**
- * ...
- *
- * @auther Andreas Eleftheriades
- * @StudentID 1906277
+ * Tile bag is used to store tiles for which the player can draw from
+ * @author Andreas Eleftheriades    @StudentID 1906277
  */
 public class TileBag {
     
@@ -17,7 +15,7 @@ public class TileBag {
      * Creates TileBag
      */
     public TileBag(){
-        tileBag = new ArrayList<Tile>();
+        tileBag = new ArrayList<>();
 
     }
 
