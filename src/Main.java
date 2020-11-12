@@ -11,13 +11,16 @@ public class Main extends Application{
     public void start(Stage primaryStage) {
         HashMap<String, String> tiles = new HashMap<>();
         tiles.put("0 0", "FTile");
-        tiles.put("0 1", "1");
+        tiles.put("0 1", "0");
         tiles.put("0 2", "FTile");
         tiles.put("0 3", "FTile");
         tiles.put("0 4", "FTile");
 
+ //      tiles.put("1 1", "FTile");
+//        tiles.put("3 1", "FTile");
+
         tiles.put("2 0", "FTile");
-        tiles.put("2 1", "3");
+        tiles.put("2 1", "1");
         tiles.put("2 2", "FTile");
         tiles.put("2 3", "FTile");
         tiles.put("2 4", "FTile");
@@ -41,9 +44,10 @@ public class Main extends Application{
         randomTiles.add("Tile");
 
         GameBoard board = new GameBoard(5,5, tiles, randomTiles);
+        board.printBoard();
         GameScene game = new GameScene(primaryStage, board);
-        board.insertTile("ins", "UP", 1);
-        game.drawGameBoard();
+        //board.insertTile("ins", "UP", 1);
+        //game.drawGameBoard();
     }
 
     public static void main(String[] args) {

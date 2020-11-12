@@ -5,27 +5,35 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.GameController">
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.FlowPane?>
+<VBox prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <BorderPane prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: BLUE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <center>
-                  <StackPane fx:id="gameBoardPane" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: RED;" BorderPane.alignment="CENTER" />
-               </center>
-               <top>
-                  <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
-               </top>
-               <left>
-                  <StackPane prefHeight="100.0" prefWidth="134.0" BorderPane.alignment="CENTER" />
-               </left>
-               <bottom>
-                  <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
-               </bottom>
-               <right>
-                  <StackPane prefHeight="100.0" prefWidth="134.0" BorderPane.alignment="CENTER" />
-               </right>
-            </BorderPane>
+             <HBox>
+                 <BorderPane prefHeight="650.0" prefWidth="700.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <center>
+                         <StackPane fx:id="gameBoardPane" maxHeight="500.0" maxWidth="500.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: RED;" BorderPane.alignment="CENTER" />
+                     </center>
+                     <top>
+                         <Pane fx:id="gameBoardTop" BorderPane.alignment="CENTER" maxWidth="500.0" prefHeight="100.0" prefWidth="500.0"  />
+                     </top>
+                     <bottom>
+                         <Pane fx:id="gameBoardBottom" BorderPane.alignment="CENTER" maxWidth="500.0" prefHeight="100" prefWidth="500.0"  />
+                     </bottom>
+
+                     <right>
+                         <Pane fx:id="gameBoardRight" maxHeight="500.0"  prefHeight="100.0" prefWidth="100.0"  />
+                     </right>
+                     <left>
+                         <Pane fx:id="gameBoardLeft" maxHeight="500.0" prefHeight="200.0" prefWidth="100.0" />
+                     </left>
+                 </BorderPane>
+             </HBox>
+
          </children>
     </AnchorPane>
   </children>
