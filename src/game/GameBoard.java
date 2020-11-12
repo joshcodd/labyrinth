@@ -1,4 +1,5 @@
 package game;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +54,19 @@ public class GameBoard {
                 board[height - 1][row] = tile;
                 break;
         }
-
         return returnTile;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public String getTileAt(int x, int y) {
+        return board[x][y];
     }
 
     public void printBoard() {
@@ -83,50 +95,5 @@ public class GameBoard {
                 }
             }
         }
-    }
-}
-
-class testGB{
-    public static void main (String[] args) {
-
-        HashMap<String, String> tiles = new HashMap<>();
-        tiles.put("0 0", "FTile");
-        tiles.put("0 1", "1");
-        tiles.put("0 2", "FTile");
-        tiles.put("0 3", "FTile");
-        tiles.put("0 4", "FTile");
-
-        tiles.put("2 0", "FTile");
-        tiles.put("2 1", "3");
-        tiles.put("2 2", "FTile");
-        tiles.put("2 3", "FTile");
-        tiles.put("2 4", "FTile");
-
-        tiles.put("4 0", "FTile");
-        tiles.put("4 1", "5");
-        tiles.put("4 2", "FTile");
-        tiles.put("4 3", "FTile");
-        tiles.put("4 4", "FTile");
-
-        ArrayList<String> randomTiles = new ArrayList<>();
-        randomTiles.add("1");
-        randomTiles.add("2");
-        randomTiles.add("3");
-        randomTiles.add("4");
-        randomTiles.add("5");
-        randomTiles.add("Tile");
-        randomTiles.add("4");
-        randomTiles.add("Tile");
-        randomTiles.add("Tile");
-        randomTiles.add("Tile");
-
-        GameBoard gb = new GameBoard(5, 5, tiles, randomTiles);
-        gb.printBoard();
-
-        gb.insertTile("ins", "UP", 1);
-        System.out.println();
-        //System.out.println(gb.insertTile("ins", "UP", 1));
-
-        gb.printBoard();
     }
 }
