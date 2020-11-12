@@ -1,4 +1,4 @@
-package scenes;
+package views.scenes;
 import controllers.GameController;
 import game.GameBoard;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ public class GameScene {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Pane root = fxmlLoader.load(getClass().getResource("../views/gameView.fxml").openStream());
+            Pane root = fxmlLoader.load(getClass().getResource("../layouts/gameView.fxml").openStream());
             this.controller = (GameController) fxmlLoader.getController();
             drawGameBoard();
 
@@ -42,7 +42,6 @@ public class GameScene {
     }
 
     public void drawGameBoard (){
-        gameBoard.printBoard();
         Group gameBoardUI = new Group();
         for (int i = 0; i < (gameBoard.getHeight()); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
