@@ -4,6 +4,9 @@ import game.GameBoard;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -53,58 +56,60 @@ public class GameScene {
                 tile.setFill(Color.BURLYWOOD);
                 tile.setStroke(Color.BLACK);
 
-                Rectangle button = new Rectangle(50, 50);
-                button.setStroke(Color.BLACK);
-                button.setFill(Color.WHITE);
+                ImageView arrowHorizontal = new ImageView("/resources/arrow.png");
+                arrowHorizontal.setFitHeight(50);
+                arrowHorizontal.setFitWidth(50);
+
+                ImageView arrowVertical = new ImageView("/resources/arrow.png");
+                arrowVertical.setFitHeight(50);
+                arrowVertical.setFitWidth(50);
 
                 if (j == 0) {
-                    button.setOnMouseClicked(event -> {
+                    arrowHorizontal.setRotate(180);
+                    arrowHorizontal.setOnMouseClicked(event -> {
                         gameBoard.insertTile("ins", "LEFT", finalI);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
                     });
+                    buttonsLeft.add(new StackPane(arrowHorizontal), j, i);
 
-                    buttonsLeft.add(new StackPane(button, new Text("butL")), j, i);
                 } else if (j == gameBoard.getWidth() - 1) {
-                    button.setOnMouseClicked(event -> {
+                    arrowHorizontal.setOnMouseClicked(event -> {
                         gameBoard.insertTile("ins", "RIGHT", finalI);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
                     });
-
-                    buttonsRight.add(new StackPane(button, new Text("butR")), j, i);
+                    buttonsRight.add(new StackPane(arrowHorizontal), j, i);
                 }
 
-                Rectangle button1 = new Rectangle(50, 50);
-                button1.setStroke(Color.BLACK);
-                button1.setFill(Color.WHITE);
+
                 if (i == 0) {
-                    button1.setOnMouseClicked(event -> {
+                    arrowVertical.setRotate(-90);
+                    arrowVertical.setOnMouseClicked(event -> {
                         gameBoard.insertTile("ins", "DOWN", finalJ);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
                     });
-
-                    buttonsTop.add(new StackPane(button1, new Text("butT")), j, i);
+                    buttonsTop.add(new StackPane(arrowVertical), j, i);
                 } else if (i == gameBoard.getHeight() - 1) {
-                    button1.setOnMouseClicked(event -> {
+                    arrowVertical.setRotate(90);
+                    arrowVertical.setOnMouseClicked(event -> {
                         gameBoard.insertTile("ins", "UP", finalJ);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
                     });
-
-                    buttonsBottom.add(new StackPane(button1, new Text("butB")), j, i);
+                    buttonsBottom.add(new StackPane(arrowVertical), j, i);
                 }
-
                 board.add(new StackPane(tile, new Text(gameBoard.getTileAt(i, j))), j, i);
             }
         }
-        buttonsTop.setTranslateX(51);
-        buttonsBottom.setTranslateX(51);
+
+        buttonsTop.setTranslateX(50);
+        buttonsBottom.setTranslateX(50);
         controller.getTopButtons().getChildren().add(buttonsTop);
         controller.getGameBoardPane().getChildren().addAll(buttonsLeft, board, buttonsRight);
         controller.getBottomButtons().getChildren().add(buttonsBottom);
