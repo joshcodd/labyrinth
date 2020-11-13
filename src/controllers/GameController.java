@@ -3,47 +3,34 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.*;
 
 public class GameController {
-    @FXML
-    public Pane gameBoardLeft;
 
     @FXML
-    public Pane gameBoardRight;
+    public HBox bottomButtons;
 
     @FXML
-    public Pane gameBoardTop;
+    public HBox topButtons;
 
     @FXML
-    public Pane gameBoardBottom;
-
-    @FXML
-    private StackPane gameBoardPane;
+    private HBox gameBoardPane;
 
     @FXML
     public void initialize(){
     }
 
     @FXML
-    public StackPane getGameBoardPane(){
+    public HBox getGameBoardPane(){
         return gameBoardPane;
     }
 
     @FXML
-    public Pane getButtonLeft(){
-        return gameBoardLeft;
+    public Pane getBottomButtons(){
+        return bottomButtons;
     }
 
     @FXML
-    public Pane getButtonRight(){
-        return gameBoardRight;
+    public Pane getTopButtons(){
+        return topButtons;
     }
 
-    @FXML
-    public Pane getButtonTop(){
-        return gameBoardTop;
-    }
 
-    @FXML
-    public Pane getButtonBottom(){
-        return gameBoardBottom;
-    }
 }

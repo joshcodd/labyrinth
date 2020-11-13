@@ -57,6 +57,24 @@ public class GameBoard {
         return returnTile;
     }
 
+    public boolean isRowFixed(int row) {
+        for (int i = 0; i < getWidth(); i++){
+            if (board[row][i].equals("FTile")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isColumnFixed(int column) {
+        for (int i = 0; i < getHeight(); i++){
+            if (board[i][column].equals("FTile")){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getHeight() {
         return height;
     }
