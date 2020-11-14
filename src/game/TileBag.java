@@ -32,7 +32,7 @@ public class TileBag {
      * Adds tile to tile bag
      * @param tile - passed tile to be added
      */
-    public void addTiles(Tile tile){
+    public void addTile(Tile tile){
         tileBag.add(tile);
     }
 

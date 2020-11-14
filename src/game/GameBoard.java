@@ -18,7 +18,11 @@ public class GameBoard {
         initializeBoard(fixedTiles, randomTiles);
     }
 
-    public String insertTile(String tile, String edge, int row){
+    public GameBoard(int height2, int width2, HashMap<Coord, Tile> fixedTiles, TileBag bag) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String insertTile(String tile, String edge, int row){
         String returnTile = "";
 
         switch (edge) {
