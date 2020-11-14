@@ -1,15 +1,21 @@
 package game;
-
-/**
- * Super Class for Floor Tile and Action Tile in order to store all Tile types into the Tile Bag
- * @author Andreas Eleftheriades    @StudentID 1906277
- */
 public class Tile {
+    public Tile() {
+    }
 
-    /**
-     *
-     */
-    public Tile(){
+    public void Tile() {
+    }
 
+    public static void main(String[] args) {
+        FloorTile myFTile = new FloorTile(1, false, ShapeOfTile.BEND);
+        System.out.println(myFTile.toString());
+        myFTile.setFixed(true);
+        myFTile.setOrientation(3);
+        System.out.println(myFTile.toString());
+        myFTile.setOrientation(9);
+        System.out.println(myFTile.toString());
+        System.out.println(new Tile());
+        FloorTile thisTile = new FloorTile(130, true, ShapeOfTile.GOAL_TILE);
+        System.out.println(thisTile.toString());
     }
 }
