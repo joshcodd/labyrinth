@@ -63,11 +63,11 @@ public class GameScene {
                 int finalI = i;
                 int finalJ = j;
 
-                ImageView arrowHorizontal = new ImageView("/resources/arrow.png");
+                ImageView arrowHorizontal = new ImageView("/resources/rightArrow.png");
                 arrowHorizontal.setFitHeight(50);
                 arrowHorizontal.setFitWidth(50);
 
-                ImageView arrowVertical = new ImageView("/resources/arrow.png");
+                ImageView arrowVertical = new ImageView("/resources/rightArrow.png");
                 arrowVertical.setFitHeight(50);
                 arrowVertical.setFitWidth(50);
 
