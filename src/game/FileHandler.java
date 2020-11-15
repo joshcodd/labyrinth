@@ -20,10 +20,10 @@ class FileHandler {
 	 * @param bag empty tile bag.
 	 * @return a constructed game board.
 	 */
-	public static GameBoard loadGameFile(String fileName,Players[] players,TileBag bag) {
+	public static GameBoard loadGameFile(String fileName,Player[] players,TileBag bag) { //unfinished
 		GameBoard board = new GameBoard(0, 0, null, bag);
 		try { 
-			File level = new File(fileName.concat("txt"));
+			File level = new File(fileName.concat(".txt"));
 			Scanner line = new Scanner(level);
 			board = FileHandler.loadGameFile(line,bag);
 			int x1 = line.nextInt();
@@ -48,7 +48,7 @@ class FileHandler {
 		return board;
 	}
 	
-	private static GameBoard loadGameFile (Scanner line, TileBag bag) {
+	private static GameBoard loadGameFile (Scanner line, TileBag bag) { //unfinished
 		HashMap<Coord,Tile> fixedTiles = new HashMap<>(); 
 		line.useDelimiter(",");
 		int height = line.nextInt();
@@ -141,13 +141,51 @@ class FileHandler {
 		return board;
 	}
 	
+	
 	public static void saveGameFile (String saveName) {
 		
 	}
 	
-	public static void loadProfile (String fileName) {
-		
+	/**
+	 * Loads in a player profile from file.
+	 * @param fileName player file name.
+	 * @param playerName.
+	 * @return a player's profile.
+	 */
+	public static Player loadProfile (String fileName, String playerName) { //needs testing once player class made
+		Player p = new Player();
+		try {
+			File playerFile = new File(fileName.concat(".txt"));
+			Scanner line = new Scanner(playerFile);
+			p = FileHandler.loadProfile(line,playerName);
+			line.close();
+		} catch (FileNotFoundException e) {
+			   System.out.println("Error, No file exists.");
+			   e.printStackTrace();
+		   }
+		return p;
 	}
+	
+	private static Player loadProfile (Scanner line,String playerName) { //doublecheck later
+		Boolean targetLine = false;
+		String name;
+		int wins;
+		int losses;
+		while (line.hasNext()) {
+			if (line.hasNext(playerName)) {
+				name = line.next();
+				wins = line.nextInt();
+				losses = line.nextInt();
+				targetLine = true;
+			}
+			if (targetLine) {
+				Player p = new Player(name,wins,losses);
+				return p;
+			}
+		}
+		System.out.println("Player does not exist");
+	}
+	
 	
 	public static void saveProfile (String player,int wins ,int losses) {
 		
