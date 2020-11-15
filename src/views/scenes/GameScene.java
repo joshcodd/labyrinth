@@ -1,6 +1,8 @@
 package views.scenes;
 import controllers.GameController;
+import game.FloorTile;
 import game.GameBoard;
+import game.ShapeOfTile;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -52,10 +54,6 @@ public class GameScene {
                 int finalI = i;
                 int finalJ = j;
 
-                Rectangle tile = new Rectangle(50, 50);
-                tile.setFill(Color.BURLYWOOD);
-                tile.setStroke(Color.BLACK);
-
                 ImageView arrowHorizontal = new ImageView("/resources/arrow.png");
                 arrowHorizontal.setFitHeight(50);
                 arrowHorizontal.setFitWidth(50);
@@ -64,10 +62,15 @@ public class GameScene {
                 arrowVertical.setFitHeight(50);
                 arrowVertical.setFitWidth(50);
 
+                ImageView tile = new ImageView("/resources/" + gameBoard.getTileAt(i, j).isFixed()
+                        + gameBoard.getTileAt(i, j).getShape() + ".png");
+                tile.setFitHeight(50);
+                tile.setFitWidth(50);
+
                 if (j == 0) {
                     arrowHorizontal.setRotate(180);
                     arrowHorizontal.setOnMouseClicked(event -> {
-                        gameBoard.insertTile("ins", "LEFT", finalI);
+                        gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "LEFT", finalI);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
@@ -76,7 +79,7 @@ public class GameScene {
 
                 } else if (j == gameBoard.getWidth() - 1) {
                     arrowHorizontal.setOnMouseClicked(event -> {
-                        gameBoard.insertTile("ins", "RIGHT", finalI);
+                        gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "RIGHT", finalI);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
@@ -88,7 +91,7 @@ public class GameScene {
                 if (i == 0) {
                     arrowVertical.setRotate(-90);
                     arrowVertical.setOnMouseClicked(event -> {
-                        gameBoard.insertTile("ins", "DOWN", finalJ);
+                        gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "DOWN", finalJ);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
@@ -97,14 +100,15 @@ public class GameScene {
                 } else if (i == gameBoard.getHeight() - 1) {
                     arrowVertical.setRotate(90);
                     arrowVertical.setOnMouseClicked(event -> {
-                        gameBoard.insertTile("ins", "UP", finalJ);
+                        gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "UP", finalJ);
                         clearBoard();
                         drawGameBoard();
                         updateButtons();
                     });
                     buttonsBottom.add(new StackPane(arrowVertical), j, i);
                 }
-                board.add(new StackPane(tile, new Text(gameBoard.getTileAt(i, j))), j, i);
+
+                board.add(new StackPane(tile), j, i);
             }
         }
 

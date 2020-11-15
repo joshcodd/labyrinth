@@ -1,6 +1,6 @@
 package game;
 
-enum ShapeOfTile {
+public enum ShapeOfTile {
     BEND,
     T_SHAPE,
     STRAIGHT,

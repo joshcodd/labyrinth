@@ -8,23 +8,20 @@ import java.util.Map;
 public class GameBoard {
     private int height;
     private int width;
-    private String [][] board;
-    private ArrayList<String> activeTiles;
+    private FloorTile [][] board;
+    private ArrayList<ActionTile> activeTiles;
 
-    public GameBoard(int height, int width, HashMap<String, String> fixedTiles, ArrayList<String> randomTiles) {
+    public GameBoard(int height, int width, HashMap<String, FloorTile> fixedTiles, TileBag tileBag) {
         this.height = height;
         this.width = width;
-        board = new String[height][width];
+        board = new FloorTile[height][width];
         activeTiles = new ArrayList<>();
-        initializeBoard(fixedTiles, randomTiles);
+        initializeBoard(fixedTiles, tileBag);
     }
 
-    public GameBoard(int height2, int width2, HashMap<Coord, Tile> fixedTiles, TileBag bag) {
-		// TODO Auto-generated constructor stub
-	}
 
-	public String insertTile(String tile, String edge, int row){
-        String returnTile = "";
+	public Tile insertTile(FloorTile tile, String edge, int row){
+        FloorTile returnTile = null;
 
         switch (edge) {
             case "LEFT" :
@@ -64,7 +61,7 @@ public class GameBoard {
 
     public boolean isRowFixed(int row) {
         for (int i = 0; i < getWidth(); i++){
-            if (board[row][i].equals("FTile")){
+            if (board[row][i].isFixed()) {
                 return true;
             }
         }
@@ -73,7 +70,7 @@ public class GameBoard {
 
     public boolean isColumnFixed(int column) {
         for (int i = 0; i < getHeight(); i++){
-            if (board[i][column].equals("FTile")){
+            if (board[i][column].isFixed()){
                 return true;
             }
         }
@@ -88,7 +85,7 @@ public class GameBoard {
         return width;
     }
 
-    public String getTileAt(int x, int y) {
+    public FloorTile getTileAt(int x, int y) {
         return board[x][y];
     }
 
@@ -101,10 +98,10 @@ public class GameBoard {
         }
     }
 
-    private void initializeBoard(HashMap<String, String> tiles, ArrayList<String> randomTiles){
-        for (Map.Entry<String, String> tile : tiles.entrySet()) {
+    private void initializeBoard(HashMap<String, FloorTile> tiles, TileBag tileBag){
+        for (Map.Entry<String, FloorTile> tile : tiles.entrySet()) {
             String key = tile.getKey();
-            String value = tile.getValue();
+            FloorTile value = tile.getValue();
             String[] coords = key.split("\\s+");
             int x = Integer.parseInt(coords[0]);
             int y = Integer.parseInt(coords[1]);
@@ -114,7 +111,13 @@ public class GameBoard {
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board[i].length; j++){
                 if (board[i][j] == null){
-                    board[i][j] = randomTiles.remove(0);
+                    Tile tile = tileBag.drawTile();
+                    if (tile instanceof FloorTile){
+                        board[i][j] = (FloorTile) tile;
+
+                    } else {
+                        // looop to get other tile
+                    }
                 }
             }
         }
