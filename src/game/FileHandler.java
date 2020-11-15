@@ -10,9 +10,16 @@ import java.util.Scanner;
  * @author AndrewCarruthers
  * @StudentID 987747
  */
-
 class FileHandler {
 	
+	
+	/**
+	 * Opens and reads in a level from file
+	 * @param fileName level file name.
+	 * @param players list of players.
+	 * @param bag empty tile bag.
+	 * @return a constructed game board.
+	 */
 	public static GameBoard loadGameFile(String fileName,Players[] players,TileBag bag) {
 		GameBoard board = new GameBoard(0, 0, null, bag);
 		try { 
@@ -41,7 +48,7 @@ class FileHandler {
 		return board;
 	}
 	
-	public static GameBoard loadGameFile (Scanner line, TileBag bag) {
+	private static GameBoard loadGameFile (Scanner line, TileBag bag) {
 		HashMap<Coord,Tile> fixedTiles = new HashMap<>(); 
 		line.useDelimiter(",");
 		int height = line.nextInt();
