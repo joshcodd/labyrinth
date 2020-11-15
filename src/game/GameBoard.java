@@ -1,16 +1,25 @@
 package game;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Class to represent a game board in the game Labyrinth.
+ * @author Josh Codd
+ */
 public class GameBoard {
     private int height;
     private int width;
     private FloorTile [][] board;
     private ArrayList<ActionTile> activeTiles;
 
+    /**
+     * Constructs a game board.
+     * @param height The height of the game board.
+     * @param width The width of the game board.
+     * @param fixedTiles The fixed tiles and their positions of the game board at start.
+     * @param tileBag The tile bag of tiles to replace empty spaces on the board with.
+     */
     public GameBoard(int height, int width, HashMap<String, FloorTile> fixedTiles, TileBag tileBag) {
         this.height = height;
         this.width = width;
@@ -19,7 +28,13 @@ public class GameBoard {
         initializeBoard(fixedTiles, tileBag);
     }
 
-
+    /**
+     * Method to insert a tile into the game board from a specified edge and row.
+     * @param tile The tile to insert into the board.
+     * @param edge The direction to insert the tile from.
+     * @param row The row number for which the tile should be inserted.
+     * @return The tile pushed off the opposite edge of the board.
+     */
 	public Tile insertTile(FloorTile tile, String edge, int row){
         FloorTile returnTile = null;
 
@@ -59,6 +74,11 @@ public class GameBoard {
         return returnTile;
     }
 
+    /**
+     * Method that returns if the specified row contains a fixed tile.
+     * @param row The row to check.
+     * @return Whether the row contains a fixed tile or not.
+     */
     public boolean isRowFixed(int row) {
         for (int i = 0; i < getWidth(); i++){
             if (board[row][i].isFixed()) {
@@ -68,6 +88,11 @@ public class GameBoard {
         return false;
     }
 
+    /**
+     * Method that returns if the specified column contains a fixed tile.
+     * @param column The column to check.
+     * @return Whether the row contains a fixed tile or not.
+     */
     public boolean isColumnFixed(int column) {
         for (int i = 0; i < getHeight(); i++){
             if (board[i][column].isFixed()){
@@ -77,25 +102,28 @@ public class GameBoard {
         return false;
     }
 
+    /**
+     * Method to get the height of the game board.
+     * @return Height of the game board.
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Method to get the width of the game board.
+     * @return Width of the game board.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Method to get the tile at a specified index of the board.
+     * @return Tile at the specified position.
+     */
     public FloorTile getTileAt(int x, int y) {
         return board[x][y];
-    }
-
-    public void printBoard() {
-        for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[i].length; j++){
-                System.out.printf("%1$"+ 7 + "s", board[i][j]);
-            }
-            System.out.println();
-        }
     }
 
     private void initializeBoard(HashMap<String, FloorTile> tiles, TileBag tileBag){
@@ -114,12 +142,21 @@ public class GameBoard {
                     Tile tile = tileBag.drawTile();
                     if (tile instanceof FloorTile){
                         board[i][j] = (FloorTile) tile;
-
                     } else {
                         // looop to get other tile
                     }
                 }
             }
+        }
+    }
+
+    //THIS IS A METHOD FOR TESTING -> WILL BE DELETED.
+    public void printBoard() {
+        for (int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[i].length; j++){
+                System.out.printf("%1$"+ 7 + "s", board[i][j]);
+            }
+            System.out.println();
         }
     }
 }

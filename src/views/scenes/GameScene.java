@@ -6,23 +6,28 @@ import game.ShapeOfTile;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
+/**
+ * Class that represents the main game scene.
+ * @author Josh Codd
+ */
 public class GameScene {
     private GameController controller;
     private GameBoard gameBoard;
     private Stage primaryStage;
 
+
+    /**
+     * Method to construct and initialize a game scene.
+     * @param stage the stage to display this scene.
+     * @param board GOING TO CHANGE WHEN GAME LOGIC IS COMPLETE.
+     */
     public GameScene (Stage stage, GameBoard board){
         this.gameBoard = board;
         this.primaryStage = stage;
@@ -41,6 +46,10 @@ public class GameScene {
         }
     }
 
+
+    /**
+     * Method to draw the game board to screen.
+     */
     public void drawGameBoard () {
         GridPane board = new GridPane();
         GridPane buttonsLeft = new GridPane();
@@ -119,6 +128,11 @@ public class GameScene {
         controller.getBottomButtons().getChildren().add(buttonsBottom);
     }
 
+
+    /**
+     * Method to draw buttons for inserting tiles at the ends of rows/columns where there are no
+     * fixed tiles.
+     */
     public void updateButtons() {
         GridPane leftButtons = (GridPane) controller.getGameBoardPane().getChildren().get(0);
         GridPane rightButtons = (GridPane) controller.getGameBoardPane().getChildren().get(2);
@@ -155,6 +169,10 @@ public class GameScene {
         }
     }
 
+
+    /**
+     * Removed the game board from the scene graph.
+     */
     public void clearBoard() {
         controller.getTopButtons().getChildren().clear();
         controller.getGameBoardPane().getChildren().clear();
