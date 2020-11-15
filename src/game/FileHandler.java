@@ -6,45 +6,26 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * FileHandler class for saving and loading levels and players
+ * FileHandler class for saving and loading levels and profiles
  * @author AndrewCarruthers
  * @StudentID 987747
  */
-class FileHandler {
+public class FileHandler {
 	
 	
 	/**
-	 * Opens and reads in a level from file
+	 * Reads in a level from file, populates TileBag and sets player start locations
 	 * @param fileName level file name.
 	 * @param players list of players.
 	 * @param bag empty tile bag.
 	 * @return a constructed game board.
 	 */
-	public static GameBoard loadGameFile(String fileName,Player[] players,TileBag bag) { //unfinished
-		GameBoard board = new GameBoard(0, 0, null, bag);
-		try { 
-			File level = new File(fileName.concat(".txt"));
-			Scanner line = new Scanner(level);
-			board = FileHandler.loadGameFile(line,bag);
-			int x1 = line.nextInt();
-			int y1 = line.nextInt();
-			int x2 = line.nextInt();
-			int y2 = line.nextInt();
-			int x3 = line.nextInt();
-			int y3 = line.nextInt();
-			int x4 = line.nextInt();
-			int y4 = line.nextInt();
-			Coord p1 = new Coord(x1,y1);
-			Coord p2 = new Coord(x2,y2);
-			Coord p3 = new Coord(x3,y3);
-			Coord p4 = new Coord(x4,y4);
-			//needs player locations saved to each player
-			
-			line.close();
-		   } catch (FileNotFoundException e) {
-			   System.out.println("Error, No file exists.");
-			   e.printStackTrace();
-		   }
+	public static GameBoard loadGameFile(String fileName,Player[] players,TileBag bag) throws FileNotFoundException {
+		File level = new File(fileName.concat(".txt"));
+		Scanner line = new Scanner(level);
+		GameBoard board = loadGameFile(line, bag);
+		playerStartLocations(line,players);
+		line.close();
 		return board;
 	}
 	
@@ -141,53 +122,52 @@ class FileHandler {
 		return board;
 	}
 	
+	private static void playerStartLocations(Scanner line,Player[] players) {
+		for (Player player: players) {
+			int x = line.nextInt();
+			int y = line.nextInt();
+			Coord xy = new Coord(x,y);
+			player.setLocation(xy);
+		}	
+	}
 	
 	public static void saveGameFile (String saveName) {
 		
 	}
 	
 	/**
-	 * Loads in a player profile from file.
-	 * @param fileName player file name.
-	 * @param playerName.
+	 * Loads in a player profile from the profiles file.
+	 * @param playerName player's name.
 	 * @return a player's profile.
 	 */
-	public static Player loadProfile (String fileName, String playerName) { //needs testing once player class made
-		Player p = new Player();
-		try {
-			File playerFile = new File(fileName.concat(".txt"));
-			Scanner line = new Scanner(playerFile);
-			p = FileHandler.loadProfile(line,playerName);
-			line.close();
-		} catch (FileNotFoundException e) {
-			   System.out.println("Error, No file exists.");
-			   e.printStackTrace();
-		   }
+	public static Player loadProfile (String playerName) throws FileNotFoundException { //needs testing with profile class
+		File playerFile = new File("PlayerProfiles.txt");
+		Scanner line = new Scanner(playerFile);
+		Player p = loadProfile(line,playerName);
+		line.close();
 		return p;
 	}
 	
 	private static Player loadProfile (Scanner line,String playerName) { //doublecheck later
-		Boolean targetLine = false;
-		String name;
-		int wins;
-		int losses;
+		String name = null;
+		int wins = 0;
+		int losses = 0;
 		while (line.hasNext()) {
 			if (line.hasNext(playerName)) {
 				name = line.next();
 				wins = line.nextInt();
 				losses = line.nextInt();
-				targetLine = true;
 			}
-			if (targetLine) {
-				Player p = new Player(name,wins,losses);
-				return p;
-			}
+			line.nextLine();
 		}
-		System.out.println("Player does not exist");
+		Player p = new Player(name,wins,losses);
+		if (p.getName() == null) {
+			System.out.println("Player Does not exist");
+		}
+		return p;
 	}
 	
-	
-	public static void saveProfile (String player,int wins ,int losses) {
+	public static void saveProfile (String playerName,int wins ,int losses) {
 		
 	}
 }
