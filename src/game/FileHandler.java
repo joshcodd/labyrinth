@@ -35,7 +35,7 @@ public class FileHandler {
 		return board;
 	}
 	
-	private static GameBoard loadNewGame (Scanner line, TileBag bag) { //unfinished
+	private static GameBoard loadNewGame (Scanner line, TileBag bag) { 
 		HashMap<Coord,FloorTile> fixedTiles = new HashMap<>(); 
 		line.useDelimiter(",");
 		int height = line.nextInt();
@@ -136,14 +136,14 @@ public class FileHandler {
 		}	
 	}
 	
-	public static void saveGameFile (String saveName) {
-		//TODO save game method player + positions + their action tiles, gameboard hashmap
-	}
-	
 	public static GameBoard loadOldGame(String fileName, TileBag bag) {
 		return null;
 		//TODO load current game method
 	}
+
+	public static void saveGameFile (String saveName) {
+		//TODO save game method player + positions + their action tiles, gameboard hashmap
+	}	
 	
 	/**
 	 * Gets a list of all player names from existing profiles.
