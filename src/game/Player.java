@@ -14,6 +14,14 @@ public class Player {
 		this.previousPositions = new Coord[2];
 	}
 
+	public Coord getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
+
 	public void movePlayer (Coord destination) {
 		currentPosition = destination;
 	}

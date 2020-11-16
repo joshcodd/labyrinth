@@ -2,22 +2,41 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.StackPane?>
 <VBox prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-
-             <VBox>
-             <HBox fx:id="topButtons" BorderPane.alignment="CENTER"> </HBox>
-
-             <HBox fx:id="gameBoardPane">
+            <BorderPane prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: BLUE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center >
+      
+                   <VBox style="-fx-background-color: #00C669" BorderPane.alignment="CENTER">
+                   <HBox fx:id="topButtons" BorderPane.alignment="CENTER" > </HBox>
+      
+                   <HBox fx:id="gameBoardPane">
 
              </HBox>
-                 <HBox fx:id="bottomButtons" BorderPane.alignment="CENTER"> </HBox>
-             </VBox>
+                       <HBox fx:id="bottomButtons" BorderPane.alignment="CENTER"> </HBox>
+                   </VBox>
+               </center>
+
+                <top>
+                    <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
+                </top>
+
+                <left>
+                    <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
+                </left>
+                <bottom>
+                    <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
+                </bottom>
+                <right>
+                    <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
+                </right>
+            </BorderPane>
 
          </children>
     </AnchorPane>
