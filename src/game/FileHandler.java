@@ -26,22 +26,21 @@ public class FileHandler {
 	 * @param bag empty tile bag.
 	 * @return a constructed game board.
 	 */
-	public static GameBoard loadGameFile(String fileName,Player[] players,TileBag bag) throws FileNotFoundException {
+	public static GameBoard loadNewGame(String fileName,Player[] players,TileBag bag) throws FileNotFoundException {
 		File level = new File(fileName.concat(".txt"));
 		Scanner line = new Scanner(level);
-		GameBoard board = loadGameFile(line, bag);
+		GameBoard board = loadNewGame(line, bag);
 		playerStartLocations(line,players);
 		line.close();
 		return board;
 	}
 	
-	private static GameBoard loadGameFile (Scanner line, TileBag bag) { //unfinished
-		HashMap<Coord,Tile> fixedTiles = new HashMap<>(); 
+	private static GameBoard loadNewGame (Scanner line, TileBag bag) { //unfinished
+		HashMap<Coord,FloorTile> fixedTiles = new HashMap<>(); 
 		line.useDelimiter(",");
 		int height = line.nextInt();
 		int width = line.nextInt();
-		//number of fixed tiles to create
-		int k = line.nextInt();
+		int k = line.nextInt(); //number of fixed tiles to create
 		for (int i = 0; i != k; i++) {
 			
 			//set coords for current tile
@@ -72,55 +71,55 @@ public class FileHandler {
 			int orientation = line.nextInt();
 			
 			//adds to hashmap
-			Tile fixedTile = new FloorTile(orientation,true,shape); 
+			FloorTile fixedTile = new FloorTile(orientation,true,shape); 
 			fixedTiles.put(location,fixedTile);
 		}
 		
+		//next section populates TileBag
 		ShapeOfTile newShape = null;
-		
-		int bendTile = line.nextInt(); // adding bend tiles
+		int bendTile = line.nextInt(); 
 		for (int i = 0; i != bendTile; i++) {
 			newShape = ShapeOfTile.BEND;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
-		int tTile = line.nextInt(); // adding t tiles
-		for (int i = 0; i != bendTile; i++) {
+		int tTile = line.nextInt(); 
+		for (int i = 0; i != tTile; i++) {
 			newShape = ShapeOfTile.T_SHAPE;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
-		int straightTile = line.nextInt(); // adding straight tiles
-		for (int i = 0; i != bendTile; i++) {
+		int straightTile = line.nextInt(); 
+		for (int i = 0; i != straightTile; i++) {
 			newShape = ShapeOfTile.STRAIGHT;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
-		int crossTile = line.nextInt(); // adding crossroad tiles
-		for (int i = 0; i != bendTile; i++) {
+		int crossTile = line.nextInt(); 
+		for (int i = 0; i != crossTile; i++) {
 			newShape = ShapeOfTile.CROSSROADS;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
 		int iceTile = line.nextInt();
 		for (int i = 0; i != iceTile; i++) {
-			Tile newTile = new IceTile(); //need ice constructor
+			Tile newTile = new IceTile(); 
 			bag.addTile(newTile);
 		}
 		int fireTile = line.nextInt();
 		for (int i = 0; i != fireTile; i++) {
-			Tile newTile = new FireTile(); //need fire constructor
+			Tile newTile = new FireTile();
 			bag.addTile(newTile);
 		}
 		int backTile = line.nextInt();
 		for (int i = 0; i != backTile; i++) {
-			Tile newTile = new BackTile(); //  back constructor
+			Tile newTile = new BackTile();
 			bag.addTile(newTile);
 		}
 		int doubleTile = line.nextInt();
 		for (int i = 0; i != doubleTile; i++) {
-			Tile newTile = new DoubleTile(); //double constructor
-			bag.addTile(newTile);
+			Tile newTile = new DoubleTile(); 
+			bag.addTile(newTile); 
 		}
 		
 		//construct Game board for the level
@@ -138,7 +137,12 @@ public class FileHandler {
 	}
 	
 	public static void saveGameFile (String saveName) {
-		
+		//TODO save game method player + positions + their action tiles, gameboard hashmap
+	}
+	
+	public static GameBoard loadOldGame(String fileName, TileBag bag) {
+		return null;
+		//TODO load current game method
 	}
 	
 	/**
@@ -166,7 +170,7 @@ public class FileHandler {
 	 * @param playerName player's name.
 	 * @return a player's profile.
 	 */
-	public static PlayerProfile loadProfile (String playerName) throws FileNotFoundException { //needs testing with profile class
+	public static PlayerProfile loadProfile (String playerName) throws FileNotFoundException {
 		File playerFile = new File("PlayerProfiles.txt");
 		Scanner line = new Scanner(playerFile);
 		PlayerProfile p = loadProfile(line,playerName);
