@@ -96,7 +96,6 @@ public class GameScene {
                     buttonsRight.add(new StackPane(arrowHorizontal), j, i);
                 }
 
-
                 if (i == 0) {
                     arrowVertical.setRotate(-90);
                     arrowVertical.setOnMouseClicked(event -> {

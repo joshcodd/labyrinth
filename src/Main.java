@@ -7,27 +7,27 @@ import java.util.HashMap;
 public class Main extends Application{
     @Override
     public void start(Stage primaryStage) {
-        HashMap<String, FloorTile> tiles = new HashMap<>();
-        tiles.put("0 0", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("0 1", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("0 2", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("0 3", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("0 4", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        HashMap<Coord, FloorTile> tiles = new HashMap<>();
+        tiles.put(new Coord(0,0), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(0,1), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(0,2), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(0,3), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(0,4), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
 
  //      tiles.put("1 1", "FTile");
 //        tiles.put("3 1", "FTile");
 
-        tiles.put("2 0", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("2 1", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("2 2", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("2 3", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("2 4", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(2,0), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(2,1), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(2,2), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(2,3), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(2,4), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
 
-        tiles.put("4 0", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("4 1", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("4 2", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("4 3", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
-        tiles.put("4 4", new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(4,0), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(4,1), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(4,2), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(4,3), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
+        tiles.put(new Coord(4,4), new FloorTile(0, true, ShapeOfTile.CROSSROADS));
 
         TileBag tileBag = new TileBag();
         tileBag.addTile(new FloorTile(0, false, ShapeOfTile.BEND));
@@ -326,7 +326,7 @@ public class Main extends Application{
 
 
         GameBoard board = new GameBoard(10, 10, tiles, tileBag);
-        board.printBoard();
+        //board.printBoard();
         GameScene game = new GameScene(primaryStage, board);
         //board.insertTile("ins", "UP", 1);
         //game.drawGameBoard();

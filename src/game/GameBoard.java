@@ -20,7 +20,7 @@ public class GameBoard {
      * @param fixedTiles The fixed tiles and their positions of the game board at start.
      * @param tileBag The tile bag of tiles to replace empty spaces on the board with.
      */
-    public GameBoard(int height, int width, HashMap<String, FloorTile> fixedTiles, TileBag tileBag) {
+    public GameBoard(int height, int width, HashMap<Coord, FloorTile> fixedTiles, TileBag tileBag) {
         this.height = height;
         this.width = width;
         board = new FloorTile[height][width];
@@ -126,24 +126,25 @@ public class GameBoard {
         return board[x][y];
     }
 
-    private void initializeBoard(HashMap<String, FloorTile> tiles, TileBag tileBag){
-        for (Map.Entry<String, FloorTile> tile : tiles.entrySet()) {
-            String key = tile.getKey();
+    private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
+        for (Map.Entry<Coord, FloorTile> tile : tiles.entrySet()) {
+            Coord key = tile.getKey();
             FloorTile value = tile.getValue();
-            String[] coords = key.split("\\s+");
-            int x = Integer.parseInt(coords[0]);
-            int y = Integer.parseInt(coords[1]);
-            board[x][y] = value;
+            board[key.getX()][key.getY()] = value;
         }
 
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board[i].length; j++){
                 if (board[i][j] == null){
-                    Tile tile = tileBag.drawTile();
-                    if (tile instanceof FloorTile){
-                        board[i][j] = (FloorTile) tile;
-                    } else {
-                        // looop to get other tile
+                    boolean pulledFloorTile = false;
+                    while (!pulledFloorTile) {
+                        Tile tile = tileBag.drawTile();
+                        if (tile instanceof FloorTile){
+                            pulledFloorTile = true;
+                            board[i][j] = (FloorTile) tile;
+                        } else {
+                            tileBag.addTile(tile);
+                        }
                     }
                 }
             }
