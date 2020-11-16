@@ -1,7 +1,11 @@
 package game;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -127,7 +131,7 @@ public class FileHandler {
 			int x = line.nextInt();
 			int y = line.nextInt();
 			Coord xy = new Coord(x,y);
-			player.setLocation(xy);
+			player.movePlayer(xy);
 		}	
 	}
 	
@@ -167,7 +171,29 @@ public class FileHandler {
 		return p;
 	}
 	
-	public static void saveProfile (String playerName,int wins ,int losses) {
+	/**
+	 * Saves a player's profile to file.
+	 * @param playerName player's name.
+	 * @param wins player's wins.
+	 * @param losses player's losses.
+	 * @param gamesPlayed player's total games played.
+	 * @throws IOException 
+	 */
+	public static void saveProfile (String playerName,int wins ,int losses,int gamesPlayed) throws IOException {
+		File file = new File("PlayerProfiles.txt");
+		BufferedReader read = new BufferedReader(new FileReader(file));
+		String newFile = "";
+		String line = read.readLine();
+		while (line != null) {
+			if (line.contains(playerName)) {
+				line = playerName + "," + wins + "," + losses + "," + gamesPlayed;
+			}
+			newFile = newFile + line + "\n";
+		}
+		read.close();
 		
+		FileWriter write = new FileWriter(file);
+		write.write(newFile);
+		write.close();
 	}
 }
