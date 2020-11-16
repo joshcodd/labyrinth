@@ -144,18 +144,20 @@ public class FileHandler {
 	 * @param playerName player's name.
 	 * @return a player's profile.
 	 */
-	public static Player loadProfile (String playerName) throws FileNotFoundException { //needs testing with profile class
+	public static PlayerProfile loadProfile (String playerName) throws FileNotFoundException { //needs testing with profile class
 		File playerFile = new File("PlayerProfiles.txt");
 		Scanner line = new Scanner(playerFile);
-		Player p = loadProfile(line,playerName);
+		PlayerProfile p = loadProfile(line,playerName);
 		line.close();
 		return p;
 	}
 	
-	private static Player loadProfile (Scanner line,String playerName) { //doublecheck later
+	private static PlayerProfile loadProfile (Scanner line,String playerName) {
+		line.useDelimiter(",");
 		String name = null;
 		int wins = 0;
 		int losses = 0;
+		int gamesPlayed = 0;
 		while (line.hasNext()) {
 			if (line.hasNext(playerName)) {
 				name = line.next();
@@ -164,8 +166,8 @@ public class FileHandler {
 			}
 			line.nextLine();
 		}
-		Player p = new Player(name,wins,losses);
-		if (p.getName() == null) {
+		PlayerProfile p = new PlayerProfile(name,wins,losses,gamesPlayed);
+		if (p.getPlayerName() == null) {
 			System.out.println("Player Does not exist");
 		}
 		return p;

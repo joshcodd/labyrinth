@@ -3,7 +3,8 @@ package  game;
 /**
  * Class that represents payer profile info
  * 
- * @author Luka Zec studnet num: 987856
+ * @author Luka Zec 
+ * @StudentID: 987856
  * 
  *
  */
@@ -13,11 +14,11 @@ public class PlayerProfile {
 	private int losses;
 	private String playerName;
 	
-	public PlayerProfile(int gamesPlayed, int wins,int losses, String playerName) {
+	public PlayerProfile(String playerName, int wins,int losses,int gamesPlayed) {
 		setplayerName(playerName);
-		incrementWins(wins);
-		incrementLosses(losses);
-		incrementPlayed(gamesPlayed);
+		this.wins = wins;
+		this.losses = losses;
+		this.gamesPlayed = gamesPlayed;
 		
 		
 		
@@ -28,17 +29,17 @@ public class PlayerProfile {
 
 	}
 
-	public void incrementWins(int win){
-		this.wins = wins + win;
+	public void incrementWins(){
+		this.wins = wins + 1;
 		
 	}
-	public void incrementLosses(int lost){
-		this.losses = losses + lost;
+	public void incrementLosses(){
+		this.losses = losses + 1;
 		
 	}
 
-	public  void incrementGamesPlayed(int numOfGames) {
-		this.gamesPlayed = this.gamesPlayed + numOfGames;
+	public  void incrementGamesPlayed() {
+		this.gamesPlayed = gamesPlayed + 1;
 
 	}
 
