@@ -1,8 +1,6 @@
 package views.scenes;
 import controllers.GameController;
-import game.FloorTile;
-import game.GameBoard;
-import game.ShapeOfTile;
+import game.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-
 /**
  * Class that represents the main game scene.
  * @author Josh Codd
@@ -21,7 +18,7 @@ public class GameScene {
     private GameController controller;
     private GameBoard gameBoard;
     private Stage primaryStage;
-
+    private Player[] players = {new Player(1), new Player(2), new Player(3)};
 
     /**
      * Method to construct and initialize a game scene.
@@ -31,6 +28,9 @@ public class GameScene {
     public GameScene (Stage stage, GameBoard board){
         this.gameBoard = board;
         this.primaryStage = stage;
+        players[0].movePlayer(new Coord(4,4));
+        players[1].movePlayer(new Coord(2,4));
+        players[2].movePlayer(new Coord(1,3));
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -38,6 +38,7 @@ public class GameScene {
             this.controller = (GameController) fxmlLoader.getController();
             drawGameBoard();
             updateButtons();
+            drawPlayers();
             Scene scene = new Scene(root, 1000, 650);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -82,6 +83,7 @@ public class GameScene {
                         gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "LEFT", finalI);
                         clearBoard();
                         drawGameBoard();
+                        drawPlayers();
                         updateButtons();
                     });
                     buttonsLeft.add(new StackPane(arrowHorizontal), j, i);
@@ -91,6 +93,7 @@ public class GameScene {
                         gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "RIGHT", finalI);
                         clearBoard();
                         drawGameBoard();
+                        drawPlayers();
                         updateButtons();
                     });
                     buttonsRight.add(new StackPane(arrowHorizontal), j, i);
@@ -102,6 +105,7 @@ public class GameScene {
                         gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "DOWN", finalJ);
                         clearBoard();
                         drawGameBoard();
+                        drawPlayers();
                         updateButtons();
                     });
                     buttonsTop.add(new StackPane(arrowVertical), j, i);
@@ -111,6 +115,7 @@ public class GameScene {
                         gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), "UP", finalJ);
                         clearBoard();
                         drawGameBoard();
+                        drawPlayers();
                         updateButtons();
                     });
                     buttonsBottom.add(new StackPane(arrowVertical), j, i);
@@ -166,6 +171,31 @@ public class GameScene {
                 }
             }
         }
+    }
+
+    /**
+     * Draws to players to the screen at their current positions.
+     */
+    public void drawPlayers() {
+        GridPane board = (GridPane) controller.getGameBoardPane().getChildren().get(1);
+
+        ImageView player1 = new ImageView("/resources/1.png");
+        player1.setFitHeight(30);
+        player1.setFitWidth(30);
+
+        for (int i = 0; i < players.length; i++) {
+            for (Node node : board.getChildren()) {
+                if (GridPane.getColumnIndex(node) == players[i].getCurrentPosition().getY()
+                        && GridPane.getRowIndex(node) == players[i].getCurrentPosition().getX()) {
+                    ImageView tank = new ImageView("/resources/" + players[i].getPlayerNumber() + ".png");
+                    tank.setFitHeight(30);
+                    tank.setFitWidth(30);
+                    StackPane cell = (StackPane) node;
+                    cell.getChildren().add(tank);
+                }
+            }
+        }
+
     }
 
 
