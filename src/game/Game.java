@@ -9,11 +9,14 @@ import java.io.FileNotFoundException;
  */
 public class Game {
     private Player[] players;
+    private int numPlayers;
     private GameBoard gameBoard;
     private TileBag tileBag = new TileBag();
+    private boolean gameOver = false;
 
     public Game(String gameFilename, String[] playerNames) {
-        players = new Player[4];
+        players = new Player[playerNames.length];
+        numPlayers = players.length;
         for (int i = 0; i < playerNames.length; i++) {
             try {
                 PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
@@ -32,5 +35,19 @@ public class Game {
         }
     }
 
+    /**
+     * Starts the gameplay loop. Stops when a player wins the game.
+     */
+    public void startGame() {
+        int currentPlayer = 0;
+        while (!gameOver) {
+            playerTurn(currentPlayer);
+            currentPlayer = (currentPlayer + 1) % numPlayers;
+        }
+    }
+
+    private void playerTurn(int playerNum) {
+
+    }
 
 }
