@@ -2,7 +2,8 @@ package game;
 
 /**
  * Stores a integer (x,y) game position, and allows it to be updated, or retrieved
- * @author Neil Woodhouse - 851182
+ * @author Neil Woodhouse
+ * @studentID 851182
  */
 public class Coord {
     private int xPos;
