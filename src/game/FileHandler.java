@@ -1,11 +1,13 @@
 package game;
 
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -137,6 +139,26 @@ public class FileHandler {
 	
 	public static void saveGameFile (String saveName) {
 		
+	}
+	
+	/**
+	 * Gets a list of all player names from existing profiles.
+	 * @return Arraylist of player names.
+	 * @throws FileNotFoundException
+	 */
+	public static ArrayList<String> getAllNames() throws FileNotFoundException{
+		File file = new File("PlayerProfiles.txt");
+		Scanner line = new Scanner(file);
+		line.useDelimiter(",");
+		ArrayList<String> players = new ArrayList<String>();
+		String name = "";
+		while (line.hasNext()) {
+			name = line.next();
+			players.add(name);
+			line.nextLine();
+		}
+		line.close();
+		return players;
 	}
 	
 	/**
