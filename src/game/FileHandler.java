@@ -113,12 +113,12 @@ public class FileHandler {
 		}
 		int backTile = line.nextInt();
 		for (int i = 0; i != backTile; i++) {
-			Tile newTile = new BackTile();
+			Tile newTile = new BackTrackTile();
 			bag.addTile(newTile);
 		}
 		int doubleTile = line.nextInt();
 		for (int i = 0; i != doubleTile; i++) {
-			Tile newTile = new DoubleTile(); 
+			Tile newTile = new DoubleMoveTile();
 			bag.addTile(newTile); 
 		}
 		

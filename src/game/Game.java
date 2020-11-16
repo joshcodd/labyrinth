@@ -28,7 +28,7 @@ public class Game {
         }
 
         try {
-            gameBoard = FileHandler.loadGameFile(gameFilename, players, tileBag);
+            gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
         } catch(FileNotFoundException e) {
             System.out.println("Error: The specified game file could not be found. Please check that you're providing a filepath to a valid game file location.");
             //TODO Exit to level select scene
