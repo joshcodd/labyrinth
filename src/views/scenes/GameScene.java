@@ -1,6 +1,8 @@
 package views.scenes;
 import controllers.GameController;
 import game.*;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,19 +20,18 @@ public class GameScene {
     private GameController controller;
     private GameBoard gameBoard;
     private Stage primaryStage;
-    private Player[] players = {new Player(1), new Player(2), new Player(3)};
+    private Player[] players;
 
     /**
      * Method to construct and initialize a game scene.
      * @param stage the stage to display this scene.
-     * @param board GOING TO CHANGE WHEN GAME LOGIC IS COMPLETE.
+     * @param game GOING TO CHANGE WHEN GAME LOGIC IS COMPLETE.
      */
-    public GameScene (Stage stage, GameBoard board){
-        this.gameBoard = board;
+    public GameScene (Stage stage, Game game){
+        this.gameBoard = game.getGameBoard();
         this.primaryStage = stage;
-        players[0].movePlayer(new Coord(4,4));
-        players[1].movePlayer(new Coord(2,4));
-        players[2].movePlayer(new Coord(1,3));
+        this.players = game.getPlayers();
+
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -179,15 +180,14 @@ public class GameScene {
     public void drawPlayers() {
         GridPane board = (GridPane) controller.getGameBoardPane().getChildren().get(1);
 
-        ImageView player1 = new ImageView("/resources/1.png");
-        player1.setFitHeight(30);
-        player1.setFitWidth(30);
-
         for (int i = 0; i < players.length; i++) {
             for (Node node : board.getChildren()) {
                 if (GridPane.getColumnIndex(node) == players[i].getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == players[i].getCurrentPosition().getX()) {
-                    ImageView tank = new ImageView("/resources/" + players[i].getPlayerNumber() + ".png");
+
+                    int playerNumber = players[i].getPlayerNumber() + 1;
+                    ImageView tank = new ImageView("resources/" + playerNumber + ".png");
+
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;

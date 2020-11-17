@@ -13,6 +13,7 @@ public class Game {
     private GameBoard gameBoard;
     private TileBag tileBag = new TileBag();
     private boolean gameOver = false;
+    private int currentPlayer = 0;
 
     public Game(String gameFilename, String[] playerNames) {
         players = new Player[playerNames.length];
@@ -24,7 +25,7 @@ public class Game {
                 System.out.println("Error: Player profile file not found. Please check the filepath of the game save files.");
                 //TODO Exit to level select scene
             }
-            players[i] = new Player(i, otherArgs);
+            players[i] = new Player(i);
         }
 
         try {
@@ -35,11 +36,32 @@ public class Game {
         }
     }
 
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public TileBag getTileBag() {
+        return tileBag;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     /**
      * Starts the gameplay loop. Stops when a player wins the game.
      */
     public void startGame() {
-        int currentPlayer = 0;
+
         while (!gameOver) {
             playerTurn(currentPlayer);
             currentPlayer = (currentPlayer + 1) % numPlayers;

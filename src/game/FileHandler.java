@@ -171,7 +171,7 @@ public class FileHandler {
 	 * @return a player's profile.
 	 */
 	public static PlayerProfile loadProfile (String playerName) throws FileNotFoundException {
-		File playerFile = new File("PlayerProfiles.txt");
+		File playerFile = new File("src/levels/players.txt");
 		Scanner line = new Scanner(playerFile);
 		PlayerProfile p = loadProfile(line,playerName);
 		line.close();

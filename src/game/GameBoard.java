@@ -155,7 +155,7 @@ public class GameBoard {
     public void printBoard() {
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board[i].length; j++){
-                System.out.printf("%1$"+ 7 + "s", board[i][j]);
+                System.out.printf("%1$"+ 15 + "s", board[i][j].getShape());
             }
             System.out.println();
         }
