@@ -10,7 +10,6 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) {
         GameScene game = new GameScene(primaryStage, "src/levels/game", new String[]{"Josh", "Neil", "Andreas"});
-        game.getGameBoard().printBoard();
         //gametest.startGame();
 
     }

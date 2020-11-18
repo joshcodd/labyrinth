@@ -1,17 +1,13 @@
 package views.scenes;
 import controllers.GameController;
 import game.*;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableStringValue;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
 
 /**
@@ -27,6 +23,7 @@ public class GameScene {
     private TileBag tileBag = new TileBag();
     private boolean gameOver = false;
     private int currentPlayer = 0;
+    private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
 
     /**
      * Method to construct and initialize a game scene.
@@ -35,8 +32,9 @@ public class GameScene {
      * @param playerNames an array of names for registered player profiles
      */
     public GameScene (Stage stage,   String gameFilename, String[] playerNames){
-        numPlayers = playerNames.length;
-        players = new Player[numPlayers];
+        this.numPlayers = playerNames.length;
+        this.players = new Player[numPlayers];
+        this.primaryStage = stage;
         for (int i = 0; i < playerNames.length; i++) {
             try {
                 PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
@@ -54,22 +52,21 @@ public class GameScene {
             //TODO Exit to level select scene
         }
 
-        this.primaryStage = stage;
-
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane root = fxmlLoader.load(getClass().getResource("../layouts/gameView.fxml").openStream());
             this.controller = (GameController) fxmlLoader.getController();
-            drawGameBoard();
-            updateButtons();
-            drawPlayers();
             Scene scene = new Scene(root, 1000, 650);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        drawGameBoard();
+        updateButtons();
+        drawPlayers();
+        tileSize.bind(controller.getBoardArea().heightProperty().divide(gameBoard.getHeight() + 2));
     }
 
 
@@ -82,7 +79,6 @@ public class GameScene {
         GridPane buttonsRight = new GridPane();
         GridPane buttonsTop = new GridPane();
         GridPane buttonsBottom = new GridPane();
-        //board.setPrefSize(0, 0);
 
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
@@ -90,17 +86,23 @@ public class GameScene {
                 int finalJ = j;
 
                 ImageView arrowHorizontal = new ImageView("/resources/rightArrow.png");
-                arrowHorizontal.setFitHeight(50);
                 arrowHorizontal.setFitWidth(50);
+                arrowHorizontal.setFitHeight(50);
 
                 ImageView arrowVertical = new ImageView("/resources/rightArrow.png");
-                arrowVertical.setFitHeight(50);
                 arrowVertical.setFitWidth(50);
+                arrowVertical.setFitHeight(50);
 
                 ImageView tile = new ImageView("/resources/" + gameBoard.getTileAt(i, j).isFixed()
                         + gameBoard.getTileAt(i, j).getShape() + ".png");
-                tile.setFitHeight(50);
-                tile.setFitWidth(50);
+                tile.fitHeightProperty().bind(tileSize);
+                tile.fitWidthProperty().bind(tileSize);
+
+                ColumnConstraints gridWidth = new ColumnConstraints();
+                gridWidth.minWidthProperty().bind(tileSize);
+
+                RowConstraints gridHeight = new RowConstraints();
+                gridHeight.minHeightProperty().bind(tileSize);
 
                 if (j == 0) {
                     arrowHorizontal.setRotate(180);
@@ -111,6 +113,7 @@ public class GameScene {
                         drawPlayers();
                         updateButtons();
                     });
+                    buttonsLeft.getRowConstraints().add(gridHeight);
                     buttonsLeft.add(new StackPane(arrowHorizontal), j, i);
 
                 } else if (j == gameBoard.getWidth() - 1) {
@@ -121,6 +124,7 @@ public class GameScene {
                         drawPlayers();
                         updateButtons();
                     });
+                    buttonsRight.getRowConstraints().add(gridHeight);
                     buttonsRight.add(new StackPane(arrowHorizontal), j, i);
                 }
 
@@ -133,6 +137,7 @@ public class GameScene {
                         drawPlayers();
                         updateButtons();
                     });
+                    buttonsTop.getColumnConstraints().add(gridWidth);
                     buttonsTop.add(new StackPane(arrowVertical), j, i);
                 } else if (i == gameBoard.getHeight() - 1) {
                     arrowVertical.setRotate(90);
@@ -143,6 +148,7 @@ public class GameScene {
                         drawPlayers();
                         updateButtons();
                     });
+                    buttonsBottom.getColumnConstraints().add(gridWidth);
                     buttonsBottom.add(new StackPane(arrowVertical), j, i);
                 }
 
@@ -203,13 +209,12 @@ public class GameScene {
      */
     public void drawPlayers() {
         GridPane board = (GridPane) controller.getGameBoardPane().getChildren().get(1);
-
-        for (int i = 0; i < players.length; i++) {
+        for (Player player : players) {
             for (Node node : board.getChildren()) {
-                if (GridPane.getColumnIndex(node) == players[i].getCurrentPosition().getY()
-                        && GridPane.getRowIndex(node) == players[i].getCurrentPosition().getX()) {
+                if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
+                        && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
 
-                    int playerNumber = players[i].getPlayerNumber() + 1;
+                    int playerNumber = player.getPlayerNumber() + 1;
                     ImageView tank = new ImageView("resources/" + playerNumber + ".png");
 
                     tank.setFitHeight(30);
@@ -219,7 +224,6 @@ public class GameScene {
                 }
             }
         }
-
     }
 
 
@@ -245,9 +249,5 @@ public class GameScene {
 
     private void playerTurn(int playerNum) {
 
-    }
-
-    public GameBoard getGameBoard() {
-        return gameBoard;
     }
 }

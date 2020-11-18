@@ -16,11 +16,20 @@ public class GameController {
     public Label playerLabel;
 
     @FXML
+    public VBox boardArea;
+
+    @FXML
     private HBox gameBoardPane;
 
     @FXML
     public void initialize(){
     }
+
+    @FXML
+    public VBox getBoardArea() {
+        return boardArea;
+    }
+
 
     @FXML
     public Label getPlayerLabel() {

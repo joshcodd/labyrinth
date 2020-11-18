@@ -30,7 +30,7 @@
                <center>
                   <HBox BorderPane.alignment="CENTER">
                      <children>
-                         <VBox style="-fx-background-color: #00C669">
+                         <VBox fx:id="boardArea" style="-fx-background-color: #00C669">
                            <children>
                             <HBox fx:id="topButtons"> </HBox>
                                <HBox fx:id="gameBoardPane" />
