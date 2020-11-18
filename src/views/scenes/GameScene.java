@@ -33,7 +33,7 @@ public class GameScene {
      * @param stage the stage to display this scene.
      * @param game GOING TO CHANGE WHEN GAME LOGIC IS COMPLETE.
      */
-    public GameScene (Stage stage, Game game,   String gameFilename, String[] playerNames){
+    public GameScene (Stage stage,   String gameFilename, String[] playerNames){
         numPlayers = playerNames.length;
         players = new Player[numPlayers];
         for (int i = 0; i < playerNames.length; i++) {
@@ -243,6 +243,10 @@ public class GameScene {
     }
 
     private void playerTurn(int playerNum) {
-        
+
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 }
