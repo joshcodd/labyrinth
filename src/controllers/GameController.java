@@ -4,8 +4,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
-import javax.swing.text.html.ImageView;
-
 public class GameController {
 
     @FXML
@@ -68,8 +66,6 @@ public class GameController {
     public HBox getGameBoardPane(){
         return gameBoardPane;
     }
-
-
 
     @FXML
     public Pane getBottomButtons(){

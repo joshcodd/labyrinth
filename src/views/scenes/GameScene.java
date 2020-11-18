@@ -100,6 +100,22 @@ public class GameScene {
                 tile.fitHeightProperty().bind(tileSize);
                 tile.fitWidthProperty().bind(tileSize);
 
+                switch (gameBoard.getTileAt(i, j).getOrientation()) {
+                    case 0 :
+                        tile.setRotate(0);
+                        break;
+                    case 1 :
+                        tile.setRotate(90);
+                        break;
+                    case 2 :
+                        tile.setRotate(180);
+                        break;
+                    case 3 :
+                        tile.setRotate(270);
+                        break;
+                }
+
+
                 ColumnConstraints gridWidth = new ColumnConstraints();
                 gridWidth.minWidthProperty().bind(tileSize);
 
