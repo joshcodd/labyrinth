@@ -21,11 +21,11 @@ public class Game {
         for (int i = 0; i < playerNames.length; i++) {
             try {
                 PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
+                players[i] = new Player(i, currentProfile);
             } catch (FileNotFoundException e) {
                 System.out.println("Error: Player profile file not found. Please check the filepath of the game save files.");
                 //TODO Exit to level select scene
             }
-            players[i] = new Player(i);
         }
 
         try {

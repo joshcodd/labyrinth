@@ -6,10 +6,12 @@ public class Player {
 	Coord[] previousPositions;
 	int playerNumber;
 	ArrayList<ActionTile> actionTiles;
+	PlayerProfile profile;
 
 
-	public Player(int playerNumber) {
+	public Player(int playerNumber, PlayerProfile playerProfile) {
 		this.playerNumber = playerNumber;
+		this.profile = playerProfile;
 		actionTiles = new ArrayList<>();
 		this.previousPositions = new Coord[2];
 	}
