@@ -1,7 +1,10 @@
 package controllers;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+
+import javax.swing.text.html.ImageView;
 
 public class GameController {
 
@@ -18,16 +21,41 @@ public class GameController {
     @FXML
     public VBox boardArea;
 
+
+
+    @FXML
+    public javafx.scene.image.ImageView selectedTile;
+
+    @FXML
+    public Button actionButton;
+
+    @FXML
+    public Button drawButton;
+
     @FXML
     private HBox gameBoardPane;
+
 
     @FXML
     public void initialize(){
     }
 
+    public Button getActionButton() {
+        return actionButton;
+    }
+
+    public Button getDrawButton() {
+        return drawButton;
+    }
+
     @FXML
     public VBox getBoardArea() {
         return boardArea;
+    }
+
+    @FXML
+    public javafx.scene.image.ImageView getSelectedTile() {
+        return selectedTile;
     }
 
 

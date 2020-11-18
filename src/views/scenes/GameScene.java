@@ -80,6 +80,8 @@ public class GameScene {
         GridPane buttonsTop = new GridPane();
         GridPane buttonsBottom = new GridPane();
 
+        controller.getPlayerLabel().textProperty().set("Player " + currentPlayer + "'s turn");
+
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
                 int finalI = i;
