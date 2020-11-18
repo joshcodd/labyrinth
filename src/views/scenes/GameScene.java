@@ -31,7 +31,8 @@ public class GameScene {
     /**
      * Method to construct and initialize a game scene.
      * @param stage the stage to display this scene.
-     * @param game GOING TO CHANGE WHEN GAME LOGIC IS COMPLETE.
+     * @param gameFilename the filepath to the game file to be loaded
+     * @param playerNames an array of names for registered player profiles
      */
     public GameScene (Stage stage,   String gameFilename, String[] playerNames){
         numPlayers = playerNames.length;
