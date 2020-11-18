@@ -39,7 +39,7 @@
                                 <HBox fx:id="bottomButtons"> </HBox>
                            </children>
                          </VBox>
-                        <VBox alignment="CENTER" style="-fx-background-color: #00C669" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <VBox alignment="CENTER" style="-fx-background-color: #00C669; -fx-padding: 0 0 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="playerLabel" style="-fx-padding: 0 0 50 0;" text="Player">
                                  <font>
