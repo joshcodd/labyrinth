@@ -26,40 +26,28 @@ import java.util.ResourceBundle;
  * @author Josh Codd, Neil Woodhouse
  */
 public class GameController implements Initializable {
-
     @FXML
     public GridPane bottomButtons;
-
     @FXML
     public GridPane topButtons;
-
     @FXML
     public GridPane leftButtons;
-
     @FXML
     public GridPane rightButtons;
-
     @FXML
     public Label playerLabel;
-
     @FXML
     public HBox boardArea;
-
     @FXML
     public javafx.scene.image.ImageView selectedTile;
-
     @FXML
     public Button actionButton;
-
     @FXML
     public ImageView incrementOrientation;
-
     @FXML
     public ImageView decrementOrientation;
-
     @FXML
     public Button drawTile;
-
     @FXML
     private GridPane gameBoardPane;
 
@@ -93,9 +81,9 @@ public class GameController implements Initializable {
                     updateArrows(true);
                     selectedTile.setImage(new Image("/resources/" + "false"
                             + ((FloorTile) game.getCurrentTile()).getShape() + ".png"));
-
-                    System.out.println("/resources/" + "false"
-                            + ((FloorTile) game.getCurrentTile()).getShape() + ".png");
+                } else {
+                    selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
+                            .getClass().getName().substring(5) + ".png"));
                 }
             } else {
                 System.out.println(game.getCurrentTile());
@@ -115,9 +103,6 @@ public class GameController implements Initializable {
                 getRotationValue();
             }
         });
-
-
-
     }
 
     private void getRotationValue() {
@@ -148,7 +133,6 @@ public class GameController implements Initializable {
             }
         }
     }
-
 
     public void setPlayerLabel(int playerNumber){
         playerNumber++;
