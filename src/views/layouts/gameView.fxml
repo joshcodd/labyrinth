@@ -11,66 +11,66 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameController">
-  <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <BorderPane prefHeight="650.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <top>
-                    <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
-                </top>
+<VBox prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+    <children>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <BorderPane prefHeight="650.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <top>
+                        <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
+                    </top>
 
-                <left>
-                    <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
-                </left>
-                <bottom>
-                    <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
-                </bottom>
-                <right>
-                    <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
-                </right>
-               <center>
-                  <HBox BorderPane.alignment="CENTER">
-                     <children>
-                         <VBox fx:id="boardArea" alignment="CENTER" style="-fx-background-color: #00C669">
-                           <children>
-                            <HBox fx:id="topButtons"> </HBox>
-                               <HBox fx:id="gameBoardPane" />
-                                <HBox fx:id="bottomButtons"> </HBox>
-                           </children>
-                         </VBox>
-                        <VBox alignment="CENTER" style="-fx-background-color: #00C669; -fx-padding: 0 0 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="playerLabel" style="-fx-padding: 0 0 50 0;" text="Player">
-                                 <font>
-                                    <Font size="36.0" />
-                                 </font>
-                              </Label>
+                    <left>
+                        <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
+                    </left>
+                    <bottom>
+                        <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
+                    </bottom>
+                    <right>
+                        <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
+                    </right>
+                    <center>
+                        <HBox BorderPane.alignment="CENTER" fx:id="boardArea" >
+                            <children>
+                                <VBox alignment="CENTER" style="-fx-background-color: #00C669">
+                                    <children>
+                                        <HBox fx:id="topButtons"> </HBox>
+                                        <HBox fx:id="gameBoardPane" />
+                                        <HBox fx:id="bottomButtons"> </HBox>
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" style="-fx-background-color: #00C669; -fx-padding: 0 0 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label fx:id="playerLabel" style="-fx-padding: 0 0 50 0;" text="Player">
+                                            <font>
+                                                <Font size="36.0" />
+                                            </font>
+                                        </Label>
 
-                               <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
-                                 <image>
-                                    <Image url="@/resources/falseCROSSROADS.png" />
-                                 </image></ImageView>
+                                        <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
+                                            <image>
+                                                <Image url="@/resources/falseCROSSROADS.png" />
+                                            </image></ImageView>
 
-                               <Button fx:id="drawButton" text="Draw a tile!">
-                               </Button>
-                               <Button fx:id="actionButton" text="Play action tile!">
-                               </Button>
-                               <Label style="-fx-padding: 50 0 0 0;" text="Action tiles: ">
-                                   <font>
-                                       <Font size="15.0" />
-                                   </font>
-                               </Label>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: GREEN;" />
+                                        <Button fx:id="drawButton" text="Draw a tile!">
+                                        </Button>
+                                        <Button fx:id="actionButton" text="Play action tile!">
+                                        </Button>
+                                        <Label style="-fx-padding: 50 0 0 0;" text="Action tiles: ">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: GREEN;" />
 
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </center>
-            </BorderPane>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </center>
+                </BorderPane>
 
-         </children>
-    </AnchorPane>
-  </children>
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>

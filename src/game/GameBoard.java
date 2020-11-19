@@ -1,13 +1,11 @@
 package game;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class to represent a game board in the game Labyrinth.
  * @author Josh Codd
  */
-public class GameBoard {
+public class GameBoard extends Observable implements Observer {
     private int height;
     private int width;
     private FloorTile [][] board;
@@ -26,6 +24,7 @@ public class GameBoard {
         board = new FloorTile[height][width];
         activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
+        addObserver(this);
     }
 
     /**
@@ -71,6 +70,8 @@ public class GameBoard {
                 board[height - 1][row] = tile;
                 break;
         }
+        setChanged();
+        notifyObservers();
         return returnTile;
     }
 
@@ -159,5 +160,9 @@ public class GameBoard {
             }
             System.out.println();
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
     }
 }

@@ -12,8 +12,7 @@ public class Game {
     private int numPlayers;
     private GameBoard gameBoard;
     private TileBag tileBag = new TileBag();
-    private boolean gameOver = false;
-    private int currentPlayer = 0;
+    private Tile currentTile = null;
 
     public Game(String gameFilename, String[] playerNames) {
         players = new Player[playerNames.length];
@@ -36,7 +35,6 @@ public class Game {
         }
     }
 
-
     public Player[] getPlayers() {
         return players;
     }
@@ -53,23 +51,11 @@ public class Game {
         return tileBag;
     }
 
-    public int getCurrentPlayer() {
-        return currentPlayer;
+    public Tile getCurrentTile() {
+        return currentTile;
     }
 
-    /**
-     * Starts the gameplay loop. Stops when a player wins the game.
-     */
-    public void startGame() {
-
-        while (!gameOver) {
-            playerTurn(currentPlayer);
-            currentPlayer = (currentPlayer + 1) % numPlayers;
-        }
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
     }
-
-    private void playerTurn(int playerNum) {
-
-    }
-
 }

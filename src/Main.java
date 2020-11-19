@@ -9,7 +9,8 @@ import java.util.HashMap;
 public class Main extends Application{
     @Override
     public void start(Stage primaryStage) {
-        GameScene game = new GameScene(primaryStage, "src/levels/game", new String[]{"Josh", "Neil", "Andreas"});
+        Game game = new Game("src/levels/game", new String[]{"Josh", "Neil", "Andreas"});
+        GameScene gameScene = new GameScene(primaryStage, game);
     }
 
     public static void main(String[] args) {
