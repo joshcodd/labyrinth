@@ -27,10 +27,16 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable {
 
     @FXML
-    public HBox bottomButtons;
+    public GridPane bottomButtons;
 
     @FXML
-    public HBox topButtons;
+    public GridPane topButtons;
+
+    @FXML
+    public GridPane leftButtons;
+
+    @FXML
+    public GridPane rightButtons;
 
     @FXML
     public Label playerLabel;
@@ -48,18 +54,13 @@ public class GameController implements Initializable {
     public Button drawButton;
 
     @FXML
-    private HBox gameBoardPane;
+    private GridPane gameBoardPane;
 
     private GameBoard gameBoard;
     private Player[] players;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
-    GridPane buttonsLeft = new GridPane();
-    GridPane buttonsRight = new GridPane();
-    GridPane buttonsTop = new GridPane();
-    GridPane buttonsBottom = new GridPane();
-    GridPane board = new GridPane();
-    
+
     public GameController(Game game) {
         this.players = game.getPlayers();
         this.gameBoard = game.getGameBoard();
@@ -68,15 +69,12 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buttonsTop.setTranslateX(50);
-        buttonsBottom.setTranslateX(50);
-        topButtons.getChildren().add(buttonsTop);
-        gameBoardPane.getChildren().addAll(buttonsLeft,board,buttonsRight);
-        bottomButtons.getChildren().add(buttonsBottom);
+        topButtons.setTranslateX(50);
+        bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
         gameBoard.addObserver((o, arg) -> {
             updateGameBoard();
-            updateArrows();
+            updateArrows(false);
             drawPlayers();
         });
     }
@@ -85,11 +83,11 @@ public class GameController implements Initializable {
      * Updates the current game board GUI being displayed in the game scene.
      */
     public void updateGameBoard() {
-        board.getChildren().clear();
+        gameBoardPane.getChildren().clear();
         playerLabel.textProperty().set("Player " + "currentPlayer" + "'s turn");
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
-                board.add(new StackPane(getTileImage(i,j)), j, i);
+                gameBoardPane.add(new StackPane(getTileImage(i,j)), j, i);
             }
         }
     }
@@ -97,8 +95,9 @@ public class GameController implements Initializable {
     /**
      * Draws buttons for inserting tiles at the ends of every row or columns where the rows are moveable. That is, there
      * are no fixed tiles in that row or column.
+     * @param visible If the arrows should be visible or hidden.
      */
-    public void updateArrows() {
+    public void updateArrows(boolean visible) {
         clearArrows();
         ColumnConstraints gridWidth = new ColumnConstraints();
         gridWidth.minWidthProperty().bind(tileSize);
@@ -110,27 +109,43 @@ public class GameController implements Initializable {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
 
                 if (j == 0) {
-                    buttonsLeft.getRowConstraints().add(gridHeight);
+                    leftButtons.getRowConstraints().add(gridHeight);
                     ImageView arrow = getArrowImage("LEFT", i);
-                    arrow.setVisible(!gameBoard.isRowFixed(i));
-                    buttonsLeft.add(new StackPane(arrow), j, i);
+                    if (visible) {
+                        arrow.setVisible(!gameBoard.isRowFixed(i));
+                    } else {
+                        arrow.setVisible(false);
+                    }
+                    leftButtons.add(new StackPane(arrow), j, i);
                 } else if (j == gameBoard.getWidth() - 1) {
-                    buttonsRight.getRowConstraints().add(gridHeight);
+                    rightButtons.getRowConstraints().add(gridHeight);
                     ImageView arrow = getArrowImage("RIGHT", i);
-                    arrow.setVisible(!gameBoard.isRowFixed(i));
-                    buttonsRight.add(new StackPane(arrow), j, i);
+                    if (visible) {
+                        arrow.setVisible(!gameBoard.isRowFixed(i));
+                    } else {
+                        arrow.setVisible(false);
+                    }
+                    rightButtons.add(new StackPane(arrow), j, i);
                 }
 
                 if (i == 0) {
-                    buttonsTop.getColumnConstraints().add(gridWidth);
+                    topButtons.getColumnConstraints().add(gridWidth);
                     ImageView arrow = getArrowImage("DOWN", j);
-                    arrow.setVisible(!gameBoard.isColumnFixed(j));
-                    buttonsTop.add(new StackPane(arrow), j, i);
+                    if (visible) {
+                        arrow.setVisible(!gameBoard.isColumnFixed(j));
+                    } else {
+                        arrow.setVisible(false);
+                    }
+                    topButtons.add(new StackPane(arrow), j, i);
                 } else if (i == gameBoard.getHeight() - 1) {
-                    buttonsBottom.getColumnConstraints().add(gridWidth);
+                    bottomButtons.getColumnConstraints().add(gridWidth);
                     ImageView arrow = getArrowImage("UP", j);
-                    arrow.setVisible(!gameBoard.isColumnFixed(j));
-                    buttonsBottom.add(new StackPane(arrow), j, i);
+                    if (visible) {
+                        arrow.setVisible(!gameBoard.isColumnFixed(j));
+                    } else {
+                        arrow.setVisible(false);
+                    }
+                    bottomButtons.add(new StackPane(arrow), j, i);
                 }
             }
         }
@@ -141,13 +156,11 @@ public class GameController implements Initializable {
      */
     public void drawPlayers() {
         for (Player player : players) {
-            for (Node node : board.getChildren()) {
+            for (Node node : gameBoardPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-
                     int playerNumber = player.getPlayerNumber() + 1;
                     ImageView tank = new ImageView("resources/" + playerNumber + ".png");
-
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
@@ -161,14 +174,14 @@ public class GameController implements Initializable {
      * Removes the arrow buttons that surround the game board.
      */
     public void clearArrows() {
-        buttonsLeft.getChildren().clear();
-        buttonsLeft.getRowConstraints().clear();
-        buttonsRight.getChildren().clear();
-        buttonsRight.getRowConstraints().clear();
-        buttonsTop.getChildren().clear();
-        buttonsTop.getColumnConstraints().clear();
-        buttonsBottom.getColumnConstraints().clear();
-        buttonsBottom.getChildren().clear();
+        leftButtons.getChildren().clear();
+        leftButtons.getRowConstraints().clear();
+        rightButtons.getChildren().clear();
+        rightButtons.getRowConstraints().clear();
+        topButtons.getChildren().clear();
+        topButtons.getColumnConstraints().clear();
+        bottomButtons.getColumnConstraints().clear();
+        bottomButtons.getChildren().clear();
     }
 
     private ImageView getTileImage(int i, int j) {

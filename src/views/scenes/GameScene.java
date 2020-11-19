@@ -35,6 +35,7 @@ public class GameScene {
 
         controller.updateGameBoard();
         controller.drawPlayers();
-        controller.updateArrows();
+        controller.updateArrows(true);
+
     }
 }
