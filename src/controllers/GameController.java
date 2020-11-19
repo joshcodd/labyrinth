@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -51,7 +52,13 @@ public class GameController implements Initializable {
     public Button actionButton;
 
     @FXML
-    public Button drawButton;
+    public ImageView incrementOrientation;
+
+    @FXML
+    public ImageView decrementOrientation;
+
+    @FXML
+    public Button drawTile;
 
     @FXML
     private GridPane gameBoardPane;
@@ -72,11 +79,62 @@ public class GameController implements Initializable {
         topButtons.setTranslateX(50);
         bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
+        setPlayerLabel(game.getCurrentPlayer());
         gameBoard.addObserver((o, arg) -> {
             updateGameBoard();
             updateArrows(false);
             drawPlayers();
         });
+
+        drawTile.setOnAction((event) -> {
+            if (game.getCurrentTile() == null) {
+                game.setCurrentTile(game.getTileBag().drawTile());
+                if (game.getCurrentTile() instanceof FloorTile) {
+                    updateArrows(true);
+                    selectedTile.setImage(new Image("/resources/" + "false"
+                            + ((FloorTile) game.getCurrentTile()).getShape() + ".png"));
+
+                    System.out.println("/resources/" + "false"
+                            + ((FloorTile) game.getCurrentTile()).getShape() + ".png");
+                }
+            } else {
+                System.out.println(game.getCurrentTile());
+            }
+        });
+
+        decrementOrientation.setOnMouseClicked(event -> {
+            if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile){
+                ((FloorTile) game.getCurrentTile()).decrementOrientation();
+                getRotationValue();
+            }
+        });
+
+        incrementOrientation.setOnMouseClicked(event -> {
+            if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile){
+                ((FloorTile) game.getCurrentTile()).incrementOrientation();
+                getRotationValue();
+            }
+        });
+
+
+
+    }
+
+    private void getRotationValue() {
+        switch (((FloorTile) game.getCurrentTile()).getOrientation()) {
+            case 0 :
+                selectedTile.setRotate(0);
+                break;
+            case 1 :
+                selectedTile.setRotate(90);
+                break;
+            case 2 :
+                selectedTile.setRotate(180);
+                break;
+            case 3 :
+                selectedTile.setRotate(270);
+                break;
+        }
     }
 
     /**
@@ -84,12 +142,17 @@ public class GameController implements Initializable {
      */
     public void updateGameBoard() {
         gameBoardPane.getChildren().clear();
-        playerLabel.textProperty().set("Player " + "currentPlayer" + "'s turn");
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
                 gameBoardPane.add(new StackPane(getTileImage(i,j)), j, i);
             }
         }
+    }
+
+
+    public void setPlayerLabel(int playerNumber){
+        playerNumber++;
+        playerLabel.setText("Player " + playerNumber + "'s turn!");
     }
 
     /**
@@ -171,6 +234,16 @@ public class GameController implements Initializable {
     }
 
     /**
+     * Starts the gameplay loop. Stops when a player wins the game.
+     */
+    public void startGame() {
+        int currentPlayer = 0;
+        while (!game.isOver()) {
+            currentPlayer = (currentPlayer + 1) % game.getNumPlayers();
+        }
+    }
+
+    /**
      * Removes the arrow buttons that surround the game board.
      */
     public void clearArrows() {
@@ -227,7 +300,7 @@ public class GameController implements Initializable {
                 break;
         }
         arrow.setOnMouseClicked(event -> {
-            gameBoard.insertTile(new FloorTile(0, false, ShapeOfTile.CROSSROADS), direction, index);
+            gameBoard.insertTile((FloorTile) game.getCurrentTile(), direction, index);
         });
         return arrow;
     }

@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -24,13 +23,13 @@
                     </top>
 
                     <left>
-                        <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
+
                     </left>
                     <bottom>
                         <StackPane prefHeight="36.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
                     </bottom>
                     <right>
-                        <StackPane prefWidth="20.0" BorderPane.alignment="CENTER" />
+
                     </right>
                     <center>
                         <HBox fx:id="boardArea" BorderPane.alignment="CENTER">
@@ -58,28 +57,57 @@
                                  </children></HBox>
                                     </children>
                                 </VBox>
-                                <VBox alignment="CENTER" style="-fx-background-color: #00C669; -fx-padding: 0 0 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <VBox alignment="BOTTOM_CENTER" style="-fx-background-color: #00C669; -fx-padding: 0 0 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label fx:id="playerLabel" style="-fx-padding: 0 0 50 0;" text="Player">
                                             <font>
                                                 <Font size="36.0" />
                                             </font>
                                         </Label>
+                              <HBox alignment="TOP_CENTER">
+                                 <ImageView fx:id="decrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="-112.6">
+                                    <image>
+                                       <Image url="/resources/rotate.png" />
+                                    </image>
+                                 </ImageView>
+                                  <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
+                                </ImageView>
+                                 <ImageView fx:id="incrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="62.4">
+                                    <image>
+                                       <Image url="/resources/rotate.png" />
+                                    </image>
+                                 </ImageView>
+                              </HBox>
 
-                                        <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
-                                            <image>
-                                                <Image url="@/resources/falseCROSSROADS.png" />
-                                            </image></ImageView>
-                              <ButtonBar prefHeight="40.0" prefWidth="200.0" />
 
-                                              <Button fx:id="drawButton" text="Draw a tile!">
-                                        </Button>
-                                        <Button fx:id="actionButton" text="Play action tile!">
-                                        </Button>
-                              <Button fx:id="actionButton1" layoutX="391.0" layoutY="302.0" text="Continue" />
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-padding: 70 20 0 20;">
                                  <children>
-                                              <Label style="-fx-padding: 50 0 0 0;" text="Action tiles: ">
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
+                                       <children>
+            
+                                                       <Button fx:id="drawTile" alignment="CENTER" contentDisplay="CENTER" style="-fx-padding: 10 10 10 10;" text="Draw a tile!">
+                                     </Button>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
+                                       <children>
+                                                    <Button fx:id="actionButton" alignment="CENTER" contentDisplay="CENTER" style="-fx-padding: 10 10 10 10;" text="Play action!">
+                                        </Button>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
+                                       <children>
+                                          <Button fx:id="actionButton1" alignment="CENTER" style="-fx-padding: 10 10 10 10;" text="Continue" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </HBox>
+                              <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                              <Label style="-fx-padding: 0 0 0 0 0;" text="Action tiles: ">
                                                   <font>
                                                       <Font size="15.0" />
                                                   </font>

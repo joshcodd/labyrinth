@@ -13,6 +13,8 @@ public class Game {
     private GameBoard gameBoard;
     private TileBag tileBag = new TileBag();
     private Tile currentTile = null;
+    private boolean isOver = false;
+    private int currentPlayer = 0;
 
     public Game(String gameFilename, String[] playerNames) {
         players = new Player[playerNames.length];
@@ -33,6 +35,18 @@ public class Game {
             System.out.println("Error: The specified game file could not be found. Please check that you're providing a filepath to a valid game file location.");
             //TODO Exit to level select scene
         }
+    }
+
+    public void nextCurrentPlayer() {
+        if (this.currentPlayer == numPlayers - 1) {
+            this.currentPlayer = 0;
+        } else {
+            this.currentPlayer++;
+        }
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public Player[] getPlayers() {
@@ -57,5 +71,29 @@ public class Game {
 
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
+    }
+
+    public boolean isOver() {
+        return isOver;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    public void setTileBag(TileBag tileBag) {
+        this.tileBag = tileBag;
+    }
+
+    public void setOver(boolean over) {
+        isOver = over;
     }
 }

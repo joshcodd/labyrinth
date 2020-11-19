@@ -27,6 +27,24 @@ public class FloorTile extends Tile {
         this.orientation = direction % 4;
     }
 
+    public void decrementOrientation() {
+        if (this.orientation == 0) {
+            this.orientation = 3;
+        } else {
+            this.orientation--;
+        }
+    }
+
+    public void incrementOrientation() {
+        if (this.orientation == 3) {
+            this.orientation = 0;
+        } else {
+            this.orientation++;
+        }
+    }
+
+
+
     public int getOrientation() {
         return this.orientation;
     }
