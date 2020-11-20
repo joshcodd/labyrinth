@@ -107,9 +107,8 @@ public class GameController implements Initializable {
         });
 
         continueButton.setOnAction((event) -> {
-            game.setCurrentTile(null);
-            selectedTile.setImage(null);
             game.nextPlayer();
+            selectedTile.setImage(null);
             this.setPlayerLabel(game.getCurrentPlayer());
         });
     }
