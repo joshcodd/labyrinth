@@ -1,11 +1,16 @@
 package game;
+/**
+ * Tile superclass
+ * @author James Charnock
+ * @StudentID 1909700
+ */
 public class Tile {
     public Tile() {
     }
 
-    public void Tile() {
-    }
-
+    /**
+     * main method to test the Tile hierarchy
+     */
     public static void main(String[] args) {
         FloorTile myFTile = new FloorTile(1, false, ShapeOfTile.BEND);
         System.out.println(myFTile.toString());

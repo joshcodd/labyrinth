@@ -1,5 +1,9 @@
 package game;
-
+/**
+ * FloorTile sub class of Tile
+ * @author James Charnock
+ * @StudentID 1909700
+ */
 public class FloorTile extends Tile {
     private int orientation;
     private boolean isFixed;

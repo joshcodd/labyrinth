@@ -151,7 +151,7 @@ public class FileHandler {
 	 * @throws FileNotFoundException
 	 */
 	public static ArrayList<String> getAllNames() throws FileNotFoundException{
-		File file = new File("PlayerProfiles.txt");
+		File file = new File("src/levels/players.txt");
 		Scanner line = new Scanner(file);
 		line.useDelimiter(",");
 		ArrayList<String> players = new ArrayList<String>();
