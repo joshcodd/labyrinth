@@ -110,7 +110,7 @@ public class GameController implements Initializable {
             game.setCurrentTile(null);
             selectedTile.setImage(null);
             game.nextPlayer();
-            System.out.println("It is now player "+(game.getCurrentPlayer()+1)+"'s turn");
+            this.setPlayerLabel(game.getCurrentPlayer());
         });
     }
 
