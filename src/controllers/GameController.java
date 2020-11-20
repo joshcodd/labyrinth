@@ -87,6 +87,7 @@ public class GameController implements Initializable {
                     selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
                             .getClass().getName().substring(5) + ".png"));
                 }
+                drawTile.setDisable(true);
             } else {
                 System.out.println(game.getCurrentTile());
             }
@@ -107,9 +108,12 @@ public class GameController implements Initializable {
         });
 
         continueButton.setOnAction((event) -> {
-            game.nextPlayer();
-            selectedTile.setImage(null);
-            this.setPlayerLabel(game.getCurrentPlayer());
+            if (drawTile.isDisabled()) {
+                game.nextPlayer();
+                selectedTile.setImage(null);
+                this.setPlayerLabel(game.getCurrentPlayer());
+                drawTile.setDisable(false);
+            }
         });
     }
 
@@ -293,6 +297,7 @@ public class GameController implements Initializable {
         }
         arrow.setOnMouseClicked(event -> {
             gameBoard.insertTile((FloorTile) game.getCurrentTile(), direction, index);
+            selectedTile.setImage(null);
         });
         return arrow;
     }
