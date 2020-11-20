@@ -43,6 +43,8 @@ public class GameController implements Initializable {
     @FXML
     public Button actionButton;
     @FXML
+    public Button continueButton;
+    @FXML
     public ImageView incrementOrientation;
     @FXML
     public ImageView decrementOrientation;
@@ -102,6 +104,13 @@ public class GameController implements Initializable {
                 ((FloorTile) game.getCurrentTile()).incrementOrientation();
                 getRotationValue();
             }
+        });
+
+        continueButton.setOnAction((event) -> {
+            game.setCurrentTile(null);
+            selectedTile.setImage(null);
+            game.nextPlayer();
+            System.out.println("It is now player "+(game.getCurrentPlayer()+1)+"'s turn");
         });
     }
 

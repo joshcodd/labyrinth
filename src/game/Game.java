@@ -37,14 +37,6 @@ public class Game {
         }
     }
 
-    public void nextCurrentPlayer() {
-        if (this.currentPlayer == numPlayers - 1) {
-            this.currentPlayer = 0;
-        } else {
-            this.currentPlayer++;
-        }
-    }
-
     public int getCurrentPlayer() {
         return currentPlayer;
     }
@@ -95,5 +87,10 @@ public class Game {
 
     public void setOver(boolean over) {
         isOver = over;
+    }
+
+    public void nextPlayer() {
+        currentTile = null;
+        currentPlayer = (currentPlayer + 1) % numPlayers;
     }
 }

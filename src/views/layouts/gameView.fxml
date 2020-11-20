@@ -97,7 +97,7 @@
                                     </VBox>
                                     <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                        <children>
-                                          <Button fx:id="actionButton1" alignment="CENTER" style="-fx-padding: 10 10 10 10;" text="Continue" />
+                                          <Button fx:id="continueButton" alignment="CENTER" style="-fx-padding: 10 10 10 10;" text="Continue" />
                                        </children>
                                     </VBox>
                                  </children>
