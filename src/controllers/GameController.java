@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.lang.Class;
 
 /**
  * Controller class for GameScene. Runs through a game and then renders changes throughout the game to
@@ -109,12 +110,23 @@ public class GameController implements Initializable {
 
         continueButton.setOnAction((event) -> {
             if (drawTile.isDisabled()) {
+                if (ActionTile.class.isAssignableFrom(game.getCurrentTile().getClass())) {
+                    players[game.getCurrentPlayer()].addActionTile((ActionTile)game.getCurrentTile());
+                }
+
                 game.nextPlayer();
                 selectedTile.setImage(null);
                 this.setPlayerLabel(game.getCurrentPlayer());
                 drawTile.setDisable(false);
+                if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
+                    actionButton.setDisable(true);
+                }
             }
         });
+
+        if (players[game.getCurrentPlayer()].getActionTiles().size() == 0) {
+            actionButton.setDisable(true);
+        }
     }
 
     private void getRotationValue() {

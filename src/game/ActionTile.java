@@ -4,7 +4,7 @@ package game;
  * Super Class for IceTile, FireTile, BackTrackTile and  DoubleMoveTile
  * @author Andreas Eleftheriades    @StudentID 1906277
  */
-abstract class  ActionTile extends Tile {
+public abstract class  ActionTile extends Tile {
 
     /**
      *
