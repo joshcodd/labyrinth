@@ -24,12 +24,13 @@ import controllers.PlayerSelectionController;
 
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class SelectPlayerScene {
     private Stage primaryStage;
     private ArrayList<String> players;
-    private PlayerSelectionController controller;
+    private PlayerSelectionController myController;
     private double paneWidth = 900;
     private double paneHeight = 600;
 
@@ -39,20 +40,12 @@ public class SelectPlayerScene {
         this.players = players;
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/layouts/PlayerSelectionView.fxml"));
-            Parent root = loader.load();
-            controller = loader.getController();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/PlayerSelectionView.fxml").openStream());
 
-            controller.cbox1.getItems().addAll(FXCollections.observableArrayList(players));
-            controller.cbox2.setItems(FXCollections.observableArrayList(players));
-            controller.cbox3.setItems(FXCollections.observableArrayList(players));
-            controller.cbox4.setItems(FXCollections.observableArrayList(players));
+            PlayerSelectionController controller = loader.getController();
 
-            controller.getChoiceBox().getItems().addAll(FXCollections.observableArrayList(players));
-
-            Button newButt = new Button();
-            controller.getHBox().getChildren().add(newButt);
-
+            controller.setCbox1(players);
 
 
             Scene scene = new Scene(root, 850, 650);

@@ -13,10 +13,10 @@ import java.util.HashMap;
 public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        Game game = new Game("src/levels/game", new String[]{"Josh", "Neil", "Andreas"});
-        GameScene gameScene = new GameScene(primaryStage, game);
+        //Game game = new Game("src/levels/game", new String[]{"Josh", "Neil", "Andreas"});
+        //GameScene gameScene = new GameScene(primaryStage, game);
 
-//        SelectPlayerScene players = new SelectPlayerScene(primaryStage, FileHandler.getAllNames());
+        SelectPlayerScene players = new SelectPlayerScene(primaryStage, FileHandler.getAllNames());
     }
 
     public static void main(String[] args) {

@@ -21,52 +21,52 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <buttons>
-            <Button id="newPlayerButt" mnemonicParsing="false" text="Create new Player" />
-            <Button id="BeginButt" mnemonicParsing="false" text="Begin Game" />
+            <Button fx:id="newPlayerButt" mnemonicParsing="false" text="Create new Player" />
+            <Button fx:id="BeginButt" mnemonicParsing="false" text="Begin Game" />
          </buttons>
       </ButtonBar>
    </bottom>
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox id="vbox1" prefHeight="200.0" prefWidth="150.0">
+            <VBox fx:id="vbox1" prefHeight="200.0" prefWidth="150.0">
                <children>
-                  <Label id="label1" text="Player 1">
+                  <Label fx:id="label1" text="Player 1">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ChoiceBox id="cbox1" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cbox1" prefWidth="150.0" />
                </children>
             </VBox>
-            <VBox id="vbox2" prefHeight="200.0" prefWidth="150.0">
+            <VBox fx:id="vbox2" prefHeight="200.0" prefWidth="150.0">
                <children>
-                  <Label id="label2" text="Player 2">
+                  <Label fx:id="label2" text="Player 2">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ChoiceBox id="cbox2" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cbox2" prefWidth="150.0" />
                </children>
             </VBox>
-            <VBox id="vbox3" prefHeight="200.0" prefWidth="150.0">
+            <VBox fx:id="vbox3" prefHeight="200.0" prefWidth="150.0">
                <children>
-                  <Label id="label3" text="Player 3">
+                  <Label fx:id="label3" text="Player 3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ChoiceBox id="cbox3" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cbox3" prefWidth="150.0" />
                </children>
             </VBox>
-            <VBox id="vbox4" prefHeight="200.0" prefWidth="150.0">
+            <VBox fx:id="vbox4" prefHeight="200.0" prefWidth="150.0">
                <children>
-                  <Label id="label4" text="Player 4">
+                  <Label fx:id="label4" text="Player 4">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ChoiceBox id="cbox4" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cbox4" prefWidth="150.0" />
                </children>
             </VBox>
          </children>
