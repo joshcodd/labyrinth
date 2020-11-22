@@ -4,7 +4,7 @@ package game;
  * @author James Charnock
  * @StudentID 1909700
  */
-public class Tile {
+public abstract class Tile {
     public Tile() {
     }
 
@@ -19,7 +19,6 @@ public class Tile {
         System.out.println(myFTile.toString());
         myFTile.setOrientation(9);
         System.out.println(myFTile.toString());
-        System.out.println(new Tile());
         FloorTile thisTile = new FloorTile(130, true, ShapeOfTile.GOAL_TILE);
         System.out.println(thisTile.toString());
     }
