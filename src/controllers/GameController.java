@@ -118,6 +118,7 @@ public class GameController implements Initializable {
                 selectedTile.setImage(null);
                 this.setPlayerLabel(game.getCurrentPlayer());
                 drawTile.setDisable(false);
+                this.updateArrows(false);
                 if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
                     actionButton.setDisable(true);
                 }
