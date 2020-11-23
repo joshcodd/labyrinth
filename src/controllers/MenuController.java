@@ -22,6 +22,7 @@ public class MenuController  {
     public Button loadGame;
     @FXML
     private Label message;
+    
 
     private Stage primaryStage;
 
