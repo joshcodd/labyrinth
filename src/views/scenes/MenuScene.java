@@ -1,5 +1,6 @@
 package views.scenes;
 
+import controllers.MenuController;
 import controllers.PlayerSelectionController;
 
 import game.MessageOfTheDay;
@@ -23,23 +24,16 @@ import javafx.scene.control.Label;
  */
 public class MenuScene {
         private Stage primaryStage;
-        @FXML
-        private void controller(){
-
-        }
-
-
 
         public MenuScene (Stage stage){
             this.primaryStage = stage;
             stage.setTitle("Labyrinth by Ravensburger");
-
-
-
             try {
                 FXMLLoader loader = new FXMLLoader();
                 Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/MenuView.fxml").openStream());
+                MenuController controller = loader.getController();
 
+                controller.setPrimaryStage(stage);
                 Scene scene = new Scene(root, 600, 600);
                 primaryStage.setScene(scene);
                 primaryStage.show();

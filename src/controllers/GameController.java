@@ -242,16 +242,6 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Starts the gameplay loop. Stops when a player wins the game.
-     */
-    public void startGame() {
-        int currentPlayer = 0;
-        while (!game.isOver()) {
-            currentPlayer = (currentPlayer + 1) % game.getNumPlayers();
-        }
-    }
-
-    /**
      * Removes the arrow buttons that surround the game board.
      */
     public void clearArrows() {
