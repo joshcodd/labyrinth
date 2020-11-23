@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocumentController">
+   <children>
+      <Pane layoutX="-258.0" layoutY="-200.0" prefHeight="638.0" prefWidth="892.0">
+         <children>
+            <Label layoutX="519.0" layoutY="319.0" prefHeight="63.0" prefWidth="152.0" text="This is submit page" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
