@@ -35,9 +35,9 @@ public class SelectPlayerScene {
     private double paneHeight = 600;
 
 
-    public SelectPlayerScene (Stage stage, ArrayList<String> players){
+    public SelectPlayerScene (Stage stage) throws FileNotFoundException {
         this.primaryStage = stage;
-        this.players = players;
+        this.players = FileHandler.getAllNames();
 
         try {
             FXMLLoader loader = new FXMLLoader();

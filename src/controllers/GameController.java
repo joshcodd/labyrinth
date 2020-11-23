@@ -89,6 +89,9 @@ public class GameController implements Initializable {
                             .getClass().getName().substring(5) + ".png"));
                 }
                 drawTile.setDisable(true);
+                if (!(game.getCurrentTile() instanceof FloorTile)) {
+                    continueButton.setDisable(false);
+                }
             } else {
                 System.out.println(game.getCurrentTile());
             }
@@ -118,12 +121,15 @@ public class GameController implements Initializable {
                 selectedTile.setImage(null);
                 this.setPlayerLabel(game.getCurrentPlayer());
                 drawTile.setDisable(false);
+                this.updateArrows(false);
                 if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
                     actionButton.setDisable(true);
                 }
+                continueButton.setDisable(true);
             }
         });
 
+        continueButton.setDisable(true);
         if (players[game.getCurrentPlayer()].getActionTiles().size() == 0) {
             actionButton.setDisable(true);
         }
@@ -242,16 +248,6 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Starts the gameplay loop. Stops when a player wins the game.
-     */
-    public void startGame() {
-        int currentPlayer = 0;
-        while (!game.isOver()) {
-            currentPlayer = (currentPlayer + 1) % game.getNumPlayers();
-        }
-    }
-
-    /**
      * Removes the arrow buttons that surround the game board.
      */
     public void clearArrows() {
@@ -309,6 +305,7 @@ public class GameController implements Initializable {
         }
         arrow.setOnMouseClicked(event -> {
             gameBoard.insertTile((FloorTile) game.getCurrentTile(), direction, index);
+            continueButton.setDisable(false);
             selectedTile.setImage(null);
         });
         return arrow;

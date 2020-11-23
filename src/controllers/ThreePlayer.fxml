@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="694.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocumentController">
+   <children>
+      <Button fx:id="backMenu" layoutX="565.0" layoutY="501.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="102.0" text="Back to menu" />
+      <Label layoutX="116.0" layoutY="20.0" prefHeight="80.0" prefWidth="238.0" text="Three Players" />
+      <TextField fx:id="playerinfo1" layoutX="71.0" layoutY="100.0" prefHeight="52.0" prefWidth="194.0" promptText="1 Player" />
+      <TextField fx:id="playerinfo2" layoutX="71.0" layoutY="197.0" prefHeight="52.0" prefWidth="194.0" promptText="2 Player" />
+      <TextField fx:id="playerinfo3" layoutX="71.0" layoutY="299.0" prefHeight="52.0" prefWidth="194.0" promptText="3 Player" />
+      <Button fx:id="submit" layoutX="129.0" layoutY="400.0" mnemonicParsing="false" onAction="#submitPlayer" prefHeight="31.0" prefWidth="78.0" text="Submit" />
+   </children>
+</AnchorPane>
