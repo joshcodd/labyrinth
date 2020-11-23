@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+
+// add exceptions
 public class MessageOfTheDay {
 
     private final static String URL_CS230 = "http://cswebcat.swansea.ac.uk/puzzle";
@@ -81,6 +83,7 @@ public class MessageOfTheDay {
     }
 
     /**
+     * can remove this
      * Returns the message as a getter
      * @return The message of the day as a String
      */

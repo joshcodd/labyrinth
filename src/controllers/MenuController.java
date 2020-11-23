@@ -17,9 +17,12 @@ public class MenuController  {
     @FXML
     private Label message;
 
+    /**
+     *
+     */
     @FXML
     public void initialize(){
-        message.setText(String.valueOf(new MessageOfTheDay()));
+        message.setText(String.valueOf(new MessageOfTheDay())); // need to fix so that it updates every 60 seconds
     }
 
     public void handleButtonNewGame(ActionEvent actionEvent) {
