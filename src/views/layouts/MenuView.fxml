@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1 " fx:controller="controllers.MenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(resources/BG.png)url(resources/BG.png);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="74.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,8 +26,8 @@
    <center>
       <VBox alignment="CENTER" prefHeight="383.0" prefWidth="600.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="newGame" onAction="#handleButtonNewGame" minHeight="35.0" minWidth="80.0" mnemonicParsing="false" text="New Game" />
-            <Button fx:id="loadGame" onAction="#handleButtonLoadGame" minHeight="35.0" minWidth="80.0" mnemonicParsing="false" text="Load Game" />
+            <Button fx:id="newGame" minHeight="35.0" minWidth="80.0" mnemonicParsing="false" onAction="#handleButtonNewGame" text="New Game" />
+            <Button fx:id="loadGame" minHeight="35.0" minWidth="80.0" mnemonicParsing="false" onAction="#handleButtonLoadGame" text="Load Game" />
          </children>
       </VBox>
    </center>

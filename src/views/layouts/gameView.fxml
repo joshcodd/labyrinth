@@ -31,9 +31,9 @@
 
                     </right>
                     <center>
-                        <HBox fx:id="boardArea" BorderPane.alignment="CENTER">
+                        <HBox fx:id="boardArea" style="-fx-background-image: url(resources/BG.png)url(resources/BG.png);" BorderPane.alignment="CENTER">
                             <children>
-                                <VBox alignment="CENTER" style="-fx-background-color: #00C669">
+                                <VBox alignment="CENTER">
                                     <children>
                                         <HBox>
                                  <children>
@@ -56,7 +56,7 @@
                                  </children></HBox>
                                     </children>
                                 </VBox>
-                                <VBox alignment="TOP_CENTER" style="-fx-background-color: #00C669; -fx-padding: 0 50 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <VBox alignment="TOP_CENTER" style="-fx-padding: 0 50 0 50;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label fx:id="playerLabel" style="-fx-padding: 60 0 0 0;" text="Player">
                                             <font>
