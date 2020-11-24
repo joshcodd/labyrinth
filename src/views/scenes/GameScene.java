@@ -1,5 +1,7 @@
 package views.scenes;
 import controllers.GameController;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import models.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,11 +21,11 @@ public class GameScene {
      * @param stage the stage to display this scene.
      * @param game the game that this scene will play.
      */
-    public GameScene (Stage stage, Game game){
+    public GameScene (Stage stage, Game game, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            this.controller = new GameController(game, stage);
+            this.controller = new GameController(game, stage, backgroundMusic);
             fxmlLoader.setController(controller);
             Pane root = fxmlLoader.load(getClass().getResource("../layouts/gameView.fxml").openStream());
             Scene scene = new Scene(root, 1200, 650);

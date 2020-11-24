@@ -16,6 +16,10 @@
     -fx-image: url(resources/rotate.png);
 }
 
+.rotate-arrow:hover{
+    -fx-opacity: 0.6;
+}
+
 .game-button{
     -fx-padding: 10 10 10 10;
 }
@@ -70,5 +74,13 @@
 }
 
 .alt-button:hover{
+    -fx-opacity: 0.5;
+}
+
+.tile-selection{
+
+}
+
+.tile-selection:hover{
     -fx-opacity: 0.5;
 }

@@ -38,8 +38,12 @@ public class Game {
         }
     }
 
-    public int getCurrentPlayer() {
+    public int getCurrentPlayerNum() {
         return currentPlayer;
+    }
+
+    public Player getCurrentPlayer(){
+        return players[currentPlayer];
     }
 
     public Player[] getPlayers() {

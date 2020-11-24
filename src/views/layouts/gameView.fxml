@@ -12,7 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.media.MediaView?>
 <VBox prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <MediaView fx:id="backgroundMusic"/>
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
@@ -56,7 +58,7 @@
                                              </ImageView>
                                               <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
                                 </ImageView>
-                                             <ImageView fx:id="incrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="62.4" styleClass="rotate-arrow">
+                                             <ImageView fx:id="incrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="112.6"  scaleX="-1" styleClass="rotate-arrow">
                                              </ImageView>
                                           </HBox>
                                        </children>
@@ -109,12 +111,12 @@
                                  <children>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Button fx:id="saveButton" styleClass="alt-button" mnemonicParsing="false" text="Save &amp; Quit" />
+                                          <Button fx:id="saveButton" mnemonicParsing="false" styleClass="alt-button" text="Save &amp; Quit" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Button fx:id="muteButton" styleClass="alt-button" mnemonicParsing="false" text="Mute" />
+                                          <Button fx:id="muteButton" mnemonicParsing="false" styleClass="alt-button" text="Mute" />
                                        </children>
                                     </HBox>
                                  </children></VBox>

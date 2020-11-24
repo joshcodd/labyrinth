@@ -19,7 +19,6 @@ public class MenuScene {
         private MediaPlayer mediaPlayer;
 
         public MenuScene (Stage stage) {
-            music();
             this.primaryStage = stage;
             stage.setTitle("Labyrinth by Ravensburger");
             try {
@@ -37,12 +36,6 @@ public class MenuScene {
 
             }
 
-        }
-        public void music(){
-            String s = "src/resources/audio/computerNoise1.mp3";
-            Media h = new Media(new File(s).toURI().toString());
-            mediaPlayer = new MediaPlayer(h);
-            mediaPlayer.play();
         }
     }
 

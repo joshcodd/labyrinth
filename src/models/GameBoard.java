@@ -123,16 +123,55 @@ public class GameBoard extends Observable implements Observer {
      * Method to get the tile at a specified index of the board.
      * @return Tile at the specified position.
      */
-    public FloorTile getTileAt(int x, int y) {
-        return board[x][y];
+    public FloorTile getTileAt(Coord position) {
+        return board[position.getX()][position.getY()];
     }
 
     /**
-     * Method to get the tile at a specified index of the board.
-     * @return Tile at the specified position.
+     * Checks the next tile in the 4 cardinal directions from the player, and returns the coordinates of the tiles
+     * where a move to that tile would be legal.
+     * @param player The player to get valid moves for.
+     * @return The list of all valid moves.
      */
-    public FloorTile getTileAt(Coord position) {
-        return  board[position.getX()][position.getY()];
+    public ArrayList<Coord> getValidMoves(Player player){
+        ArrayList<Coord> validMoves = new ArrayList<>();
+        Coord playerPosition = player.getCurrentPosition();
+
+        boolean[] currentTile = getTileAt(playerPosition).getEntryPoints();
+        boolean[] leftTile = playerPosition.getY() == 0 ? null :
+                getTileAt(new Coord(playerPosition.getX(), playerPosition.getY() - 1)).getEntryPoints();
+        boolean[] rightTile = playerPosition.getY() == width - 1 ? null :
+                getTileAt(new Coord(playerPosition.getX(), playerPosition.getY() + 1)).getEntryPoints();
+        boolean[] upTile = playerPosition.getX() == 0 ? null :
+                getTileAt(new Coord(playerPosition.getX()  - 1, playerPosition.getY())).getEntryPoints();
+        boolean[] downTile = playerPosition.getX() == height -1 ? null :
+                getTileAt(new Coord(playerPosition.getX() + 1, playerPosition.getY())).getEntryPoints();
+
+        if (leftTile != null && currentTile[3] && leftTile[1]){
+            validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() - 1));
+        }
+
+        if (rightTile != null && currentTile[1] && rightTile[3]){
+            validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() + 1));
+        }
+
+        if (upTile != null && currentTile[0] && upTile[2]){
+            validMoves.add(new Coord(playerPosition.getX() - 1, playerPosition.getY()));
+        }
+
+        if (downTile != null && currentTile[2] && downTile[0]){
+            validMoves.add(new Coord(playerPosition.getX() + 1, playerPosition.getY()));
+        }
+        return validMoves;
+    }
+
+    /**
+     * Method to be called whenever the observable object is edited.
+     * @param o The observable object.
+     * @param arg An argument passed to the notifyObservers method.
+     */
+    @Override
+    public void update(Observable o, Object arg) {
     }
 
     private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
@@ -160,52 +199,6 @@ public class GameBoard extends Observable implements Observer {
         }
     }
 
-    public ArrayList<Coord> getValidMoves(Player player){
-        ArrayList<Coord> validMoves = new ArrayList<>();
-        Coord playerPosition = player.getCurrentPosition();
-
-        boolean[] currentTile = getTileAt(playerPosition.getX(), playerPosition.getY()).getEntryPoints();
-        boolean[] leftTile = playerPosition.getY() == 0 ? null :
-                getTileAt(playerPosition.getX(), playerPosition.getY() - 1).getEntryPoints();
-        boolean[] rightTile = playerPosition.getY() == width - 1 ? null :
-                getTileAt(playerPosition.getX(), playerPosition.getY() + 1).getEntryPoints();
-        boolean[] upTile = playerPosition.getX() == 0 ? null :
-                getTileAt(playerPosition.getX()  - 1, playerPosition.getY()).getEntryPoints();
-        boolean[] downTile = playerPosition.getX() == height -1 ? null :
-                getTileAt(playerPosition.getX() + 1, playerPosition.getY()).getEntryPoints();
-
-
-        if (leftTile != null && currentTile[3] && leftTile[1]){
-            validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() - 1));
-//            System.out.println(Arrays.toString(currentTile));
-//            System.out.println(Arrays.toString(leftTile));
-//            System.out.println(1);
-
-        }
-
-        if (rightTile != null && currentTile[1] && rightTile[3]){
-            validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() + 1));
-//            System.out.println(Arrays.toString(currentTile));
-//            System.out.println(Arrays.toString(rightTile));
-//            System.out.println(2);
-        }
-
-        if (upTile != null && currentTile[0] && upTile[2]){
-            validMoves.add(new Coord(playerPosition.getX() - 1, playerPosition.getY()));
-//            System.out.println(Arrays.toString(currentTile));
-//            System.out.println(Arrays.toString(upTile));
-//            System.out.println(3);
-        }
-
-        if (downTile != null && currentTile[2] && downTile[0]){
-            validMoves.add(new Coord(playerPosition.getX() + 1, playerPosition.getY()));
-//            System.out.println(Arrays.toString(currentTile));
-//            System.out.println(Arrays.toString(downTile));
-//            System.out.println(4);
-        }
-        return validMoves;
-    }
-
     //THIS IS A METHOD FOR TESTING -> WILL BE DELETED.
     public void printBoard() {
         for (int i = 0; i < board.length; i++){
@@ -214,9 +207,5 @@ public class GameBoard extends Observable implements Observer {
             }
             System.out.println();
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
     }
 }
