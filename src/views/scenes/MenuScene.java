@@ -26,9 +26,9 @@ public class MenuScene {
                 FXMLLoader loader = new FXMLLoader();
                 Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/MenuView.fxml").openStream());
                 MenuController controller = loader.getController();
-
                 controller.setPrimaryStage(stage);
                 Scene scene = new Scene(root, 1200, 650);
+                scene.getStylesheets().add("styles.css");
                 primaryStage.setScene(scene);
                 primaryStage.show();
 

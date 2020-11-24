@@ -17,18 +17,9 @@
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                <BorderPane prefHeight="650.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-
-                    <left>
-
-                    </left>
-                    <bottom>
-                    </bottom>
-                    <right>
-
-                    </right>
+                <BorderPane styleClass="background-image" prefHeight="650.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <center>
-                        <HBox fx:id="boardArea" style="-fx-background-image: url(/resources/BG.png)url(/resources/BG.png);" BorderPane.alignment="CENTER">
+                        <HBox fx:id="boardArea"  BorderPane.alignment="CENTER">
                             <children>
                                 <VBox alignment="CENTER">
                                     <children>
@@ -55,27 +46,18 @@
                                 </VBox>
                         <StackPane prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
-                                      <VBox fx:id="playerConsole" alignment="TOP_CENTER" style="-fx-padding: 0 50 0 50;">
+                                      <VBox fx:id="playerConsole" styleClass="player-console" alignment="TOP_CENTER" >
                                           <children>
-                                              <Label fx:id="playerLabel" style="-fx-padding: 60 0 0 0;" text="Player">
-                                                  <font>
-                                                      <Font name="Punk" size="66.0" />
-                                                  </font>
+                                              <Label fx:id="playerLabel" styleClass="player-label" text="Player">
                                               </Label>
                                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <HBox alignment="CENTER">
-                                             <ImageView fx:id="decrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="-112.6">
-                                                <image>
-                                                   <Image url="@/resources/rotate.png" />
-                                                </image>
+                                             <ImageView fx:id="decrementOrientation" styleClass="rotate-arrow" fitHeight="69.0" fitWidth="69.0" rotate="-112.6">
                                              </ImageView>
                                               <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
                                 </ImageView>
-                                             <ImageView fx:id="incrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="62.4">
-                                                <image>
-                                                   <Image url="@/resources/rotate.png" />
-                                                </image>
+                                             <ImageView fx:id="incrementOrientation" styleClass="rotate-arrow" fitHeight="69.0" fitWidth="69.0" rotate="62.4">
                                              </ImageView>
                                           </HBox>
                                        </children>
@@ -89,19 +71,19 @@
                                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                                    <children>
                         
-                                                                   <Button fx:id="drawTile" alignment="CENTER" contentDisplay="CENTER" style="-fx-padding: 10 10 10 10;" text="Draw a tile!">
+                                                                   <Button fx:id="drawTile" styleClass="game-button" text="Draw a tile!">
                                      </Button>
                                                    </children>
                                                 </VBox>
                                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                                    <children>
-                                                                <Button fx:id="actionButton" alignment="CENTER" contentDisplay="CENTER" style="-fx-padding: 10 10 10 10;" text="Play action!">
+                                                                <Button fx:id="actionButton" styleClass="game-button" text="Play action!">
                                         </Button>
                                                    </children>
                                                 </VBox>
                                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                                    <children>
-                                                      <Button fx:id="continueButton" alignment="CENTER" style="-fx-padding: 10 10 10 10;" text="Continue" />
+                                                      <Button fx:id="continueButton" styleClass="game-button" text="Continue" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -124,15 +106,15 @@
       
                                           </children>
                                       </VBox>
-                              <VBox fx:id="menu" opacity="0.74" style="-fx-background-color: BLACK;" visible="false" />
+                              <VBox fx:id="menu" opacity="0.74" styleClass="menu" visible="false" />
                            </children>
                         </StackPane>
                             </children>
                         </HBox>
                     </center>
                <top>
-                  <VBox alignment="TOP_RIGHT" opacity="0.76" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
-                      <Button fx:id="menuButton" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="39.0" prefWidth="39.0" style="-fx-padding: 0; -fx-label-padding: 0; -fx-background-image: url(/resources/menu.png); -fx-background-repeat: STRETCH; -fx-background-position: center center;" VBox.vgrow="ALWAYS" />
+                  <VBox alignment="TOP_RIGHT" styleClass="tool-bar" prefHeight="40.0" prefWidth="200.0"  BorderPane.alignment="CENTER">
+                      <Button fx:id="menuButton" styleClass="menu-button" prefHeight="39.0" prefWidth="39.0" VBox.vgrow="ALWAYS" />
                   </VBox>
                </top>
                 </BorderPane>

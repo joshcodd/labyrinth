@@ -80,6 +80,7 @@ public class GameController implements Initializable {
 
         menuButton.setOnMouseClicked((event) -> {
             menu.setVisible(!menu.isVisible());
+            playerConsole.setVisible(!menu.isVisible());
         });
 
         drawTile.setOnAction((event) -> {
