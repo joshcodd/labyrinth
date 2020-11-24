@@ -40,4 +40,12 @@ public class Coord {
         xPos = x;
         yPos = y;
     }
+
+    @Override
+    public String toString() {
+        return "Coord{" +
+                "xPos=" + xPos +
+                ", yPos=" + yPos +
+                '}';
+    }
 }
