@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+
+import javax.swing.*;
 import java.net.URL;
 import java.util.*;
 
@@ -44,6 +46,14 @@ public class GameController implements Initializable {
     public Button drawTile;
     @FXML
     private GridPane gameBoardPane;
+    @FXML
+    private VBox playerConsole;
+    @FXML
+    private VBox menu;
+
+    @FXML
+    private Button menuButton;
+
 
     private GameBoard gameBoard;
     private Player[] players;
@@ -66,6 +76,10 @@ public class GameController implements Initializable {
             updateGameBoard();
             updateArrows(false);
             drawPlayers();
+        });
+
+        menuButton.setOnMouseClicked((event) -> {
+            menu.setVisible(!menu.isVisible());
         });
 
         drawTile.setOnAction((event) -> {
@@ -130,23 +144,6 @@ public class GameController implements Initializable {
         }
     }
 
-    private void getRotationValue() {
-        switch (((FloorTile) game.getCurrentTile()).getOrientation()) {
-            case 0 :
-                selectedTile.setRotate(0);
-                break;
-            case 1 :
-                selectedTile.setRotate(90);
-                break;
-            case 2 :
-                selectedTile.setRotate(180);
-                break;
-            case 3 :
-                selectedTile.setRotate(270);
-                break;
-        }
-    }
-
     /**
      * Updates the current game board GUI being displayed in the game scene.
      */
@@ -187,16 +184,6 @@ public class GameController implements Initializable {
                 });
             }
         }
-    }
-
-    private void nextRound() {
-        this.setPlayerLabel("No available moves:(");
-        game.nextPlayer();
-        selectedTile.setImage(null);
-        this.setPlayerLabel("Player " + (game.getCurrentPlayer() + 1) + "'s turn!");
-        drawTile.setDisable(false);
-        this.updateArrows(false);
-        continueButton.setDisable(true);
     }
 
     public void setPlayerLabel(String message){
@@ -343,5 +330,32 @@ public class GameController implements Initializable {
             selectedTile.setImage(null);
         });
         return arrow;
+    }
+
+    private void nextRound() {
+        this.setPlayerLabel("No available moves:(");
+        game.nextPlayer();
+        selectedTile.setImage(null);
+        this.setPlayerLabel("Player " + (game.getCurrentPlayer() + 1) + "'s turn!");
+        drawTile.setDisable(false);
+        this.updateArrows(false);
+        continueButton.setDisable(true);
+    }
+
+    private void getRotationValue() {
+        switch (((FloorTile) game.getCurrentTile()).getOrientation()) {
+            case 0 :
+                selectedTile.setRotate(0);
+                break;
+            case 1 :
+                selectedTile.setRotate(90);
+                break;
+            case 2 :
+                selectedTile.setRotate(180);
+                break;
+            case 3 :
+                selectedTile.setRotate(270);
+                break;
+        }
     }
 }
