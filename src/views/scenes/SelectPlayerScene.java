@@ -48,7 +48,7 @@ public class SelectPlayerScene {
             controller.setCbox1(players);
 
 
-            Scene scene = new Scene(root, 850, 650);
+            Scene scene = new Scene(root, 1200, 650);
             primaryStage.setScene(scene);
             primaryStage.show();
 

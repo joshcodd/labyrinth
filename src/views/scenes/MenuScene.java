@@ -41,7 +41,7 @@ public class MenuScene {
                 MenuController controller = loader.getController();
 
                 controller.setPrimaryStage(stage);
-                Scene scene = new Scene(root, 600, 600);
+                Scene scene = new Scene(root, 1200, 650);
                 primaryStage.setScene(scene);
                 primaryStage.show();
 
@@ -52,7 +52,7 @@ public class MenuScene {
 
         }
         public void music(){
-            String s = "src\\mp3Sounds\\computerNoise1.mp3";
+            String s = "src/mp3Sounds/computerNoise1.mp3";
             Media h = new Media(new File(s).toURI().toString());
             mediaPlayer = new MediaPlayer(h);
             mediaPlayer.play();
