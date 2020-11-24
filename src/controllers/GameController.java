@@ -16,10 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.lang.Class;
 
 /**
@@ -71,7 +68,7 @@ public class GameController implements Initializable {
         topButtons.setTranslateX(50);
         bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
-        setPlayerLabel(game.getCurrentPlayer());
+        setPlayerLabel("Player " + (game.getCurrentPlayer() + 1) + "'s turn!");
         gameBoard.addObserver((o, arg) -> {
             updateGameBoard();
             updateArrows(false);
@@ -118,21 +115,17 @@ public class GameController implements Initializable {
                     players[game.getCurrentPlayer()].addActionTile((ActionTile)game.getCurrentTile());
                 }
 
+                if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
+                    actionButton.setDisable(true);
+                }
+
                 ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getPlayers()[game.getCurrentPlayer()]);
-                System.out.println(validMoves);
 
                 if (validMoves.size() == 0) {
-                    game.nextPlayer();
-                    selectedTile.setImage(null);
-                    this.setPlayerLabel(game.getCurrentPlayer());
-                    drawTile.setDisable(false);
-                    this.updateArrows(false);
-                    if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
-                        actionButton.setDisable(true);
-                    }
-                    continueButton.setDisable(true);
+                    nextRound();
                 } else {
                     this.continueButton.setDisable(true);
+                    updateMoves(validMoves);
                 }
 
             }
@@ -171,11 +164,51 @@ public class GameController implements Initializable {
                 gameBoardPane.add(new StackPane(getTileImage(i,j)), j, i);
             }
         }
+        drawPlayers();
     }
 
-    public void setPlayerLabel(int playerNumber){
-        playerNumber++;
-        playerLabel.setText("Player " + playerNumber + "'s turn!");
+
+    public void updateMoves(ArrayList<Coord> moves) {
+        for (Node node : gameBoardPane.getChildren()) {
+            Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            if (moves.contains(curr)){
+                StackPane tile = (StackPane)node;
+                ImageView x = new ImageView("/resources/X.png");
+                x.setFitWidth(40);
+                x.setFitHeight(40);
+                tile.getChildren().add(x);
+
+                tile.setOnMouseClicked(event -> {
+                    Player player = game.getPlayers()[game.getCurrentPlayer()];
+                    player.movePlayer(curr);
+                    tile.getChildren().remove(x);
+                    updateGameBoard();
+                    nextRound();
+                });
+
+                tile.setOnMouseEntered(event -> {
+                    tile.setOpacity(0.5);
+                });
+                
+                tile.setOnMouseExited(event -> {
+                    tile.setOpacity(1);
+                });
+            }
+        }
+    }
+
+    private void nextRound() {
+        this.setPlayerLabel("No available moves:(");
+        game.nextPlayer();
+        selectedTile.setImage(null);
+        this.setPlayerLabel("Player " + (game.getCurrentPlayer() + 1) + "'s turn!");
+        drawTile.setDisable(false);
+        this.updateArrows(false);
+        continueButton.setDisable(true);
+    }
+
+    public void setPlayerLabel(String message){
+        playerLabel.setText(message);
     }
 
     /**

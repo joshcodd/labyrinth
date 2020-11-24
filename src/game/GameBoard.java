@@ -156,8 +156,6 @@ public class GameBoard extends Observable implements Observer {
         ArrayList<Coord> validMoves = new ArrayList<>();
         Coord playerPosition = player.getCurrentPosition();
 
-        System.out.println(playerPosition);
-
         boolean[] currentTile = getTileAt(playerPosition.getX(), playerPosition.getY()).getEntryPoints();
         boolean[] leftTile = playerPosition.getY() == 0 ? null :
                 getTileAt(playerPosition.getX(), playerPosition.getY() - 1).getEntryPoints();
@@ -171,31 +169,31 @@ public class GameBoard extends Observable implements Observer {
 
         if (leftTile != null && currentTile[3] && leftTile[1]){
             validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() - 1));
-            System.out.println(Arrays.toString(currentTile));
-            System.out.println(Arrays.toString(leftTile));
-            System.out.println(1);
+//            System.out.println(Arrays.toString(currentTile));
+//            System.out.println(Arrays.toString(leftTile));
+//            System.out.println(1);
 
         }
 
         if (rightTile != null && currentTile[1] && rightTile[3]){
             validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() + 1));
-            System.out.println(Arrays.toString(currentTile));
-            System.out.println(Arrays.toString(rightTile));
-            System.out.println(2);
+//            System.out.println(Arrays.toString(currentTile));
+//            System.out.println(Arrays.toString(rightTile));
+//            System.out.println(2);
         }
 
         if (upTile != null && currentTile[0] && upTile[2]){
             validMoves.add(new Coord(playerPosition.getX() - 1, playerPosition.getY()));
-            System.out.println(Arrays.toString(currentTile));
-            System.out.println(Arrays.toString(upTile));
-            System.out.println(3);
+//            System.out.println(Arrays.toString(currentTile));
+//            System.out.println(Arrays.toString(upTile));
+//            System.out.println(3);
         }
 
         if (downTile != null && currentTile[2] && downTile[0]){
             validMoves.add(new Coord(playerPosition.getX() + 1, playerPosition.getY()));
-            System.out.println(Arrays.toString(currentTile));
-            System.out.println(Arrays.toString(downTile));
-            System.out.println(4);
+//            System.out.println(Arrays.toString(currentTile));
+//            System.out.println(Arrays.toString(downTile));
+//            System.out.println(4);
         }
         return validMoves;
     }

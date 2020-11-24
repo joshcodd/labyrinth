@@ -112,10 +112,10 @@
                                     </HBox>
                                               <Label style="-fx-padding: 0 0 0 0 0;" text="Action tiles: ">
                                                   <font>
-                                                      <Font size="15.0" />
+                                                      <Font name="Hiragino Sans W3" size="18.0" />
                                                   </font>
                                               </Label>
-                                              <HBox alignment="CENTER" minHeight="80.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: GREEN;" VBox.vgrow="ALWAYS">
+                                              <HBox alignment="CENTER" minHeight="80.0" prefHeight="100.0" prefWidth="200.0" style="-fx-border-style: DOTTED; -fx-border-width: 1.5;" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>

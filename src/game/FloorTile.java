@@ -52,7 +52,6 @@ public class FloorTile extends Tile {
 
     public boolean[] getEntryPoints(){
         boolean[] entryPoints;
-
         if (shape == ShapeOfTile.BEND){
             entryPoints = new boolean[]{false, false ,true, true};
         } else if (shape == ShapeOfTile.T_SHAPE){
@@ -74,7 +73,6 @@ public class FloorTile extends Tile {
         }
         return entryPoints;
     }
-
 
     public int getOrientation() {
         return this.orientation;

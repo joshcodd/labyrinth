@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Observer;
+
 /**
  * Stores a integer (x,y) game position, and allows it to be updated, or retrieved
  * @author Neil Woodhouse
@@ -47,5 +49,14 @@ public class Coord {
                 "xPos=" + xPos +
                 ", yPos=" + yPos +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof Coord){
+            return xPos == ((Coord) obj).getX() && yPos == ((Coord) obj).getY();
+        } else {
+            return false;
+        }
     }
 }
