@@ -1,10 +1,7 @@
 package views.scenes;
 
 import controllers.MenuController;
-import controllers.PlayerSelectionController;
 
-import game.MessageOfTheDay;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,16 +9,6 @@ import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javafx.scene.control.Label;
 
 
 /**
@@ -52,7 +39,7 @@ public class MenuScene {
 
         }
         public void music(){
-            String s = "src/mp3Sounds/computerNoise1.mp3";
+            String s = "src/resources/audio/computerNoise1.mp3";
             Media h = new Media(new File(s).toURI().toString());
             mediaPlayer = new MediaPlayer(h);
             mediaPlayer.play();

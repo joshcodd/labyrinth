@@ -1,4 +1,4 @@
-package game;
+package models;
 /**
  * When used, the player can move
  * @author George Boumphrey    @StudentID 851192

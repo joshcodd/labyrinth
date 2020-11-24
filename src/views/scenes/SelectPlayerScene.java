@@ -4,27 +4,15 @@ package views.scenes;
  * @author James Charnock
  * @StudentID 1909700
  */
-import game.FileHandler;
-import game.Player;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
+import models.FileHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import controllers.PlayerSelectionController;
 
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class SelectPlayerScene {

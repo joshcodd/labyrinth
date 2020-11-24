@@ -1,4 +1,4 @@
-package game;
+package models;
 /**
  * When used, inflames tiles so players cannot step on them
  * @author George Boumphrey    @StudentID 851192

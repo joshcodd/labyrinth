@@ -1,21 +1,16 @@
 package controllers;
 
-import game.FileHandler;
-import game.Game;
-import game.MessageOfTheDay;
-import javafx.application.Application;
+import models.Game;
+import models.MessageOfTheDay;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import views.scenes.GameScene;
-import views.scenes.MenuScene;
 import views.scenes.SelectPlayerScene;
 
 import java.io.FileNotFoundException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MenuController  {
     public Button newGame;

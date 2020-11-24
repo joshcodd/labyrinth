@@ -1,4 +1,4 @@
-package game;
+package models;
 /**
  * Tile superclass
  * @author James Charnock

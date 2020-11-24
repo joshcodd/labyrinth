@@ -1,6 +1,4 @@
-package game;
-
-import java.util.Observer;
+package models;
 
 /**
  * Stores a integer (x,y) game position, and allows it to be updated, or retrieved

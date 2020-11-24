@@ -1,4 +1,4 @@
-package game;
+package models;
 
 import java.io.FileNotFoundException;
 

@@ -1,6 +1,6 @@
 # CS-230 Labyrinth
 
-An implementation of Labyrinth, the board game by Ravensburger. Built using Java and JavaFX as part of a group for CS-230 Software development.
+An implementation of Labyrinth, the board models by Ravensburger. Built using Java and JavaFX as part of a group for CS-230 Software development.
 
 ## How to use this repository
 

@@ -1,6 +1,6 @@
 package views.scenes;
 import controllers.GameController;
-import game.*;
+import models.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;

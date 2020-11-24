@@ -1,12 +1,6 @@
 package controllers;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import game.*;
-import javafx.beans.InvalidationListener;
+import models.*;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.*;
-import java.lang.Class;
 
 /**
  * Controller class for GameScene. Runs through a game and then renders changes throughout the game to
@@ -84,7 +77,7 @@ public class GameController implements Initializable {
                             + ((FloorTile) game.getCurrentTile()).getShape() + ".png"));
                 } else {
                     selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
-                            .getClass().getName().substring(5) + ".png"));
+                            .getClass().getName().substring(7) + ".png"));
                 }
                 drawTile.setDisable(true);
                 if (!(game.getCurrentTile() instanceof FloorTile)) {
@@ -167,7 +160,6 @@ public class GameController implements Initializable {
         drawPlayers();
     }
 
-
     public void updateMoves(ArrayList<Coord> moves) {
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
@@ -189,7 +181,7 @@ public class GameController implements Initializable {
                 tile.setOnMouseEntered(event -> {
                     tile.setOpacity(0.5);
                 });
-                
+
                 tile.setOnMouseExited(event -> {
                     tile.setOpacity(1);
                 });

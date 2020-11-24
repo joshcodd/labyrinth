@@ -1,6 +1,4 @@
-package game;
-
-import java.util.Arrays;
+package models;
 
 /**
  * FloorTile sub class of Tile
