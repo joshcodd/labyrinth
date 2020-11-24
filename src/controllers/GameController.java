@@ -356,7 +356,7 @@ public class GameController implements Initializable {
         }
 
         saveButton.setOnMouseClicked(event -> {
-            MenuScene menu = new MenuScene(primaryStage);
+            MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
         });
 
         muteButton.setOnMouseClicked(event -> {

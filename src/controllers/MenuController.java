@@ -31,7 +31,6 @@ public class MenuController  {
     @FXML
     public void initialize(){
         message.setText(String.valueOf(new MessageOfTheDay()));
-        backgroundMusic.setMediaPlayer(new AudioPlayer().backgroundPlay());
     }
 
     public void handleButtonNewGame(ActionEvent actionEvent) throws FileNotFoundException {
@@ -49,5 +48,9 @@ public class MenuController  {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void setBackgroundMusic(MediaView backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
     }
 }
