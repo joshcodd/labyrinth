@@ -1,6 +1,7 @@
 package models;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * Initialises gameplay objects. Starts and ends game. Manages game turns.
@@ -92,5 +93,15 @@ public class Game {
     public void nextPlayer() {
         currentTile = null;
         currentPlayer = (currentPlayer + 1) % numPlayers;
+    }
+
+    public boolean checkWin(Player player) {
+            Coord playerPos = player.getCurrentPosition();
+            if (gameBoard.getTileAt(playerPos).getShape() == ShapeOfTile.GOAL_TILE){
+                return true;
+            }
+            else {
+                return false;
+            }
     }
 }

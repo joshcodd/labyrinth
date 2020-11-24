@@ -127,6 +127,14 @@ public class GameBoard extends Observable implements Observer {
         return board[x][y];
     }
 
+    /**
+     * Method to get the tile at a specified index of the board.
+     * @return Tile at the specified position.
+     */
+    public FloorTile getTileAt(Coord position) {
+        return  board[position.getX()][position.getY()];
+    }
+
     private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
         for (Map.Entry<Coord, FloorTile> tile : tiles.entrySet()) {
             Coord key = tile.getKey();
