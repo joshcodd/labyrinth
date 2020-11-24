@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -117,15 +118,23 @@ public class GameController implements Initializable {
                     players[game.getCurrentPlayer()].addActionTile((ActionTile)game.getCurrentTile());
                 }
 
-                game.nextPlayer();
-                selectedTile.setImage(null);
-                this.setPlayerLabel(game.getCurrentPlayer());
-                drawTile.setDisable(false);
-                this.updateArrows(false);
-                if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
-                    actionButton.setDisable(true);
+                ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getPlayers()[game.getCurrentPlayer()]);
+                System.out.println(validMoves);
+
+                if (validMoves.size() == 0) {
+                    game.nextPlayer();
+                    selectedTile.setImage(null);
+                    this.setPlayerLabel(game.getCurrentPlayer());
+                    drawTile.setDisable(false);
+                    this.updateArrows(false);
+                    if ((players[game.getCurrentPlayer()].getActionTiles()).size() == 0) {
+                        actionButton.setDisable(true);
+                    }
+                    continueButton.setDisable(true);
+                } else {
+                    this.continueButton.setDisable(true);
                 }
-                continueButton.setDisable(true);
+
             }
         });
 
