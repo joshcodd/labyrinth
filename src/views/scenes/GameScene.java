@@ -26,7 +26,7 @@ public class GameScene {
             this.controller = new GameController(game);
             fxmlLoader.setController(controller);
             Pane root = fxmlLoader.load(getClass().getResource("../layouts/gameView.fxml").openStream());
-            Scene scene = new Scene(root, 1000, 650);
+            Scene scene = new Scene(root, 1200, 650);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
