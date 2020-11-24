@@ -1,4 +1,5 @@
 package controllers;
+import javafx.stage.Stage;
 import models.*;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import views.scenes.GameScene;
+import views.scenes.MenuScene;
 
 import javax.swing.*;
 import java.net.URL;
@@ -50,20 +53,26 @@ public class GameController implements Initializable {
     private VBox playerConsole;
     @FXML
     private VBox menu;
-
     @FXML
     private Button menuButton;
+    @FXML
+    private Button muteButton;
+    @FXML
+    private Button saveButton;
 
 
     private GameBoard gameBoard;
     private Player[] players;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
+    private Stage primaryStage;
 
-    public GameController(Game game) {
+
+    public GameController(Game game, Stage stage) {
         this.players = game.getPlayers();
         this.gameBoard = game.getGameBoard();
         this.game = game;
+        this.primaryStage = stage;
     }
 
     @Override
@@ -143,6 +152,10 @@ public class GameController implements Initializable {
         if (players[game.getCurrentPlayer()].getActionTiles().size() == 0) {
             actionButton.setDisable(true);
         }
+
+        saveButton.setOnMouseClicked(event -> {
+            MenuScene menu = new MenuScene(primaryStage);
+        });
     }
 
     /**

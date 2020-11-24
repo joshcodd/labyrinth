@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,9 +16,9 @@
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                <BorderPane styleClass="background-image" prefHeight="650.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <BorderPane prefHeight="650.0" prefWidth="850.0" styleClass="background-image" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <center>
-                        <HBox fx:id="boardArea"  BorderPane.alignment="CENTER">
+                        <HBox fx:id="boardArea" BorderPane.alignment="CENTER">
                             <children>
                                 <VBox alignment="CENTER">
                                     <children>
@@ -46,18 +45,18 @@
                                 </VBox>
                         <StackPane prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
-                                      <VBox fx:id="playerConsole" styleClass="player-console" alignment="TOP_CENTER" >
+                                      <VBox fx:id="playerConsole" alignment="TOP_CENTER" styleClass="player-console">
                                           <children>
                                               <Label fx:id="playerLabel" styleClass="player-label" text="Player">
                                               </Label>
                                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <HBox alignment="CENTER">
-                                             <ImageView fx:id="decrementOrientation" styleClass="rotate-arrow" fitHeight="69.0" fitWidth="69.0" rotate="-112.6">
+                                             <ImageView fx:id="decrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="-112.6" styleClass="rotate-arrow">
                                              </ImageView>
                                               <ImageView fx:id="selectedTile" fitHeight="80" fitWidth="80">
                                 </ImageView>
-                                             <ImageView fx:id="incrementOrientation" styleClass="rotate-arrow" fitHeight="69.0" fitWidth="69.0" rotate="62.4">
+                                             <ImageView fx:id="incrementOrientation" fitHeight="69.0" fitWidth="69.0" rotate="62.4" styleClass="rotate-arrow">
                                              </ImageView>
                                           </HBox>
                                        </children>
@@ -66,24 +65,24 @@
                                        <children>
             
             
-                                          <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-padding: 10 0 30 20;">
+                                          <HBox alignment="BOTTOM_CENTER" minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" style="-fx-padding: 10 0 30 20;">
                                              <children>
                                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                                    <children>
                         
-                                                                   <Button fx:id="drawTile" styleClass="game-button" text="Draw a tile!">
+                                                                   <Button fx:id="drawTile" styleClass="default-button" text="Draw a tile!">
                                      </Button>
                                                    </children>
                                                 </VBox>
                                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                                    <children>
-                                                                <Button fx:id="actionButton" styleClass="game-button" text="Play action!">
+                                                                <Button fx:id="actionButton" styleClass="default-button" text="Play action!">
                                         </Button>
                                                    </children>
                                                 </VBox>
                                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" style="-fx-padding: 10;">
                                                    <children>
-                                                      <Button fx:id="continueButton" styleClass="game-button" text="Continue" />
+                                                      <Button fx:id="continueButton" styleClass="default-button" text="Continue" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -106,15 +105,27 @@
       
                                           </children>
                                       </VBox>
-                              <VBox fx:id="menu" opacity="0.74" styleClass="menu" visible="false" />
+                              <VBox fx:id="menu" alignment="CENTER" opacity="0.74" styleClass="menu" visible="false">
+                                 <children>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="saveButton" styleClass="alt-button" mnemonicParsing="false" text="Save &amp; Quit" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="muteButton" styleClass="alt-button" mnemonicParsing="false" text="Mute" />
+                                       </children>
+                                    </HBox>
+                                 </children></VBox>
                            </children>
                         </StackPane>
                             </children>
                         </HBox>
                     </center>
                <top>
-                  <VBox alignment="TOP_RIGHT" styleClass="tool-bar" prefHeight="40.0" prefWidth="200.0"  BorderPane.alignment="CENTER">
-                      <Button fx:id="menuButton" styleClass="menu-button" prefHeight="39.0" prefWidth="39.0" VBox.vgrow="ALWAYS" />
+                  <VBox alignment="TOP_RIGHT" styleClass="tool-bar" BorderPane.alignment="CENTER">
+                      <Button fx:id="menuButton" prefHeight="39.0" prefWidth="39.0" styleClass="menu-button" VBox.vgrow="ALWAYS" />
                   </VBox>
                </top>
                 </BorderPane>

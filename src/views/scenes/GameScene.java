@@ -23,7 +23,7 @@ public class GameScene {
         this.primaryStage = stage;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            this.controller = new GameController(game);
+            this.controller = new GameController(game, stage);
             fxmlLoader.setController(controller);
             Pane root = fxmlLoader.load(getClass().getResource("../layouts/gameView.fxml").openStream());
             Scene scene = new Scene(root, 1200, 650);

@@ -30,13 +30,10 @@ public class SelectPlayerScene {
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/PlayerSelectionView.fxml").openStream());
-
             PlayerSelectionController controller = loader.getController();
-
             controller.setCbox1(players);
-
-
             Scene scene = new Scene(root, 1200, 650);
+            scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
 
