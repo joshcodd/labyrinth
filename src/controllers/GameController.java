@@ -186,7 +186,7 @@ public class GameController implements Initializable {
             }
         }
     }
-
+    
     public void setPlayerLabel(String message){
         playerLabel.setText(message);
     }
@@ -335,6 +335,12 @@ public class GameController implements Initializable {
 
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
+        Player currentPlayer = players[game.getCurrentPlayer()];
+        if (game.checkWin(currentPlayer)) {
+            setPlayerLabel("Player " + (currentPlayer.getPlayerNumber()) + " Wins!");
+            game.setOver(true);
+            //TODO Exit game with win screen + related audio
+        }
         game.nextPlayer();
         selectedTile.setImage(null);
         this.setPlayerLabel("Player " + (game.getCurrentPlayer() + 1) + "'s turn!");
