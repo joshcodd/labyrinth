@@ -38,10 +38,12 @@ public class LevelSelectionController {
     }
 
     public ObservableList<String> getLevels(){
-        File folder = new File("C:/Users/User/Documents/GitHub/Labyrinth/src/levels");
+        File folder = new File("src/levels");
         ObservableList<String> listOfFiles = observableArrayList();
         System.out.println(folder.exists());
         System.out.println(folder.isDirectory());
+
+
         for (File i : Objects.requireNonNull(folder.listFiles())) {
             System.out.println(i.getName());
             listOfFiles.add(i.getName());
