@@ -105,7 +105,7 @@ public class GameController implements Initializable {
         gameBoardPane.getChildren().clear();
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
-                gameBoardPane.add(new StackPane(getTileImage(i,j)), j, i);
+                gameBoardPane.add(new StackPane(getTileImage(gameBoard.getTileAt(new Coord(i, j)))), j, i);
             }
         }
     }
@@ -235,13 +235,13 @@ public class GameController implements Initializable {
         bottomButtons.getChildren().clear();
     }
 
-    private ImageView getTileImage(int i, int j) {
-        ImageView tile = new ImageView("/resources/" + gameBoard.getTileAt(new Coord(i, j)).isFixed()
-                + gameBoard.getTileAt(new Coord(i, j)).getShape() + ".png");
-        tile.fitHeightProperty().bind(tileSize);
-        tile.fitWidthProperty().bind(tileSize);
-        tile.setRotate(getRotationValue(gameBoard.getTileAt(new Coord(i, j)).getOrientation()));
-        return tile;
+    private ImageView getTileImage(FloorTile tile) {
+        ImageView tileImage = new ImageView("/resources/" + tile.isFixed()
+                + tile.getShape() + ".png");
+        tileImage.fitHeightProperty().bind(tileSize);
+        tileImage.fitWidthProperty().bind(tileSize);
+        tileImage.setRotate(getRotationValue(tile.getOrientation()));
+        return tileImage;
     }
 
     private ImageView getArrowImage(String direction, int index, int orientation) {
@@ -299,8 +299,8 @@ public class GameController implements Initializable {
                 game.setCurrentTile(game.getTileBag().drawTile());
                 if (game.getCurrentTile() instanceof FloorTile) {
                     updateArrows(true);
-                    selectedTile.setImage(new Image("/resources/" + "false"
-                            + ((FloorTile) game.getCurrentTile()).getShape() + ".png"));
+                    selectedTile.setImage((getTileImage((FloorTile) game.getCurrentTile())).getImage());
+                    selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
                 } else {
                     selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
                             .getClass().getName().substring(7) + ".png"));
