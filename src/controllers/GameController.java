@@ -160,40 +160,24 @@ public class GameController implements Initializable {
                 if (j == 0) {
                     leftButtons.getRowConstraints().add(gridHeight);
                     ImageView arrow = getArrowImage("LEFT", i, 2);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isRowFixed(i));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
                     leftButtons.add(new StackPane(arrow), j, i);
                 } else if (j == gameBoard.getWidth() - 1) {
                     rightButtons.getRowConstraints().add(gridHeight);
                     ImageView arrow = getArrowImage("RIGHT", i,0);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isRowFixed(i));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
                     rightButtons.add(new StackPane(arrow), j, i);
                 }
 
                 if (i == 0) {
                     topButtons.getColumnConstraints().add(gridWidth);
                     ImageView arrow = getArrowImage("DOWN", j,3);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isColumnFixed(j));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
                     topButtons.add(new StackPane(arrow), j, i);
                 } else if (i == gameBoard.getHeight() - 1) {
                     bottomButtons.getColumnConstraints().add(gridWidth);
                     ImageView arrow = getArrowImage("UP", j, 1);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isColumnFixed(j));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
                     bottomButtons.add(new StackPane(arrow), j, i);
                 }
             }
