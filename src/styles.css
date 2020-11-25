@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two:ital,wght@0,700;1,400;1,700&display=swap');
+
 .background-image {
     -fx-background-image: url(resources/BG.png);
 }
 
 .player-label {
     -fx-padding: 60 0 0 0;
-    -fx-font-family: Punk;
+    -fx-font-family: Lobster;
     -fx-font-size: 66;
 }
 

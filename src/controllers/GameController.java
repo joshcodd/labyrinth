@@ -60,6 +60,9 @@ public class GameController implements Initializable {
     private Button saveButton;
     @FXML
     private MediaView backgroundMusic;
+    @FXML
+    private GridPane actionTilePane;
+
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
@@ -89,13 +92,9 @@ public class GameController implements Initializable {
         bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
         setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
-        gameBoard.addObserver((o, arg) -> {
-            updateGameBoard();
-            updateArrows(false);
-            drawPlayers();
-        });
         backgroundMusic.setMediaPlayer(mediaPlayer);
         initializeEventHandlers();
+
     }
 
     /**
@@ -107,6 +106,17 @@ public class GameController implements Initializable {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
                 gameBoardPane.add(new StackPane(getTileImage(gameBoard.getTileAt(new Coord(i, j)))), j, i);
             }
+        }
+    }
+
+    public void updateActionTileHand() {
+        actionTilePane.getChildren().clear();
+        ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
+        for (int i = 0; i < currentActionTiles.size(); i++) {
+
+            String testText = "Tile" + i;
+            String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
+            actionTilePane.add(new ImageView(new Image(imagePath, 40, 40, false, false)), i, 0);
         }
     }
 
@@ -165,40 +175,24 @@ public class GameController implements Initializable {
                 if (j == 0) {
                     leftButtons.getRowConstraints().add(gridHeight);
                     ImageView arrow = getArrowImage("LEFT", i, 2);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isRowFixed(i));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
                     leftButtons.add(new StackPane(arrow), j, i);
                 } else if (j == gameBoard.getWidth() - 1) {
                     rightButtons.getRowConstraints().add(gridHeight);
                     ImageView arrow = getArrowImage("RIGHT", i,0);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isRowFixed(i));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
                     rightButtons.add(new StackPane(arrow), j, i);
                 }
 
                 if (i == 0) {
                     topButtons.getColumnConstraints().add(gridWidth);
                     ImageView arrow = getArrowImage("DOWN", j,3);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isColumnFixed(j));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
                     topButtons.add(new StackPane(arrow), j, i);
                 } else if (i == gameBoard.getHeight() - 1) {
                     bottomButtons.getColumnConstraints().add(gridWidth);
                     ImageView arrow = getArrowImage("UP", j, 1);
-                    if (visible) {
-                        arrow.setVisible(!gameBoard.isColumnFixed(j));
-                    } else {
-                        arrow.setVisible(false);
-                    }
+                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
                     bottomButtons.add(new StackPane(arrow), j, i);
                 }
             }
@@ -251,6 +245,10 @@ public class GameController implements Initializable {
         arrow.setRotate(getRotationValue(orientation));
         arrow.setOnMouseClicked(event -> {
             Tile fallenOff = gameBoard.insertTile((FloorTile) game.getCurrentTile(), direction, index);
+            game.updatePlayerPositions(direction, index);
+            updateGameBoard();
+            updateArrows(false);
+            drawPlayers();
             game.getTileBag().addTile(fallenOff);
             continueButton.setDisable(false);
             selectedTile.setImage(null);
@@ -262,16 +260,17 @@ public class GameController implements Initializable {
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
         if (game.checkWin(game.getCurrentPlayer())) {
-            setPlayerLabel("Player " + (game.getCurrentPlayerNum()) + " Wins!");
+            setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + " Wins!");
             game.setOver(true);
             //TODO Exit game with win screen + related audio
+        } else {
+            game.nextPlayer();
+            selectedTile.setImage(null);
+            this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
+            drawTile.setDisable(false);
+            this.updateArrows(false);
+            continueButton.setDisable(true);
         }
-        game.nextPlayer();
-        selectedTile.setImage(null);
-        this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
-        drawTile.setDisable(false);
-        this.updateArrows(false);
-        continueButton.setDisable(true);
     }
 
     private double getRotationValue(int orientation) {
