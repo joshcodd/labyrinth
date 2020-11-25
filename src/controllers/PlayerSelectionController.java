@@ -9,6 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+import models.Game;
+import views.scenes.GameScene;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,6 +31,9 @@ public class PlayerSelectionController{
 
     @FXML
     public HBox hbox;
+
+    @FXML
+    public MediaView backgroundMusic;
 
     @FXML
     ObservableList<String> players = observableArrayList();
@@ -122,7 +129,33 @@ public class PlayerSelectionController{
         return cbox1;
     }
 
+    public String gameName;
+    public Stage primaryStage;
     // To do: Create method that doesn't allow you to pick an already chosen player
+
+
+
+    public void handleBeginClick(){
+        ArrayList<String> players = new ArrayList<>();
+        if (cbox1.getValue() != null) {
+            players.add(cbox1.getValue());
+        }
+        if (cbox2.getValue() != null) {
+            players.add(cbox2.getValue());
+        }
+        if (cbox3.getValue() != null) {
+            players.add(cbox3.getValue());
+        }
+        if (cbox4.getValue() != null) {
+            players.add(cbox4.getValue());
+        }
+
+        String[] players2 = players.toArray(new String[0]);
+
+        if (players2.length > 1) {
+            GameScene gameScene = new GameScene(primaryStage, new Game(gameName, players2), backgroundMusic.getMediaPlayer());
+        }
+    }
 
     @FXML
     public void setCbox1(ArrayList<String> players){
@@ -130,5 +163,17 @@ public class PlayerSelectionController{
         cbox2.setItems(observableArrayList(players));
         cbox3.setItems(observableArrayList(players));
         cbox4.setItems(observableArrayList(players));
+    }
+
+    public void setBackgroundMusic(MediaView backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = "src/gamefiles/levels/" + gameName;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }

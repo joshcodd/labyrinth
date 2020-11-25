@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.media.MediaView?>
 <BorderPane id="borderPane" styleClass="background-image" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlayerSelectionController">
    <top>
       <Label id="title" prefHeight="64.0" text="Select Players" BorderPane.alignment="CENTER">
@@ -22,12 +23,13 @@
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <buttons>
             <Button fx:id="newPlayerButt" mnemonicParsing="false" text="Create new Player" />
-            <Button fx:id="BeginButt" mnemonicParsing="false" text="Begin Game" />
+            <Button fx:id="BeginButt" onAction="#handleBeginClick" mnemonicParsing="false" text="Begin Game" />
          </buttons>
       </ButtonBar>
    </bottom>
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <MediaView fx:id="backgroundMusic"/>
          <children>
             <VBox fx:id="vbox1" prefHeight="200.0" prefWidth="150.0">
                <children>

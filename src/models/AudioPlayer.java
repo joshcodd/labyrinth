@@ -13,7 +13,7 @@ public class AudioPlayer {
     public AudioPlayer() {
         String clickURL = "src/resources/audio/click.mp3";
         Media click = new Media(new File(clickURL).toURI().toString());
-        String backgroundURL = "src/resources/audio/background.wav";
+        String backgroundURL = "src/resources/audio/background.mp3";
         Media background = new Media(new File(backgroundURL).toURI().toString());
         this.click = new MediaPlayer(click);
         this.backgroundMusic = new MediaPlayer(background);

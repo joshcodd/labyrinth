@@ -43,7 +43,7 @@ public class MenuController  {
     public void handleButtonLoadGame(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
         loadGame.setText("opening");
-        Game game = new Game("src/levels/game", new String[]{"Josh", "Neil", "Andreas"});
+        Game game = new Game("src/gamefiles/levels/game", new String[]{"Josh", "Neil", "Andreas"});
         GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
     }
 
