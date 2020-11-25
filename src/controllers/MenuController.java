@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -20,6 +22,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class MenuController  {
+    public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
+
     public Button newGame;
     public Button loadGame;
     @FXML
@@ -42,9 +46,16 @@ public class MenuController  {
 
     public void handleButtonLoadGame(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
-        loadGame.setText("opening");
-        Game game = new Game("src/gamefiles/levels/game", new String[]{"Josh", "Neil", "Andreas"});
-        GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
+        try {
+            loadGame.setText("opening");
+            Game game = new Game("src/gamefiles/levels/game", new String[]{"Josh", "Neil", "Andreas"});
+            GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
+        } catch (FileNotFoundException e) {
+            loadGame.setText("Load Game");
+            loadGame.setDisable(true);
+            Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
+            alert.showAndWait();
+        }
     }
 
     public void setPrimaryStage(Stage primaryStage) {

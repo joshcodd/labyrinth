@@ -17,25 +17,15 @@ public class Game {
     private boolean isOver = false;
     private int currentPlayer = 0;
 
-    public Game(String gameFilename, String[] playerNames) {
+    public Game(String gameFilename, String[] playerNames) throws FileNotFoundException {
         players = new Player[playerNames.length];
         numPlayers = players.length;
         for (int i = 0; i < playerNames.length; i++) {
-            try {
-                PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
-                players[i] = new Player(i, currentProfile);
-            } catch (FileNotFoundException e) {
-                System.out.println("Error: Player profile file not found. Please check the filepath of the game save files.");
-                //TODO Exit to level select scene
-            }
+            PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
+            players[i] = new Player(i, currentProfile);
         }
 
-        try {
-            gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
-        } catch(FileNotFoundException e) {
-            System.out.println("Error: The specified game file could not be found. Please check that you're providing a filepath to a valid game file location.");
-            //TODO Exit to level select scene
-        }
+        gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
     }
 
     public void nextPlayer() {
