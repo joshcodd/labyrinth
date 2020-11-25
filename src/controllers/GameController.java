@@ -245,16 +245,17 @@ public class GameController implements Initializable {
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
         if (game.checkWin(game.getCurrentPlayer())) {
-            setPlayerLabel("Player " + (game.getCurrentPlayerNum()) + " Wins!");
+            setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + " Wins!");
             game.setOver(true);
             //TODO Exit game with win screen + related audio
+        } else {
+            game.nextPlayer();
+            selectedTile.setImage(null);
+            this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
+            drawTile.setDisable(false);
+            this.updateArrows(false);
+            continueButton.setDisable(true);
         }
-        game.nextPlayer();
-        selectedTile.setImage(null);
-        this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
-        drawTile.setDisable(false);
-        this.updateArrows(false);
-        continueButton.setDisable(true);
     }
 
     private double getRotationValue(int orientation) {
