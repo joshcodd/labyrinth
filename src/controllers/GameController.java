@@ -130,6 +130,15 @@ public class GameController implements Initializable {
         if (action instanceof DoubleMoveTile) {
             updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
         }
+        else if (action instanceof BackTrackTile) {
+            selectBacktrack();
+        }
+        else if (action instanceof FireTile) {
+
+        }
+        else if (action instanceof IceTile) {
+
+        }
     }
 
     /**
@@ -226,6 +235,40 @@ public class GameController implements Initializable {
                     StackPane cell = (StackPane) node;
                     cell.getChildren().add(tank);
                 }
+            }
+        }
+    }
+
+    private void selectBacktrack() {
+        for (Player player : game.getPlayers()) {
+            for (Node node : gameBoardPane.getChildren()) {
+                if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
+                        && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
+                    int playerNumber = player.getPlayerNumber() + 1;
+                    ImageView tank = new ImageView("resources/" + playerNumber + ".png");
+                    tank.setOnMouseClicked(event -> {
+                        backtrackPlayer(player);
+                    });
+                    tank.setFitHeight(30);
+                    tank.setFitWidth(30);
+                    StackPane cell = (StackPane) node;
+                    cell.getChildren().clear();
+                    cell.getChildren().add(tank);
+                }
+            }
+        }
+    }
+
+    private void backtrackPlayer(Player player) {
+        Coord pastPosition = player.getPrevPosition(1);
+        //TODO add fire restriction
+        if (pastPosition != null) {
+            player.movePlayer(pastPosition);
+        }
+        else {
+            pastPosition = player.getPrevPosition(0);
+            if (pastPosition != null) {
+                player.movePlayer(pastPosition);
             }
         }
     }

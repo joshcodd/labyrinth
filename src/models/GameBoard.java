@@ -9,6 +9,7 @@ public class GameBoard {
     private int height;
     private int width;
     private FloorTile [][] board;
+    private ActionTile [][] actionBoard;
     private ArrayList<ActionTile> activeTiles;
 
     /**
@@ -22,6 +23,7 @@ public class GameBoard {
         this.height = height;
         this.width = width;
         board = new FloorTile[height][width];
+        actionBoard = new ActionTile[height][width];
         activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
     }
@@ -41,6 +43,7 @@ public class GameBoard {
                 returnTile = board[row][ width - 1];
                 for (int i = width - 1; i > 0; i--){
                     board[row][i] = board[row][i - 1];
+                    actionBoard[row][i] = actionBoard[row][i - 1];
                 }
                 board[row][0] = tile;
                 break;
@@ -49,6 +52,7 @@ public class GameBoard {
                 returnTile = board[row][ 0];
                 for (int i = 0; i < width - 1; i++){
                     board[row][i] = board[row][i + 1];
+                    actionBoard[row][i] = actionBoard[row][i + 1];
                 }
                 board[row][width - 1] = tile;
                 break;
@@ -57,6 +61,7 @@ public class GameBoard {
                 returnTile = board[height - 1][ row];
                 for (int i = height - 1; i > 0; i--){
                     board[i][row] = board[i - 1][row];
+                    actionBoard[i][row] = actionBoard[i - 1][row];
                 }
                 board[0][row] = tile;
                 break;
@@ -65,6 +70,7 @@ public class GameBoard {
                 returnTile = board[0][row];
                 for (int i = 0; i < height - 1; i++){
                     board[i][row] = board[i + 1][row];
+                    actionBoard[i][row] = actionBoard[i + 1][row];
                 }
                 board[height - 1][row] = tile;
                 break;
@@ -184,6 +190,14 @@ public class GameBoard {
                     }
                 }
             }
+        }
+    }
+
+    public void addAction(ActionTile action, Coord position) {
+        int x = position.getX();
+        int y = position.getY();
+        if (actionBoard[x][y] == null) {
+            actionBoard[x][y] = action;
         }
     }
 
