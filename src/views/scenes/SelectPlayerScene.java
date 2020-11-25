@@ -22,19 +22,17 @@ import java.util.ArrayList;
 public class SelectPlayerScene {
     private Stage primaryStage;
     private ArrayList<String> players;
-    private PlayerSelectionController myController;
-    private double paneWidth = 900;
-    private double paneHeight = 600;
+    private PlayerSelectionController controller;
 
 
-    public SelectPlayerScene (Stage stage, String level,MediaPlayer backgroundMusic) throws FileNotFoundException {
+    public SelectPlayerScene (Stage stage, String level, MediaPlayer backgroundMusic) throws FileNotFoundException {
         this.primaryStage = stage;
         this.players = FileHandler.getAllNames();
 
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/PlayerSelectionView.fxml").openStream());
-            PlayerSelectionController controller = loader.getController();
+            this.controller = loader.getController();
             controller.setProfileBox(players);
             Scene scene = new Scene(root, 1200, 650);
             scene.getStylesheets().add("styles.css");
