@@ -94,6 +94,7 @@ public class GameController implements Initializable {
         setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
         backgroundMusic.setMediaPlayer(mediaPlayer);
         initializeEventHandlers();
+        updateActionTileHand();
 
     }
 
@@ -113,10 +114,21 @@ public class GameController implements Initializable {
         actionTilePane.getChildren().clear();
         ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
         for (int i = 0; i < currentActionTiles.size(); i++) {
-
             String testText = "Tile" + i;
+            int actionTileNum = i;
             String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
-            actionTilePane.add(new ImageView(new Image(imagePath, 40, 40, false, false)), i, 0);
+            ImageView actionTile = new ImageView(new Image(imagePath, 40, 40, false, false));
+            actionTile.setOnMouseClicked(event -> {
+                playAction(currentActionTiles.get(actionTileNum));
+            });
+            actionTilePane.add(actionTile, i, 0);
+
+        }
+    }
+
+    public void playAction(ActionTile action) {
+        if (action instanceof DoubleMoveTile) {
+            updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
         }
     }
 
@@ -266,6 +278,7 @@ public class GameController implements Initializable {
         } else {
             game.nextPlayer();
             selectedTile.setImage(null);
+            updateActionTileHand();
             this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
             drawTile.setDisable(false);
             this.updateArrows(false);
