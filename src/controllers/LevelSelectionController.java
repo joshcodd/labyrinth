@@ -45,7 +45,10 @@ public class LevelSelectionController {
 
     public void handleConfirm(ActionEvent actionEvent) throws FileNotFoundException {
         new AudioPlayer().clickPlay();
-        SelectPlayerScene selectPlayerScene = new SelectPlayerScene(primaryStage, dropdown.getValue(), backgroundMusic.getMediaPlayer());
+        String gameName = dropdown.getValue();
+        if (gameName != null){
+            new SelectPlayerScene(primaryStage, dropdown.getValue(), backgroundMusic.getMediaPlayer());
+        }
     }
 
     public void handleBack(ActionEvent actionEvent) {
