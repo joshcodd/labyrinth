@@ -151,7 +151,7 @@
                </children>
             </HBox>
             <Label fx:id="numPlayersLabel" text="Number of Players: x" />
-            <Slider fx:id="numPlayersSlider" majorTickUnit="1.0" max="4.0" min="2.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" value="2.0" />
+            <Slider fx:id="numPlayersSlider" majorTickUnit="1.0" max="4.0" min="2.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" value="4.0" />
          </children>
       </VBox>
    </center>

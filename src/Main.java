@@ -4,13 +4,17 @@ import javafx.stage.Stage;
 import models.AudioPlayer;
 import views.scenes.LevelSelectionScene;
 import views.scenes.MenuScene;
+import views.scenes.SelectPlayerScene;
 
 import java.io.FileNotFoundException;
 
 public class Main extends Application{
     @Override
     public void start(Stage primaryStage) {
-        MenuScene menu = new MenuScene(primaryStage, new AudioPlayer().backgroundPlay());
+        //MenuScene menu = new MenuScene(primaryStage, new AudioPlayer().backgroundPlay());
+
+        //Comment out this line, when testing whole project
+        SelectPlayerScene whichplayers = new SelectPlayerScene(primaryStage, "level", new AudioPlayer().backgroundPlay());
     }
 
     public static void main(String[] args) {

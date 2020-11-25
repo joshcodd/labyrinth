@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Game;
+import models.NewPlayer;
 import views.scenes.GameScene;
 
 import java.net.URL;
@@ -27,7 +28,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  * @StudentID 1909700
  */
 
-public class PlayerSelectionController{
+public class PlayerSelectionController implements Initializable {
 
     @FXML
     public HBox hbox;
@@ -36,7 +37,7 @@ public class PlayerSelectionController{
     public MediaView backgroundMusic;
 
     @FXML
-    ObservableList<String> players = observableArrayList();
+    ArrayList<String> players = new ArrayList<>();
 
     @FXML
     public Label title;
@@ -126,6 +127,12 @@ public class PlayerSelectionController{
     public Label confLabel4;
 
     @FXML
+    public Label numPlayersLabel;
+
+    @FXML
+    public Slider numPlayersSlider;
+
+    @FXML
     public ButtonBar buttBar;
 
     @FXML
@@ -136,7 +143,18 @@ public class PlayerSelectionController{
 
     @FXML
     public Button beginButt;
-    
+
+    public Label[] confLabels;
+
+    public ChoiceBox<String>[] profileBoxes;
+
+    public Button[] profileButtons;
+
+    public ChoiceBox<String>[] colourBoxes;
+
+    public Button[] colourButtons;
+
+    public CheckBox[] startFirstChecks;
 
     @FXML
     public ChoiceBox<String> getChoiceBox(){
@@ -145,51 +163,23 @@ public class PlayerSelectionController{
 
     public String gameName;
     public Stage primaryStage;
-    // To do: Create method that doesn't allow you to pick an already chosen player
-    public void setprofileBox1(ArrayList<String> names){
-        profileBox1.setItems(observableArrayList(names));
-    }
-
-    public void setProfileBox2(ArrayList<String> names){
-        profileBox2.setItems(observableArrayList(names));
-    }
-    public void setProfileBox3(ArrayList<String> names){
-        profileBox3.setItems(observableArrayList(names));
-    }
-    public void setProfileBox4(ArrayList<String> names){
-        profileBox4.setItems(observableArrayList(names));
-    }
 
 
 
-    public void handleBeginClick(){
-        ArrayList<String> players = new ArrayList<>();
-        if (profileBox1.getValue() != null) {
-            players.add(profileBox1.getValue());
-        }
-        if (profileBox2.getValue() != null) {
-            players.add(profileBox2.getValue());
-        }
-        if (profileBox3.getValue() != null) {
-            players.add(profileBox3.getValue());
-        }
-        if (profileBox4.getValue() != null) {
-            players.add(profileBox4.getValue());
-        }
+//GameScene gameScene = new GameScene(primaryStage, new Game(gameName, players2), backgroundMusic.getMediaPlayer());
 
-        String[] players2 = players.toArray(new String[0]);
-
-        if (players2.length > 1) {
-            GameScene gameScene = new GameScene(primaryStage, new Game(gameName, players2), backgroundMusic.getMediaPlayer());
+    @FXML
+    public void setColourBoxes(){
+        for(int i = 0; i<4; i++){
+            colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert Camo"));
         }
     }
 
     @FXML
-    public void setProfileBox(ArrayList<String> names){
-        profileBox1.setItems(observableArrayList(names));
-        profileBox2.setItems(observableArrayList(names));
-        profileBox3.setItems(observableArrayList(names));
-        profileBox4.setItems(observableArrayList(names));
+    public void setProfileBoxes(ArrayList<String> names){
+        for(int i = 0; i<4; i++) {
+            profileBoxes[i].setItems(observableArrayList(names));
+        }
     }
 
     public void setBackgroundMusic(MediaView backgroundMusic) {
@@ -202,5 +192,27 @@ public class PlayerSelectionController{
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void updateConfLabels(NewPlayer[] players){
+        for(int i=0;i<players.length;i++) {
+            confLabels[i].setText(players[i].toString());
+        }
+    }
+
+    public void updateConfLabel(int index, NewPlayer player) {
+        confLabels[index].setText(player.toString());
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.confLabels= new Label[]{confLabel1, confLabel2, confLabel3, confLabel4};
+        this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2, profileBox3, profileBox4};
+        this.colourBoxes = new ChoiceBox[]{colourBox1,colourBox2, colourBox3, colourBox4};
+        this.profileButtons = new Button[]{selectProf1,selectProf2, selectProf3, selectProf4};
+        this.colourButtons = new Button[]{selectCol1,selectCol2,selectCol3,selectCol4};
+        this.startFirstChecks = new CheckBox[]{startFirst1,startFirst2,startFirst3,startFirst4};
+
     }
 }
