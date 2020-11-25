@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import models.Game;
 import views.scenes.GameScene;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  */
 
 public class PlayerSelectionController{
+    public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
 
     @FXML
     public HBox hbox;
@@ -180,7 +182,12 @@ public class PlayerSelectionController{
         String[] players2 = players.toArray(new String[0]);
 
         if (players2.length > 1) {
-            GameScene gameScene = new GameScene(primaryStage, new Game(gameName, players2), backgroundMusic.getMediaPlayer());
+            try {
+                GameScene gameScene = new GameScene(primaryStage, new Game(gameName, players2), backgroundMusic.getMediaPlayer());
+            } catch(FileNotFoundException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
+                alert.showAndWait();
+            }
         }
     }
 
