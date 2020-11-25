@@ -25,7 +25,7 @@
          <buttons>
             <Button fx:id="backButt" mnemonicParsing="false" text="Back" ButtonBar.buttonData="LEFT" />
             <Button fx:id="newPlayerButt" mnemonicParsing="false" text="Create new Player" />
-            <Button fx:id="beginButt" onAction="#handleBeginClick" mnemonicParsing="false" text="Begin Game" />
+            <Button fx:id="beginButt" mnemonicParsing="false" text="Begin Game" />
          </buttons>
       </ButtonBar>
    </bottom>

@@ -8,7 +8,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import models.FileHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +29,7 @@ public class SelectPlayerScene {
     private PlayerSelectionController controller;
     private int numPlayers = 4;
 
-    public boolean checkTaken(int id,String field, String value){
+    public boolean checkNotTaken(int id, String field, String value){
         int count = 0;
         boolean taken = true;
         for(int i =0; i<numPlayers;i++){
@@ -50,13 +49,13 @@ public class SelectPlayerScene {
         if(count<1){
             taken = false;
         }
-        return taken;
+        return !taken;
     }
 
     public void selectPlayer(int index){
         String value = controller.profileBoxes[index].getValue();
         if(value != null){
-            if(!checkTaken(index,"name",value)){
+            if(checkNotTaken(index, "name", value)){
                 players[index].profileName = value;
             } else {
                 controller.confLabels[index].setText("Profile taken.");
@@ -66,7 +65,7 @@ public class SelectPlayerScene {
     public void selectColour(int index){
         String colour = controller.colourBoxes[index].getValue();
         if(colour!= null) {
-            if (!checkTaken(index,"colour", colour)) {
+            if (checkNotTaken(index, "colour", colour)) {
                 players[index].colour = colour;
             } else {
                 controller.confLabels[index].setText("Colour taken. ");
