@@ -5,7 +5,7 @@ import java.util.*;
  * Class to represent a game board in the game Labyrinth.
  * @author Josh Codd
  */
-public class GameBoard extends Observable implements Observer {
+public class GameBoard {
     private int height;
     private int width;
     private FloorTile [][] board;
@@ -24,7 +24,6 @@ public class GameBoard extends Observable implements Observer {
         board = new FloorTile[height][width];
         activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
-        addObserver(this);
     }
 
     /**
@@ -70,8 +69,6 @@ public class GameBoard extends Observable implements Observer {
                 board[height - 1][row] = tile;
                 break;
         }
-        setChanged();
-        notifyObservers();
         return returnTile;
     }
 
@@ -163,15 +160,6 @@ public class GameBoard extends Observable implements Observer {
             validMoves.add(new Coord(playerPosition.getX() + 1, playerPosition.getY()));
         }
         return validMoves;
-    }
-
-    /**
-     * Method to be called whenever the observable object is edited.
-     * @param o The observable object.
-     * @param arg An argument passed to the notifyObservers method.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
     }
 
     private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
