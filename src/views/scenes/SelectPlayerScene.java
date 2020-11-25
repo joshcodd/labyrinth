@@ -5,6 +5,7 @@ package views.scenes;
  * @StudentID 1909700
  */
 import javafx.fxml.FXML;
+import javafx.scene.media.MediaView;
 import models.FileHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,6 +35,9 @@ public class SelectPlayerScene {
             Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/PlayerSelectionView.fxml").openStream());
             this.controller = loader.getController();
             controller.setProfileBox(players);
+            controller.setPrimaryStage(primaryStage);
+            controller.setGameName(level);
+            controller.setBackgroundMusic(new MediaView(backgroundMusic));
             Scene scene = new Scene(root, 1200, 650);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
