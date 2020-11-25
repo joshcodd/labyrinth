@@ -304,6 +304,7 @@ public class GameController implements Initializable {
                 } else {
                     selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
                             .getClass().getName().substring(7) + ".png"));
+                    selectedTile.setRotate(0);
                 }
                 drawTile.setDisable(true);
                 if (!(game.getCurrentTile() instanceof FloorTile)) {
