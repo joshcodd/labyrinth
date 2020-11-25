@@ -98,6 +98,7 @@
                                                         </font>
                                                     </Label>
                                                     <HBox alignment="CENTER" minHeight="80.0" prefHeight="100.0" prefWidth="200.0" style="-fx-border-style: DOTTED; -fx-border-width: 1.5;" VBox.vgrow="ALWAYS">
+                                                        <GridPane fx:id="actionTilePane"></GridPane>
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>

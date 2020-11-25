@@ -60,6 +60,9 @@ public class GameController implements Initializable {
     private Button saveButton;
     @FXML
     private MediaView backgroundMusic;
+    @FXML
+    private GridPane actionTilePane;
+
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
@@ -91,6 +94,7 @@ public class GameController implements Initializable {
         setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
         backgroundMusic.setMediaPlayer(mediaPlayer);
         initializeEventHandlers();
+
     }
 
     /**
@@ -102,6 +106,17 @@ public class GameController implements Initializable {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
                 gameBoardPane.add(new StackPane(getTileImage(gameBoard.getTileAt(new Coord(i, j)))), j, i);
             }
+        }
+    }
+
+    public void updateActionTileHand() {
+        actionTilePane.getChildren().clear();
+        ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
+        for (int i = 0; i < currentActionTiles.size(); i++) {
+
+            String testText = "Tile" + i;
+            String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
+            actionTilePane.add(new ImageView(new Image(imagePath, 40, 40, false, false)), i, 0);
         }
     }
 
@@ -267,6 +282,7 @@ public class GameController implements Initializable {
         }
         game.nextPlayer();
         selectedTile.setImage(null);
+        updateActionTileHand();
         this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
         drawTile.setDisable(false);
         this.updateArrows(false);
