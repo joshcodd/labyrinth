@@ -38,6 +38,53 @@ public class Game {
         }
     }
 
+    public void nextPlayer() {
+        currentTile = null;
+        currentPlayer = (currentPlayer + 1) % numPlayers;
+    }
+
+    public boolean checkWin(Player player) {
+            Coord playerPos = player.getCurrentPosition();
+        return gameBoard.getTileAt(playerPos).getShape() == ShapeOfTile.GOAL_TILE;
+    }
+
+    public void updatePlayerPositions(String direction, int index){
+        for (Player player : players) {
+            int currX = player.getCurrentPosition().getX();
+            int currY = player.getCurrentPosition().getY();
+            switch (direction) {
+                case "LEFT":
+                    if (currX == index && currY == gameBoard.getWidth() - 1) {
+                        player.movePlayer(new Coord(currX, 0));
+                    } else if (currX == index){
+                        player.movePlayer(new Coord(currX, currY + 1));
+                    }
+                    break;
+                case "RIGHT":
+                    if (currX == index && currY == 0 ) {
+                        player.movePlayer(new Coord(currX, gameBoard.getWidth() - 1));
+                    } else if (currX == index){
+                        player.movePlayer(new Coord(currX, currY - 1));
+                    }
+                    break;
+                case "DOWN":
+                    if (currY == index && currX == gameBoard.getHeight() - 1) {
+                        player.movePlayer(new Coord(0, currY));
+                    } else if (currY == index){
+                        player.movePlayer(new Coord(currX + 1, currY));
+                    }
+                    break;
+                case "UP":
+                    if (currY == index && currX == 0) {
+                        player.movePlayer(new Coord(gameBoard.getHeight() - 1, currY));
+                    } else if (currY == index){
+                        player.movePlayer(new Coord(currX - 1, currY));
+                    }
+                    break;
+            }
+        }
+    }
+
     public int getCurrentPlayerNum() {
         return currentPlayer;
     }
@@ -92,20 +139,5 @@ public class Game {
 
     public void setOver(boolean over) {
         isOver = over;
-    }
-
-    public void nextPlayer() {
-        currentTile = null;
-        currentPlayer = (currentPlayer + 1) % numPlayers;
-    }
-
-    public boolean checkWin(Player player) {
-            Coord playerPos = player.getCurrentPosition();
-            if (gameBoard.getTileAt(playerPos).getShape() == ShapeOfTile.GOAL_TILE){
-                return true;
-            }
-            else {
-                return false;
-            }
     }
 }

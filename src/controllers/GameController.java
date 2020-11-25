@@ -89,11 +89,6 @@ public class GameController implements Initializable {
         bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
         setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
-        gameBoard.addObserver((o, arg) -> {
-            updateGameBoard();
-            updateArrows(false);
-            drawPlayers();
-        });
         backgroundMusic.setMediaPlayer(mediaPlayer);
         initializeEventHandlers();
     }
@@ -251,6 +246,10 @@ public class GameController implements Initializable {
         arrow.setRotate(getRotationValue(orientation));
         arrow.setOnMouseClicked(event -> {
             Tile fallenOff = gameBoard.insertTile((FloorTile) game.getCurrentTile(), direction, index);
+            game.updatePlayerPositions(direction, index);
+            updateGameBoard();
+            updateArrows(false);
+            drawPlayers();
             game.getTileBag().addTile(fallenOff);
             continueButton.setDisable(false);
             selectedTile.setImage(null);
