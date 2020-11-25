@@ -9,9 +9,8 @@ import java.io.FileNotFoundException;
 
 public class Main extends Application{
     @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
-        //MenuScene menu = new MenuScene(primaryStage, new AudioPlayer().backgroundPlay());
-        LevelSelectionScene hello = new LevelSelectionScene(primaryStage);
+    public void start(Stage primaryStage) {
+        MenuScene menu = new MenuScene(primaryStage, new AudioPlayer().backgroundPlay());
     }
 
     public static void main(String[] args) {

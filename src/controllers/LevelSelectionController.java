@@ -1,26 +1,16 @@
 package controllers;
-import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.fxml.FXML;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.ButtonBase;
-import views.scenes.LevelSelectionScene;
 import javafx.scene.control.ChoiceBox;
-import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+import views.scenes.MenuScene;
+
 import static javafx.collections.FXCollections.observableArrayList;
 import java.io.File;
 import java.util.Objects;
-import javax.swing.*;
-
 
 public class LevelSelectionController {
 
@@ -32,6 +22,10 @@ public class LevelSelectionController {
 
     @FXML
     public ChoiceBox<String> dropdown;
+    @FXML
+    public MediaView backgroundMusic;
+
+    Stage primaryStage;
 
     public void setDropdown(){
         dropdown.setItems(getLevels());
@@ -51,7 +45,15 @@ public class LevelSelectionController {
     }
 
     public void handleBack(ActionEvent actionEvent) {
-        backButton.setText("doing nothing");
+        MenuScene menuScene = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+    }
+
+    public void setBackgroundMusic(MediaView backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }
 

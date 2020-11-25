@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import views.scenes.GameScene;
+import views.scenes.LevelSelectionScene;
 import views.scenes.SelectPlayerScene;
 
 import java.applet.AudioClip;
@@ -36,7 +37,7 @@ public class MenuController  {
     public void handleButtonNewGame(ActionEvent actionEvent) throws FileNotFoundException {
         new AudioPlayer().clickPlay();
         newGame.setText("opening");
-        SelectPlayerScene menu = new SelectPlayerScene(primaryStage);
+        LevelSelectionScene levelSelectionScene = new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     public void handleButtonLoadGame(ActionEvent actionEvent) {
