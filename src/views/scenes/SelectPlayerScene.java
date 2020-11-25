@@ -4,14 +4,16 @@ package views.scenes;
  * @author James Charnock
  * @StudentID 1909700
  */
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.fxml.FXML;
 import models.FileHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import controllers.PlayerSelectionController;
+
+import javafx.scene.media.MediaPlayer;
+
 
 
 import java.io.FileNotFoundException;
@@ -25,7 +27,7 @@ public class SelectPlayerScene {
     private double paneHeight = 600;
 
 
-    public SelectPlayerScene (Stage stage, String levelName, MediaPlayer backgroundMusic) throws FileNotFoundException {
+    public SelectPlayerScene (Stage stage, String level,MediaPlayer backgroundMusic) throws FileNotFoundException {
         this.primaryStage = stage;
         this.players = FileHandler.getAllNames();
 
@@ -33,10 +35,7 @@ public class SelectPlayerScene {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/PlayerSelectionView.fxml").openStream());
             PlayerSelectionController controller = loader.getController();
-            controller.setBackgroundMusic(new MediaView(backgroundMusic));
-            controller.setCbox1(players);
-            controller.setGameName(levelName);
-            controller.setPrimaryStage(stage);
+            controller.setProfileBox(players);
             Scene scene = new Scene(root, 1200, 650);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
