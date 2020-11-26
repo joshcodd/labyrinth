@@ -154,7 +154,9 @@ public class GameController implements Initializable {
                     game.getCurrentPlayer().movePlayer(curr);
                     tile.getChildren().remove(x);
                     updateGameBoard();
-                    nextRound();
+                    if (continueButton.isDisabled() && drawTile.isDisabled()) {
+                        nextRound();
+                    }
                     drawPlayers();
                     new AudioPlayer().clickPlay();
                 });
