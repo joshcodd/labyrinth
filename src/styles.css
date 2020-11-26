@@ -4,6 +4,10 @@
     -fx-background-image: url(resources/BG.png);
 }
 
+.scroll-pane{
+    -fx-background: transparent;
+}
+
 .player-label {
     -fx-padding: 60 0 0 0;
     -fx-font-family: Lobster;
@@ -80,7 +84,16 @@
 }
 
 .tile-selection{
+}
 
+.hover-effect:hover{
+    -fx-opacity: 0.5;
+}
+
+.selected{
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 10;
 }
 
 .tile-selection:hover{

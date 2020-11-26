@@ -34,8 +34,8 @@ public class Player {
 		actionTiles.add(tile);
 	}
 
-	public void removeActionTile (int index) {
-		actionTiles.remove(index);
+	public void removeActionTile (ActionTile tile) {
+		actionTiles.removeIf(x -> x.getClass() == tile.getClass());
 	}
 
 	public ArrayList<ActionTile> getActionTiles () {

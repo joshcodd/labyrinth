@@ -61,13 +61,14 @@ public class GameController implements Initializable {
     @FXML
     private MediaView backgroundMusic;
     @FXML
-    private GridPane actionTilePane;
+    private HBox actionTilePane;
 
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
     private Stage primaryStage;
     private MediaPlayer mediaPlayer;
+    private ActionTile selectedActionTile;
 
     /**
      * Constructs a GameController.
@@ -117,29 +118,21 @@ public class GameController implements Initializable {
             String testText = "Tile" + i;
             int actionTileNum = i;
             String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
-            ImageView actionTile = new ImageView(new Image(imagePath, 40, 40, false, false));
+            ImageView actionTile = new ImageView(new Image(imagePath));
+            actionTile.setFitWidth(100);
+            actionTile.setFitHeight(100);
+            actionTile.getStyleClass().add("hover-effect");
             actionTile.setOnMouseClicked(event -> {
-                playAction(currentActionTiles.get(actionTileNum));
+                selectedActionTile = currentActionTiles.get(actionTileNum);
+                selectedTile.setImage(new Image("/resources/" + currentActionTiles.get(actionTileNum)
+                        .getClass().getName().substring(7) + ".png"));
+                selectedTile.setRotate(0);
             });
-            actionTilePane.add(actionTile, i, 0);
+            actionTilePane.getChildren().add(actionTile);
 
         }
     }
 
-    public void playAction(ActionTile action) {
-        if (action instanceof DoubleMoveTile) {
-            updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
-        }
-        else if (action instanceof BackTrackTile) {
-            selectBacktrack();
-        }
-        else if (action instanceof FireTile) {
-
-        }
-        else if (action instanceof IceTile) {
-
-        }
-    }
 
     /**
      * Updates tiles so that they are selectable and can be used for a player to move on to that tile. Tiles are
@@ -308,6 +301,9 @@ public class GameController implements Initializable {
             continueButton.setDisable(false);
             selectedTile.setImage(null);
             new AudioPlayer().clickPlay();
+            if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                actionButton.setDisable(false);
+            }
         });
         return arrow;
     }
@@ -360,6 +356,9 @@ public class GameController implements Initializable {
                     selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
                             .getClass().getName().substring(7) + ".png"));
                     selectedTile.setRotate(0);
+                    if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                        actionButton.setDisable(false);
+                    }
                 }
                 drawTile.setDisable(true);
                 if (!(game.getCurrentTile() instanceof FloorTile)) {
@@ -392,9 +391,6 @@ public class GameController implements Initializable {
                 if (ActionTile.class.isAssignableFrom(game.getCurrentTile().getClass())) {
                     game.getCurrentPlayer().addActionTile((ActionTile)game.getCurrentTile());
                 }
-                if ((game.getCurrentPlayer().getActionTiles()).size() == 0) {
-                    actionButton.setDisable(true);
-                }
                 ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getCurrentPlayer());
                 if (validMoves.size() == 0) {
                     nextRound();
@@ -404,12 +400,13 @@ public class GameController implements Initializable {
                 }
             }
             new AudioPlayer().clickPlay();
+            actionButton.setDisable(true);
+            selectedTile.setImage(null);
         });
 
         continueButton.setDisable(true);
-        if (game.getCurrentPlayer().getActionTiles().size() == 0) {
-            actionButton.setDisable(true);
-        }
+        actionButton.setDisable(true);
+
 
         saveButton.setOnMouseClicked(event -> {
             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
@@ -423,6 +420,41 @@ public class GameController implements Initializable {
                 mediaPlayer.play();
                 muteButton.setText("Mute");
             }
+        });
+
+        actionButton.setOnMouseClicked(e -> {
+                if (selectedActionTile instanceof DoubleMoveTile) {
+                    updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
+                    actionButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new DoubleMoveTile());
+                    updateActionTileHand();
+                }
+                else if (selectedActionTile instanceof BackTrackTile) {
+                    selectBacktrack();
+                    actionButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new BackTrackTile());
+                    updateActionTileHand();
+                }
+                else if (selectedActionTile instanceof FireTile) {
+
+                    actionButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new FireTile());
+                    updateActionTileHand();
+                }
+                else if (selectedActionTile instanceof IceTile) {
+
+                    actionButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new IceTile());
+                    updateActionTileHand();
+                }
         });
     }
 }
