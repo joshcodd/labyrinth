@@ -1,4 +1,5 @@
-package game;
+package models;
+
 /**
  * FloorTile sub class of Tile
  * @author James Charnock
@@ -47,7 +48,29 @@ public class FloorTile extends Tile {
         }
     }
 
+    public boolean[] getEntryPoints(){
+        boolean[] entryPoints;
+        if (shape == ShapeOfTile.BEND){
+            entryPoints = new boolean[]{false, false ,true, true};
+        } else if (shape == ShapeOfTile.T_SHAPE){
+            entryPoints = new boolean[]{true, true ,false, true};
+        } else if (shape == ShapeOfTile.STRAIGHT) {
+            entryPoints = new boolean[]{false, true ,false, true};
+        } else {
+            entryPoints = new boolean[]{true, true, true, true};
+        }
 
+        for (int i = 0; i < getOrientation(); i++) {
+            int j;
+            boolean temp;
+            temp = entryPoints[entryPoints.length - 1];
+            for (j = entryPoints.length - 1; j > 0; j--) {
+                entryPoints[j] = entryPoints[j - 1];
+            }
+            entryPoints[j] = temp;
+        }
+        return entryPoints;
+    }
 
     public int getOrientation() {
         return this.orientation;

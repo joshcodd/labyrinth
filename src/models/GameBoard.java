@@ -1,14 +1,15 @@
-package game;
+package models;
 import java.util.*;
 
 /**
  * Class to represent a game board in the game Labyrinth.
  * @author Josh Codd
  */
-public class GameBoard extends Observable implements Observer {
+public class GameBoard {
     private int height;
     private int width;
     private FloorTile [][] board;
+    private ActionTile [][] actionBoard;
     private ArrayList<ActionTile> activeTiles;
 
     /**
@@ -22,9 +23,9 @@ public class GameBoard extends Observable implements Observer {
         this.height = height;
         this.width = width;
         board = new FloorTile[height][width];
+        actionBoard = new ActionTile[height][width];
         activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
-        addObserver(this);
     }
 
     /**
@@ -42,6 +43,7 @@ public class GameBoard extends Observable implements Observer {
                 returnTile = board[row][ width - 1];
                 for (int i = width - 1; i > 0; i--){
                     board[row][i] = board[row][i - 1];
+                    actionBoard[row][i] = actionBoard[row][i - 1];
                 }
                 board[row][0] = tile;
                 break;
@@ -50,6 +52,7 @@ public class GameBoard extends Observable implements Observer {
                 returnTile = board[row][ 0];
                 for (int i = 0; i < width - 1; i++){
                     board[row][i] = board[row][i + 1];
+                    actionBoard[row][i] = actionBoard[row][i + 1];
                 }
                 board[row][width - 1] = tile;
                 break;
@@ -58,6 +61,7 @@ public class GameBoard extends Observable implements Observer {
                 returnTile = board[height - 1][ row];
                 for (int i = height - 1; i > 0; i--){
                     board[i][row] = board[i - 1][row];
+                    actionBoard[i][row] = actionBoard[i - 1][row];
                 }
                 board[0][row] = tile;
                 break;
@@ -66,12 +70,11 @@ public class GameBoard extends Observable implements Observer {
                 returnTile = board[0][row];
                 for (int i = 0; i < height - 1; i++){
                     board[i][row] = board[i + 1][row];
+                    actionBoard[i][row] = actionBoard[i + 1][row];
                 }
                 board[height - 1][row] = tile;
                 break;
         }
-        setChanged();
-        notifyObservers();
         return returnTile;
     }
 
@@ -123,8 +126,46 @@ public class GameBoard extends Observable implements Observer {
      * Method to get the tile at a specified index of the board.
      * @return Tile at the specified position.
      */
-    public FloorTile getTileAt(int x, int y) {
-        return board[x][y];
+    public FloorTile getTileAt(Coord position) {
+        return board[position.getX()][position.getY()];
+    }
+
+    /**
+     * Checks the next tile in the 4 cardinal directions from the player, and returns the coordinates of the tiles
+     * where a move to that tile would be legal.
+     * @param player The player to get valid moves for.
+     * @return The list of all valid moves.
+     */
+    public ArrayList<Coord> getValidMoves(Player player){
+        ArrayList<Coord> validMoves = new ArrayList<>();
+        Coord playerPosition = player.getCurrentPosition();
+
+        boolean[] currentTile = getTileAt(playerPosition).getEntryPoints();
+        boolean[] leftTile = playerPosition.getY() == 0 ? null :
+                getTileAt(new Coord(playerPosition.getX(), playerPosition.getY() - 1)).getEntryPoints();
+        boolean[] rightTile = playerPosition.getY() == width - 1 ? null :
+                getTileAt(new Coord(playerPosition.getX(), playerPosition.getY() + 1)).getEntryPoints();
+        boolean[] upTile = playerPosition.getX() == 0 ? null :
+                getTileAt(new Coord(playerPosition.getX()  - 1, playerPosition.getY())).getEntryPoints();
+        boolean[] downTile = playerPosition.getX() == height -1 ? null :
+                getTileAt(new Coord(playerPosition.getX() + 1, playerPosition.getY())).getEntryPoints();
+
+        if (leftTile != null && currentTile[3] && leftTile[1]){
+            validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() - 1));
+        }
+
+        if (rightTile != null && currentTile[1] && rightTile[3]){
+            validMoves.add(new Coord(playerPosition.getX(), playerPosition.getY() + 1));
+        }
+
+        if (upTile != null && currentTile[0] && upTile[2]){
+            validMoves.add(new Coord(playerPosition.getX() - 1, playerPosition.getY()));
+        }
+
+        if (downTile != null && currentTile[2] && downTile[0]){
+            validMoves.add(new Coord(playerPosition.getX() + 1, playerPosition.getY()));
+        }
+        return validMoves;
     }
 
     private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
@@ -152,6 +193,14 @@ public class GameBoard extends Observable implements Observer {
         }
     }
 
+    public void addAction(ActionTile action, Coord position) {
+        int x = position.getX();
+        int y = position.getY();
+        if (actionBoard[x][y] == null) {
+            actionBoard[x][y] = action;
+        }
+    }
+
     //THIS IS A METHOD FOR TESTING -> WILL BE DELETED.
     public void printBoard() {
         for (int i = 0; i < board.length; i++){
@@ -160,9 +209,5 @@ public class GameBoard extends Observable implements Observer {
             }
             System.out.println();
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
     }
 }

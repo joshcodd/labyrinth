@@ -1,4 +1,4 @@
-package game;
+package models;
 
 /**
  * Stores a integer (x,y) game position, and allows it to be updated, or retrieved
@@ -39,5 +39,22 @@ public class Coord {
     public void setPos(int x, int y) {
         xPos = x;
         yPos = y;
+    }
+
+    @Override
+    public String toString() {
+        return "Coord{" +
+                "xPos=" + xPos +
+                ", yPos=" + yPos +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof Coord){
+            return xPos == ((Coord) obj).getX() && yPos == ((Coord) obj).getY();
+        } else {
+            return false;
+        }
     }
 }

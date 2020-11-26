@@ -1,4 +1,4 @@
-package game;
+package models;
 /**
  * When used, freezes tiles so they are temporarily fixed
  * @author George Boumphrey    @StudentID 851192

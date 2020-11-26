@@ -1,4 +1,4 @@
-package game;
+package models;
 
 /**
  * Super Class for IceTile, FireTile, BackTrackTile and  DoubleMoveTile

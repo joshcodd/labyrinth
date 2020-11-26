@@ -1,4 +1,4 @@
-package game;
+package models;
 
 
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * FileHandler class for saving and loading levels and profiles
+ * FileHandler class for saving and loading gamefiles.levels and profiles
  * @author AndrewCarruthers
  * @StudentID 987747
  */
@@ -151,7 +151,7 @@ public class FileHandler {
 	 * @throws FileNotFoundException
 	 */
 	public static ArrayList<String> getAllNames() throws FileNotFoundException{
-		File file = new File("src/levels/players.txt");
+		File file = new File("src/gamefiles/players.txt");
 		Scanner line = new Scanner(file);
 		line.useDelimiter(",");
 		ArrayList<String> players = new ArrayList<String>();
@@ -171,7 +171,7 @@ public class FileHandler {
 	 * @return a player's profile.
 	 */
 	public static PlayerProfile loadProfile (String playerName) throws FileNotFoundException {
-		File playerFile = new File("src/levels/players.txt");
+		File playerFile = new File("src/gamefiles/players.txt");
 		Scanner line = new Scanner(playerFile);
 		PlayerProfile p = loadProfile(line,playerName);
 		line.close();

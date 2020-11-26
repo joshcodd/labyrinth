@@ -1,4 +1,4 @@
-package  game;
+package models;
 
 /**
  * Class that represents payer profile info

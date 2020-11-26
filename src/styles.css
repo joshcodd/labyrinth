@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two:ital,wght@0,700;1,400;1,700&display=swap');
+
+.background-image {
+    -fx-background-image: url(resources/BG.png);
+}
+
+.player-label {
+    -fx-padding: 60 0 0 0;
+    -fx-font-family: Lobster;
+    -fx-font-size: 66;
+}
+
+.player-console {
+    -fx-padding: 0 50 0 50;
+}
+
+.rotate-arrow{
+    -fx-image: url(resources/rotate.png);
+}
+
+.rotate-arrow:hover{
+    -fx-opacity: 0.6;
+}
+
+.game-button{
+    -fx-padding: 10 10 10 10;
+}
+
+.menu{
+    -fx-background-color: BLACK;
+    -fx-opacity: 0.8;
+}
+
+.tool-bar{
+    -fx-background-color: BLACK;
+    -fx-opacity: 0.7;
+    -fx-min-height: 37;
+    -fx-max-height: 37;
+}
+
+.menu-button{
+    -fx-padding: 0 50 0 0;
+    -fx-background-image: url(/resources/menu.png);
+    -fx-background-repeat: STRETCH;
+    -fx-background-position: left center;
+    -fx-background-color: BLACK;
+    -fx-background-size: 35;
+    -fx-border-insets: 50;
+    -fx-background-insets: 50;;
+}
+
+.default-button{
+    -fx-padding: 10 20 20 20;
+    -fx-background-insets: 0, 0 0 5 0;
+    -fx-background-color:
+            linear-gradient(from 0% 90% to 0% 100%, #696568 0%, #444143 100%),
+            radial-gradient(center 20% 50%, radius 100%, #343434, #242424);
+    -fx-background-radius: 10;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}
+
+.default-button:hover{
+    -fx-padding: 9 18 15 18;
+    -fx-background-insets: 0, 0 0 2 0;
+}
+
+.default-button:disabled{
+    -fx-padding: 8 15 15 15;
+}
+
+.alt-button{
+    -fx-text-fill: WHITE;
+    -fx-background-color: BlACK;
+    -fx-font-size: 26;
+}
+
+.alt-button:hover{
+    -fx-opacity: 0.5;
+}
+
+.tile-selection{
+
+}
+
+.tile-selection:hover{
+    -fx-opacity: 0.5;
+}

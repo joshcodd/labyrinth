@@ -1,4 +1,4 @@
-package game;
+package models;
 import java.util.ArrayList;
 
 public class Player {
@@ -25,6 +25,8 @@ public class Player {
 	}
 
 	public void movePlayer (Coord destination) {
+		previousPositions[1] = previousPositions[0];
+		previousPositions[0] = currentPosition;
 		currentPosition = destination;
 	}
 

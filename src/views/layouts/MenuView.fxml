@@ -3,32 +3,48 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1 " fx:controller="controllers.MenuController">
+<?import javafx.scene.media.MediaView?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background-image" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
+   <MediaView fx:id="backgroundMusic"/>
    <top>
-      <VBox alignment="TOP_CENTER" prefHeight="74.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Labyrinth" textFill="#ac1515">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Label fx:id="message">
-               <font>
-                  <Font name="System Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
+      <VBox styleClass="tool-bar">
       </VBox>
    </top>
    <center>
-      <VBox alignment="CENTER" prefHeight="383.0" prefWidth="600.0" spacing="30.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER">
          <children>
-            <Button fx:id="newGame" onAction="#handleButtonNewGame" minHeight="35.0" minWidth="80.0" mnemonicParsing="false" text="New Game" />
-            <Button fx:id="loadGame" onAction="#handleButtonLoadGame" minHeight="35.0" minWidth="80.0" mnemonicParsing="false" text="Load Game" />
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label text="Labyrinth" textFill="#ac1515">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="message">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="250.0" style="-fx-padding: 0 20 0 0;">
+                     <children>
+                        <Button fx:id="loadGame" mnemonicParsing="false" onAction="#handleButtonLoadGame" styleClass="default-button" text="Load Game" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="250.0" style="-fx-padding: 0 0 0 20;">
+                     <children>
+                        <Button fx:id="newGame" mnemonicParsing="false" onAction="#handleButtonNewGame" styleClass="default-button" text="New Game" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
