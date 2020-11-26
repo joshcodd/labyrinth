@@ -57,8 +57,9 @@ public class SelectPlayerScene {
         if(value != null){
             if(checkNotTaken(index, "name", value)){
                 players[index].profileName = value;
+                controller.updateProfileLabel(index, players[index]);
             } else {
-                controller.confLabels[index].setText("Profile taken.");
+                controller.profileLabels[index].setText("Profile taken.");
             }
         }
     }
@@ -67,11 +68,14 @@ public class SelectPlayerScene {
         if(colour!= null) {
             if (checkNotTaken(index, "colour", colour)) {
                 players[index].colour = colour;
+                controller.updateColourLabel(index, players[index]);
             } else {
-                controller.confLabels[index].setText("Colour taken. ");
+                controller.colourLabels[index].setText("Colour taken. ");
             }
         }
+        controller.updateTankView(index, players[index]);
     }
+
 
     public void setStartingPlayer(int index){
         for(int i = 0; i<4; i++){
@@ -106,26 +110,20 @@ public class SelectPlayerScene {
             primaryStage.show();
 
             numPlayers = (int)controller.numPlayersSlider.getValue();
-            // set groups
-            for(int i = 0; i<numPlayers; i++){
 
+            // set each player form
+            for(int i = 0; i<numPlayers; i++){
 
                 int index = i;
 
-                controller.profileButtons[index].setOnAction(new EventHandler<ActionEvent>() {
+                controller.confButtons[index].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         selectPlayer(index);
-                        controller.updateConfLabel(index, players[index]);
-                    }
-                });
-                controller.colourButtons[index].setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
                         selectColour(index);
-                        controller.updateConfLabel(index, players[index]);
                     }
                 });
+
                 controller.startFirstChecks[index].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -134,11 +132,10 @@ public class SelectPlayerScene {
                         }else{
                             players[index].startFirst=false;
                         }
-                        controller.updateConfLabels(players);
+                        controller.updateStartLabels(players);
                     }
                 });
             }
-
 
 
             controller.numPlayersSlider.valueProperty().addListener(new ChangeListener<Number>() {

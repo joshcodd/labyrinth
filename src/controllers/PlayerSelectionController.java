@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
@@ -73,16 +75,16 @@ public class PlayerSelectionController implements Initializable {
     public ChoiceBox<String> profileBox4;
 
     @FXML
-    public Button selectProf1;
+    public Button confButt1;
 
     @FXML
-    public Button selectProf2;
+    public Button confButt2;
 
     @FXML
-    public Button selectProf3;
+    public Button confButt3;
 
     @FXML
-    public Button selectProf4;
+    public Button confButt4;
     
     @FXML
     public Button createPlayer;
@@ -100,18 +102,6 @@ public class PlayerSelectionController implements Initializable {
     public ChoiceBox<String> colourBox4;
 
     @FXML
-    public Button selectCol1;
-
-    @FXML
-    public Button selectCol2;
-
-    @FXML
-    public Button selectCol3;
-
-    @FXML
-    public Button selectCol4;
-
-    @FXML
     public CheckBox startFirst1;
 
     @FXML
@@ -124,16 +114,52 @@ public class PlayerSelectionController implements Initializable {
     public CheckBox startFirst4;
 
     @FXML
-    public Label confLabel1;
+    public Label profileLabel1;
 
     @FXML
-    public Label confLabel2;
+    public Label profileLabel2;
 
     @FXML
-    public Label confLabel3;
+    public Label profileLabel3;
 
     @FXML
-    public Label confLabel4;
+    public Label profileLabel4;
+
+    @FXML
+    public ImageView tankView1;
+
+    @FXML
+    public ImageView tankView2;
+
+    @FXML
+    public ImageView tankView3;
+
+    @FXML
+    public ImageView tankView4;
+
+    @FXML
+    public Label colourLabel1;
+
+    @FXML
+    public Label colourLabel2;
+
+    @FXML
+    public Label colourLabel3;
+
+    @FXML
+    public Label colourLabel4;
+
+    @FXML
+    public Label startLabel1;
+
+    @FXML
+    public Label startLabel2;
+
+    @FXML
+    public Label startLabel3;
+
+    @FXML
+    public Label startLabel4;
 
     @FXML
     public Label numPlayersLabel;
@@ -153,36 +179,32 @@ public class PlayerSelectionController implements Initializable {
     @FXML
     public Button beginButt;
 
-    public Label[] confLabels;
+    public Label[] colourLabels;
+
+    public Label[] profileLabels;
+
+    public Label[] startLabels;
 
     public ChoiceBox<String>[] profileBoxes;
 
-    public Button[] profileButtons;
+    public Button[] confButtons;
 
     public ChoiceBox<String>[] colourBoxes;
-
-    public Button[] colourButtons;
 
     public CheckBox[] startFirstChecks;
     
     public TextField playerName;
 
-    @FXML
-    public ChoiceBox<String> getChoiceBox(){
-        return profileBox1;
-    }
+    public ImageView[] tankViews;
 
     public String gameName;
     public Stage primaryStage;
 
 
-
-//GameScene gameScene = new GameScene(primaryStage, new Game(gameName, players2), backgroundMusic.getMediaPlayer());
-
     @FXML
     public void setColourBoxes(){
         for(int i = 0; i<4; i++){
-            colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert Camo"));
+            colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert Camo","Auto-Assign"));
         }
     }
 
@@ -205,15 +227,43 @@ public class PlayerSelectionController implements Initializable {
         this.primaryStage = primaryStage;
     }
 
-    public void updateConfLabels(NewPlayer[] players){
+    public void updateStartLabels(NewPlayer[] players){
         for(int i=0;i<players.length;i++) {
-            confLabels[i].setText(players[i].toString());
+            if(players[i].startFirst){
+                startLabels[i].setText("Starting First");
+            } else {
+                startLabels[i].setText("");
+            }
         }
     }
 
-    public void updateConfLabel(int index, NewPlayer player) {
-        confLabels[index].setText(player.toString());
+    public void updateTankView(int index, NewPlayer player){
+        String imageName;
+        switch(player.colour){
+            case "Green":
+                imageName="1";
+                break;
+            case "Red":
+                imageName="2";
+                break;
+            case "Desert Camo":
+                imageName="3";
+                break;
+            case "Blue":
+                imageName="4";
+                break;
+            default:
+                imageName="5";
+        }
+        tankViews[index].setImage(new Image("resources/"+imageName+".png"));
+    }
 
+    public void updateProfileLabel(int index, NewPlayer player) {
+        profileLabels[index].setText(player.profileName);
+    }
+
+    public void updateColourLabel(int index, NewPlayer player) {
+        colourLabels[index].setText(player.colour);
     }
     
     public void createPlayer(ActionEvent event) throws Exception{
@@ -255,12 +305,14 @@ public class PlayerSelectionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.confLabels= new Label[]{confLabel1, confLabel2, confLabel3, confLabel4};
         this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2, profileBox3, profileBox4};
         this.colourBoxes = new ChoiceBox[]{colourBox1,colourBox2, colourBox3, colourBox4};
-        this.profileButtons = new Button[]{selectProf1,selectProf2, selectProf3, selectProf4};
-        this.colourButtons = new Button[]{selectCol1,selectCol2,selectCol3,selectCol4};
+        this.profileLabels = new Label[]{profileLabel1,profileLabel2,profileLabel3,profileLabel4};
+        this.colourLabels = new Label[]{colourLabel1,colourLabel2,colourLabel3,colourLabel4};
+        this.startLabels = new Label[]{startLabel1,startLabel2,startLabel3, startLabel4};
+        this.confButtons = new Button[]{confButt1,confButt2, confButt3, confButt4};
         this.startFirstChecks = new CheckBox[]{startFirst1,startFirst2,startFirst3,startFirst4};
+        this.tankViews=new ImageView[]{tankView1,tankView2,tankView3,tankView4};
 
     }
 }
