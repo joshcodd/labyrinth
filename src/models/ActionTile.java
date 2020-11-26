@@ -22,4 +22,12 @@ public abstract class  ActionTile extends Tile {
     public void  clearAction(){
 
     }
+
+    public void incrementTurnsSinceUse() {
+        turnsSinceUse++;
+    }
+
+    public int getTurnsSinceUse() {
+        return turnsSinceUse;
+    }
 }

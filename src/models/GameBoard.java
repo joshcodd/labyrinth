@@ -201,6 +201,26 @@ public class GameBoard {
         }
     }
 
+    public ActionTile getAction(Coord position) {
+        return actionBoard[position.getX()][position.getY()];
+    }
+
+    public void refreshActionBoard(int numPlayers) {
+        int turnsPerRound = (numPlayers * 2) - 1;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                ActionTile currentAction = actionBoard[x][y];
+                currentAction.incrementTurnsSinceUse();
+                if (currentAction instanceof FireTile && (currentAction.getTurnsSinceUse() >= (turnsPerRound * 2))) {
+                    actionBoard[x][y] = null;
+                }
+                else if (currentAction instanceof IceTile && (currentAction.getTurnsSinceUse() >= turnsPerRound)) {
+                    actionBoard[x][y] = null;
+                }
+            }
+        }
+    }
+
     //THIS IS A METHOD FOR TESTING -> WILL BE DELETED.
     public void printBoard() {
         for (int i = 0; i < board.length; i++){

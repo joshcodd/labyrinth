@@ -172,6 +172,29 @@ public class GameController implements Initializable {
         playerLabel.setText(message);
     }
 
+    public void drawActions() {
+        for (Node node : gameBoardPane.getChildren()) {
+            Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            ActionTile currentAction = gameBoard.getAction(position);
+
+            if (currentAction instanceof FireTile) {
+                StackPane action = (StackPane)node;
+                ImageView fire = new ImageView("/resources/FireTile.png");
+                fire.setFitWidth(40);
+                fire.setFitHeight(40);
+                action.getChildren().add(fire);
+            }
+            else if (currentAction instanceof IceTile) {
+                StackPane action = (StackPane)node;
+                ImageView ice = new ImageView("/resources/IceTile.png");
+                ice.setFitWidth(40);
+                ice.setFitHeight(40);
+                action.getChildren().add(ice);
+            }
+        }
+    }
+
+
     /**
      * Draws buttons for inserting tiles at the ends of every row or columns where the rows are moveable. That is, there
      * are no fixed tiles in that row or column.
