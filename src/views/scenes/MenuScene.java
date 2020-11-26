@@ -31,10 +31,8 @@ public class MenuScene {
                 scene.getStylesheets().add("styles.css");
                 primaryStage.setScene(scene);
                 primaryStage.show();
-
             } catch (Exception e){
                 e.getStackTrace();
-
             }
 
         }

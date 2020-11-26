@@ -35,7 +35,8 @@ public class FileHandler {
 		return board;
 	}
 	
-	private static GameBoard loadNewGame (Scanner line, TileBag bag) { 
+	private static GameBoard loadNewGame (Scanner line, TileBag bag) {
+		System.out.println("hi");
 		HashMap<Coord,FloorTile> fixedTiles = new HashMap<>(); 
 		Scanner scan = new Scanner(line.next());
 		scan.useDelimiter(",");
@@ -77,9 +78,9 @@ public class FileHandler {
 		}
 		//next section populates TileBag
 		ShapeOfTile newShape = null;
-		
-		line.nextLine();
-		int bendTile = line.nextInt(); 
+
+		int bendTile = line.nextInt();
+		System.out.println(bendTile);
 		for (int i = 0; i != bendTile; i++) {
 			newShape = ShapeOfTile.BEND;
 			Tile newTile = new FloorTile(1,false,newShape);
