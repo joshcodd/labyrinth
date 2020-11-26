@@ -193,13 +193,15 @@ public class FileHandler {
 				while(names.hasNext()) {
 					name = names.next();
 					players.add(name);
-					names.nextLine();
 				}
 				names.close();
 			}
 			check.close();
-			line.nextLine();
+			if (line.hasNextLine()){
+				line.nextLine();
 			}
+
+		}
 		return players;
 	}
 	

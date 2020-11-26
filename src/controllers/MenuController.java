@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import views.scenes.GameScene;
+import views.scenes.LeaderboardScene;
 import views.scenes.LevelSelectionScene;
 import views.scenes.SelectPlayerScene;
 
@@ -26,6 +27,9 @@ public class MenuController  {
 
     public Button newGame;
     public Button loadGame;
+
+    @FXML
+    public Button leaderboard;
     @FXML
     private Label message;
     @FXML
@@ -56,6 +60,12 @@ public class MenuController  {
             Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
             alert.showAndWait();
         }
+    }
+
+    public void handleButtonLeaderboard(ActionEvent actionEvent) {
+        new AudioPlayer().clickPlay();
+            loadGame.setText("opening");
+            LeaderboardScene leaderboardScene = new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     public void setPrimaryStage(Stage primaryStage) {

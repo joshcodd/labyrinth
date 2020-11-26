@@ -14,6 +14,39 @@
     -fx-font-size: 66;
 }
 
+.large-label {
+    -fx-padding: 22;
+    -fx-font-family: Lobster;
+    -fx-font-size: 42;
+}
+
+.dropdown-box .label {
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+}
+
+.dropdown-box .menu-item > .label {
+    -fx-text-fill: black;
+    -fx-font-size: 16;
+    -fx-min-width: 400;
+
+}
+
+.dropdown-box{
+    -fx-padding: 22;
+    -fx-min-width: 400;
+    -fx-max-height: 20;
+    -fx-background-color: black;
+    -fx-opacity: 0.7;
+    -fx-text-fill: white;
+}
+
+.dropdown-box > .label {
+    -fx-pref-width: 400;
+}
+
+
+
 .player-console {
     -fx-padding: 0 50 0 50;
 }
@@ -98,4 +131,14 @@
 
 .tile-selection:hover{
     -fx-opacity: 0.5;
+}
+
+.lb-text{
+    -fx-label-padding: 0 0 0 200px;
+    -fx-font-size: 16;
+}
+
+.lb-text-win{
+    -fx-label-padding: 0 0 0 0;
+    -fx-font-size: 16;
 }
