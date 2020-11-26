@@ -4,8 +4,12 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,8 +17,10 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Game;
 import models.NewPlayer;
+import models.PlayerProfile;
 import views.scenes.GameScene;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +83,9 @@ public class PlayerSelectionController implements Initializable {
 
     @FXML
     public Button selectProf4;
+    
+    @FXML
+    public Button createPlayer;
 
     @FXML
     public ChoiceBox<String> colourBox1;
@@ -155,6 +164,8 @@ public class PlayerSelectionController implements Initializable {
     public Button[] colourButtons;
 
     public CheckBox[] startFirstChecks;
+    
+    public TextField playerName;
 
     @FXML
     public ChoiceBox<String> getChoiceBox(){
@@ -203,6 +214,43 @@ public class PlayerSelectionController implements Initializable {
     public void updateConfLabel(int index, NewPlayer player) {
         confLabels[index].setText(player.toString());
 
+    }
+    
+    public void createPlayer(ActionEvent event) throws Exception{
+    	Stage stage2;
+    	Parent root2;
+    	if(event.getSource()==newPlayerButt){
+    		stage2 = (Stage)newPlayerButt.getScene().getWindow();
+    		root2 = FXMLLoader.load(getClass().getResource("CreatePlayer.fxml"));
+    		
+        }
+        else{
+            stage2 = (Stage) backButt.getScene().getWindow();
+            root2 = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
+        }
+    	Scene scene2 = new Scene(root2);
+        stage2.setScene(scene2);
+        stage2.show();
+    }
+    
+    public void submitPlayer(ActionEvent event) throws Exception{
+    	Stage stage;
+    	Parent root;
+    	
+    	if(event.getSource()==createPlayer){
+    		createPlayer.setOnAction(a -> playerName.getText());
+    		new PlayerProfile(playerName.getText(),0,0,0);
+    		stage = (Stage)createPlayer.getScene().getWindow();
+    		root = FXMLLoader.load(getClass().getResource("CPlayer.fxml"));
+        }
+    	
+        else{
+        	stage = (Stage) backButt.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
+        }
+    	Scene scene2 = new Scene(root);
+    	stage.setScene(scene2);
+    	stage.show();
     }
 
     @Override
