@@ -45,7 +45,8 @@ public class FileHandler {
 		line.nextLine();
 		int k = line.nextInt(); //number of fixed tiles to create
 		for (int i = 0; i != k; i++) {
-			scan = new Scanner(line.next()).useDelimiter(",");
+			scan = new Scanner(line.next());
+			scan.useDelimiter(",");
 			int x = scan.nextInt();
 			int y = scan.nextInt();
 			Coord location = new Coord(x,y); 
@@ -70,6 +71,7 @@ public class FileHandler {
 			}
 			int orientation = scan.nextInt();
 			scan.close();
+			line.nextLine();
 			FloorTile fixedTile = new FloorTile(orientation,true,shape); 
 			fixedTiles.put(location,fixedTile);
 		}
@@ -141,9 +143,14 @@ public class FileHandler {
 	}
 	
 	private static void playerStartLocations(Scanner line,Player[] players) {
+		Scanner read;
 		for (Player player: players) {
-			int x = line.nextInt();
-			int y = line.nextInt();
+			read = new Scanner(line.next());
+			read.useDelimiter(",");
+			int x = read.nextInt();
+			int y = read.nextInt();
+			read.close();
+			line.nextLine();
 			Coord xy = new Coord(x,y);
 			player.movePlayer(xy);
 		}	
@@ -161,28 +168,38 @@ public class FileHandler {
 	/**
 	 * Reads in leaderboard information about players for a specified level
 	 * @param levelName name of level leaderboard to be loaded.
-	 * @return currently a string of level + all players who have played on that level?
+	 * @return An arraylist of player names
 	 * @throws FileNotFoundException
 	 */
-	public static String loadLeaderboard(String levelName) throws FileNotFoundException { //needs work, 
+	public static ArrayList<String> loadLeaderboard(String levelName) throws FileNotFoundException {
 		File leaderboard = new File("src/gamefiles/leaderboard.txt");
 		Scanner line = new Scanner(leaderboard);
-		String playerlist = loadLeaderboard(line,levelName);
+		ArrayList<String> playerlist = loadLeaderboard(line,levelName);
 		line.close();
 		return playerlist;
 	}
 
-	private static String loadLeaderboard(Scanner line, String levelName) {
-		String x = "";
+	private static ArrayList<String> loadLeaderboard(Scanner line, String levelName) {
+		ArrayList<String> players = new ArrayList<String>();
+		String name = "";
 		while (line.hasNext()) {
-			Scanner check = new Scanner(line.next()).useDelimiter(":");
+			Scanner check = new Scanner(line.next());
+			check.useDelimiter(":");
 			if(check.hasNext(levelName)) {
-				x = x + check.next() + ":" + check.next();
+				check.next();
+				Scanner names = new Scanner(check.next());
+				names.useDelimiter(",");
+				while(names.hasNext()) {
+					name = names.next();
+					players.add(name);
+					names.nextLine();
+				}
+				names.close();
 			}
 			check.close();
 			line.nextLine();
-		}
-		return x;
+			}
+		return players;
 	}
 	
 	/**
