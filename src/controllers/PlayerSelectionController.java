@@ -1,10 +1,9 @@
 package controllers;
 
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,15 +16,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
-import models.Game;
 import models.NewPlayer;
 import models.PlayerProfile;
-import views.scenes.GameScene;
-
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -37,18 +31,25 @@ import static javafx.collections.FXCollections.observableArrayList;
  */
 
 public class PlayerSelectionController implements Initializable {
-
-    @FXML
-    public HBox hbox;
+    @FXML HBox hBox1;
 
     @FXML
     public MediaView backgroundMusic;
 
     @FXML
-    ArrayList<String> players = new ArrayList<>();
+    public Label title;
 
     @FXML
-    public Label title;
+    public VBox playerForm1;
+
+    @FXML
+    public VBox playerForm2;
+
+    @FXML
+    public VBox playerForm3;
+
+    @FXML
+    public VBox playerForm4;
 
     @FXML
     public Label playerLabel1;
@@ -179,6 +180,8 @@ public class PlayerSelectionController implements Initializable {
     @FXML
     public Button beginButt;
 
+    public VBox[] playerForms;
+
     public Label[] colourLabels;
 
     public Label[] profileLabels;
@@ -198,13 +201,18 @@ public class PlayerSelectionController implements Initializable {
     public ImageView[] tankViews;
 
     public String gameName;
+
     public Stage primaryStage;
 
+    public NewPlayer[] players;
+
+    public int numPlayers = 4;
 
     @FXML
     public void setColourBoxes(){
         for(int i = 0; i<4; i++){
             colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert Camo","Auto-Assign"));
+            colourBoxes[i].setValue("Auto-Assign");
         }
     }
 
@@ -265,20 +273,96 @@ public class PlayerSelectionController implements Initializable {
     public void updateColourLabel(int index, NewPlayer player) {
         colourLabels[index].setText(player.colour);
     }
-    
+
+    public boolean checkNotTaken(int id, String field, String value){
+        int count = 0;
+        boolean taken = true;
+        for(int i =0; i< players.length;i++){
+            if(i==id){
+                continue;
+            }
+            if(field.equals("name")){
+                if(players[i].profileName.equals(value)){
+                    count+=1;
+                }
+            } else if (field.equals("colour")){
+                if(players[i].colour.equals(value)){
+                    count+=1;
+                }
+            } else {System.out.println("checkTaken: invalid field");}
+        }
+        if(count<1){
+            taken = false;
+        }
+        return !taken;
+    }
+
+    public void selectPlayer(int index){
+        String value = profileBoxes[index].getValue();
+        if(value != null){
+            if(checkNotTaken(index, "name", value)){
+                players[index].profileName = value;
+                updateProfileLabel(index, players[index]);
+            } else {
+                profileLabels[index].setText("Profile taken.");
+            }
+        }
+
+    }
+    public void selectColour(int index){
+        String colour = colourBoxes[index].getValue();
+        if(colour!= null) {
+            if (checkNotTaken(index, "colour", colour)) {
+                players[index].colour = colour;
+                updateColourLabel(index, players[index]);
+            } else {
+                colourLabels[index].setText("Colour taken. ");
+            }
+        }
+        updateTankView(index, players[index]);
+    }
+
+
+    public void setStartingPlayer(int index){
+        for(int i = 0; i<4; i++){
+            if(i!=index) {
+                if (players[i].startFirst) {
+                    players[i].startFirst = false;
+                }
+                startFirstChecks[i].setSelected(false);
+            }
+        }
+        players[index].startFirst = true;
+    }
+
+    public void updatePlayerForms(boolean decrease, int oldValue){
+        if(decrease) {
+            for (int i = numPlayers; i < oldValue; i++) {
+                playerForms[i].setVisible(false);
+                playerForms[i].setManaged(false);
+            }
+        }
+        else{
+            for(int i = oldValue; i<numPlayers; i++) {
+                playerForms[i].setVisible(true);
+                playerForms[i].setManaged(true);
+            }
+        }
+    }
+
     public void createPlayer(ActionEvent event) throws Exception{
-    	Stage stage2;
-    	Parent root2;
-    	if(event.getSource()==newPlayerButt){
-    		stage2 = (Stage)newPlayerButt.getScene().getWindow();
-    		root2 = FXMLLoader.load(getClass().getResource("CreatePlayer.fxml"));
-    		
+        Stage stage2;
+        Parent root2;
+        if(event.getSource()==newPlayerButt){
+            stage2 = (Stage)newPlayerButt.getScene().getWindow();
+            root2 = FXMLLoader.load(getClass().getResource("CreatePlayer.fxml"));
+
         }
         else{
             stage2 = (Stage) backButt.getScene().getWindow();
             root2 = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
         }
-    	Scene scene2 = new Scene(root2);
+        Scene scene2 = new Scene(root2);
         stage2.setScene(scene2);
         stage2.show();
     }
@@ -303,8 +387,10 @@ public class PlayerSelectionController implements Initializable {
     	stage.show();
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.playerForms = new VBox[]{playerForm1,playerForm2,playerForm3,playerForm4};
         this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2, profileBox3, profileBox4};
         this.colourBoxes = new ChoiceBox[]{colourBox1,colourBox2, colourBox3, colourBox4};
         this.profileLabels = new Label[]{profileLabel1,profileLabel2,profileLabel3,profileLabel4};
@@ -312,7 +398,58 @@ public class PlayerSelectionController implements Initializable {
         this.startLabels = new Label[]{startLabel1,startLabel2,startLabel3, startLabel4};
         this.confButtons = new Button[]{confButt1,confButt2, confButt3, confButt4};
         this.startFirstChecks = new CheckBox[]{startFirst1,startFirst2,startFirst3,startFirst4};
-        this.tankViews=new ImageView[]{tankView1,tankView2,tankView3,tankView4};
+        this.tankViews = new ImageView[]{tankView1,tankView2,tankView3,tankView4};
 
+
+        // set each player form
+        for(int i = 0; i<4; i++) {
+
+            int index = i;
+
+            players = new NewPlayer[]{new NewPlayer(),new NewPlayer(), new NewPlayer(), new NewPlayer()};
+
+            confButtons[index].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    selectPlayer(index);
+                    selectColour(index);
+                }
+            });
+
+            startFirstChecks[index].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (startFirstChecks[index].isSelected()) {
+                        setStartingPlayer(index);
+                    } else {
+                        players[index].startFirst = false;
+                    }
+                    updateStartLabels(players);
+                }
+            });
+
+            numPlayersSlider.getValue();
+
+            numPlayersSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    numPlayers = newValue.intValue();
+                    updatePlayerForms(oldValue.intValue() > numPlayers, oldValue.intValue());
+
+                    numPlayersLabel.setText("Number of Players: " + numPlayers);
+                }
+            });
+
+            newPlayerButt.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        createPlayer(event);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 }
