@@ -28,6 +28,16 @@ public class Game {
         gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
     }
 
+    public Game(GameBoard board, String[] playerNames) throws FileNotFoundException {
+        players = new Player[playerNames.length];
+        numPlayers = players.length;
+        for (int i = 0; i < playerNames.length; i++) {
+            PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
+            players[i] = new Player(i, currentProfile);
+        }
+        gameBoard = board;
+    }
+
     public void nextPlayer() {
         currentTile = null;
         currentPlayer = (currentPlayer + 1) % numPlayers;
