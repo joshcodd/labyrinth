@@ -88,6 +88,9 @@ public class GameBoard {
             if (board[row][i].isFixed()) {
                 return true;
             }
+            if (actionBoard[row][i] instanceof IceTile) {
+                return true;
+            }
         }
         return false;
     }
@@ -99,7 +102,10 @@ public class GameBoard {
      */
     public boolean isColumnFixed(int column) {
         for (int i = 0; i < getHeight(); i++){
-            if (board[i][column].isFixed()){
+            if (board[i][column].isFixed()) {
+                return true;
+            }
+            if (actionBoard[i][column] instanceof IceTile) {
                 return true;
             }
         }
