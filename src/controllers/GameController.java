@@ -96,6 +96,7 @@ public class GameController implements Initializable {
         backgroundMusic.setMediaPlayer(mediaPlayer);
         initializeEventHandlers();
         updateActionTileHand();
+        drawActions();
 
     }
 
@@ -109,6 +110,7 @@ public class GameController implements Initializable {
                 gameBoardPane.add(new StackPane(getTileImage(gameBoard.getTileAt(new Coord(i, j)))), j, i);
             }
         }
+        drawActions();
     }
 
     public void updateActionTileHand() {
@@ -170,6 +172,40 @@ public class GameController implements Initializable {
      */
     public void setPlayerLabel(String message){
         playerLabel.setText(message);
+    }
+
+    public void playAction(ActionTile action) {
+        for (Node node : gameBoardPane.getChildren()) {
+            Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            if (gameBoard.getAction(position) == null) {
+                //TODO Add check for if a player is standing on one of the neighbouring positions (for fire only)
+                StackPane tile = (StackPane) node;
+                tile.getStyleClass().add("tile-selection");
+                tile.setOnMouseClicked(event -> {
+                    //Selects the surrounding tiles for a 3x3
+                    int xPos = position.getX();
+                    int yPos = position.getY();
+                    Coord[] positions = {
+                            new Coord(xPos - 1, yPos + 1),
+                            new Coord(xPos, yPos + 1),
+                            new Coord(xPos + 1, yPos +1),
+                            new Coord(xPos - 1, yPos),
+                            position,
+                            new Coord(xPos + 1, yPos),
+                            new Coord(xPos - 1, yPos - 1),
+                            new Coord(xPos, yPos - 1),
+                            new Coord(xPos + 1, yPos - 1)
+                    };
+
+                    for (Coord pos: positions) {
+                        gameBoard.addAction(action, pos);
+                    }
+                    updateGameBoard();
+                    drawPlayers();
+                    continueButton.setDisable(false);
+                });
+            }
+        }
     }
 
     public void drawActions() {
@@ -347,6 +383,7 @@ public class GameController implements Initializable {
             drawTile.setDisable(false);
             this.updateArrows(false);
             continueButton.setDisable(true);
+            drawActions();
         }
     }
 
@@ -465,16 +502,18 @@ public class GameController implements Initializable {
                     updateActionTileHand();
                 }
                 else if (selectedActionTile instanceof FireTile) {
-
+                    playAction(new FireTile());
                     actionButton.setDisable(true);
+                    continueButton.setDisable(true);
                     selectedTile.setImage(null);
                     selectedActionTile = null;
                     game.getCurrentPlayer().removeActionTile(new FireTile());
                     updateActionTileHand();
                 }
                 else if (selectedActionTile instanceof IceTile) {
-
+                    playAction(new IceTile());
                     actionButton.setDisable(true);
+                    continueButton.setDisable(true);
                     selectedTile.setImage(null);
                     selectedActionTile = null;
                     game.getCurrentPlayer().removeActionTile(new IceTile());
