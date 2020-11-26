@@ -17,8 +17,7 @@ import java.util.Scanner;
  * @StudentID 987747
  */
 public class FileHandler {
-	
-	
+
 	/**
 	 * Reads in a level from file, populates TileBag and sets player start locations
 	 * @param fileName level file name.
@@ -36,7 +35,6 @@ public class FileHandler {
 	}
 	
 	private static GameBoard loadNewGame (Scanner line, TileBag bag) {
-		System.out.println("hi");
 		HashMap<Coord,FloorTile> fixedTiles = new HashMap<>(); 
 		Scanner scan = new Scanner(line.next());
 		scan.useDelimiter(",");
@@ -242,7 +240,10 @@ public class FileHandler {
 		while (line.hasNext()) {
 			name = line.next();
 			players.add(name);
-			line.nextLine();
+
+			if (line.hasNext()){
+				line.nextLine();
+			}
 		}
 		line.close();
 		return players;

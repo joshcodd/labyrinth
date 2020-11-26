@@ -27,6 +27,7 @@ public class SelectPlayerScene {
         this.primaryStage = stage;
         try {
             profiles = FileHandler.getAllNames();
+            System.out.println(profiles.size());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
