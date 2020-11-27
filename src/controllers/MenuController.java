@@ -13,10 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
-import views.scenes.GameScene;
-import views.scenes.LeaderboardScene;
-import views.scenes.LevelSelectionScene;
-import views.scenes.SelectPlayerScene;
+import views.scenes.*;
 
 import java.applet.AudioClip;
 import java.io.File;
@@ -64,8 +61,12 @@ public class MenuController  {
 
     public void handleButtonLeaderboard(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
-            loadGame.setText("opening");
             LeaderboardScene leaderboardScene = new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
+    }
+
+    public void handleButtonEditPlayers(ActionEvent actionEvent) {
+        new AudioPlayer().clickPlay();
+        EditPlayersScene editPlayersScene = new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     public void setPrimaryStage(Stage primaryStage) {

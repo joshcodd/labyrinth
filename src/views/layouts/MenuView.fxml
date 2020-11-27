@@ -38,9 +38,14 @@
                         <Button fx:id="loadGame" mnemonicParsing="false" onAction="#handleButtonLoadGame" styleClass="default-button" text="Load Game" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" style="-fx-padding: 0 0 0 20;">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0">
                      <children>
                         <Button fx:id="newGame" mnemonicParsing="false" onAction="#handleButtonNewGame" styleClass="default-button" text="New Game" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="250.0">
+                     <children>
+                        <Button fx:id="newGame1" mnemonicParsing="false" onAction="#handleButtonEditPlayers" styleClass="default-button" text="Edit players" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="250.0" style="-fx-padding: 0 0 0 20;">

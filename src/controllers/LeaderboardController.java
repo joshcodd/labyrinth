@@ -35,10 +35,6 @@ public class LeaderboardController {
 
     @FXML
     public Button backButton;
-
-    @FXML
-    public Button confirmButton;
-
     @FXML
     public ChoiceBox<String> dropdown;
     @FXML
