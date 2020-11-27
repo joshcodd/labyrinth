@@ -388,7 +388,7 @@ public class FileHandler {
 			line = read.nextLine();
 			System.out.println(line);
 			if (line.contains(playerName)) {
-				line = playerName + "," + wins + "," + losses + "," + gamesPlayed;
+				line = playerName.toLowerCase() + "," + wins + "," + losses + "," + gamesPlayed;
 				found = true;
 			}
 			newFile = newFile + line + "\n";
@@ -398,6 +398,25 @@ public class FileHandler {
 		}
 		read.close();
 		
+		FileWriter write = new FileWriter(file);
+		write.write(newFile);
+		write.close();
+	}
+
+
+	public static void deleteProfile (String playerName) throws IOException {
+		File file = new File("src/gamefiles/players.txt");
+		Scanner read = new Scanner(new FileReader(file));
+		String newFile = "";
+		String line = "";
+		while (read.hasNextLine()) {
+			line = read.nextLine();
+			System.out.println(line);
+			if (!line.contains(playerName)) {
+				newFile = newFile + line + "\n";
+			}
+		}
+		read.close();
 		FileWriter write = new FileWriter(file);
 		write.write(newFile);
 		write.close();
