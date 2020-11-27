@@ -1,6 +1,8 @@
 package models;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
@@ -293,14 +295,21 @@ public class FileHandler {
 	 */
 	public static void saveProfile (String playerName,int wins ,int losses,int gamesPlayed) throws IOException {
 		File file = new File("src/gamefiles/players.txt");
-		BufferedReader read = new BufferedReader(new FileReader(file));
+		Scanner read = new Scanner(new FileReader(file));
 		String newFile = "";
-		String line = read.readLine();
-		while (line != null) {
+		String line = "";
+		Boolean found = false;
+		while (read.hasNextLine()) {
+			line = read.nextLine();
+			System.out.println(line);
 			if (line.contains(playerName)) {
 				line = playerName + "," + wins + "," + losses + "," + gamesPlayed;
+				found = true;
 			}
 			newFile = newFile + line + "\n";
+		}
+		if (!found){
+			newFile = newFile + playerName + "," + wins + "," + losses + "," + gamesPlayed + "\n";
 		}
 		read.close();
 		

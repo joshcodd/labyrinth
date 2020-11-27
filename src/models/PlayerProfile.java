@@ -1,5 +1,7 @@
 package models;
 
+import java.io.IOException;
+
 /**
  * Class that represents payer profile info
  * 
@@ -19,9 +21,6 @@ public class PlayerProfile {
 		this.wins = wins;
 		this.losses = losses;
 		this.gamesPlayed = gamesPlayed;
-		
-		
-		
 	}
 
 	public void setplayerName(String Name) {
@@ -41,6 +40,10 @@ public class PlayerProfile {
 	public  void incrementGamesPlayed() {
 		this.gamesPlayed = gamesPlayed + 1;
 
+	}
+
+	public void save() throws IOException {
+		FileHandler.saveProfile(playerName, wins, losses, gamesPlayed);
 	}
 
 	public  String getPlayerName() {
