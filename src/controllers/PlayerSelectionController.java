@@ -18,6 +18,9 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.NewPlayer;
 import models.PlayerProfile;
+import views.scenes.EditPlayersScene;
+import views.scenes.LevelSelectionScene;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -31,6 +34,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  */
 
 public class PlayerSelectionController implements Initializable {
+    public Button muteButton;
     @FXML HBox hBox1;
 
     @FXML
@@ -169,7 +173,7 @@ public class PlayerSelectionController implements Initializable {
     public Slider numPlayersSlider;
 
     @FXML
-    public ButtonBar buttBar;
+    public HBox buttBar;
 
     @FXML
     public Button backButt;
@@ -225,6 +229,7 @@ public class PlayerSelectionController implements Initializable {
 
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
     public void setGameName(String gameName) {
@@ -387,6 +392,11 @@ public class PlayerSelectionController implements Initializable {
     	stage.show();
     }
 
+    public void handleMute(ActionEvent actionEvent) {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -443,11 +453,14 @@ public class PlayerSelectionController implements Initializable {
             newPlayerButt.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    try {
-                        createPlayer(event);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    new EditPlayersScene(primaryStage,backgroundMusic.getMediaPlayer());
+                }
+            });
+
+            backButt.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
                 }
             });
         }

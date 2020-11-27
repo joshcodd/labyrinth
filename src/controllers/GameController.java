@@ -94,6 +94,7 @@ public class GameController implements Initializable {
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
         setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
         backgroundMusic.setMediaPlayer(mediaPlayer);
+        muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "Un-mute":"Mute");
         initializeEventHandlers();
         updateActionTileHand();
         drawActions();
@@ -475,13 +476,8 @@ public class GameController implements Initializable {
         });
 
         muteButton.setOnMouseClicked(event -> {
-            if (muteButton.getText().equals("Mute")){
-                mediaPlayer.pause();
-                muteButton.setText("Unmute");
-            } else {
-                mediaPlayer.play();
-                muteButton.setText("Mute");
-            }
+            backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+            muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "UnMute":"Mute");
         });
 
         actionButton.setOnMouseClicked(e -> {

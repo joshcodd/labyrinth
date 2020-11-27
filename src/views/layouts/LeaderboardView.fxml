@@ -14,7 +14,8 @@
    <top>
 
       <VBox alignment="CENTER">
-         <HBox alignment="CENTER" styleClass="tool-bar"><MediaView fx:id="backgroundMusic" />
+         <HBox alignment="TOP_RIGHT" styleClass="tool-bar"><MediaView fx:id="backgroundMusic" />
+            <Button fx:id="muteButton" mnemonicParsing="false" onAction="#handleMute" />
          </HBox>
          <Label prefHeight="48.0" styleClass="large-label" text="Leaderboards" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
             <font>

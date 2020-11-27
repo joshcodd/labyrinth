@@ -42,6 +42,7 @@ public class EditPlayersController implements Initializable {
     public Button addPlayer;
     @FXML
     public TextField playerName;
+    public Button muteButton;
     Stage primaryStage;
 
     ArrayList<PlayerProfile> playerProfiles;
@@ -91,12 +92,18 @@ public class EditPlayersController implements Initializable {
         }
     }
 
+    public void handleMute(ActionEvent actionEvent) {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
     }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
 }

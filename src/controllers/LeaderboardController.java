@@ -41,6 +41,7 @@ public class LeaderboardController {
     public MediaView backgroundMusic;
     @FXML
     public ListView leaderboard;
+    public Button muteButton;
 
     ImageView gold = new ImageView(new Image("/resources/gold.png"));
     ImageView silver = new ImageView(new Image("/resources/silver.png"));
@@ -120,8 +121,14 @@ public class LeaderboardController {
         MenuScene menuScene = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
+    public void handleMute(ActionEvent actionEvent) {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
     public void setPrimaryStage(Stage primaryStage) {

@@ -11,8 +11,10 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background-image" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <MediaView fx:id="backgroundMusic" />
    <top>
-      <VBox styleClass="tool-bar">
-      </VBox>
+      <VBox alignment="TOP_RIGHT" styleClass="tool-bar">
+         <children>
+            <Button fx:id="muteButton" mnemonicParsing="false" onAction="#handleMute" />
+         </children></VBox>
    </top>
    <center>
       <VBox alignment="CENTER">

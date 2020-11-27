@@ -160,3 +160,25 @@
 .profile-list {
     -fx-selection-bar: #003C1F ;
 }
+
+.mute-true {
+    -fx-padding: 10 40 0 0;
+    -fx-background-image: url(/resources/musicOff.png);
+    -fx-background-repeat: STRETCH;
+    -fx-background-position: left center;
+    -fx-background-color: BLACK;
+    -fx-background-size: 40;
+    -fx-border-insets: 10 40 0 0;
+    -fx-background-insets: 10 40 0 0;;
+}
+
+.mute-false {
+    -fx-padding: 10 40 0 0;
+    -fx-background-image: url(/resources/musicOn.png);
+    -fx-background-repeat: STRETCH;
+    -fx-background-position: left center;
+    -fx-background-color: BLACK;
+    -fx-background-size: 40;
+    -fx-border-insets: 10 40 0 0;
+    -fx-background-insets:  10 40 0 0;
+}

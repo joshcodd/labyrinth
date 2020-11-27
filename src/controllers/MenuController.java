@@ -27,6 +27,7 @@ public class MenuController  {
 
     @FXML
     public Button leaderboard;
+    public Button muteButton;
     @FXML
     private Label message;
     @FXML
@@ -75,5 +76,11 @@ public class MenuController  {
 
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
+    public void handleMute(ActionEvent actionEvent) {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 }
