@@ -32,23 +32,36 @@
             <children>
                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                   <children>
-                     <ListView fx:id="profiles" maxWidth="-Infinity" prefWidth="400.0" />
-                  </children>
-               </VBox>
-               <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                  <children>
-                     <TextField fx:id="playerName" maxWidth="-Infinity" prefWidth="200.0" VBox.vgrow="NEVER" />
-                     <Button fx:id="addPlayer" mnemonicParsing="false" onAction="#handleAddPlayerClick" styleClass="default-button" text="Add player" />
+                     <VBox alignment="CENTER">
+                        <children>
+                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                              <children>
+                                 <TextField fx:id="playerName" maxWidth="-Infinity" prefWidth="200.0" styleClass="player-input" />
+                                 <Button fx:id="addPlayer" mnemonicParsing="false" onAction="#handleAddPlayerClick" styleClass="default-button, add-player" text="Add player" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </VBox>
+                     <ListView fx:id="profiles" maxWidth="-Infinity" prefWidth="400.0" styleClass="profile-list"/>
                   </children>
                </VBox>
             </children>
          </HBox>
          <HBox alignment="BOTTOM_CENTER" BorderPane.alignment="CENTER">
-            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" styleClass="default-button" text="Back" />
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" styleClass="default-button" text="Back" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDeleteClick" styleClass="default-button" text="Delete player" />
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
          </HBox>
       </VBox>
    </center>

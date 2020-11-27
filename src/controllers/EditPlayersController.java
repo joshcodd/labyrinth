@@ -54,9 +54,9 @@ public class EditPlayersController implements Initializable {
 
     public void handleAddPlayerClick(ActionEvent actionEvent) throws IOException {
         new AudioPlayer().clickPlay();
-        String name = playerName.getText();
+        String name = playerName.getText().toLowerCase();
 
-        if (name == null || name.trim().isEmpty()) {
+        if (name.trim().isEmpty()) {
             Alert error = new Alert(Alert.AlertType.ERROR, "No name entered.", ButtonType.CLOSE);
             error.showAndWait();
         }else if (profiles.getItems().contains(name)){
@@ -68,6 +68,11 @@ public class EditPlayersController implements Initializable {
             generatePlayers();
             playerName.clear();
         }
+    }
+
+    public void handleDeleteClick(ActionEvent actionEvent) throws IOException {
+        FileHandler.deleteProfile(profiles.getSelectionModel().getSelectedItem().toString());
+        generatePlayers();
     }
 
     public void handleBack(ActionEvent actionEvent) {
@@ -93,4 +98,5 @@ public class EditPlayersController implements Initializable {
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
+
 }

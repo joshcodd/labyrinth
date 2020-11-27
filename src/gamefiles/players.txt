@@ -5,7 +5,4 @@ andrew,3,4,5
 james,0,0,55
 george,5,3,4
 luka,4,5,4
-hello,0,0,0
-hello0,0,0,0
-hello0f,0,0,0
-test,0,0,0
+chi,0,0,0
