@@ -49,7 +49,7 @@ public class MenuController  {
         new AudioPlayer().clickPlay();
         try {
             loadGame.setText("opening");
-            Game game = new Game("level", new String[]{"Josh", "Neil", "Andreas"});
+            Game game = new Game("level", new String[]{"josh", "neil", "andreas"});
             GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
         } catch (FileNotFoundException e) {
             loadGame.setText("Load Game");
