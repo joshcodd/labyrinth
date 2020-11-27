@@ -31,24 +31,24 @@
                   </Label>
                </children>
             </VBox>
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" VBox.vgrow="NEVER">
                <children>
-                  <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="250.0" style="-fx-padding: 0 20 0 0;">
+                  <VBox alignment="CENTER" minWidth="-Infinity" prefHeight="200.0" prefWidth="120.0" HBox.hgrow="NEVER">
                      <children>
                         <Button fx:id="loadGame" mnemonicParsing="false" onAction="#handleButtonLoadGame" styleClass="default-button" text="Load Game" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0" HBox.hgrow="NEVER">
                      <children>
                         <Button fx:id="newGame" mnemonicParsing="false" onAction="#handleButtonNewGame" styleClass="default-button" text="New Game" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="250.0">
+                  <VBox alignment="CENTER" layoutX="210.0" layoutY="10.0" minWidth="-Infinity" prefHeight="200.0" prefWidth="120.0" HBox.hgrow="NEVER">
                      <children>
                         <Button fx:id="newGame1" mnemonicParsing="false" onAction="#handleButtonEditPlayers" styleClass="default-button" text="Edit players" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="250.0" style="-fx-padding: 0 0 0 20;">
+                  <VBox alignment="CENTER" minWidth="-Infinity" prefHeight="200.0" prefWidth="142.0" HBox.hgrow="NEVER">
                      <children>
                         <Button fx:id="leaderboard" mnemonicParsing="false" onAction="#handleButtonLeaderboard" styleClass="default-button" text="Leaderboards" />
                      </children>

@@ -13,9 +13,9 @@
    <top>
 
       <VBox alignment="CENTER">
-         <HBox alignment="CENTER" styleClass="tool-bar"><MediaView fx:id="backgroundMusic" />
+         <HBox alignment="CENTER" styleClass="tool-bar" VBox.vgrow="ALWAYS"><MediaView fx:id="backgroundMusic" />
          </HBox>
-         <Label prefHeight="48.0" prefWidth="124.0" text="Select Level" BorderPane.alignment="CENTER">
+         <Label prefHeight="48.0" styleClass="large-label" text="Select Level" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
             <font>
                <Font size="24.0" />
             </font>
