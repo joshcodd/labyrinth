@@ -182,3 +182,13 @@
     -fx-border-insets: 10 40 0 0;
     -fx-background-insets:  10 40 0 0;
 }
+
+.title-image{
+    -fx-padding: 500px 0 50 0;
+}
+
+.message {
+    -fx-font-size: 18;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}

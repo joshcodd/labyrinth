@@ -2,6 +2,8 @@ package controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -28,6 +30,7 @@ public class MenuController  {
     @FXML
     public Button leaderboard;
     public Button muteButton;
+    public ImageView title;
     @FXML
     private Label message;
     @FXML
@@ -38,6 +41,12 @@ public class MenuController  {
     @FXML
     public void initialize(){
         message.setText(String.valueOf(new MessageOfTheDay()));
+        Image titleImage = new Image("/resources/title.png");
+        title.setImage(titleImage);
+        title.setFitWidth(400);
+        title.setFitHeight(300);
+
+
     }
 
     public void handleButtonNewGame(ActionEvent actionEvent) throws FileNotFoundException {
