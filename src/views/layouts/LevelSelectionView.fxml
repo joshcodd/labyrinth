@@ -9,7 +9,7 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0" styleClass="background-image" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LevelSelectionController">
+<BorderPane prefHeight="650.0" prefWidth="1200.0" styleClass="background-image" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LevelSelectionController">
    <top>
 
       <VBox alignment="CENTER">
@@ -29,7 +29,7 @@
       <VBox alignment="TOP_CENTER" BorderPane.alignment="BOTTOM_LEFT">
          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
             <children>
-               <ChoiceBox styleClass="dropdown-box" fx:id="dropdown" prefWidth="150.0" VBox.vgrow="NEVER" />
+               <ChoiceBox fx:id="dropdown" prefWidth="150.0" styleClass="dropdown-box" VBox.vgrow="NEVER" />
             </children>
          </VBox>
          <HBox alignment="BOTTOM_CENTER" prefHeight="40.0" prefWidth="200.0" style="-fx-padding: 25;" BorderPane.alignment="CENTER">
