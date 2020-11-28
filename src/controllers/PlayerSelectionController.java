@@ -212,6 +212,9 @@ public class PlayerSelectionController implements Initializable {
 
     public int numPlayers = 4;
 
+    /**
+     *
+     */
     @FXML
     public void setColourBoxes(){
         for(int i = 0; i<4; i++){
@@ -220,6 +223,9 @@ public class PlayerSelectionController implements Initializable {
         }
     }
 
+    /**
+     * @param names
+     */
     @FXML
     public void setProfileBoxes(ArrayList<String> names){
         for(int i = 0; i<4; i++) {
@@ -227,6 +233,9 @@ public class PlayerSelectionController implements Initializable {
         }
     }
 
+    /**
+     * @param backgroundMusic
+     */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
@@ -236,6 +245,9 @@ public class PlayerSelectionController implements Initializable {
         this.gameName = "src/gamefiles/levels/" + gameName;
     }
 
+    /**
+     * @param primaryStage
+     */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -250,6 +262,10 @@ public class PlayerSelectionController implements Initializable {
         }
     }
 
+    /**
+     * @param index
+     * @param player
+     */
     public void updateTankView(int index, NewPlayer player){
         String imageName;
         switch(player.colour){
@@ -271,14 +287,28 @@ public class PlayerSelectionController implements Initializable {
         tankViews[index].setImage(new Image("resources/"+imageName+".png"));
     }
 
+    /**
+     * @param index
+     * @param player
+     */
     public void updateProfileLabel(int index, NewPlayer player) {
         profileLabels[index].setText(player.profileName);
     }
 
+    /**
+     * @param index
+     * @param player
+     */
     public void updateColourLabel(int index, NewPlayer player) {
         colourLabels[index].setText(player.colour);
     }
 
+    /**
+     * @param id
+     * @param field
+     * @param value
+     * @return
+     */
     public boolean checkNotTaken(int id, String field, String value){
         int count = 0;
         boolean taken = true;
@@ -302,6 +332,9 @@ public class PlayerSelectionController implements Initializable {
         return !taken;
     }
 
+    /**
+     * @param index
+     */
     public void selectPlayer(int index){
         String value = profileBoxes[index].getValue();
         if(value != null){
@@ -314,6 +347,10 @@ public class PlayerSelectionController implements Initializable {
         }
 
     }
+
+    /**
+     * @param index
+     */
     public void selectColour(int index){
         String colour = colourBoxes[index].getValue();
         if(colour!= null) {
@@ -328,6 +365,9 @@ public class PlayerSelectionController implements Initializable {
     }
 
 
+    /**
+     * @param index
+     */
     public void setStartingPlayer(int index){
         for(int i = 0; i<4; i++){
             if(i!=index) {
@@ -340,6 +380,10 @@ public class PlayerSelectionController implements Initializable {
         players[index].startFirst = true;
     }
 
+    /**
+     * @param decrease
+     * @param oldValue
+     */
     public void updatePlayerForms(boolean decrease, int oldValue){
         if(decrease) {
             for (int i = numPlayers; i < oldValue; i++) {
@@ -355,6 +399,10 @@ public class PlayerSelectionController implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     * @throws Exception
+     */
     public void createPlayer(ActionEvent event) throws Exception{
         Stage stage2;
         Parent root2;
@@ -371,7 +419,11 @@ public class PlayerSelectionController implements Initializable {
         stage2.setScene(scene2);
         stage2.show();
     }
-    
+
+    /**
+     * @param event
+     * @throws Exception
+     */
     public void submitPlayer(ActionEvent event) throws Exception{
     	Stage stage;
     	Parent root;
@@ -392,12 +444,19 @@ public class PlayerSelectionController implements Initializable {
     	stage.show();
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleMute(ActionEvent actionEvent) {
         backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.playerForms = new VBox[]{playerForm1,playerForm2,playerForm3,playerForm4};
@@ -419,6 +478,9 @@ public class PlayerSelectionController implements Initializable {
             players = new NewPlayer[]{new NewPlayer(),new NewPlayer(), new NewPlayer(), new NewPlayer()};
 
             confButtons[index].setOnAction(new EventHandler<ActionEvent>() {
+                /**
+                 * @param event
+                 */
                 @Override
                 public void handle(ActionEvent event) {
                     selectPlayer(index);
@@ -427,6 +489,9 @@ public class PlayerSelectionController implements Initializable {
             });
 
             startFirstChecks[index].setOnAction(new EventHandler<ActionEvent>() {
+                /**
+                 * @param event
+                 */
                 @Override
                 public void handle(ActionEvent event) {
                     if (startFirstChecks[index].isSelected()) {
@@ -441,6 +506,11 @@ public class PlayerSelectionController implements Initializable {
             numPlayersSlider.getValue();
 
             numPlayersSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                /**
+                 * @param observable
+                 * @param oldValue
+                 * @param newValue
+                 */
                 @Override
                 public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                     numPlayers = newValue.intValue();
@@ -451,6 +521,9 @@ public class PlayerSelectionController implements Initializable {
             });
 
             newPlayerButt.setOnAction(new EventHandler<ActionEvent>() {
+                /**
+                 * @param event
+                 */
                 @Override
                 public void handle(ActionEvent event) {
                     new EditPlayersScene(primaryStage,backgroundMusic.getMediaPlayer());
@@ -458,6 +531,9 @@ public class PlayerSelectionController implements Initializable {
             });
 
             backButt.setOnAction(new EventHandler<ActionEvent>() {
+                /**
+                 * @param event
+                 */
                 @Override
                 public void handle(ActionEvent event) {
                     new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());

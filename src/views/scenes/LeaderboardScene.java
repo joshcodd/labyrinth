@@ -8,9 +8,16 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
+/**
+ *
+ */
 public class LeaderboardScene {
     private Stage primaryStage;
 
+    /**
+     * @param stage
+     * @param backgroundMusic
+     */
     public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
 

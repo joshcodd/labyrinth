@@ -6,9 +6,16 @@ package models;
 public class IceTile extends ActionTile {
     private int turnsSinceUse;
 
+    /**
+     *
+     */
     public IceTile() {
         this.turnsSinceUse = -1;
     }
+
+    /**
+     *
+     */
     public void Action() {
 
     }

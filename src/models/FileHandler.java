@@ -32,6 +32,12 @@ public class FileHandler {
 		line.close();
 		return board;
 	}
+
+	/**
+	 * @param line
+	 * @param bag
+	 * @return
+	 */
 	private static GameBoard loadNewGame (Scanner line, TileBag bag) {
 		HashMap<Coord,FloorTile> fixedTiles = new HashMap<>(); 
 		Scanner scan = new Scanner(line.next());
@@ -146,6 +152,13 @@ public class FileHandler {
 		GameBoard board = new GameBoard(height,width,fixedTiles,bag);
 		return board;
 	}
+
+
+	/**
+	 * Sets up the players locations on the board
+	 * @param line co ordinates of the players read from files to place each player on the board *
+	 * @param players list of playersa playing in that game
+	 */
 	private static void playerStartLocations(Scanner line,Player[] players) {
 		Scanner read;
 		for (Player player: players) {
@@ -159,7 +172,13 @@ public class FileHandler {
 			player.movePlayer(xy);
 		}	
 	}
-	
+
+	/**
+	 * Used to fetch old game board data *** not sure as this is never used
+	 * @param fileName name of the file that the data is read from
+	 * @param bag the tile bag ****
+	 * @return
+	 */
 	public static GameBoard loadOldGame(String fileName, TileBag bag) {
 		return null;
 		
@@ -485,6 +504,11 @@ public class FileHandler {
 		write.close();
 	}
 
+	/**
+	 * Removes a chosen players details in case not in use
+	 * @param playerName name of user that is selected
+	 * @throws IOException
+	 */
 	public static void deleteProfile (String playerName) throws IOException {
 		File file = new File("src/gamefiles/players.txt");
 		Scanner read = new Scanner(new FileReader(file));

@@ -9,9 +9,16 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
+/**
+ *
+ */
 public class EditPlayersScene {
     private Stage primaryStage;
 
+    /**
+     * @param stage
+     * @param backgroundMusic
+     */
     public EditPlayersScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
 

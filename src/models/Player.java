@@ -1,6 +1,9 @@
 package models;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class Player {
 	Coord currentPosition;
 	Coord[] previousPositions;
@@ -9,7 +12,10 @@ public class Player {
 	PlayerProfile profile;
 
 
-	
+	/**
+	 * @param playerNumber
+	 * @param playerProfile
+	 */
 	public Player(int playerNumber, PlayerProfile playerProfile) {
 		this.playerNumber = playerNumber;
 		this.profile = playerProfile;
@@ -17,6 +23,9 @@ public class Player {
 		this.previousPositions = new Coord[2];
 	}
 
+	/**
+	 * @return
+	 */
 	public Coord getCurrentPosition() {
 		return currentPosition;
 	}
@@ -29,6 +38,9 @@ public class Player {
 		return playerNumber;
 	}
 
+	/**
+	 * @param destination
+	 */
 	public void movePlayer (Coord destination) {
 		previousPositions[1] = previousPositions[0];
 		previousPositions[0] = currentPosition;
@@ -39,6 +51,9 @@ public class Player {
 		actionTiles.add(tile);
 	}
 
+	/**
+	 * @param tile
+	 */
 	public void removeActionTile (ActionTile tile) {
 		actionTiles.removeIf(x -> x.getClass() == tile.getClass());
 	}

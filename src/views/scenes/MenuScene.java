@@ -13,14 +13,20 @@ import javafx.stage.Stage;
 
 
 /**
- * dasdas
+ * Class that represents the menu game scene.
+ * @author Andreas Eleftheriades
  */
 public class MenuScene {
         private Stage primaryStage;
 
+    /**
+     * Method to construct and initialize a menu scene.
+     * @param stage the stage to display this scene.
+     * @param backgroundMusic teh games background music will play.
+     */
         public MenuScene (Stage stage, MediaPlayer backgroundMusic) {
             this.primaryStage = stage;
-            stage.setTitle("Labyrinth by Ravensburger");
+            stage.setTitle("Labyrinth by Space Invaders");
             try {
                 FXMLLoader loader = new FXMLLoader();
                 Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/MenuView.fxml").openStream());
@@ -37,5 +43,3 @@ public class MenuScene {
 
         }
     }
-
-

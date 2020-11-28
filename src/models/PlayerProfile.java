@@ -15,7 +15,14 @@ public class PlayerProfile {
 	private int wins;
 	private int losses;
 	private String playerName;
-	
+
+	/**
+	 *
+	 * @param playerName
+	 * @param wins
+	 * @param losses
+	 * @param gamesPlayed
+	 */
 	public PlayerProfile(String playerName, int wins,int losses,int gamesPlayed) {
 		setplayerName(playerName);
 		this.wins = wins;
@@ -23,6 +30,10 @@ public class PlayerProfile {
 		this.gamesPlayed = gamesPlayed;
 	}
 
+	/**
+	 * sets the users choosen name to the player objects name
+	 * @param Name name to be set
+	 */
 	public void setplayerName(String Name) {
 		this.playerName = Name;
 
@@ -42,6 +53,10 @@ public class PlayerProfile {
 
 	}
 
+	/**
+	 * enables the possibility to save the player to the file for the leaderboard
+	 * @throws IOException
+	 */
 	public void save() throws IOException {
 		FileHandler.saveProfile(playerName, wins, losses, gamesPlayed);
 	}

@@ -174,6 +174,11 @@ public class GameBoard {
         return validMoves;
     }
 
+    /**
+     * creates teh board ffor the game to be played on depending on the loaded game
+     * @param tiles list of all the tiles on the board at the start
+     * @param tileBag list of all the tile to start in the tile bag
+     */
     private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
         for (Map.Entry<Coord, FloorTile> tile : tiles.entrySet()) {
             Coord key = tile.getKey();
@@ -199,6 +204,11 @@ public class GameBoard {
         }
     }
 
+    /**
+     * plays the action tile on tho the board
+     * @param action the selected action tile = fire, ice, double move, back track
+     * @param position the location on the board
+     */
     public void addAction(ActionTile action, Coord position) {
         int x = position.getX();
         int y = position.getY();
@@ -207,10 +217,18 @@ public class GameBoard {
         }
     }
 
+    /**
+     * @param position the position on the board
+     * @return  the actions tile placed location in terms of x and y locations
+     */
     public ActionTile getAction(Coord position) {
         return actionBoard[position.getX()][position.getY()];
     }
 
+    /**
+     * updates the board depending on the number of players playing ********
+     * @param numPlayers
+     */
     public void refreshActionBoard(int numPlayers) {
         int turnsPerRound = (numPlayers * 2) - 1;
         for (int x = 0; x < width; x++) {

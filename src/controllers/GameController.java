@@ -114,6 +114,9 @@ public class GameController implements Initializable {
         drawActions();
     }
 
+    /**
+     *
+     */
     public void updateActionTileHand() {
         actionTilePane.getChildren().clear();
         ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
@@ -209,6 +212,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     public void drawActions() {
         for (Node node : gameBoardPane.getChildren()) {
             Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
@@ -294,6 +300,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     private void selectBacktrack() {
         for (Player player : game.getPlayers()) {
             for (Node node : gameBoardPane.getChildren()) {
@@ -314,6 +323,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * @param player
+     */
     private void backtrackPlayer(Player player) {
         Coord pastPosition = player.getPrevPosition(1);
         //TODO add fire restriction
@@ -328,6 +340,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     private void clearArrows() {
         leftButtons.getChildren().clear();
         leftButtons.getRowConstraints().clear();
@@ -339,6 +354,10 @@ public class GameController implements Initializable {
         bottomButtons.getChildren().clear();
     }
 
+    /**
+     * @param tile
+     * @return
+     */
     private ImageView getTileImage(FloorTile tile) {
         ImageView tileImage = new ImageView("/resources/" + tile.isFixed()
                 + tile.getShape() + ".png");
@@ -348,6 +367,12 @@ public class GameController implements Initializable {
         return tileImage;
     }
 
+    /**
+     * @param direction
+     * @param index
+     * @param orientation
+     * @return
+     */
     private ImageView getArrowImage(String direction, int index, int orientation) {
         ImageView arrow = new ImageView("/resources/left.png");
         arrow.setFitWidth(50);
@@ -370,6 +395,9 @@ public class GameController implements Initializable {
         return arrow;
     }
 
+    /**
+     *
+     */
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
         if (game.checkWin(game.getCurrentPlayer())) {
@@ -388,6 +416,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * @param orientation
+     * @return
+     */
     private double getRotationValue(int orientation) {
         switch (orientation) {
             case 1 :
@@ -401,6 +433,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     private void initializeEventHandlers(){
         menuButton.setOnMouseClicked((event) -> {
             menu.setVisible(!menu.isVisible());

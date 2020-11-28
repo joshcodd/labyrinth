@@ -17,6 +17,12 @@ public class Game {
     private boolean isOver = false;
     private int currentPlayer = 0;
 
+    /**
+     * initialise the game object if its a loaded game
+     * @param gameFilename
+     * @param playerNames
+     * @throws FileNotFoundException
+     */
     public Game(String gameFilename, String[] playerNames) throws FileNotFoundException {
         players = new Player[playerNames.length];
         numPlayers = players.length;
@@ -28,6 +34,12 @@ public class Game {
         gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
     }
 
+    /**
+     * initialise the game object when the current game is re selected
+     * @param board the game boards details to run the game on
+     * @param playerNames list of players playing
+     * @throws FileNotFoundException
+     */
     public Game(GameBoard board, String[] playerNames) throws FileNotFoundException {
         players = new Player[playerNames.length];
         numPlayers = players.length;
@@ -38,16 +50,29 @@ public class Game {
         gameBoard = board;
     }
 
+    /**
+     *  Allows the next player to play
+     */
     public void nextPlayer() {
         currentTile = null;
         currentPlayer = (currentPlayer + 1) % numPlayers;
     }
 
+    /**
+     * ends game if the player has reached the gaol tile
+     * @param player
+     * @return
+     */
     public boolean checkWin(Player player) {
             Coord playerPos = player.getCurrentPosition();
         return gameBoard.getTileAt(playerPos).getShape() == ShapeOfTile.GOAL_TILE;
     }
 
+    /**
+     * changers the players location on the board when they have selected a possible tile to move to
+     * @param direction
+     * @param index
+     */
     public void updatePlayerPositions(String direction, int index){
         for (Player player : players) {
             int currX = player.getCurrentPosition().getX();

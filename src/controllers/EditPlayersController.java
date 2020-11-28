@@ -29,6 +29,9 @@ import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ *
+ */
 public class EditPlayersController implements Initializable {
 
     @FXML
@@ -47,12 +50,20 @@ public class EditPlayersController implements Initializable {
 
     ArrayList<PlayerProfile> playerProfiles;
 
+    /**
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         generatePlayers();
     }
     public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleAddPlayerClick(ActionEvent actionEvent) throws IOException {
         new AudioPlayer().clickPlay();
         String name = playerName.getText().toLowerCase();
@@ -71,16 +82,26 @@ public class EditPlayersController implements Initializable {
         }
     }
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleDeleteClick(ActionEvent actionEvent) throws IOException {
         FileHandler.deleteProfile(profiles.getSelectionModel().getSelectedItem().toString());
         generatePlayers();
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleBack(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
         MenuScene menuScene = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
+    /**
+     *
+     */
     public void generatePlayers() {
         profiles.getItems().clear();
         try {
@@ -92,15 +113,25 @@ public class EditPlayersController implements Initializable {
         }
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleMute(ActionEvent actionEvent) {
         backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
+    /**
+     *  carries on playing the music from the previous scene
+     * @param backgroundMusic the background music to be played.
+     */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
     }
 
+    /**
+     * @param primaryStage
+     */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));

@@ -21,6 +21,9 @@ import java.applet.AudioClip;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ *
+ */
 public class MenuController  {
     public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
 
@@ -38,6 +41,9 @@ public class MenuController  {
 
     private Stage primaryStage;
 
+    /**
+     *
+     */
     @FXML
     public void initialize(){
         message.setText(String.valueOf(new MessageOfTheDay()));
@@ -49,12 +55,19 @@ public class MenuController  {
 
     }
 
+    /**
+     * @param actionEvent
+     * @throws FileNotFoundException
+     */
     public void handleButtonNewGame(ActionEvent actionEvent) throws FileNotFoundException {
         new AudioPlayer().clickPlay();
         newGame.setText("opening");
         LevelSelectionScene levelSelectionScene = new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleButtonLoadGame(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
         try {
@@ -69,25 +82,42 @@ public class MenuController  {
         }
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleButtonLeaderboard(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
             LeaderboardScene leaderboardScene = new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleButtonEditPlayers(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
         EditPlayersScene editPlayersScene = new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
+    /**
+     * @param primaryStage
+     */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * plays the audio in the background
+     * @param backgroundMusic
+     */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
+    /**
+     * silences the audio in the background
+     * @param actionEvent
+     */
     public void handleMute(ActionEvent actionEvent) {
         backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));

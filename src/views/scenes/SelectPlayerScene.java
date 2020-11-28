@@ -17,6 +17,9 @@ import javafx.scene.media.MediaPlayer;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class SelectPlayerScene {
 
     private Stage primaryStage;
@@ -24,6 +27,11 @@ public class SelectPlayerScene {
     private PlayerSelectionController controller;
 
 
+    /**
+     * @param stage
+     * @param level
+     * @param backgroundMusic
+     */
     public SelectPlayerScene (Stage stage, String level, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
         try {
