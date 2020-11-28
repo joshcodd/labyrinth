@@ -9,7 +9,7 @@ public abstract class  ActionTile extends Tile {
     /**
      *
      */
-    private int turnsSinceUse;
+    private int turnsSinceUse = -1;
 
     /**
      *
@@ -21,5 +21,13 @@ public abstract class  ActionTile extends Tile {
      */
     public void  clearAction(){
 
+    }
+
+    public void incrementTurnsSinceUse() {
+        turnsSinceUse++;
+    }
+
+    public int getTurnsSinceUse() {
+        return turnsSinceUse;
     }
 }

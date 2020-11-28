@@ -27,6 +27,7 @@ public class LevelSelectionController {
     public ChoiceBox<String> dropdown;
     @FXML
     public MediaView backgroundMusic;
+    public Button muteButton;
 
     Stage primaryStage;
 
@@ -56,8 +57,14 @@ public class LevelSelectionController {
         MenuScene menuScene = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
+    public void handleMute(ActionEvent actionEvent) {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
     public void setPrimaryStage(Stage primaryStage) {

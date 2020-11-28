@@ -2,6 +2,8 @@ package controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -13,9 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
-import views.scenes.GameScene;
-import views.scenes.LevelSelectionScene;
-import views.scenes.SelectPlayerScene;
+import views.scenes.*;
 
 import java.applet.AudioClip;
 import java.io.File;
@@ -26,6 +26,11 @@ public class MenuController  {
 
     public Button newGame;
     public Button loadGame;
+
+    @FXML
+    public Button leaderboard;
+    public Button muteButton;
+    public ImageView title;
     @FXML
     private Label message;
     @FXML
@@ -33,12 +38,15 @@ public class MenuController  {
 
     private Stage primaryStage;
 
-    /**
-     *
-     */
     @FXML
     public void initialize(){
-        message.setText(String.valueOf(new MessageOfTheDay())); // need to fix so that it updates every 60 seconds
+        message.setText(String.valueOf(new MessageOfTheDay()));
+        Image titleImage = new Image("/resources/title.png");
+        title.setImage(titleImage);
+        title.setFitWidth(400);
+        title.setFitHeight(300);
+
+
     }
 
     public void handleButtonNewGame(ActionEvent actionEvent) throws FileNotFoundException {
@@ -51,7 +59,7 @@ public class MenuController  {
         new AudioPlayer().clickPlay();
         try {
             loadGame.setText("opening");
-            Game game = new Game("src/gamefiles/levels/game", new String[]{"Josh", "Neil", "Andreas"});
+            Game game = new Game("level", new String[]{"josh", "neil", "andreas"});
             GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
         } catch (FileNotFoundException e) {
             loadGame.setText("Load Game");
@@ -61,11 +69,27 @@ public class MenuController  {
         }
     }
 
+    public void handleButtonLeaderboard(ActionEvent actionEvent) {
+        new AudioPlayer().clickPlay();
+            LeaderboardScene leaderboardScene = new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
+    }
+
+    public void handleButtonEditPlayers(ActionEvent actionEvent) {
+        new AudioPlayer().clickPlay();
+        EditPlayersScene editPlayersScene = new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
+    }
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
+    public void handleMute(ActionEvent actionEvent) {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 }

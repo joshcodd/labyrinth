@@ -61,13 +61,14 @@ public class GameController implements Initializable {
     @FXML
     private MediaView backgroundMusic;
     @FXML
-    private GridPane actionTilePane;
+    private HBox actionTilePane;
 
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
     private Stage primaryStage;
     private MediaPlayer mediaPlayer;
+    private ActionTile selectedActionTile;
 
     /**
      * Constructs a GameController.
@@ -93,8 +94,10 @@ public class GameController implements Initializable {
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
         setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
         backgroundMusic.setMediaPlayer(mediaPlayer);
+        muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "Un-mute":"Mute");
         initializeEventHandlers();
         updateActionTileHand();
+        drawActions();
 
     }
 
@@ -108,6 +111,7 @@ public class GameController implements Initializable {
                 gameBoardPane.add(new StackPane(getTileImage(gameBoard.getTileAt(new Coord(i, j)))), j, i);
             }
         }
+        drawActions();
     }
 
     public void updateActionTileHand() {
@@ -117,29 +121,21 @@ public class GameController implements Initializable {
             String testText = "Tile" + i;
             int actionTileNum = i;
             String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
-            ImageView actionTile = new ImageView(new Image(imagePath, 40, 40, false, false));
+            ImageView actionTile = new ImageView(new Image(imagePath));
+            actionTile.setFitWidth(100);
+            actionTile.setFitHeight(100);
+            actionTile.getStyleClass().add("hover-effect");
             actionTile.setOnMouseClicked(event -> {
-                playAction(currentActionTiles.get(actionTileNum));
+                selectedActionTile = currentActionTiles.get(actionTileNum);
+                selectedTile.setImage(new Image("/resources/" + currentActionTiles.get(actionTileNum)
+                        .getClass().getName().substring(7) + ".png"));
+                selectedTile.setRotate(0);
             });
-            actionTilePane.add(actionTile, i, 0);
+            actionTilePane.getChildren().add(actionTile);
 
         }
     }
 
-    public void playAction(ActionTile action) {
-        if (action instanceof DoubleMoveTile) {
-            updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
-        }
-        else if (action instanceof BackTrackTile) {
-            selectBacktrack();
-        }
-        else if (action instanceof FireTile) {
-
-        }
-        else if (action instanceof IceTile) {
-
-        }
-    }
 
     /**
      * Updates tiles so that they are selectable and can be used for a player to move on to that tile. Tiles are
@@ -161,7 +157,9 @@ public class GameController implements Initializable {
                     game.getCurrentPlayer().movePlayer(curr);
                     tile.getChildren().remove(x);
                     updateGameBoard();
-                    nextRound();
+                    if (continueButton.isDisabled() && drawTile.isDisabled()) {
+                        nextRound();
+                    }
                     drawPlayers();
                     new AudioPlayer().clickPlay();
                 });
@@ -176,6 +174,63 @@ public class GameController implements Initializable {
     public void setPlayerLabel(String message){
         playerLabel.setText(message);
     }
+
+    public void playAction(ActionTile action) {
+        for (Node node : gameBoardPane.getChildren()) {
+            Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            if (gameBoard.getAction(position) == null) {
+                //TODO Add check for if a player is standing on one of the neighbouring positions (for fire only)
+                StackPane tile = (StackPane) node;
+                tile.getStyleClass().add("tile-selection");
+                tile.setOnMouseClicked(event -> {
+                    //Selects the surrounding tiles for a 3x3
+                    int xPos = position.getX();
+                    int yPos = position.getY();
+                    Coord[] positions = {
+                            new Coord(xPos - 1, yPos + 1),
+                            new Coord(xPos, yPos + 1),
+                            new Coord(xPos + 1, yPos +1),
+                            new Coord(xPos - 1, yPos),
+                            position,
+                            new Coord(xPos + 1, yPos),
+                            new Coord(xPos - 1, yPos - 1),
+                            new Coord(xPos, yPos - 1),
+                            new Coord(xPos + 1, yPos - 1)
+                    };
+
+                    for (Coord pos: positions) {
+                        gameBoard.addAction(action, pos);
+                    }
+                    updateGameBoard();
+                    drawPlayers();
+                    continueButton.setDisable(false);
+                });
+            }
+        }
+    }
+
+    public void drawActions() {
+        for (Node node : gameBoardPane.getChildren()) {
+            Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            ActionTile currentAction = gameBoard.getAction(position);
+
+            if (currentAction instanceof FireTile) {
+                StackPane action = (StackPane)node;
+                ImageView fire = new ImageView("/resources/FireTile.png");
+                fire.setFitWidth(40);
+                fire.setFitHeight(40);
+                action.getChildren().add(fire);
+            }
+            else if (currentAction instanceof IceTile) {
+                StackPane action = (StackPane)node;
+                ImageView ice = new ImageView("/resources/IceTile.png");
+                ice.setFitWidth(40);
+                ice.setFitHeight(40);
+                action.getChildren().add(ice);
+            }
+        }
+    }
+
 
     /**
      * Draws buttons for inserting tiles at the ends of every row or columns where the rows are moveable. That is, there
@@ -308,6 +363,9 @@ public class GameController implements Initializable {
             continueButton.setDisable(false);
             selectedTile.setImage(null);
             new AudioPlayer().clickPlay();
+            if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                actionButton.setDisable(false);
+            }
         });
         return arrow;
     }
@@ -326,6 +384,7 @@ public class GameController implements Initializable {
             drawTile.setDisable(false);
             this.updateArrows(false);
             continueButton.setDisable(true);
+            drawActions();
         }
     }
 
@@ -360,6 +419,9 @@ public class GameController implements Initializable {
                     selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
                             .getClass().getName().substring(7) + ".png"));
                     selectedTile.setRotate(0);
+                    if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                        actionButton.setDisable(false);
+                    }
                 }
                 drawTile.setDisable(true);
                 if (!(game.getCurrentTile() instanceof FloorTile)) {
@@ -392,9 +454,6 @@ public class GameController implements Initializable {
                 if (ActionTile.class.isAssignableFrom(game.getCurrentTile().getClass())) {
                     game.getCurrentPlayer().addActionTile((ActionTile)game.getCurrentTile());
                 }
-                if ((game.getCurrentPlayer().getActionTiles()).size() == 0) {
-                    actionButton.setDisable(true);
-                }
                 ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getCurrentPlayer());
                 if (validMoves.size() == 0) {
                     nextRound();
@@ -404,25 +463,58 @@ public class GameController implements Initializable {
                 }
             }
             new AudioPlayer().clickPlay();
+            actionButton.setDisable(true);
+            selectedTile.setImage(null);
         });
 
         continueButton.setDisable(true);
-        if (game.getCurrentPlayer().getActionTiles().size() == 0) {
-            actionButton.setDisable(true);
-        }
+        actionButton.setDisable(true);
+
 
         saveButton.setOnMouseClicked(event -> {
             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
         });
 
         muteButton.setOnMouseClicked(event -> {
-            if (muteButton.getText().equals("Mute")){
-                mediaPlayer.pause();
-                muteButton.setText("Unmute");
-            } else {
-                mediaPlayer.play();
-                muteButton.setText("Mute");
-            }
+            backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+            muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "UnMute":"Mute");
+        });
+
+        actionButton.setOnMouseClicked(e -> {
+                if (selectedActionTile instanceof DoubleMoveTile) {
+                    updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
+                    actionButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new DoubleMoveTile());
+                    updateActionTileHand();
+                }
+                else if (selectedActionTile instanceof BackTrackTile) {
+                    selectBacktrack();
+                    actionButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new BackTrackTile());
+                    updateActionTileHand();
+                }
+                else if (selectedActionTile instanceof FireTile) {
+                    playAction(new FireTile());
+                    actionButton.setDisable(true);
+                    continueButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new FireTile());
+                    updateActionTileHand();
+                }
+                else if (selectedActionTile instanceof IceTile) {
+                    playAction(new IceTile());
+                    actionButton.setDisable(true);
+                    continueButton.setDisable(true);
+                    selectedTile.setImage(null);
+                    selectedActionTile = null;
+                    game.getCurrentPlayer().removeActionTile(new IceTile());
+                    updateActionTileHand();
+                }
         });
     }
 }

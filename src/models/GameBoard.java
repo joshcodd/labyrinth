@@ -88,6 +88,9 @@ public class GameBoard {
             if (board[row][i].isFixed()) {
                 return true;
             }
+            if (actionBoard[row][i] instanceof IceTile) {
+                return true;
+            }
         }
         return false;
     }
@@ -99,7 +102,10 @@ public class GameBoard {
      */
     public boolean isColumnFixed(int column) {
         for (int i = 0; i < getHeight(); i++){
-            if (board[i][column].isFixed()){
+            if (board[i][column].isFixed()) {
+                return true;
+            }
+            if (actionBoard[i][column] instanceof IceTile) {
                 return true;
             }
         }
@@ -198,6 +204,26 @@ public class GameBoard {
         int y = position.getY();
         if (actionBoard[x][y] == null) {
             actionBoard[x][y] = action;
+        }
+    }
+
+    public ActionTile getAction(Coord position) {
+        return actionBoard[position.getX()][position.getY()];
+    }
+
+    public void refreshActionBoard(int numPlayers) {
+        int turnsPerRound = (numPlayers * 2) - 1;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                ActionTile currentAction = actionBoard[x][y];
+                currentAction.incrementTurnsSinceUse();
+                if (currentAction instanceof FireTile && (currentAction.getTurnsSinceUse() >= (turnsPerRound * 2))) {
+                    actionBoard[x][y] = null;
+                }
+                else if (currentAction instanceof IceTile && (currentAction.getTurnsSinceUse() >= turnsPerRound)) {
+                    actionBoard[x][y] = null;
+                }
+            }
         }
     }
 

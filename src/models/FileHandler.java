@@ -3,7 +3,6 @@ package models;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,8 +16,7 @@ import java.util.Scanner;
  * @StudentID 987747
  */
 public class FileHandler {
-	
-	
+
 	/**
 	 * Reads in a level from file, populates TileBag and sets player start locations
 	 * @param fileName level file name.
@@ -27,28 +25,29 @@ public class FileHandler {
 	 * @return a constructed game board.
 	 */
 	public static GameBoard loadNewGame(String fileName,Player[] players,TileBag bag) throws FileNotFoundException {
-		File level = new File(fileName.concat(".txt"));
+		File level = new File("src/gamefiles/levels/"+fileName.concat(".txt"));
 		Scanner line = new Scanner(level);
 		GameBoard board = loadNewGame(line, bag);
 		playerStartLocations(line,players);
 		line.close();
 		return board;
 	}
-	
-	private static GameBoard loadNewGame (Scanner line, TileBag bag) { 
+	private static GameBoard loadNewGame (Scanner line, TileBag bag) {
 		HashMap<Coord,FloorTile> fixedTiles = new HashMap<>(); 
-		line.useDelimiter(",");
-		int height = line.nextInt();
-		int width = line.nextInt();
+		Scanner scan = new Scanner(line.next());
+		scan.useDelimiter(",");
+		int height = scan.nextInt();
+		int width = scan.nextInt();
+		scan.close();
+		line.nextLine();
 		int k = line.nextInt(); //number of fixed tiles to create
 		for (int i = 0; i != k; i++) {
-			
-			//set coords for current tile
-			int x = line.nextInt();
-			int y = line.nextInt();
-			Coord location = new Coord(x,y);
-			//set shape for current tile
-			String tileShape = line.next();
+			scan = new Scanner(line.next());
+			scan.useDelimiter(",");
+			int x = scan.nextInt();
+			int y = scan.nextInt();
+			Coord location = new Coord(x,y); 
+			String tileShape = scan.next();
 			ShapeOfTile shape = null;
 			switch(tileShape) {
 			case "BEND":
@@ -67,70 +66,95 @@ public class FileHandler {
 				shape = ShapeOfTile.GOAL_TILE;
 				break;
 			}
-			
-			int orientation = line.nextInt();
-			
-			//adds to hashmap
+			int orientation = scan.nextInt();
+			scan.close();
+			line.nextLine();
 			FloorTile fixedTile = new FloorTile(orientation,true,shape); 
 			fixedTiles.put(location,fixedTile);
 		}
-		
 		//next section populates TileBag
 		ShapeOfTile newShape = null;
-		int bendTile = line.nextInt(); 
+
+		int bendTile = line.nextInt();
+		System.out.println(bendTile);
 		for (int i = 0; i != bendTile; i++) {
 			newShape = ShapeOfTile.BEND;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int tTile = line.nextInt(); 
 		for (int i = 0; i != tTile; i++) {
 			newShape = ShapeOfTile.T_SHAPE;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int straightTile = line.nextInt(); 
 		for (int i = 0; i != straightTile; i++) {
 			newShape = ShapeOfTile.STRAIGHT;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int crossTile = line.nextInt(); 
 		for (int i = 0; i != crossTile; i++) {
 			newShape = ShapeOfTile.CROSSROADS;
 			Tile newTile = new FloorTile(1,false,newShape);
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int iceTile = line.nextInt();
 		for (int i = 0; i != iceTile; i++) {
 			Tile newTile = new IceTile(); 
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int fireTile = line.nextInt();
 		for (int i = 0; i != fireTile; i++) {
 			Tile newTile = new FireTile();
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int backTile = line.nextInt();
-		for (int i = 0; i != backTile; i++) {
+		for (int i = 0; i != backTile; i++) { 
 			Tile newTile = new BackTrackTile();
 			bag.addTile(newTile);
 		}
+		
+		line.nextLine();
 		int doubleTile = line.nextInt();
 		for (int i = 0; i != doubleTile; i++) {
 			Tile newTile = new DoubleMoveTile();
 			bag.addTile(newTile); 
 		}
 		
+		line.nextLine();
+		int goalTile = line.nextInt();
+		for (int i = 0; i != goalTile; i++) {
+			newShape = ShapeOfTile.GOAL_TILE;
+			Tile newTile = new FloorTile(1,false,newShape);
+			bag.addTile(newTile); 
+		}
 		//construct Game board for the level
 		GameBoard board = new GameBoard(height,width,fixedTiles,bag);
 		return board;
 	}
-	
 	private static void playerStartLocations(Scanner line,Player[] players) {
+		Scanner read;
 		for (Player player: players) {
-			int x = line.nextInt();
-			int y = line.nextInt();
+			read = new Scanner(line.next());
+			read.useDelimiter(",");
+			int x = read.nextInt();
+			int y = read.nextInt();
+			read.close();
+			line.nextLine();
 			Coord xy = new Coord(x,y);
 			player.movePlayer(xy);
 		}	
@@ -138,13 +162,240 @@ public class FileHandler {
 	
 	public static GameBoard loadOldGame(String fileName, TileBag bag) {
 		return null;
-		//TODO load current game method
+		
+	}
+	/**
+	 * Saves a game to file
+	 * @param saveName save name for current game
+	 * @param game current game
+	 * @throws IOException
+	 */
+	public static void saveGameFile (String saveName,Game game) throws IOException {
+		File file = new File("src/gamefiles/saves/" + saveName + ".txt");
+		String newFile = "";
+		String line = "";
+		GameBoard g = game.getGameBoard();
+		
+		//line 1 : h,w
+		newFile = ">Height+Width\n";
+		int height = g.getHeight();
+		int width = g.getWidth();
+		newFile = newFile + height + "," + width + "\n";
+		
+		//next, all tiles on the board: FloorTile(x,y,orientation ,isFixed,shape) ActionTile(x,y,turns since use, type of actiontile)
+		newFile = newFile + ">Board\n";
+		for (int i = 0; i < height; i++) {
+			for (int j = 0 ; j < width ; j++) {
+				Tile t = g.getTileAt(new Coord(i,j));
+				if (t instanceof FloorTile) {
+					ShapeOfTile shape = ((FloorTile)t).getShape();
+					int o = ((FloorTile)t).getOrientation();
+					boolean isFixed = ((FloorTile)t).isFixed();
+					line = i + "," + j + "," + o + "," + isFixed + "," + shape;
+				}
+				if (t instanceof ActionTile) {
+					//>>??
+					int turns = ((ActionTile) t).getTurnsSinceUse();
+					String type = "";
+					if(t instanceof FireTile) {
+						type = "fire";
+					}
+					if(t instanceof IceTile) {
+						type = "ice";
+					}
+					if(t instanceof BackTrackTile) {
+						type = "back";
+					}
+					if(t instanceof DoubleMoveTile) {
+						type = "dmove";
+					}
+					line = i + "," + j + "," + turns + "," + type;
+				}
+				newFile = newFile + line + "\n";
+			}
+		}
+		//next, all tiles in tile bag (new line for each type of tile)
+		newFile = newFile + ">TileBag\n";
+		TileBag bag = game.getTileBag();
+		int bend = 0;
+		int tShape = 0;
+		int straight = 0;
+		int cross = 0;
+		int ice = 0;
+		int fire = 0;
+		int back = 0;
+		int doubleMove = 0;
+		int goal = 0;
+		while (bag.drawTile() != null) {
+			Tile t = bag.drawTile();
+			if (t instanceof FloorTile) {
+				ShapeOfTile shape = ((FloorTile)t).getShape();
+				switch(shape) {
+				case BEND:
+					bend++;
+					break;
+				case T_SHAPE:
+					tShape++;
+					break;
+				case STRAIGHT:
+					straight++;
+					break;
+				case CROSSROADS:
+					cross++;
+					break;
+				case GOAL_TILE:
+					goal++;
+					break;
+				}
+			}
+			if (t instanceof IceTile) {
+				ice++;
+			}
+			if (t instanceof FireTile) {
+				fire++;
+			}
+			if (t instanceof BackTrackTile) {
+				back++;
+			}
+			if (t instanceof DoubleMoveTile) {
+				doubleMove++;
+			}
+		}
+		newFile = newFile + bend + "\n" + tShape + "\n" + straight + "\n" + cross + "\n" + ice + "\n" + fire + "\n" + back + "\n" + doubleMove + "\n" + goal + "\n";
+		
+		//save current tile (orientation, isFixed, shape)
+		newFile = newFile + ">CurrentTile\n";
+		FloorTile currentTile = (FloorTile) game.getCurrentTile();
+		ShapeOfTile shape = currentTile.getShape();
+		int o = currentTile.getOrientation();
+		Boolean isFixed = currentTile.isFixed();
+		newFile = newFile + o + "," + isFixed + "," + shape + "\n";
+		
+		//save game.isover(bool)
+		newFile = newFile + ">IsOver\n";
+		Boolean over = game.isOver();
+		newFile = newFile + over + "\n";
+		
+		//save current player(name)
+		newFile = newFile + ">CurrentPlayer\n";
+		String p = game.getCurrentPlayer().getProfile().getPlayerName();
+		newFile = newFile + p + "\n";
+		
+		//save players (name, playerNum, actionTiles, current position, previous positions)
+		newFile = newFile + ">Players\n";
+		int numPlayers = game.getNumPlayers();
+		newFile = newFile + numPlayers + "\n";
+		Player[] players = game.getPlayers();
+		for (Player player:players) {
+			int playerNum = player.getPlayerNumber();
+			int x = player.getCurrentPosition().getX();
+			int y = player.getCurrentPosition().getY();
+			int x0 = player.getPrevPosition(0).getX();
+			int y0 = player.getPrevPosition(0).getY();
+			int x1 = player.getPrevPosition(1).getX();
+			int y1 = player.getPrevPosition(1).getY();
+			String name = player.getProfile().getPlayerName();
+			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name;
+			ArrayList<ActionTile> tiles = player.getActionTiles();
+			int fireTile = 0;
+			int iceTile = 0;
+			int backTile = 0;
+			int doubleTile = 0;
+			while(tiles != null) {
+				ActionTile tile = tiles.remove(0);
+				if (tile instanceof FireTile) {
+					fireTile++;
+				}
+				if (tile instanceof IceTile) {
+					iceTile++;
+				}
+				if (tile instanceof BackTrackTile) {
+					backTile++;
+				}
+				if (tile instanceof DoubleMoveTile) {
+					doubleTile++;
+				}
+			}
+			line = line + "," + fireTile + "," + iceTile +  "," + backTile + "," + doubleTile;
+			newFile = newFile + line + "\n";
+		}
+		
+		//write file
+		FileWriter write = new FileWriter(file);
+		write.write(newFile);
+		write.close();
+	}	
+
+	/**
+	 * Reads in leaderboard information about players for a specified level
+	 * @param levelName name of level leaderboard to be loaded.
+	 * @return An arraylist of player names
+	 * @throws FileNotFoundException
+	 */
+	public static ArrayList<String> loadLeaderboard(String levelName) throws FileNotFoundException {
+		File leaderboard = new File("src/gamefiles/leaderboard.txt");
+		Scanner line = new Scanner(leaderboard);
+		ArrayList<String> playerlist = loadLeaderboard(line,levelName);
+		line.close();
+		return playerlist;
+	}
+	private static ArrayList<String> loadLeaderboard(Scanner line, String levelName) {
+		ArrayList<String> players = new ArrayList<String>();
+		String name = "";
+		while (line.hasNext()) {
+			Scanner check = new Scanner(line.next());
+			check.useDelimiter(":");
+			if(check.hasNext(levelName)) {
+				check.next();
+				Scanner names = new Scanner(check.next());
+				names.useDelimiter(",");
+				while(names.hasNext()) {
+					name = names.next();
+					players.add(name);
+				}
+				names.close();
+			}
+			check.close();
+			if (line.hasNextLine()){
+				line.nextLine();
+			}
+
+		}
+		return players;
+	}
+	
+	/**
+	 * Saves a new player name to the specified level's leaderboard.
+	 * @param levelName current level
+	 * @param playerName player name
+	 * @throws IOException
+	 */
+	public static void saveLeaderboard(String levelName, String playerName) throws IOException {
+		File file = new File("src/gamefiles/leaderboard.txt");
+		Scanner read = new Scanner(new FileReader(file));
+		String newFile = "";
+		String line = "";
+		Boolean found = false;
+		while (read.hasNextLine()) {
+			line = read.nextLine();
+			if (line.contains(levelName)) {
+				found = true;
+				if(!line.contains(playerName)) {
+					line.concat(","+playerName);
+				}
+			}
+			newFile = newFile + line + "\n";
+		}
+		if (!found){
+			line = levelName + ":" + playerName;
+			newFile = newFile + line +"\n";
+		}
+		read.close();
+		FileWriter write = new FileWriter(file);
+		write.write(newFile);
+		write.close();
 	}
 
-	public static void saveGameFile (String saveName) {
-		//TODO save game method player + positions + their action tiles, gameboard hashmap
-	}	
-	
 	/**
 	 * Gets a list of all player names from existing profiles.
 	 * @return Arraylist of player names.
@@ -159,7 +410,10 @@ public class FileHandler {
 		while (line.hasNext()) {
 			name = line.next();
 			players.add(name);
-			line.nextLine();
+
+			if (line.hasNext()){
+				line.nextLine();
+			}
 		}
 		line.close();
 		return players;
@@ -177,7 +431,6 @@ public class FileHandler {
 		line.close();
 		return p;
 	}
-	
 	private static PlayerProfile loadProfile (Scanner line,String playerName) {
 		line.useDelimiter(",");
 		String name = null;
@@ -208,18 +461,43 @@ public class FileHandler {
 	 * @throws IOException 
 	 */
 	public static void saveProfile (String playerName,int wins ,int losses,int gamesPlayed) throws IOException {
-		File file = new File("PlayerProfiles.txt");
-		BufferedReader read = new BufferedReader(new FileReader(file));
+		File file = new File("src/gamefiles/players.txt");
+		Scanner read = new Scanner(new FileReader(file));
 		String newFile = "";
-		String line = read.readLine();
-		while (line != null) {
+		String line = "";
+		Boolean found = false;
+		while (read.hasNextLine()) {
+			line = read.nextLine();
+			System.out.println(line);
 			if (line.contains(playerName)) {
-				line = playerName + "," + wins + "," + losses + "," + gamesPlayed;
+				line = playerName.toLowerCase() + "," + wins + "," + losses + "," + gamesPlayed;
+				found = true;
 			}
 			newFile = newFile + line + "\n";
 		}
+		if (!found){
+			newFile = newFile + playerName + "," + wins + "," + losses + "," + gamesPlayed + "\n";
+		}
 		read.close();
 		
+		FileWriter write = new FileWriter(file);
+		write.write(newFile);
+		write.close();
+	}
+
+	public static void deleteProfile (String playerName) throws IOException {
+		File file = new File("src/gamefiles/players.txt");
+		Scanner read = new Scanner(new FileReader(file));
+		String newFile = "";
+		String line = "";
+		while (read.hasNextLine()) {
+			line = read.nextLine();
+			System.out.println(line);
+			if (!line.contains(playerName)) {
+				newFile = newFile + line + "\n";
+			}
+		}
+		read.close();
 		FileWriter write = new FileWriter(file);
 		write.write(newFile);
 		write.close();
