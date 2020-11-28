@@ -9,6 +9,7 @@ public class Player {
 	PlayerProfile profile;
 
 
+	
 	public Player(int playerNumber, PlayerProfile playerProfile) {
 		this.playerNumber = playerNumber;
 		this.profile = playerProfile;
@@ -18,6 +19,10 @@ public class Player {
 
 	public Coord getCurrentPosition() {
 		return currentPosition;
+	}
+	
+	public void setCurrentPosition(Coord xy) {
+		this.currentPosition = xy;
 	}
 
 	public int getPlayerNumber() {
@@ -45,6 +50,19 @@ public class Player {
 	public Coord getPrevPosition (int index) {
 		return previousPositions[index];
 	}
+	
+	public void setPrevPosition(int index, Coord xy) {
+		previousPositions[index] = xy;
+	}
+	
+	public PlayerProfile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(PlayerProfile profile) {
+		this.profile = profile;
+	}
+
 }
 	
 

@@ -164,17 +164,26 @@ public class FileHandler {
 		return null;
 		
 	}
-	
-	public static void saveGameFile (String saveName,Game game) {
-	//	File file = new File("src/gamefiles/saves/" + saveName + ".txt");
+	/**
+	 * Saves a game to file
+	 * @param saveName save name for current game
+	 * @param game current game
+	 * @throws IOException
+	 */
+	public static void saveGameFile (String saveName,Game game) throws IOException {
+		File file = new File("src/gamefiles/saves/" + saveName + ".txt");
 		String newFile = "";
 		String line = "";
 		GameBoard g = game.getGameBoard();
+		
 		//line 1 : h,w
+		newFile = ">Height+Width\n";
 		int height = g.getHeight();
 		int width = g.getWidth();
-		newFile = height + "," + width + "\n";
-		//next, all tiles on the board
+		newFile = newFile + height + "," + width + "\n";
+		
+		//next, all tiles on the board: FloorTile(x,y,orientation ,isFixed,shape) ActionTile(x,y,turns since use, type of actiontile)
+		newFile = newFile + ">Board\n";
 		for (int i = 0; i < height; i++) {
 			for (int j = 0 ; j < width ; j++) {
 				Tile t = g.getTileAt(new Coord(i,j));
@@ -182,15 +191,30 @@ public class FileHandler {
 					ShapeOfTile shape = ((FloorTile)t).getShape();
 					int o = ((FloorTile)t).getOrientation();
 					boolean isFixed = ((FloorTile)t).isFixed();
-					line = i + "," + j + "," + shape + "," + o + "," + isFixed;
+					line = i + "," + j + "," + o + "," + isFixed + "," + shape;
 				}
 				if (t instanceof ActionTile) {
 					//>>??
+					int turns = ((ActionTile) t).getTurnsSinceUse();
+					String type = "";
+					if(t instanceof FireTile) {
+						type = "fire";
+					}
+					if(t instanceof IceTile) {
+						type = "ice";
+					}
+					if(t instanceof BackTrackTile) {
+						type = "back";
+					}
+					if(t instanceof DoubleMoveTile) {
+						type = "dmove";
+					}
+					line = i + "," + j + "," + turns + "," + type;
 				}
 				newFile = newFile + line + "\n";
 			}
 		}
-		//next, all tiles in tile bag
+		//next, all tiles in tile bag (new line for each type of tile)
 		newFile = newFile + ">TileBag\n";
 		TileBag bag = game.getTileBag();
 		int bend = 0;
@@ -238,10 +262,68 @@ public class FileHandler {
 			}
 		}
 		newFile = newFile + bend + "\n" + tShape + "\n" + straight + "\n" + cross + "\n" + ice + "\n" + fire + "\n" + back + "\n" + doubleMove + "\n" + goal + "\n";
-		//save current tile + ort
-		//save game.isover
-		//save current player(s)
-		//save to leaderboard?
+		
+		//save current tile (orientation, isFixed, shape)
+		newFile = newFile + ">CurrentTile\n";
+		FloorTile currentTile = (FloorTile) game.getCurrentTile();
+		ShapeOfTile shape = currentTile.getShape();
+		int o = currentTile.getOrientation();
+		Boolean isFixed = currentTile.isFixed();
+		newFile = newFile + o + "," + isFixed + "," + shape + "\n";
+		
+		//save game.isover(bool)
+		newFile = newFile + ">IsOver\n";
+		Boolean over = game.isOver();
+		newFile = newFile + over + "\n";
+		
+		//save current player(name)
+		newFile = newFile + ">CurrentPlayer\n";
+		String p = game.getCurrentPlayer().getProfile().getPlayerName();
+		newFile = newFile + p + "\n";
+		
+		//save players (name, playerNum, actionTiles, current position, previous positions)
+		newFile = newFile + ">Players\n";
+		int numPlayers = game.getNumPlayers();
+		newFile = newFile + numPlayers + "\n";
+		Player[] players = game.getPlayers();
+		for (Player player:players) {
+			int playerNum = player.getPlayerNumber();
+			int x = player.getCurrentPosition().getX();
+			int y = player.getCurrentPosition().getY();
+			int x0 = player.getPrevPosition(0).getX();
+			int y0 = player.getPrevPosition(0).getY();
+			int x1 = player.getPrevPosition(1).getX();
+			int y1 = player.getPrevPosition(1).getY();
+			String name = player.getProfile().getPlayerName();
+			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name;
+			ArrayList<ActionTile> tiles = player.getActionTiles();
+			int fireTile = 0;
+			int iceTile = 0;
+			int backTile = 0;
+			int doubleTile = 0;
+			while(tiles != null) {
+				ActionTile tile = tiles.remove(0);
+				if (tile instanceof FireTile) {
+					fireTile++;
+				}
+				if (tile instanceof IceTile) {
+					iceTile++;
+				}
+				if (tile instanceof BackTrackTile) {
+					backTile++;
+				}
+				if (tile instanceof DoubleMoveTile) {
+					doubleTile++;
+				}
+			}
+			line = line + "," + fireTile + "," + iceTile +  "," + backTile + "," + doubleTile;
+			newFile = newFile + line + "\n";
+		}
+		
+		//write file
+		FileWriter write = new FileWriter(file);
+		write.write(newFile);
+		write.close();
 	}	
 
 	/**
@@ -402,7 +484,6 @@ public class FileHandler {
 		write.write(newFile);
 		write.close();
 	}
-
 
 	public static void deleteProfile (String playerName) throws IOException {
 		File file = new File("src/gamefiles/players.txt");
