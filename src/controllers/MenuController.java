@@ -22,7 +22,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- *
+ *  Controller class for MenuScene. Deals with the buttons music and display message of the day
+ *  Class that represents the menu game scene.
+ *  @author Luka Zec and Andreas Eleftheriades
+ *  @studentID 987856 and 1906277
  */
 public class MenuController  {
     public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";

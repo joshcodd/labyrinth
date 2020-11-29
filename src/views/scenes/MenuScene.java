@@ -14,7 +14,8 @@ import javafx.stage.Stage;
 
 /**
  * Class that represents the menu game scene.
- * @author Andreas Eleftheriades
+ * @author Luka Zec and Andreas Eleftheriades
+ * @studentID 987856 and 1906277
  */
 public class MenuScene {
         private Stage primaryStage;
