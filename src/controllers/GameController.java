@@ -1,4 +1,5 @@
 package controllers;
+import javafx.scene.control.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
@@ -7,8 +8,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -65,6 +64,8 @@ public class GameController implements Initializable {
     private MediaView backgroundMusic;
     @FXML
     private HBox actionTilePane;
+    @FXML
+    private Button quitButton;
 
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
@@ -521,13 +522,32 @@ public class GameController implements Initializable {
         continueButton.setDisable(true);
         actionButton.setDisable(true);
 
-
         saveButton.setOnMouseClicked(event -> {
-            try {
-                FileHandler.saveGameFile(Instant.now().toString(), game);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (!game.isOver()){
+                TextInputDialog td = new TextInputDialog(Instant.now().toString());
+                td.showAndWait();
+                try {
+                    String result = td.getResult().trim();
+                    if (result.equals("")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot be empty", ButtonType.CLOSE);
+                        alert.showAndWait();
+                    } else {
+                        try {
+                            FileHandler.saveGameFile(td.getResult(), game);
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        }
+                        MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+                    }
+                } catch (NullPointerException ignored){
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Game is over.", ButtonType.CLOSE);
+                alert.showAndWait();
             }
+        });
+
+        quitButton.setOnMouseClicked(event -> {
             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
         });
 

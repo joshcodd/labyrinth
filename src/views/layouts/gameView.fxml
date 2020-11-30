@@ -118,7 +118,13 @@
                                           <Button fx:id="muteButton" mnemonicParsing="false" styleClass="alt-button" text="Mute" />
                                        </children>
                                     </HBox>
-                                 </children></VBox>
+                                 </children>
+                                  <HBox alignment="CENTER">
+                                      <children>
+                                          <Button fx:id="quitButton" mnemonicParsing="false" styleClass="alt-button" text="Quit" />
+                                      </children>
+                                  </HBox>
+                              </VBox>
                            </children>
                         </StackPane>
                             </children>
