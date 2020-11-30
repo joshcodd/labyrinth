@@ -27,8 +27,33 @@ public class GameBoard {
         activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
     }
-
+    
     /**
+     * Constructs a game board from an existing board
+     * @param height height of the game board
+     * @param width width of the game board
+     * @param boardMap map of the floorTiles on the board
+     * @param actionMap map of the actionTiles on the board
+     */
+    public GameBoard(int height, int width, HashMap<Coord, FloorTile> boardMap,
+			HashMap<Coord, ActionTile> actionMap) {
+    	this.height = height;
+        this.width = width;
+        board = new FloorTile[height][width];
+        actionBoard = new ActionTile[height][width];
+        for (Map.Entry<Coord, FloorTile> tile : boardMap.entrySet()) {
+            Coord key = tile.getKey();
+            FloorTile value = tile.getValue();
+            board[key.getX()][key.getY()] = value;
+        }
+        for (Map.Entry<Coord, ActionTile> tile : actionMap.entrySet()) {
+            Coord key = tile.getKey();
+            ActionTile value = tile.getValue();
+            actionBoard[key.getX()][key.getY()] = value;
+        }
+	}
+
+	/**
      * Method to insert a tile into the game board from a specified edge and row.
      * @param tile The tile to insert into the board.
      * @param edge The direction to insert the tile from.
@@ -230,16 +255,19 @@ public class GameBoard {
      * @param numPlayers
      */
     public void refreshActionBoard(int numPlayers) {
-        int turnsPerRound = (numPlayers * 2) - 1;
+        int turnsPerRound = (numPlayers) - 1;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                ActionTile currentAction = actionBoard[x][y];
-                currentAction.incrementTurnsSinceUse();
-                if (currentAction instanceof FireTile && (currentAction.getTurnsSinceUse() >= (turnsPerRound * 2))) {
-                    actionBoard[x][y] = null;
-                }
-                else if (currentAction instanceof IceTile && (currentAction.getTurnsSinceUse() >= turnsPerRound)) {
-                    actionBoard[x][y] = null;
+                if (actionBoard[x][y] != null){
+                    ActionTile currentAction = actionBoard[x][y];
+                    currentAction.incrementTurnsSinceUse();
+                    System.out.println("Tile Turns since use:"+currentAction.getTurnsSinceUse());
+                    if (currentAction instanceof FireTile && ((currentAction.getTurnsSinceUse() >= (turnsPerRound * 2)))) {
+                        actionBoard[x][y] = null;
+                    } else if (currentAction instanceof IceTile && ((currentAction.getTurnsSinceUse() >= turnsPerRound))) {
+                        System.out.println("IceTile Turns since use:"+currentAction.getTurnsSinceUse());
+                        actionBoard[x][y] = null;
+                    }
                 }
             }
         }

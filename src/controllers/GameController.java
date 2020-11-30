@@ -316,7 +316,6 @@ public class GameController implements Initializable {
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
-                    cell.getChildren().clear();
                     cell.getChildren().add(tank);
                 }
             }
@@ -328,16 +327,19 @@ public class GameController implements Initializable {
      */
     private void backtrackPlayer(Player player) {
         Coord pastPosition = player.getPrevPosition(1);
-        //TODO add fire restriction
-        if (pastPosition != null) {
+        ActionTile targetTile = gameBoard.getAction(pastPosition);
+        if (pastPosition != null && !(targetTile instanceof FireTile)) {
             player.movePlayer(pastPosition);
         }
         else {
             pastPosition = player.getPrevPosition(0);
-            if (pastPosition != null) {
+            targetTile = gameBoard.getAction(pastPosition);
+            if (pastPosition != null && !(targetTile instanceof FireTile)) {
                 player.movePlayer(pastPosition);
             }
         }
+        updateGameBoard();
+        drawPlayers();
     }
 
     /**
@@ -400,6 +402,7 @@ public class GameController implements Initializable {
      */
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
+        gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + " Wins!");
             game.setOver(true);
@@ -412,7 +415,8 @@ public class GameController implements Initializable {
             drawTile.setDisable(false);
             this.updateArrows(false);
             continueButton.setDisable(true);
-            drawActions();
+            updateGameBoard();
+            drawPlayers();
         }
     }
 

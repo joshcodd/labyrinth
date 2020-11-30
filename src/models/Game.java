@@ -50,7 +50,11 @@ public class Game {
         gameBoard = board;
     }
 
-    /**
+    public Game(GameBoard board) {
+		this.gameBoard = board;
+	}
+
+	/**
      *  Allows the next player to play
      */
     public void nextPlayer() {
@@ -164,5 +168,9 @@ public class Game {
 
     public void setOver(boolean over) {
         isOver = over;
+    }
+    
+    public void setCurrentPlayer(int p) {
+    	this.currentPlayer = p;
     }
 }
