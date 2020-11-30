@@ -402,6 +402,7 @@ public class GameController implements Initializable {
      */
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
+        gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + " Wins!");
             game.setOver(true);
@@ -414,7 +415,8 @@ public class GameController implements Initializable {
             drawTile.setDisable(false);
             this.updateArrows(false);
             continueButton.setDisable(true);
-            drawActions();
+            updateGameBoard();
+            drawPlayers();
         }
     }
 

@@ -255,16 +255,19 @@ public class GameBoard {
      * @param numPlayers
      */
     public void refreshActionBoard(int numPlayers) {
-        int turnsPerRound = (numPlayers * 2) - 1;
+        int turnsPerRound = (numPlayers) - 1;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                ActionTile currentAction = actionBoard[x][y];
-                currentAction.incrementTurnsSinceUse();
-                if (currentAction instanceof FireTile && (currentAction.getTurnsSinceUse() >= (turnsPerRound * 2))) {
-                    actionBoard[x][y] = null;
-                }
-                else if (currentAction instanceof IceTile && (currentAction.getTurnsSinceUse() >= turnsPerRound)) {
-                    actionBoard[x][y] = null;
+                if (actionBoard[x][y] != null){
+                    ActionTile currentAction = actionBoard[x][y];
+                    currentAction.incrementTurnsSinceUse();
+                    System.out.println("Tile Turns since use:"+currentAction.getTurnsSinceUse());
+                    if (currentAction instanceof FireTile && ((currentAction.getTurnsSinceUse() >= (turnsPerRound * 2)))) {
+                        actionBoard[x][y] = null;
+                    } else if (currentAction instanceof IceTile && ((currentAction.getTurnsSinceUse() >= turnsPerRound))) {
+                        System.out.println("IceTile Turns since use:"+currentAction.getTurnsSinceUse());
+                        actionBoard[x][y] = null;
+                    }
                 }
             }
         }
