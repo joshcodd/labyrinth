@@ -316,7 +316,6 @@ public class GameController implements Initializable {
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
-                    cell.getChildren().clear();
                     cell.getChildren().add(tank);
                 }
             }
@@ -338,6 +337,8 @@ public class GameController implements Initializable {
                 player.movePlayer(pastPosition);
             }
         }
+        updateGameBoard();
+        drawPlayers();
     }
 
     /**
