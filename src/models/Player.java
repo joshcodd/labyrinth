@@ -20,7 +20,7 @@ public class Player {
 		this.playerNumber = playerNumber;
 		this.profile = playerProfile;
 		actionTiles = new ArrayList<>();
-		this.previousPositions = new Coord[2];
+		this.previousPositions = new Coord[]{new Coord(-1, -1), new Coord(-1, -1)};
 	}
 
 	/**

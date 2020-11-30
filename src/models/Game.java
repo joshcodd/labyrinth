@@ -50,7 +50,11 @@ public class Game {
         gameBoard = board;
     }
 
-    /**
+    public Game(GameBoard board) {
+		this.gameBoard = board;
+	}
+
+	/**
      *  Allows the next player to play
      */
     public void nextPlayer() {

@@ -20,6 +20,11 @@ import views.scenes.*;
 import java.applet.AudioClip;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Time;
+import java.time.Instant;
+import java.time.LocalTime;
+
+import static com.oracle.jrockit.jfr.ContentType.Timestamp;
 
 /**
  *
@@ -70,16 +75,17 @@ public class MenuController  {
      */
     public void handleButtonLoadGame(ActionEvent actionEvent) {
         new AudioPlayer().clickPlay();
-        try {
-            loadGame.setText("opening");
-            Game game = new Game("level", new String[]{"josh", "neil", "andreas"});
-            GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
-        } catch (FileNotFoundException e) {
-            loadGame.setText("Load Game");
-            loadGame.setDisable(true);
-            Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
-            alert.showAndWait();
-        }
+//        try {
+//            loadGame.setText("opening");
+//            Game game = new Game("level", new String[]{"josh", "neil", "andreas"});
+//            GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
+//        } catch (FileNotFoundException e) {
+//            loadGame.setText("Load Game");
+//            loadGame.setDisable(true);
+//            Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
+//            alert.showAndWait();
+//        }
+        LoadSaveScene test = new LoadSaveScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**

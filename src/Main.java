@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 public class Main extends Application{
     @Override
     public void start(Stage primaryStage) {
-        //LoadSaveScene test = new LoadSaveScene(primaryStage, new AudioPlayer().backgroundPlay() );
         MenuScene menu = new MenuScene(primaryStage, new AudioPlayer().backgroundPlay());
     }
 
