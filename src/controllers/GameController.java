@@ -148,7 +148,7 @@ public class GameController implements Initializable {
     public void updateMoves(ArrayList<Coord> moves) {
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
-            if (moves.contains(curr)){
+            if (moves.contains(curr) && !(gameBoard.getAction(curr) instanceof FireTile)){
                 StackPane tile = (StackPane)node;
                 ImageView x = new ImageView("/resources/X.png");
                 x.setFitWidth(40);
