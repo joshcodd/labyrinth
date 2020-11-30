@@ -165,4 +165,8 @@ public class Game {
     public void setOver(boolean over) {
         isOver = over;
     }
+    
+    public void setCurrentPlayer(int p) {
+    	this.currentPlayer = p;
+    }
 }

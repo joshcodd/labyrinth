@@ -27,4 +27,9 @@ public abstract class  ActionTile extends Tile {
     public int getTurnsSinceUse() {
         return turnsSinceUse;
     }
+
+	public void setTurnsSinceUse(int turns) {
+		this.turnsSinceUse = turns;
+		
+	}
 }
