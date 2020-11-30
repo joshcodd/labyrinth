@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -182,10 +181,8 @@ public class FileHandler {
 		int width = 0;
 		TileBag bag = new TileBag();
 		Tile currentTile = null;
-		Boolean isOver = false;
 		int currentPlayer = 0;
 		int numPlayers = 0;
-		String[] playerNames = null;
 		Player[] players = null;
 		ShapeOfTile shape = null;
 
@@ -202,55 +199,64 @@ public class FileHandler {
 				for (int i = 0; i < height; i++) {
 					for (int j = 0; j < width; j++) {
 						String lines = read.next();
-						//System.out.println(lines);
 						line = new Scanner(lines);
 						line.useDelimiter(",");
 						int x = line.nextInt();
 						int y = line.nextInt();
 						Coord xy = new Coord(x,y);
-						if (line.hasNextInt()) {
-							int turns = line.nextInt();
-							String type = line.next();
-							ActionTile t = null;
-							if(type == "fire") {
-								t = new FireTile();
-							}
-							if(type == "ice") {
-								t = new IceTile();
-							}
-							if(type == "back") {
-								t = new BackTrackTile();
-							}
-							if(type == "dMove") {
-								t = new DoubleMoveTile();
-							}
-							t.setTurnsSinceUse(turns);
-							actionMap.put(xy,t);
-						} else {
-							boolean fixed = line.next().equals("true");
-							int o = line.nextInt();
-							String tileShape = line.next();
-							switch(tileShape) {
-							case "BEND":
-								shape = ShapeOfTile.BEND;
-								break;
-							case "T":
-								shape = ShapeOfTile.T_SHAPE;
-								break;
-							case "STRAIGHT":
-								shape = ShapeOfTile.STRAIGHT;
-								break;
-							case "CROSSROADS":
-								shape = ShapeOfTile.CROSSROADS;
-								break;
-							case "GOAL":
-								shape = ShapeOfTile.GOAL_TILE;
-								break;
-							}
-							line.close();
-							FloorTile t = new FloorTile(o,fixed,shape);
-							boardMap.put(xy,t);
+						boolean fixed = line.next().equals("true");
+						int o = line.nextInt();
+						String tileShape = line.next();
+						switch(tileShape) {
+						case "BEND":
+							shape = ShapeOfTile.BEND;
+							break;
+						case "T":
+							shape = ShapeOfTile.T_SHAPE;
+							break;
+						case "STRAIGHT":
+							shape = ShapeOfTile.STRAIGHT;
+							break;
+						case "CROSSROADS":
+							shape = ShapeOfTile.CROSSROADS;
+							break;
+						case "GOAL":
+							shape = ShapeOfTile.GOAL_TILE;
+							break;
 						}
+						line.close();
+						FloorTile t = new FloorTile(o,fixed,shape);
+						boardMap.put(xy,t);
+					}
+				}
+			}
+			if(read.hasNext(">ActionBoard")) {
+				read.next();
+				for (int i = 0; i < height; i++) {
+					for (int j = 0; j < width; j++) {
+						line = new Scanner(read.next());
+						line.useDelimiter(",");
+						int x = line.nextInt();
+						int y = line.nextInt();
+						Coord xy = new Coord(x,y);
+						int turns = line.nextInt();
+						String type = line.next();
+						ActionTile t = null;
+						if(type == "fire") {
+							t = new FireTile();
+						}
+						if(type == "ice") {
+							t = new IceTile();
+						}
+						if(type == "back") {
+							t = new BackTrackTile();
+						}
+						if(type == "dMove") {
+							t = new DoubleMoveTile();
+						}
+						t.setTurnsSinceUse(turns);
+						actionMap.put(xy,t);
+						line.close();
 					}
 				}
 			}
@@ -320,9 +326,27 @@ public class FileHandler {
 				read.nextLine();
 				line = new Scanner(read.nextLine());
 				line.useDelimiter(",");
-				try {
-					int o = line.nextInt();
+				if(line.hasNextInt()) {
+					int turns = line.nextInt();
+					String type = line.next();
+					ActionTile t = null;
+					if(type == "fire") {
+						t = new FireTile();
+					}
+					if(type == "ice") {
+						t = new IceTile();
+					}
+					if(type == "back") {
+						t = new BackTrackTile();
+					}
+					if(type == "dMove") {
+						t = new DoubleMoveTile();
+					}
+					t.setTurnsSinceUse(turns);
+					currentTile = t;
+				} else {
 					String fixed = line.next();
+					int o = line.nextInt();
 					String tileShape = line.next();
 					line.close();
 					switch(tileShape) {
@@ -343,15 +367,8 @@ public class FileHandler {
 							break;
 					}
 					currentTile = new FloorTile(o,Boolean.getBoolean(fixed),shape);
-				} catch (InputMismatchException e){
-					currentTile = null;
-					read.nextLine();
 				}
-
-			}
-			if(read.nextLine().equals(">IsOver")) {
-				String over = read.next();
-				isOver = Boolean.getBoolean(over);
+			line.close();
 			}
 			if(read.hasNext(">CurrentPlayer")) {
 				read.next();
@@ -361,7 +378,6 @@ public class FileHandler {
 				read.next();
 				numPlayers = read.nextInt();
 				players = new Player[numPlayers];
-				playerNames = new String[numPlayers];
 				for (int i = 0; i < numPlayers; i++) {
 					line = new Scanner(read.next());
 					line.useDelimiter(",");
@@ -378,7 +394,6 @@ public class FileHandler {
 					String name = line.next();
 					Player p = new Player(playerNum,loadProfile(name));
 					players[playerNum] = p;
-					playerNames[playerNum] = name;
 					p.setCurrentPosition(xy);
 					p.setPrevPosition(0,xy0);
 					p.setPrevPosition(1,xy1);
@@ -410,10 +425,9 @@ public class FileHandler {
 		GameBoard board = new GameBoard(height,width,boardMap,actionMap);
 		//System.out.println(height);
 		//System.out.println(width);
-		Game game = new Game(board,playerNames);
+		Game game = new Game(board);
 		game.setCurrentTile(currentTile);
 		game.setTileBag(bag);
-		game.setOver(isOver);
 		game.setCurrentPlayer(currentPlayer);
 		game.setPlayers(players);
 		game.setNumPlayers(numPlayers);
@@ -438,38 +452,43 @@ public class FileHandler {
 		int width = g.getWidth();
 		newFile = newFile + height + "," + width + "\n";
 
-		//next, all tiles on the board: FloorTile(x,y,orientation ,isFixed,shape) ActionTile(x,y,turns since use, type of actiontile)
+		//next, all tiles on the board: FloorTile(x,y,orientation ,isFixed,shape) 
 		newFile = newFile + ">Board\n";
 		for (int i = 0; i < height; i++) {
 			for (int j = 0 ; j < width ; j++) {
-				Tile t = g.getTileAt(new Coord(i,j));
-				if (t instanceof FloorTile) {
-					ShapeOfTile shape = ((FloorTile)t).getShape();
-					int o = ((FloorTile)t).getOrientation();
-					boolean isFixed = ((FloorTile)t).isFixed();
-					line = i + "," + j + "," + isFixed + "," + o + "," + shape;
-				}
-				if (t instanceof ActionTile) {
-					//>>??
-					int turns = ((ActionTile) t).getTurnsSinceUse();
-					String type = "";
-					if(t instanceof FireTile) {
-						type = "fire";
-					}
-					if(t instanceof IceTile) {
-						type = "ice";
-					}
-					if(t instanceof BackTrackTile) {
-						type = "back";
-					}
-					if(t instanceof DoubleMoveTile) {
-						type = "dmove";
-					}
-					line = i + "," + j + "," + turns + "," + type;
-				}
+				FloorTile t = g.getTileAt(new Coord(i,j));
+				ShapeOfTile shape = t.getShape();
+				int o = t.getOrientation();
+				boolean isFixed = t.isFixed();
+				line = i + "," + j + "," + isFixed + "," + o + "," + shape;
 				newFile = newFile + line + "\n";
 			}
 		}
+		
+		//next, all tiles on action board: ActionTile(x,y,turns since use, type of actiontile)
+		newFile = newFile + ">ActionBoard\n";
+		for (int i = 0; i < height; i++) {
+			for (int j = 0 ; j < width ; j++) {
+				ActionTile t = g.getAction(new Coord(i,j));
+				int turns = ((ActionTile) t).getTurnsSinceUse();
+				String type = "";
+				if(t instanceof FireTile) {
+					type = "fire";
+				}
+				if(t instanceof IceTile) {
+					type = "ice";
+				}
+				if(t instanceof BackTrackTile) {
+					type = "back";
+					}
+				if(t instanceof DoubleMoveTile) {
+					type = "dmove";
+				}
+				line = i + "," + j + "," + turns + "," + type;
+				newFile = newFile + line + "\n";	
+			}		
+		}
+		
 		//next, all tiles in tile bag (new line for each type of tile)
 		newFile = newFile + ">TileBag\n";
 		TileBag bag = game.getTileBag();
@@ -518,22 +537,37 @@ public class FileHandler {
 			}
 		}
 		newFile = newFile + bend + "\n" + tShape + "\n" + straight + "\n" + cross + "\n" + ice + "\n" + fire + "\n" + back + "\n" + doubleMove + "\n" + goal + "\n";
-		//save current tile (orientation, isFixed, shape)
-		newFile = newFile + ">CurrentTile\n";
-		try {
-			FloorTile currentTile = (FloorTile) game.getCurrentTile();
-			ShapeOfTile shape = currentTile.getShape();
-			int o = currentTile.getOrientation();
-			Boolean isFixed = currentTile.isFixed();
-			newFile = newFile + o + "," + isFixed + "," + shape + "\n";
-		} catch (NullPointerException e) {
-			newFile = newFile + "0" + "," + "null" + "," + "null" + "\n";
+		
+		//save current tile FloorTile(isFixed,orientation, shape) & ActionTile(turns,type)
+		
+		Tile currentTile = game.getCurrentTile();
+		if(!(currentTile == null)) {
+			newFile = newFile + ">CurrentTile\n";
+			if(currentTile instanceof FloorTile) {
+				ShapeOfTile shape = ((FloorTile) currentTile).getShape();
+				int o = ((FloorTile) currentTile).getOrientation();
+				Boolean isFixed = ((FloorTile) currentTile).isFixed();
+				line = isFixed + "," + o + "," + shape;
+			}
+			if(currentTile instanceof ActionTile) {
+				int turns = ((ActionTile) currentTile).getTurnsSinceUse();
+				String type = "";
+				if (currentTile instanceof FireTile) {
+					type = "fire";
+				}
+				if(currentTile instanceof IceTile) {
+					type = "ice";
+				}
+				if(currentTile instanceof BackTrackTile) {
+					type = "back";
+				}
+				if(currentTile instanceof DoubleMoveTile) {
+					type = "dmove";
+				}
+				line = turns + "," + type;
+			}
+			newFile = newFile + line + "\n";
 		}
-
-		//save game.isover(bool)
-		newFile = newFile + ">IsOver\n";
-		Boolean over = game.isOver();
-		newFile = newFile + over + "\n";
 
 		//save current player(name)
 		newFile = newFile + ">CurrentPlayer\n";
