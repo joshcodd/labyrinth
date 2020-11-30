@@ -41,6 +41,15 @@ public class Coord {
         yPos = y;
     }
 
+    public boolean isEmpty() {
+        if (xPos == -1 || yPos == -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
         return "Coord{" +

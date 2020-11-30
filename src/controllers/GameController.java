@@ -184,26 +184,36 @@ public class GameController implements Initializable {
     public void playAction(ActionTile action) {
         for (Node node : gameBoardPane.getChildren()) {
             Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+
+            //Selects surrounding tiles for a 3x3
+            int xPos = position.getX();
+            int yPos = position.getY();
+            Coord[] positions = {
+                    new Coord(xPos - 1, yPos + 1),
+                    new Coord(xPos, yPos + 1),
+                    new Coord(xPos + 1, yPos +1),
+                    new Coord(xPos - 1, yPos),
+                    position,
+                    new Coord(xPos + 1, yPos),
+                    new Coord(xPos - 1, yPos - 1),
+                    new Coord(xPos, yPos - 1),
+                    new Coord(xPos + 1, yPos - 1)
+            };
+
+            boolean validPlacement = true;
+            if (action instanceof FireTile) {
+                for (Player player : game.getPlayers()) {
+                    if (position == player.getCurrentPosition()) {
+                        validPlacement = false;
+                    }
+                }
+
+            }
             if (gameBoard.getAction(position) == null) {
                 //TODO Add check for if a player is standing on one of the neighbouring positions (for fire only)
                 StackPane tile = (StackPane) node;
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
-                    //Selects the surrounding tiles for a 3x3
-                    int xPos = position.getX();
-                    int yPos = position.getY();
-                    Coord[] positions = {
-                            new Coord(xPos - 1, yPos + 1),
-                            new Coord(xPos, yPos + 1),
-                            new Coord(xPos + 1, yPos +1),
-                            new Coord(xPos - 1, yPos),
-                            position,
-                            new Coord(xPos + 1, yPos),
-                            new Coord(xPos - 1, yPos - 1),
-                            new Coord(xPos, yPos - 1),
-                            new Coord(xPos + 1, yPos - 1)
-                    };
-
                     for (Coord pos: positions) {
                         gameBoard.addAction(action, pos);
                     }
@@ -331,7 +341,7 @@ public class GameController implements Initializable {
     private void backtrackPlayer(Player player) {
         Coord pastPosition = player.getPrevPosition(1);
         ActionTile targetTile = gameBoard.getAction(pastPosition);
-        if (pastPosition != null && !(targetTile instanceof FireTile)) {
+        if (!pastPosition.isEmpty() && !(targetTile instanceof FireTile)) {
             player.movePlayer(pastPosition);
         }
         else {
