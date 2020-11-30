@@ -209,8 +209,7 @@ public class GameController implements Initializable {
                 }
 
             }
-            if (gameBoard.getAction(position) == null) {
-                //TODO Add check for if a player is standing on one of the neighbouring positions (for fire only)
+            if (gameBoard.getAction(position) == null && validPlacement) {
                 StackPane tile = (StackPane) node;
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
