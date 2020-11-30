@@ -350,25 +350,25 @@ public class FileHandler {
 					String tileShape = line.next();
 					line.close();
 					switch(tileShape) {
-						case "BEND":
-							shape = ShapeOfTile.BEND;
-							break;
-						case "T":
-							shape = ShapeOfTile.T_SHAPE;
-							break;
-						case "STRAIGHT":
-							shape = ShapeOfTile.STRAIGHT;
-							break;
-						case "CROSSROADS":
-							shape = ShapeOfTile.CROSSROADS;
-							break;
-						case "GOAL":
-							shape = ShapeOfTile.GOAL_TILE;
-							break;
+					case "BEND":
+						shape = ShapeOfTile.BEND;
+						break;
+					case "T":
+						shape = ShapeOfTile.T_SHAPE;
+						break;
+					case "STRAIGHT":
+						shape = ShapeOfTile.STRAIGHT;
+						break;
+					case "CROSSROADS":
+						shape = ShapeOfTile.CROSSROADS;
+						break;
+					case "GOAL":
+						shape = ShapeOfTile.GOAL_TILE;
+						break;
 					}
 					currentTile = new FloorTile(o,Boolean.getBoolean(fixed),shape);
 				}
-			line.close();
+				line.close();
 			}
 			if(read.hasNext(">CurrentPlayer")) {
 				read.next();
@@ -464,7 +464,7 @@ public class FileHandler {
 				newFile = newFile + line + "\n";
 			}
 		}
-		
+
 		//next, all tiles on action board: ActionTile(x,y,turns since use, type of actiontile)
 		newFile = newFile + ">ActionBoard\n";
 		for (int i = 0; i < height; i++) {
@@ -480,7 +480,7 @@ public class FileHandler {
 				}
 				if(t instanceof BackTrackTile) {
 					type = "back";
-					}
+				}
 				if(t instanceof DoubleMoveTile) {
 					type = "dmove";
 				}
@@ -488,7 +488,7 @@ public class FileHandler {
 				newFile = newFile + line + "\n";	
 			}		
 		}
-		
+
 		//next, all tiles in tile bag (new line for each type of tile)
 		newFile = newFile + ">TileBag\n";
 		TileBag bag = game.getTileBag();
@@ -537,9 +537,9 @@ public class FileHandler {
 			}
 		}
 		newFile = newFile + bend + "\n" + tShape + "\n" + straight + "\n" + cross + "\n" + ice + "\n" + fire + "\n" + back + "\n" + doubleMove + "\n" + goal + "\n";
-		
+
 		//save current tile FloorTile(isFixed,orientation, shape) & ActionTile(turns,type)
-		
+
 		Tile currentTile = game.getCurrentTile();
 		if(!(currentTile == null)) {
 			newFile = newFile + ">CurrentTile\n";
@@ -583,14 +583,12 @@ public class FileHandler {
 			int playerNum = player.getPlayerNumber();
 			int x = player.getCurrentPosition().getX();
 			int y = player.getCurrentPosition().getY();
-
-
-				int x0 = player.getPrevPosition(0).getX();
-				int y0 = player.getPrevPosition(0).getY();
-				int x1 = player.getPrevPosition(1).getX();
-				int y1 = player.getPrevPosition(1).getY();
-				String name = player.getProfile().getPlayerName();
-				line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name;
+			int x0 = player.getPrevPosition(0).getX();
+			int y0 = player.getPrevPosition(0).getY();
+			int x1 = player.getPrevPosition(1).getX();
+			int y1 = player.getPrevPosition(1).getY();
+			String name = player.getProfile().getPlayerName();
+			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name;
 
 			ArrayList<ActionTile> tiles = player.getActionTiles();
 			int fireTile = 0;
