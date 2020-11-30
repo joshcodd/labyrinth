@@ -202,14 +202,14 @@ public class GameController implements Initializable {
             boolean validPlacement = true;
             if (action instanceof FireTile) {
                 for (Player player : game.getPlayers()) {
-                    if (position == player.getCurrentPosition()) {
-                        validPlacement = false;
-                        break;
+                    for (Coord surroundingTile : positions) {
+                        if (player.getCurrentPosition().equals(surroundingTile)) {
+                            validPlacement = false;
+                        }
                     }
                 }
-
             }
-            if (gameBoard.getAction(position) == null && validPlacement) {
+            if ((gameBoard.getAction(position) == null) && (validPlacement)) {
                 StackPane tile = (StackPane) node;
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
