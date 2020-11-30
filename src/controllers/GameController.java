@@ -327,13 +327,14 @@ public class GameController implements Initializable {
      */
     private void backtrackPlayer(Player player) {
         Coord pastPosition = player.getPrevPosition(1);
-        //TODO add fire restriction
-        if (pastPosition != null) {
+        ActionTile targetTile = gameBoard.getAction(pastPosition);
+        if (pastPosition != null && !(targetTile instanceof FireTile)) {
             player.movePlayer(pastPosition);
         }
         else {
             pastPosition = player.getPrevPosition(0);
-            if (pastPosition != null) {
+            targetTile = gameBoard.getAction(pastPosition);
+            if (pastPosition != null && !(targetTile instanceof FireTile)) {
                 player.movePlayer(pastPosition);
             }
         }
