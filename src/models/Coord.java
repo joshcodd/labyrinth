@@ -42,12 +42,7 @@ public class Coord {
     }
 
     public boolean isEmpty() {
-        if (xPos == -1 || yPos == -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return xPos == -1 || yPos == -1;
     }
 
     @Override

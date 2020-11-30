@@ -124,7 +124,6 @@ public class GameController implements Initializable {
         actionTilePane.getChildren().clear();
         ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
         for (int i = 0; i < currentActionTiles.size(); i++) {
-            String testText = "Tile" + i;
             int actionTileNum = i;
             String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
             ImageView actionTile = new ImageView(new Image(imagePath));
@@ -205,6 +204,7 @@ public class GameController implements Initializable {
                 for (Player player : game.getPlayers()) {
                     if (position == player.getCurrentPosition()) {
                         validPlacement = false;
+                        break;
                     }
                 }
 
