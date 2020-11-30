@@ -103,6 +103,21 @@ public class GameController implements Initializable {
         updateActionTileHand();
         drawActions();
 
+
+
+
+        if (game.getCurrentTile() != null && game.getCurrentTile() instanceof ActionTile){
+            selectedActionTile = (ActionTile) game.getCurrentTile();
+            selectedTile.setImage(new Image("/resources/" + selectedActionTile.getClass().getName()
+                    .substring(7) + ".png"));
+            continueButton.setDisable(false);
+            actionButton.setDisable(false);
+            drawTile.setDisable(true);
+        } else if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile) {
+            FloorTile tile = (FloorTile) game.getCurrentTile();
+            selectedTile.setImage(getTileImage(tile).getImage());
+            drawTile.setDisable(true);
+        }
     }
 
     /**
@@ -132,10 +147,13 @@ public class GameController implements Initializable {
             actionTile.setFitHeight(100);
             actionTile.getStyleClass().add("hover-effect");
             actionTile.setOnMouseClicked(event -> {
-                selectedActionTile = currentActionTiles.get(actionTileNum);
-                selectedTile.setImage(new Image("/resources/" + currentActionTiles.get(actionTileNum)
-                        .getClass().getName().substring(7) + ".png"));
-                selectedTile.setRotate(0);
+                if (!actionButton.isDisable()) {
+                    selectedActionTile = currentActionTiles.get(actionTileNum);
+                    selectedTile.setImage(new Image("/resources/" + currentActionTiles.get(actionTileNum)
+                            .getClass().getName().substring(7) + ".png"));
+                    selectedTile.setRotate(0);
+                    game.setCurrentTile(selectedActionTile);
+                }
             });
             actionTilePane.getChildren().add(actionTile);
 
@@ -534,10 +552,12 @@ public class GameController implements Initializable {
                     } else {
                         try {
                             FileHandler.saveGameFile(td.getResult(), game);
+                            MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
-                        MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+                        System.out.println("WE SAVED");
+
                     }
                 } catch (NullPointerException ignored){
                 }

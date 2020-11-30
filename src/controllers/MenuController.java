@@ -85,7 +85,7 @@ public class MenuController  {
 //            Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
 //            alert.showAndWait();
 //        }
-        LoadSaveScene test = new LoadSaveScene(primaryStage, backgroundMusic.getMediaPlayer());
+       LoadSaveScene test = new LoadSaveScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**

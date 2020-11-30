@@ -234,29 +234,34 @@ public class FileHandler {
 				read.next();
 				for (int i = 0; i < height; i++) {
 					for (int j = 0; j < width; j++) {
-						line = new Scanner(read.next());
+						String currentLine = read.next();
+						line = new Scanner(currentLine);
 						line.useDelimiter(",");
-						int x = line.nextInt();
-						int y = line.nextInt();
-						Coord xy = new Coord(x,y);
-						int turns = line.nextInt();
-						String type = line.next();
-						ActionTile t = null;
-						if(type == "fire") {
-							t = new FireTile();
+
+						if (!currentLine.equals("null")) {
+							int x = line.nextInt();
+							int y = line.nextInt();
+							Coord xy = new Coord(x, y);
+							int turns = line.nextInt();
+							String type = line.next();
+							ActionTile t = null;
+							if (type.equals("fire")) {
+								t = new FireTile();
+							}
+							if (type.equals("ice")) {
+								t = new IceTile();
+							}
+							if (type.equals("back")) {
+								t = new BackTrackTile();
+							}
+							if (type.equals("dMove")) {
+								t = new DoubleMoveTile();
+							}
+
+							t.setTurnsSinceUse(turns);
+							actionMap.put(xy, t);
+							line.close();
 						}
-						if(type == "ice") {
-							t = new IceTile();
-						}
-						if(type == "back") {
-							t = new BackTrackTile();
-						}
-						if(type == "dMove") {
-							t = new DoubleMoveTile();
-						}
-						t.setTurnsSinceUse(turns);
-						actionMap.put(xy,t);
-						line.close();
 					}
 				}
 			}
@@ -322,24 +327,26 @@ public class FileHandler {
 					bag.addTile(t);
 				}
 			}
+
 			if(read.hasNext(">CurrentTile")) {
-				read.nextLine();
-				line = new Scanner(read.nextLine());
+				read.next();
+				String currentLine = read.next();
+				line = new Scanner(currentLine);
 				line.useDelimiter(",");
 				if(line.hasNextInt()) {
 					int turns = line.nextInt();
 					String type = line.next();
 					ActionTile t = null;
-					if(type == "fire") {
+					if(type.equals("fire")) {
 						t = new FireTile();
 					}
-					if(type == "ice") {
+					if(type.equals("ice")) {
 						t = new IceTile();
 					}
-					if(type == "back") {
+					if(type.equals("back")) {
 						t = new BackTrackTile();
 					}
-					if(type == "dMove") {
+					if(type.equals("dMove")) {
 						t = new DoubleMoveTile();
 					}
 					t.setTurnsSinceUse(turns);
@@ -370,8 +377,8 @@ public class FileHandler {
 				}
 				line.close();
 			}
-			if(read.hasNext(">CurrentPlayer")) {
-				read.next();
+
+			if(read.next().equals(">CurrentPlayer")) {
 				currentPlayer = read.nextInt();
 			}
 			if(read.hasNext(">Players")) {
@@ -423,8 +430,6 @@ public class FileHandler {
 			read.nextLine();
 		}
 		GameBoard board = new GameBoard(height,width,boardMap,actionMap);
-		//System.out.println(height);
-		//System.out.println(width);
 		Game game = new Game(board);
 		game.setCurrentTile(currentTile);
 		game.setTileBag(bag);
@@ -469,25 +474,35 @@ public class FileHandler {
 		newFile = newFile + ">ActionBoard\n";
 		for (int i = 0; i < height; i++) {
 			for (int j = 0 ; j < width ; j++) {
-				ActionTile t = g.getAction(new Coord(i,j));
-				int turns = ((ActionTile) t).getTurnsSinceUse();
-				String type = "";
-				if(t instanceof FireTile) {
-					type = "fire";
+				if (g.getAction(new Coord(i,j)) != null){
+					ActionTile t = g.getAction(new Coord(i,j));
+					System.out.println(t);
+					int turns = t.getTurnsSinceUse();
+
+					String type = "";
+					if(t instanceof FireTile) {
+						type = "fire";
+					}
+					if(t instanceof IceTile) {
+						type = "ice";
+					}
+					if(t instanceof BackTrackTile) {
+						type = "back";
+					}
+					if(t instanceof DoubleMoveTile) {
+						type = "dmove";
+					}
+
+					line = i + "," + j + "," + turns + "," + type;
+					newFile = newFile + line + "\n";
+				} else {
+					line = "null" ;
+					newFile = newFile + line + "\n";
 				}
-				if(t instanceof IceTile) {
-					type = "ice";
-				}
-				if(t instanceof BackTrackTile) {
-					type = "back";
-				}
-				if(t instanceof DoubleMoveTile) {
-					type = "dmove";
-				}
-				line = i + "," + j + "," + turns + "," + type;
-				newFile = newFile + line + "\n";	
+
 			}		
 		}
+
 
 		//next, all tiles in tile bag (new line for each type of tile)
 		newFile = newFile + ">TileBag\n";
@@ -612,6 +627,7 @@ public class FileHandler {
 			}
 			line = line + "," + fireTile + "," + iceTile +  "," + backTile + "," + doubleTile;
 			newFile = newFile + line + "\n";
+
 		}
 
 		//write file
@@ -684,6 +700,7 @@ public class FileHandler {
 			line = levelName + ":" + playerName;
 			newFile = newFile + line +"\n";
 		}
+
 		read.close();
 		FileWriter write = new FileWriter(file);
 		write.write(newFile);
