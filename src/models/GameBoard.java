@@ -80,6 +80,7 @@ public class GameBoard {
                     actionBoard[row][i] = actionBoard[row][i + 1];
                 }
                 board[row][width - 1] = tile;
+                actionBoard[row][width - 1] = null;
                 break;
 
             case "DOWN" :
@@ -89,6 +90,7 @@ public class GameBoard {
                     actionBoard[i][row] = actionBoard[i - 1][row];
                 }
                 board[0][row] = tile;
+                actionBoard[0][row] = null;
                 break;
 
             case "UP" :
@@ -98,6 +100,7 @@ public class GameBoard {
                     actionBoard[i][row] = actionBoard[i + 1][row];
                 }
                 board[height - 1][row] = tile;
+                actionBoard[height - 1][row] = null;
                 break;
         }
         return returnTile;
@@ -255,17 +258,15 @@ public class GameBoard {
      * @param numPlayers
      */
     public void refreshActionBoard(int numPlayers) {
-        int turnsPerRound = (numPlayers) - 1;
+        int turnsPerRound = numPlayers;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (actionBoard[x][y] != null){
                     ActionTile currentAction = actionBoard[x][y];
                     currentAction.incrementTurnsSinceUse();
-                    System.out.println("Tile Turns since use:"+currentAction.getTurnsSinceUse());
                     if (currentAction instanceof FireTile && ((currentAction.getTurnsSinceUse() >= (turnsPerRound * 2)))) {
                         actionBoard[x][y] = null;
                     } else if (currentAction instanceof IceTile && ((currentAction.getTurnsSinceUse() >= turnsPerRound))) {
-                        System.out.println("IceTile Turns since use:"+currentAction.getTurnsSinceUse());
                         actionBoard[x][y] = null;
                     }
                 }
