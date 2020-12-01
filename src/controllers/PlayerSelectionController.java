@@ -16,9 +16,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import models.Game;
 import models.NewPlayer;
 import models.PlayerProfile;
 import views.scenes.EditPlayersScene;
+import views.scenes.GameScene;
 import views.scenes.LevelSelectionScene;
 
 import java.net.URL;
@@ -255,9 +257,9 @@ public class PlayerSelectionController implements Initializable {
     public void updateStartLabels(NewPlayer[] players){
         for(int i=0;i<players.length;i++) {
             if(players[i].startFirst){
-                startLabels[i].setText("Starting First");
+                startLabels[i].setVisible(true);
             } else {
-                startLabels[i].setText("");
+                startLabels[i].setVisible(false);
             }
         }
     }
@@ -285,14 +287,6 @@ public class PlayerSelectionController implements Initializable {
                 imageName="5";
         }
         tankViews[index].setImage(new Image("resources/"+imageName+".png"));
-    }
-
-    /**
-     * @param index
-     * @param player
-     */
-    public void updateProfileLabel(int index, NewPlayer player) {
-        profileLabels[index].setText(player.profileName);
     }
 
     /**
@@ -335,33 +329,50 @@ public class PlayerSelectionController implements Initializable {
     /**
      * @param index
      */
-    public void selectPlayer(int index){
-        String value = profileBoxes[index].getValue();
+    public void selectProfile(int index, NewPlayer player){
+        ChoiceBox<String> profileBox = profileBoxes[index];
+        Label profileLabel = profileLabels[index];
+
+        String value = profileBox.getValue();
+
         if(value != null){
             if(checkNotTaken(index, "name", value)){
-                players[index].profileName = value;
-                updateProfileLabel(index, players[index]);
-            } else {
-                profileLabels[index].setText("Profile taken.");
-            }
-        }
+                player.profileName = value;
+                profileLabel.setText(player.profileName);
 
+            } else {
+                profileBox.setValue(null);
+                profileLabel.setText("Profile taken.");
+            }
+        } else {
+            profileLabel.setText("No profile selected");
+        }
+        profileLabel.setVisible(true);
     }
 
     /**
      * @param index
      */
-    public void selectColour(int index){
-        String colour = colourBoxes[index].getValue();
-        if(colour!= null) {
+    public void selectColour(int index, NewPlayer player){
+        ChoiceBox<String> colourBox = colourBoxes[index];
+        Label colourLabel = colourLabels[index];
+
+        String colour = colourBox.getValue();
+
+        if(!colour.equals("Auto-Assign")) {
+
             if (checkNotTaken(index, "colour", colour)) {
-                players[index].colour = colour;
-                updateColourLabel(index, players[index]);
+                player.colour = colour;
+                colourLabel.setText(player.colour);
+
             } else {
-                colourLabels[index].setText("Colour taken. ");
+                colourLabel.setText("Colour taken. ");
             }
+        } else {
+            colourLabel.setText("Auto-assign colour");
         }
-        updateTankView(index, players[index]);
+        updateTankView(index, player);
+        colourLabel.setVisible(true);
     }
 
 
@@ -483,8 +494,9 @@ public class PlayerSelectionController implements Initializable {
                  */
                 @Override
                 public void handle(ActionEvent event) {
-                    selectPlayer(index);
-                    selectColour(index);
+                    NewPlayer player = players[index];
+                    selectProfile(index, player);
+                    selectColour(index, player);
                 }
             });
 
@@ -526,7 +538,7 @@ public class PlayerSelectionController implements Initializable {
                  */
                 @Override
                 public void handle(ActionEvent event) {
-                    new EditPlayersScene(primaryStage,backgroundMusic.getMediaPlayer());
+                    new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
                 }
             });
 
@@ -539,6 +551,21 @@ public class PlayerSelectionController implements Initializable {
                     new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
                 }
             });
+
+            //implement begin button
+            /*
+            beginButt.setOnAction(new EventHandler<ActionEvent>() {
+
+                 * @param event
+
+                @Override
+                public void handle(ActionEvent event) {
+                    Game beginGame = new Game("string", new String[]{"Chung"});
+                    new GameScene(primaryStage, beginGame, backgroundMusic.getMediaPlayer());
+                }
+            }
+        );
+        */
         }
     }
 }
