@@ -200,6 +200,8 @@ public class PlayerSelectionController implements Initializable {
 
     public ChoiceBox<String>[] colourBoxes;
 
+    public String defaultColour = "Auto-Assign";
+
     public CheckBox[] startFirstChecks;
     
     public TextField playerName;
@@ -221,7 +223,7 @@ public class PlayerSelectionController implements Initializable {
     public void setColourBoxes(){
         for(int i = 0; i<4; i++){
             colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert Camo","Auto-Assign"));
-            colourBoxes[i].setValue("Auto-Assign");
+            colourBoxes[i].setValue(defaultColour);
         }
     }
 
@@ -303,28 +305,7 @@ public class PlayerSelectionController implements Initializable {
      * @param value
      * @return
      */
-    public boolean checkNotTaken(int id, String field, String value){
-        int count = 0;
-        boolean taken = true;
-        for(int i =0; i< players.length;i++){
-            if(i==id){
-                continue;
-            }
-            if(field.equals("name")){
-                if(players[i].profileName.equals(value)){
-                    count+=1;
-                }
-            } else if (field.equals("colour")){
-                if(players[i].colour.equals(value)){
-                    count+=1;
-                }
-            } else {System.out.println("checkTaken: invalid field");}
-        }
-        if(count<1){
-            taken = false;
-        }
-        return !taken;
-    }
+
 
     /**
      * @param index
@@ -336,7 +317,7 @@ public class PlayerSelectionController implements Initializable {
         String value = profileBox.getValue();
 
         if(value != null){
-            if(checkNotTaken(index, "name", value)){
+            if(!checkTaken(index, "name", value)){
                 player.profileName = value;
                 profileLabel.setText(player.profileName);
 
@@ -361,7 +342,7 @@ public class PlayerSelectionController implements Initializable {
 
         if(!colour.equals("Auto-Assign")) {
 
-            if (checkNotTaken(index, "colour", colour)) {
+            if (!checkTaken(index, "colour", colour)) {
                 player.colour = colour;
                 colourLabel.setText(player.colour);
 
@@ -370,9 +351,33 @@ public class PlayerSelectionController implements Initializable {
             }
         } else {
             colourLabel.setText("Auto-assign colour");
+            player.colour = colour;
         }
         updateTankView(index, player);
         colourLabel.setVisible(true);
+    }
+
+    public boolean checkTaken(int id, String field, String value){
+        int count = 0;
+        boolean taken = true;
+        for(int i =0; i < numPlayers;i++){
+            if(i==id){
+                continue;
+            }
+            if(field.equals("name")){
+                if(players[i].profileName.equals(value)){
+                    count+=1;
+                }
+            } else if (field.equals("colour")){
+                if(players[i].colour.equals(value)){
+                    count+=1;
+                }
+            } else {System.out.println("checkTaken: invalid field");}
+        }
+        if(count<1){
+            taken = false;
+        }
+        return taken;
     }
 
 
@@ -404,6 +409,15 @@ public class PlayerSelectionController implements Initializable {
         }
         else{
             for(int i = oldValue; i<numPlayers; i++) {
+                if(checkTaken(i, "name",players[i].profileName)){
+                    profileBoxes[i].setValue(null);
+                    selectProfile(i, players[i]);
+
+                }
+                if(checkTaken(i, "colour", players[i].colour)){
+                    colourBoxes[i].setValue(defaultColour);
+                    selectColour(i, players[i]);
+                }
                 playerForms[i].setVisible(true);
                 playerForms[i].setManaged(true);
             }
