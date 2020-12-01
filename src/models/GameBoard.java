@@ -3,14 +3,13 @@ import java.util.*;
 
 /**
  * Class to represent a game board in the game Labyrinth.
- * @author Josh Codd
+ * @author Josh Codd, Neil Woodhouse
  */
 public class GameBoard {
     private int height;
     private int width;
     private FloorTile [][] board;
     private ActionTile [][] actionBoard;
-    private ArrayList<ActionTile> activeTiles;
 
     /**
      * Constructs a game board.
@@ -24,7 +23,6 @@ public class GameBoard {
         this.width = width;
         board = new FloorTile[height][width];
         actionBoard = new ActionTile[height][width];
-        activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
     }
     
@@ -271,16 +269,6 @@ public class GameBoard {
                     }
                 }
             }
-        }
-    }
-
-    //THIS IS A METHOD FOR TESTING -> WILL BE DELETED.
-    public void printBoard() {
-        for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[i].length; j++){
-                System.out.printf("%1$"+ 15 + "s", board[i][j].getShape());
-            }
-            System.out.println();
         }
     }
 }

@@ -359,7 +359,7 @@ public class GameController implements Initializable {
     }
 
     /**
-     * @param player
+     * @param player the player to be backtracked to an earlier position
      */
     private void backtrackPlayer(Player player) {
         Coord pastPosition = player.getPrevPosition(1);
@@ -434,7 +434,7 @@ public class GameController implements Initializable {
     }
 
     /**
-     *
+     * This method checks if the current player has won, and otherwise sets up the UI for the next player's turn.
      */
     private void nextRound() {
         this.setPlayerLabel("No available moves:(");
