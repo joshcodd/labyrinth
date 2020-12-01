@@ -51,7 +51,7 @@
       <Pane minWidth="60.0" prefHeight="1330.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <VBox maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="300.0" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="600.0" maxWidth="1200.0" minHeight="400.0" minWidth="300.0" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <HBox fx:id="hBox" prefHeight="600.0" prefWidth="900.0">
                <children>

@@ -23,6 +23,7 @@ import views.scenes.EditPlayersScene;
 import views.scenes.GameScene;
 import views.scenes.LevelSelectionScene;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -433,8 +434,7 @@ public class PlayerSelectionController implements Initializable {
         Parent root2;
         if(event.getSource()==newPlayerButt){
             stage2 = (Stage)newPlayerButt.getScene().getWindow();
-            root2 = FXMLLoader.load(getClass().getResource("CreatePlayer.fxml"));
-
+            root2 = FXMLLoader.load(getClass().getClassLoader().getResource("CreatePlayer.fxml"));
         }
         else{
             stage2 = (Stage) backButt.getScene().getWindow();
@@ -551,35 +551,46 @@ public class PlayerSelectionController implements Initializable {
                  * @param event
                  */
                 @Override
-                public void handle(ActionEvent event) {
-                    new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
+                public void handle(ActionEvent event){
+                    System.out.println("yo");
+                    try {
+                        createPlayer(event);
+                    } catch (Exception e) {
+                        System.out.println("yo");
+                        e.printStackTrace();
+                    }
                 }
             });
+
 
             backButt.setOnAction(new EventHandler<ActionEvent>() {
                 /**
                  * @param event
                  */
+
                 @Override
                 public void handle(ActionEvent event) {
                     new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
                 }
             });
 
-            //implement begin button
-            /*
-            beginButt.setOnAction(new EventHandler<ActionEvent>() {
 
-                 * @param event
+            //implement begin button
+
+            /*beginButt.setOnAction(new EventHandler<ActionEvent>() {
+                ///*
+                @param event
+
 
                 @Override
                 public void handle(ActionEvent event) {
                     Game beginGame = new Game("string", new String[]{"Chung"});
                     new GameScene(primaryStage, beginGame, backgroundMusic.getMediaPlayer());
                 }
+
             }
-        );
-        */
+        );*/
+
         }
     }
 }
