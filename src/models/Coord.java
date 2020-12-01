@@ -41,10 +41,16 @@ public class Coord {
         yPos = y;
     }
 
+    /**
+     * @return Returns true if the coordinate represents an invalid position, false otherwise
+     */
     public boolean isEmpty() {
         return xPos == -1 || yPos == -1;
     }
 
+    /**
+     * @return A string representation of the Coord object, displaying its X and Y position.
+     */
     @Override
     public String toString() {
         return "Coord{" +
@@ -53,6 +59,10 @@ public class Coord {
                 '}';
     }
 
+    /**
+     * @param obj the object to be compared against
+     * @return Returns true if obj is a Coord type object, with equal X and Y values to this object
+     */
     @Override
     public boolean equals(Object obj){
         if (obj instanceof Coord){
