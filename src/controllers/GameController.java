@@ -233,7 +233,12 @@ public class GameController implements Initializable {
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
                     for (Coord pos: positions) {
-                        gameBoard.addAction(action, pos);
+                        if (action instanceof FireTile) {
+                            gameBoard.addAction(new FireTile(), pos);
+                        }
+                        else if (action instanceof IceTile) {
+                            gameBoard.addAction(new IceTile(), pos);
+                        }
                     }
                     updateGameBoard();
                     drawPlayers();
