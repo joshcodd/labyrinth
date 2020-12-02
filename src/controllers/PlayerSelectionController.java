@@ -28,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -245,7 +246,7 @@ public class PlayerSelectionController implements Initializable {
     }
 
     public void setGameName(String gameName) {
-        this.gameName = "src/gamefiles/levels/" + gameName;
+        this.gameName = gameName;
     }
 
     /**
@@ -452,50 +453,6 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param event
-     * @throws Exception
-     */
-    public void createPlayer(ActionEvent event) throws Exception{
-        Stage stage2;
-        Parent root2;
-        if(event.getSource()==newPlayerButt){
-            stage2 = (Stage)newPlayerButt.getScene().getWindow();
-            root2 = FXMLLoader.load(getClass().getResource("CreatePlayer.fxml"));
-        }
-        else{
-            stage2 = (Stage) backButt.getScene().getWindow();
-            root2 = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
-        }
-        Scene scene2 = new Scene(root2);
-        stage2.setScene(scene2);
-        stage2.show();
-    }
-
-    /**
-     * @param event
-     * @throws Exception
-     */
-    public void submitPlayer(ActionEvent event) throws Exception{
-    	Stage stage;
-    	Parent root;
-    	
-    	if(event.getSource()==newPlayerButt){
-    		newPlayerButt.setOnAction(a -> playerName.getText());
-    		new PlayerProfile(playerName.getText(),0,0,0);
-    		stage = (Stage)newPlayerButt.getScene().getWindow();
-    		root = FXMLLoader.load(getClass().getResource("CPlayer.fxml"));
-        }
-    	
-        else{
-        	stage = (Stage) backButt.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
-        }
-    	Scene scene2 = new Scene(root);
-    	stage.setScene(scene2);
-    	stage.show();
-    }
-
-    /**
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -591,22 +548,6 @@ public class PlayerSelectionController implements Initializable {
             }
         });
 
-        newPlayerButt.setOnAction(new EventHandler<ActionEvent>() {
-            /**
-             * @param
-             */
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("yo");
-                try {
-                    createPlayer(event);
-                } catch (Exception e) {
-                    System.out.println("yo");
-                    e.printStackTrace();
-                }
-            }
-        });
-
 
         backButt.setOnAction(new EventHandler<ActionEvent>() {
             /**
@@ -620,21 +561,19 @@ public class PlayerSelectionController implements Initializable {
         });
 
 
-        //implement begin button
-
-            /*beginButt.setOnAction(new EventHandler<ActionEvent>() {
-                ///*
-                @param event
-
-
+            beginButt.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    Game beginGame = new Game("string", new String[]{"Chung"});
-                    new GameScene(primaryStage, beginGame, backgroundMusic.getMediaPlayer());
-                }
 
+                    System.out.println(Arrays.toString(players));
+                    try {
+                        new GameScene(primaryStage, new Game(gameName, players), backgroundMusic.getMediaPlayer());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        );*/
+        );
 
 
     }

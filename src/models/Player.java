@@ -1,5 +1,6 @@
 package models;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -106,6 +107,18 @@ public class Player {
 		this.profile = profile;
 	}
 
+	@Override
+	public String toString() {
+		return "Player{" +
+				"currentPosition=" + currentPosition +
+				", previousPositions=" + Arrays.toString(previousPositions) +
+				", playerNumber=" + playerNumber +
+				", actionTiles=" + actionTiles +
+				", profile=" + profile +
+				", colour='" + colour + '\'' +
+				", startFirst=" + startFirst +
+				'}';
+	}
 }
 	
 
