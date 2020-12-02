@@ -34,12 +34,6 @@ public class SelectPlayerScene {
      */
     public SelectPlayerScene (Stage stage, String level, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
-        try {
-            profiles = FileHandler.getAllNames();
-            System.out.println(profiles.size());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -47,7 +41,6 @@ public class SelectPlayerScene {
             this.controller = loader.getController();
             controller.setPrimaryStage(primaryStage);
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
-            controller.setProfileBoxes(profiles);
             controller.setColourBoxes();
             Scene scene = new Scene(root, 1200, 650);
             scene.getStylesheets().add("styles.css");

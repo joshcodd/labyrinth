@@ -10,6 +10,9 @@ public class Player {
 	int playerNumber;
 	ArrayList<ActionTile> actionTiles;
 	PlayerProfile profile;
+	String colour = "Auto-assign";
+	boolean startFirst = false;
+
 
 
 	/**
@@ -69,9 +72,34 @@ public class Player {
 	public void setPrevPosition(int index, Coord xy) {
 		previousPositions[index] = xy;
 	}
+
+	public boolean hasProfileSet(){
+		return profile!=null;
+	}
 	
 	public PlayerProfile getProfile() {
 		return profile;
+	}
+
+	public String getProfileName(){
+		System.out.println(profile.getPlayerName());
+		return this.profile.getPlayerName();
+	}
+
+	public String getColour(){
+		return this.colour;
+	}
+
+	public void setColour(String newColour){
+		this.colour = newColour;
+	}
+
+	public boolean isStartingFirst(){
+		return this.startFirst;
+	}
+
+	public void setFirst(boolean Starting){
+		this.startFirst = Starting;
 	}
 
 	public void setProfile(PlayerProfile profile) {
