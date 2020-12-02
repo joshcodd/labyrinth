@@ -548,16 +548,16 @@ public class GameController implements Initializable {
 
         saveButton.setOnMouseClicked(event -> {
             if (!game.isOver()){
-                TextInputDialog td = new TextInputDialog(Instant.now().toString());
-                td.showAndWait();
+                TextInputDialog input = new TextInputDialog(Instant.now().toString());
+                input.showAndWait();
                 try {
-                    String result = td.getResult().trim();
+                    String result = input.getResult().trim();
                     if (result.equals("")) {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot be empty", ButtonType.CLOSE);
                         alert.showAndWait();
                     } else {
                         try {
-                            FileHandler.saveGameFile(td.getResult(), game);
+                            FileHandler.saveGameFile(input.getResult(), game);
                             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
                         } catch (IOException exception) {
                             exception.printStackTrace();

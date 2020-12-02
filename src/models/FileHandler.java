@@ -756,6 +756,11 @@ public class FileHandler {
 				name = line.next();
 				wins = line.nextInt();
 				losses = line.nextInt();
+				gamesPlayed = line.nextInt();
+
+				System.out.print(gamesPlayed);
+				System.out.print(wins);
+				System.out.print(losses);
 			}
 			line.nextLine();
 		}
@@ -785,7 +790,7 @@ public class FileHandler {
 			line = read.nextLine();
 			System.out.println(line);
 			if (line.contains(playerName)) {
-				line = playerName + "," + wins + "," + losses + "," + gamesPlayed;
+				line = playerName + "," + wins + "," + losses + "," + gamesPlayed + ",";
 				found = true;
 			}
 			newFile = newFile + line + "\n";
