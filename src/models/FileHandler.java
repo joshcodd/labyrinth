@@ -76,7 +76,6 @@ public class FileHandler {
 		ShapeOfTile newShape = null;
 
 		int bendTile = line.nextInt();
-		System.out.println(bendTile);
 		for (int i = 0; i != bendTile; i++) {
 			newShape = ShapeOfTile.BEND;
 			Tile newTile = new FloorTile(1,false,newShape);
@@ -478,7 +477,6 @@ public class FileHandler {
 			for (int j = 0 ; j < width ; j++) {
 				if (g.getAction(new Coord(i,j)) != null){
 					ActionTile t = g.getAction(new Coord(i,j));
-					System.out.println(t);
 					int turns = t.getTurnsSinceUse();
 
 					String type = "";
@@ -757,10 +755,6 @@ public class FileHandler {
 				wins = line.nextInt();
 				losses = line.nextInt();
 				gamesPlayed = line.nextInt();
-
-				System.out.print(gamesPlayed);
-				System.out.print(wins);
-				System.out.print(losses);
 			}
 			line.nextLine();
 		}
@@ -788,7 +782,6 @@ public class FileHandler {
 		playerName = playerName.toLowerCase();
 		while (read.hasNextLine()) {
 			line = read.nextLine();
-			System.out.println(line);
 			if (line.contains(playerName)) {
 				line = playerName + "," + wins + "," + losses + "," + gamesPlayed + ",";
 				found = true;
@@ -817,7 +810,6 @@ public class FileHandler {
 		String line = "";
 		while (read.hasNextLine()) {
 			line = read.nextLine();
-			System.out.println(line);
 			if (!line.contains(playerName)) {
 				newFile = newFile + line + "\n";
 			}
