@@ -173,6 +173,10 @@ public class PlayerSelectionController implements Initializable {
      */
     public void updateTankView(int index, String colour){
         tankViews[index].setImage(new Image("resources/"+colour+".png"));
+        tankViews[index].setFitHeight(60);
+        tankViews[index].setFitWidth(60);
+
+
     }
 
     /**
