@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import models.FileHandler;
 import models.Game;
 import models.Player;
+import views.scenes.EditPlayersScene;
 import views.scenes.GameScene;
 import views.scenes.LevelSelectionScene;
 import java.io.FileNotFoundException;
@@ -338,6 +339,10 @@ public class PlayerSelectionController implements Initializable {
 
         backButt.setOnAction(event -> {
             new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
+        });
+
+        newPlayerButt.setOnAction(event -> {
+            new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
         });
 
         beginButt.setOnAction (event -> {
