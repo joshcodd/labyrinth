@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import views.scenes.MenuScene;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
@@ -434,16 +435,21 @@ public class GameController implements Initializable {
         return arrow;
     }
 
-    private void handleWinSaves() throws IOException {
+    private void handleWinSaves() {
         for (Player player : game.getPlayers()){
-            if (player.getProfileName().equals(game.getCurrentPlayerName())){
-                player.getProfile().incrementWins();
-            } else {
-                player.getProfile().incrementLosses();
+
+            try {
+                if (player.getProfileName().equals(game.getCurrentPlayerName())) {
+                    player.getProfile().incrementWins();
+                } else {
+                    player.getProfile().incrementLosses();
+                }
+                player.getProfile().incrementGamesPlayed();
+                player.getProfile().save();
+                FileHandler.saveLeaderboard(game.getLevelName(), player.getProfileName());
+            } catch (IOException e){
+
             }
-            player.getProfile().incrementGamesPlayed();
-            player.getProfile().save();
-            FileHandler.saveLeaderboard(game.getLevelName(), player.getProfileName());
         }
     }
 
@@ -456,7 +462,7 @@ public class GameController implements Initializable {
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
             game.setOver(true);
-
+            handleWinSaves();
             //TODO Exit game with win screen + related audio
         } else {
             game.nextPlayer();

@@ -695,7 +695,7 @@ public class FileHandler {
 			if (line.contains(levelName)) {
 				found = true;
 				if(!line.contains(playerName)) {
-					line.concat(","+playerName);
+					line = line.concat(","+playerName);
 				}
 			}
 			newFile = newFile + line + "\n";
