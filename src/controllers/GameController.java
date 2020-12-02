@@ -96,7 +96,8 @@ public class GameController implements Initializable {
         topButtons.setTranslateX(50);
         bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
-        setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
+        //setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
+        setPlayerLabel(game.getCurrentPlayerName() +"'s turn'");
         backgroundMusic.setMediaPlayer(mediaPlayer);
         muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "Un-mute":"Mute");
         initializeEventHandlers();
@@ -326,7 +327,7 @@ public class GameController implements Initializable {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
                     int playerNumber = player.getPlayerNumber() + 1;
-                    ImageView tank = new ImageView("resources/" + playerNumber + ".png");
+                    ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
@@ -440,14 +441,14 @@ public class GameController implements Initializable {
         this.setPlayerLabel("No available moves:(");
         gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
-            setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + " Wins!");
+            setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
             game.setOver(true);
             //TODO Exit game with win screen + related audio
         } else {
             game.nextPlayer();
             selectedTile.setImage(null);
             updateActionTileHand();
-            this.setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
+            this.setPlayerLabel(game.getCurrentPlayerName() + "'s turn!");
             drawTile.setDisable(false);
             this.updateArrows(false);
             continueButton.setDisable(true);
