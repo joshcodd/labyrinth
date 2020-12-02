@@ -184,6 +184,7 @@ public class FileHandler {
 		int numPlayers = 0;
 		Player[] players = null;
 		ShapeOfTile shape = null;
+		String fileName = "";
 
 		while(read.hasNext()){
 			if(read.next().equals(">Height+Width")) {
@@ -195,6 +196,7 @@ public class FileHandler {
 			}
 			if(read.hasNext(">Board")) {
 				read.next();
+				fileName = read.next();
 				for (int i = 0; i < height; i++) {
 					for (int j = 0; j < width; j++) {
 						String lines = read.next();
@@ -210,7 +212,7 @@ public class FileHandler {
 						case "BEND":
 							shape = ShapeOfTile.BEND;
 							break;
-						case "T":
+						case "T_SHAPE":
 							shape = ShapeOfTile.T_SHAPE;
 							break;
 						case "STRAIGHT":
@@ -219,7 +221,7 @@ public class FileHandler {
 						case "CROSSROADS":
 							shape = ShapeOfTile.CROSSROADS;
 							break;
-						case "GOAL":
+						case "GOAL_TILE":
 							shape = ShapeOfTile.GOAL_TILE;
 							break;
 						}
@@ -431,7 +433,7 @@ public class FileHandler {
 			read.nextLine();
 		}
 		GameBoard board = new GameBoard(height,width,boardMap,actionMap);
-		Game game = new Game(board);
+		Game game = new Game(board, players, fileName);
 		game.setCurrentTile(currentTile);
 		game.setTileBag(bag);
 		game.setCurrentPlayer(currentPlayer);
@@ -460,6 +462,7 @@ public class FileHandler {
 
 		//next, all tiles on the board: FloorTile(x,y,orientation ,isFixed,shape) 
 		newFile = newFile + ">Board\n";
+		newFile = newFile + game.getLevelName() + "\n";
 		for (int i = 0; i < height; i++) {
 			for (int j = 0 ; j < width ; j++) {
 				FloorTile t = g.getTileAt(new Coord(i,j));

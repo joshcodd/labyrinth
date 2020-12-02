@@ -434,6 +434,19 @@ public class GameController implements Initializable {
         return arrow;
     }
 
+    private void handleWinSaves() throws IOException {
+        for (Player player : game.getPlayers()){
+            if (player.getProfileName().equals(game.getCurrentPlayerName())){
+                player.getProfile().incrementWins();
+            } else {
+                player.getProfile().incrementLosses();
+            }
+            player.getProfile().incrementGamesPlayed();
+            player.getProfile().save();
+            FileHandler.saveLeaderboard(game.getLevelName(), player.getProfileName());
+        }
+    }
+
     /**
      * This method checks if the current player has won, and otherwise sets up the UI for the next player's turn.
      */
@@ -443,6 +456,7 @@ public class GameController implements Initializable {
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
             game.setOver(true);
+
             //TODO Exit game with win screen + related audio
         } else {
             game.nextPlayer();

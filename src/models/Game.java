@@ -16,6 +16,7 @@ public class Game {
     private Tile currentTile = null;
     private boolean isOver = false;
     private int currentPlayer = 0;
+    private String levelName;
 
     /**
      * initialise the game object if its a loaded game
@@ -27,26 +28,19 @@ public class Game {
         this.players = players;
         this.numPlayers = players.length;
         this.gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
+        this.levelName = gameFilename;
     }
 
     /**
      * initialise the game object when the current game is re selected
      * @param board the game boards details to run the game on
-     * @param playerNames list of players playing
+     * @param players list of players playing
      * @throws FileNotFoundException
      */
-    public Game(GameBoard board, String[] playerNames) throws FileNotFoundException {
-        players = new Player[playerNames.length];
-        numPlayers = players.length;
-        for (int i = 0; i < playerNames.length; i++) {
-            PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
-            players[i] = new Player(i, currentProfile);
-        }
-        gameBoard = board;
-    }
-
-    public Game(GameBoard board) {
+    public Game(GameBoard board, Player[] players, String fileName) {
 		this.gameBoard = board;
+		this.players = players;
+		this.levelName = fileName;
 	}
 
 	/**
@@ -171,5 +165,13 @@ public class Game {
     
     public void setCurrentPlayer(int p) {
     	this.currentPlayer = p;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 }
