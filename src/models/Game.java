@@ -117,6 +117,10 @@ public class Game {
         return players[currentPlayer];
     }
 
+    public String getCurrentPlayerName(){
+        return players[currentPlayer].getProfileName();
+    }
+
     public Player[] getPlayers() {
         return players;
     }

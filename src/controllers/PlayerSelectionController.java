@@ -528,7 +528,6 @@ public class PlayerSelectionController implements Initializable {
                     updateStartLabels(players);
                 }
             });
-
         }
 
         numPlayersSlider.getValue();
