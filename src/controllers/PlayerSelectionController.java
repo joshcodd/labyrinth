@@ -201,10 +201,10 @@ public class PlayerSelectionController implements Initializable {
     public String defaultColour = "Auto-Assign";
 
     public CheckBox[] startFirstChecks;
-    
-    public TextField playerName;
 
     public ImageView[] tankViews;
+
+    public boolean startFirstSet = false;
 
     public String gameName;
 
@@ -324,7 +324,6 @@ public class PlayerSelectionController implements Initializable {
                         try {
                             player.setProfile(FileHandler.loadProfile(value));
                             profileLabel.setText(player.getProfileName());
-                            System.out.println("Success");
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -446,6 +445,10 @@ public class PlayerSelectionController implements Initializable {
             }
         } else {
             for (int i = numPlayers; i < oldValue; i++) {
+                if(startFirstChecks[i].isSelected()){
+                    startFirstChecks[i].setSelected(false);
+                    startFirstSet = false;
+                }
                 playerForms[i].setVisible(false);
                 playerForms[i].setManaged(false);
             }
@@ -510,7 +513,6 @@ public class PlayerSelectionController implements Initializable {
                     selectColour(index, player);
                     if(player.hasProfileSet())
                         playerFormData[index][2] = 1;
-                    System.out.println("id: "+playerFormData[index][0]+ "ready:" +playerFormData[index][2]);
                 }
             });
 
@@ -522,6 +524,7 @@ public class PlayerSelectionController implements Initializable {
                 public void handle(ActionEvent event) {
                     if (startFirstChecks[index].isSelected()) {
                         setStartingPlayer(index);
+                        startFirstSet = true;
                     } else {
                         players[index].setFirst(false);
                     }
@@ -560,20 +563,53 @@ public class PlayerSelectionController implements Initializable {
         });
 
 
-            beginButt.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
+        beginButt.setOnAction(new EventHandler<ActionEvent>() {
+            /**
+             * @param event Begin Game
+             */
+            @Override
+            public void handle(ActionEvent event) {
 
-                    System.out.println(Arrays.toString(players));
+                ArrayList<Player> chosenPlayers = new ArrayList<>();
+
+
+                if (startFirstSet) {
+                    for (Player player : players) {
+                        if (player.isStartingFirst()) {
+                            chosenPlayers.add(player);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < numPlayers; i++) {
+                    if ((!chosenPlayers.contains(players[i])) && (playerFormData[i][1] == 1)) {
+                        chosenPlayers.add(players[i]);
+                    }
+                }
+
+                Player[] chosenArray = chosenPlayers.toArray(new Player[numPlayers]);
+
+                boolean profilesReady = true;
+
+                for(int i = 0; i < numPlayers; i++){
+                    if(playerFormData[i][1]==0){
+                        profilesReady = false;
+                    }
+                }
+
+
+                if(profilesReady) {
                     try {
-                        new GameScene(primaryStage, new Game(gameName, players), backgroundMusic.getMediaPlayer());
+                        new GameScene(primaryStage, new Game(gameName, chosenArray), backgroundMusic.getMediaPlayer());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You need to fill all the player values.", ButtonType.CLOSE);
+                    alert.showAndWait();
                 }
+
             }
-        );
-
-
+        });
     }
 }

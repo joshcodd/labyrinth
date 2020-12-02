@@ -327,7 +327,8 @@ public class GameController implements Initializable {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
                     int playerNumber = player.getPlayerNumber() + 1;
-                    ImageView tank = new ImageView("resources/" + playerNumber + ".png");
+                    String newUrl = "resources/" + player.getColourImage() + ".png";
+                    ImageView tank = new ImageView("resources/" + player.getColourImage() + ".png");
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
@@ -346,7 +347,7 @@ public class GameController implements Initializable {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
                     int playerNumber = player.getPlayerNumber() + 1;
-                    ImageView tank = new ImageView("resources/" + playerNumber + ".png");
+                    ImageView tank = new ImageView("resources/" + player.getColourImage() + ".png");
                     tank.setOnMouseClicked(event -> {
                         backtrackPlayer(player);
                     });
