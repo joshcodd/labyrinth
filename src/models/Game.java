@@ -20,18 +20,13 @@ public class Game {
     /**
      * initialise the game object if its a loaded game
      * @param gameFilename
-     * @param playerNames
+     * @param players
      * @throws FileNotFoundException
      */
-    public Game(String gameFilename, String[] playerNames) throws FileNotFoundException {
-        players = new Player[playerNames.length];
-        numPlayers = players.length;
-        for (int i = 0; i < playerNames.length; i++) {
-            PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
-            players[i] = new Player(i, currentProfile);
-        }
-
-        gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
+    public Game(String gameFilename, Player[] players) throws FileNotFoundException {
+        this.players = players;
+        this.numPlayers = players.length;
+        this.gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
     }
 
     /**
@@ -120,6 +115,10 @@ public class Game {
 
     public Player getCurrentPlayer(){
         return players[currentPlayer];
+    }
+
+    public String getCurrentPlayerName(){
+        return players[currentPlayer].getProfileName();
     }
 
     public Player[] getPlayers() {

@@ -1,5 +1,6 @@
 package models;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -10,7 +11,7 @@ public class Player {
 	int playerNumber;
 	ArrayList<ActionTile> actionTiles;
 	PlayerProfile profile;
-	String colour = "Auto-assign";
+	String colour = "Auto-Assign";
 	boolean startFirst = false;
 
 
@@ -106,6 +107,10 @@ public class Player {
 		this.profile = profile;
 	}
 
+	@Override
+	public String toString() {
+		return getProfileName() + " " + getColour();
+	}
 }
 	
 
