@@ -3,14 +3,13 @@ import java.util.*;
 
 /**
  * Class to represent a game board in the game Labyrinth.
- * @author Josh Codd
+ * @author Josh Codd, Neil Woodhouse
  */
 public class GameBoard {
     private int height;
     private int width;
     private FloorTile [][] board;
     private ActionTile [][] actionBoard;
-    private ArrayList<ActionTile> activeTiles;
 
     /**
      * Constructs a game board.
@@ -24,7 +23,6 @@ public class GameBoard {
         this.width = width;
         board = new FloorTile[height][width];
         actionBoard = new ActionTile[height][width];
-        activeTiles = new ArrayList<>();
         initializeBoard(fixedTiles, tileBag);
     }
     
@@ -80,6 +78,7 @@ public class GameBoard {
                     actionBoard[row][i] = actionBoard[row][i + 1];
                 }
                 board[row][width - 1] = tile;
+                actionBoard[row][width - 1] = null;
                 break;
 
             case "DOWN" :
@@ -89,6 +88,7 @@ public class GameBoard {
                     actionBoard[i][row] = actionBoard[i - 1][row];
                 }
                 board[0][row] = tile;
+                actionBoard[0][row] = null;
                 break;
 
             case "UP" :
@@ -98,6 +98,7 @@ public class GameBoard {
                     actionBoard[i][row] = actionBoard[i + 1][row];
                 }
                 board[height - 1][row] = tile;
+                actionBoard[height - 1][row] = null;
                 break;
         }
         return returnTile;
@@ -255,31 +256,19 @@ public class GameBoard {
      * @param numPlayers
      */
     public void refreshActionBoard(int numPlayers) {
-        int turnsPerRound = (numPlayers) - 1;
+        int turnsPerRound = numPlayers;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (actionBoard[x][y] != null){
                     ActionTile currentAction = actionBoard[x][y];
                     currentAction.incrementTurnsSinceUse();
-                    System.out.println("Tile Turns since use:"+currentAction.getTurnsSinceUse());
                     if (currentAction instanceof FireTile && ((currentAction.getTurnsSinceUse() >= (turnsPerRound * 2)))) {
                         actionBoard[x][y] = null;
                     } else if (currentAction instanceof IceTile && ((currentAction.getTurnsSinceUse() >= turnsPerRound))) {
-                        System.out.println("IceTile Turns since use:"+currentAction.getTurnsSinceUse());
                         actionBoard[x][y] = null;
                     }
                 }
             }
-        }
-    }
-
-    //THIS IS A METHOD FOR TESTING -> WILL BE DELETED.
-    public void printBoard() {
-        for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[i].length; j++){
-                System.out.printf("%1$"+ 15 + "s", board[i][j].getShape());
-            }
-            System.out.println();
         }
     }
 }

@@ -51,7 +51,7 @@
       <Pane minWidth="60.0" prefHeight="1330.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <VBox maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="300.0" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="600.0" maxWidth="1200.0" minHeight="400.0" minWidth="300.0" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <HBox fx:id="hBox" prefHeight="600.0" prefWidth="900.0">
                <children>
@@ -90,7 +90,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </CheckBox>
-                        <Label fx:id="profileLabel1" text="Label">
+                        <Label fx:id="profileLabel1" text="Label" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -101,10 +101,10 @@
                         <StackPane fx:id="tankStack1" prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="tankView1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="colourLabel1" text="Label" />
+                              <Label fx:id="colourLabel1" text="Label" visible="false"/>
                            </children>
                         </StackPane>
-                        <Label fx:id="startLabel1" text="Label">
+                        <Label fx:id="startLabel1" text="Will start first" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -146,7 +146,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </CheckBox>
-                        <Label fx:id="profileLabel2" text="Label">
+                        <Label fx:id="profileLabel2" text="Label"  visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -157,10 +157,10 @@
                         <StackPane fx:id="tankStack2" prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="tankView2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="colourLabel2" text="Label" />
+                              <Label fx:id="colourLabel2" text="Label" visible="false"/>
                            </children>
                         </StackPane>
-                        <Label fx:id="startLabel2" text="Label">
+                        <Label fx:id="startLabel2" text="Will start first"  visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -202,7 +202,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </CheckBox>
-                        <Label fx:id="profileLabel3" text="Label">
+                        <Label fx:id="profileLabel3" text="Label" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -213,10 +213,10 @@
                         <StackPane fx:id="tankStack3" prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="tankView3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="colourLabel3" text="Label" />
+                              <Label fx:id="colourLabel3" text="Label" visible="false" />
                            </children>
                         </StackPane>
-                        <Label fx:id="startLabel3" text="Label">
+                        <Label fx:id="startLabel3" text="Will start first" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -258,7 +258,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </CheckBox>
-                        <Label fx:id="profileLabel4" text="Label">
+                        <Label fx:id="profileLabel4" text="Label" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -269,10 +269,10 @@
                         <StackPane fx:id="tankStack4" prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="tankView4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="colourLabel4" text="Label" />
+                              <Label fx:id="colourLabel4" text="Label" visible="false" />
                            </children>
                         </StackPane>
-                        <Label fx:id="startLabel4" text="Label">
+                        <Label fx:id="startLabel4" text="Will start first"  visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -281,7 +281,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="numPlayersLabel" text="Number of Players: x">
+            <Label fx:id="numPlayersLabel" text="Number of Players: 4">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" top="20.0" />
                </VBox.margin>

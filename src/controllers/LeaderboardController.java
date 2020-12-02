@@ -1,11 +1,10 @@
 package controllers;
 
-import javafx.collections.FXCollections;
+import com.sun.deploy.util.StringUtils;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
@@ -13,23 +12,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.AudioPlayer;
 import models.FileHandler;
-import models.Player;
 import models.PlayerProfile;
 import views.scenes.MenuScene;
-import views.scenes.SelectPlayerScene;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static javafx.scene.paint.Color.TRANSPARENT;
+import static javafx.scene.paint.Color.WHITE;
 
 /**
  *
@@ -43,7 +42,7 @@ public class LeaderboardController {
     @FXML
     public MediaView backgroundMusic;
     @FXML
-    public ListView leaderboard;
+    public ListView<HBox> leaderboard;
     public Button muteButton;
 
     ImageView gold = new ImageView(new Image("/resources/gold.png"));
@@ -94,34 +93,51 @@ public class LeaderboardController {
 
             for (int i = 0; i < profiles.size(); i++){
                 PlayerProfile currentProfile = profiles.get(i);
-                String playerString = currentProfile.getPlayerName() + " "
-                        + currentProfile.getNumberofWins() + " wins.";
-                Text playerText = new Text(playerString);
+
+
+                String name = currentProfile.getPlayerName();
+                String space = new String(new char[10 - name.length()]).replace("\0", "0");
+                int wins = currentProfile.getNumberofWins();
+                int losses = currentProfile.getNumberofLosses();
+                int games = currentProfile.getNumberofGamesPlayed();
+
+                Text playerText = new Text(name);
+                Text whitespace = new Text(space);
+                whitespace.setFill(TRANSPARENT);
+                Text stats = new Text("| " + wins + " wins | " + losses + " losses | " + games + " games played");
 
                 switch (i){
                     case 0 :
                         gold.setFitHeight(30);
                         gold.setFitWidth(30);
                         playerText.getStyleClass().add("lb-text-win");
-                        leaderboard.getItems().add(new HBox(gold, playerText));
+                        whitespace.getStyleClass().add("lb-text-win");
+                        stats.getStyleClass().add("lb-text-win");
+                        leaderboard.getItems().add(new HBox(gold, playerText, whitespace,stats));
                         break;
 
                     case 1 :
                         silver.setFitHeight(30);
                         silver.setFitWidth(30);
+                        whitespace.getStyleClass().add("lb-text-win");
+                        stats.getStyleClass().add("lb-text-win");
                         playerText.getStyleClass().add("lb-text-win");
-                        leaderboard.getItems().add(new HBox(silver, playerText));
+                        leaderboard.getItems().add(new HBox(silver, playerText, whitespace,stats));
                         break;
 
                     case 2 :
                         bronze.setFitHeight(30);
                         bronze.setFitWidth(30);
+                        whitespace.getStyleClass().add("lb-text-win");
+                        stats.getStyleClass().add("lb-text-win");
                         playerText.getStyleClass().add("lb-text-win");
-                        leaderboard.getItems().add(new HBox(bronze, playerText));
+                        leaderboard.getItems().add(new HBox(bronze, playerText, whitespace,stats));
                         break;
                     default:
+                        whitespace.getStyleClass().add("lb-text");
+                        stats.getStyleClass().add("lb-text");
                         playerText.getStyleClass().add("lb-text");
-                        HBox cell = new HBox(playerText);
+                        HBox cell = new HBox(playerText, whitespace,stats);
                         cell.setPadding(new Insets(5,0,5,30));
                         leaderboard.getItems().add(cell);
                 }

@@ -36,4 +36,8 @@ public class TileBag {
         tileBag.add(tile);
     }
 
+    public int getSize(){
+        return tileBag.size();
+    }
+
 }

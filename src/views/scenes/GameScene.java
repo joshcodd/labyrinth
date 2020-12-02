@@ -38,6 +38,7 @@ public class GameScene {
 
         controller.updateGameBoard();
         controller.drawPlayers();
-        controller.updateArrows(false);
+        boolean isMidTurn = (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile);
+        controller.updateArrows(isMidTurn);
     }
 }

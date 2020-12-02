@@ -16,11 +16,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
-import models.NewPlayer;
+import models.FileHandler;
+import models.Game;
+import models.Player;
 import models.PlayerProfile;
 import views.scenes.EditPlayersScene;
+import views.scenes.GameScene;
 import views.scenes.LevelSelectionScene;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -34,14 +39,11 @@ import static javafx.collections.FXCollections.observableArrayList;
  */
 
 public class PlayerSelectionController implements Initializable {
+    @FXML
     public Button muteButton;
-    @FXML HBox hBox1;
 
     @FXML
     public MediaView backgroundMusic;
-
-    @FXML
-    public Label title;
 
     @FXML
     public VBox playerForm1;
@@ -90,9 +92,6 @@ public class PlayerSelectionController implements Initializable {
 
     @FXML
     public Button confButt4;
-    
-    @FXML
-    public Button createPlayer;
 
     @FXML
     public ChoiceBox<String> colourBox1;
@@ -198,6 +197,8 @@ public class PlayerSelectionController implements Initializable {
 
     public ChoiceBox<String>[] colourBoxes;
 
+    public String defaultColour = "Auto-Assign";
+
     public CheckBox[] startFirstChecks;
     
     public TextField playerName;
@@ -208,9 +209,11 @@ public class PlayerSelectionController implements Initializable {
 
     public Stage primaryStage;
 
-    public NewPlayer[] players;
+    public Player[] players;
 
     public int numPlayers = 4;
+
+    public int[][] playerFormData;
 
     /**
      *
@@ -219,7 +222,7 @@ public class PlayerSelectionController implements Initializable {
     public void setColourBoxes(){
         for(int i = 0; i<4; i++){
             colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert Camo","Auto-Assign"));
-            colourBoxes[i].setValue("Auto-Assign");
+            colourBoxes[i].setValue(defaultColour);
         }
     }
 
@@ -252,12 +255,12 @@ public class PlayerSelectionController implements Initializable {
         this.primaryStage = primaryStage;
     }
 
-    public void updateStartLabels(NewPlayer[] players){
+    public void updateStartLabels(Player[] players){
         for(int i=0;i<players.length;i++) {
-            if(players[i].startFirst){
-                startLabels[i].setText("Starting First");
+            if(players[i].isStartingFirst()){
+                startLabels[i].setVisible(true);
             } else {
-                startLabels[i].setText("");
+                startLabels[i].setVisible(false);
             }
         }
     }
@@ -266,9 +269,9 @@ public class PlayerSelectionController implements Initializable {
      * @param index
      * @param player
      */
-    public void updateTankView(int index, NewPlayer player){
+    public void updateTankView(int index, Player player){
         String imageName;
-        switch(player.colour){
+        switch(player.getColour()){
             case "Green":
                 imageName="1";
                 break;
@@ -291,16 +294,8 @@ public class PlayerSelectionController implements Initializable {
      * @param index
      * @param player
      */
-    public void updateProfileLabel(int index, NewPlayer player) {
-        profileLabels[index].setText(player.profileName);
-    }
-
-    /**
-     * @param index
-     * @param player
-     */
-    public void updateColourLabel(int index, NewPlayer player) {
-        colourLabels[index].setText(player.colour);
+    public void updateColourLabel(int index, Player player) {
+        colourLabels[index].setText(player.getColour());
     }
 
     /**
@@ -309,19 +304,94 @@ public class PlayerSelectionController implements Initializable {
      * @param value
      * @return
      */
-    public boolean checkNotTaken(int id, String field, String value){
+
+
+    /**
+     * @param index
+     */
+    public void selectProfile(int index, Player player){
+        ChoiceBox<String> profileBox = profileBoxes[index];
+        Label profileLabel = profileLabels[index];
+
+        String value = profileBox.getValue();
+            if(value != null){
+                if (!checkTaken(index, "name", value)) {
+                    if(player.hasProfileSet()) {
+                        player.getProfile().setplayerName(value);
+                        profileLabel.setText(player.getProfileName());
+                    } else {
+                        try {
+                            player.setProfile(FileHandler.loadProfile(value));
+                            profileLabel.setText(player.getProfileName());
+                            System.out.println("Success");
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    profileBox.setValue(null);
+                    profileLabel.setText("Profile taken.");
+                }
+
+            } else {
+                profileLabel.setText("No profile selected");
+            }
+        profileLabel.setVisible(true);
+    }
+
+    /**
+     * @param index
+     */
+    public void selectColour(int index, Player player){
+        ChoiceBox<String> colourBox = colourBoxes[index];
+        Label colourLabel = colourLabels[index];
+
+        String colour = colourBox.getValue();
+
+        if(!colour.equals("Auto-Assign")) {
+
+            if (!checkTaken(index, "colour", colour)) {
+                player.setColour(colour);
+                colourLabel.setText(player.getColour());
+
+            } else {
+                colourLabel.setText("Colour taken. ");
+            }
+        } else {
+            colourLabel.setText("Auto-assign colour");
+            player.setColour(colour);
+        }
+        updateTankView(index, player);
+        colourLabel.setVisible(true);
+    }
+
+    public void setConfLabels(int index, boolean value){
+        if(value) {
+            profileLabels[index].setVisible(true);
+            colourLabels[index].setVisible(true);
+            playerFormData[index][1] = 1;
+        } else {
+            profileLabels[index].setVisible(false);
+            colourLabels[index].setVisible(false);
+            playerFormData[index][1] = 0;
+        }
+    }
+
+    public boolean checkTaken(int id, String field, String value){
         int count = 0;
         boolean taken = true;
-        for(int i =0; i< players.length;i++){
+        for(int i =0; i < numPlayers;i++){
             if(i==id){
                 continue;
             }
             if(field.equals("name")){
-                if(players[i].profileName.equals(value)){
-                    count+=1;
+                if(players[i].hasProfileSet()) {
+                    if (players[i].getProfileName().equals(value)) {
+                        count += 1;
+                    }
                 }
             } else if (field.equals("colour")){
-                if(players[i].colour.equals(value)){
+                if(players[i].getColour().equals(value)){
                     count+=1;
                 }
             } else {System.out.println("checkTaken: invalid field");}
@@ -329,39 +399,7 @@ public class PlayerSelectionController implements Initializable {
         if(count<1){
             taken = false;
         }
-        return !taken;
-    }
-
-    /**
-     * @param index
-     */
-    public void selectPlayer(int index){
-        String value = profileBoxes[index].getValue();
-        if(value != null){
-            if(checkNotTaken(index, "name", value)){
-                players[index].profileName = value;
-                updateProfileLabel(index, players[index]);
-            } else {
-                profileLabels[index].setText("Profile taken.");
-            }
-        }
-
-    }
-
-    /**
-     * @param index
-     */
-    public void selectColour(int index){
-        String colour = colourBoxes[index].getValue();
-        if(colour!= null) {
-            if (checkNotTaken(index, "colour", colour)) {
-                players[index].colour = colour;
-                updateColourLabel(index, players[index]);
-            } else {
-                colourLabels[index].setText("Colour taken. ");
-            }
-        }
-        updateTankView(index, players[index]);
+        return taken;
     }
 
 
@@ -371,30 +409,44 @@ public class PlayerSelectionController implements Initializable {
     public void setStartingPlayer(int index){
         for(int i = 0; i<4; i++){
             if(i!=index) {
-                if (players[i].startFirst) {
-                    players[i].startFirst = false;
+                if (players[i].isStartingFirst()) {
+                    players[i].setFirst(false);
                 }
                 startFirstChecks[i].setSelected(false);
             }
         }
-        players[index].startFirst = true;
+        players[index].setFirst(true);
     }
 
     /**
-     * @param decrease
+     * @param increase
      * @param oldValue
      */
-    public void updatePlayerForms(boolean decrease, int oldValue){
-        if(decrease) {
-            for (int i = numPlayers; i < oldValue; i++) {
-                playerForms[i].setVisible(false);
-                playerForms[i].setManaged(false);
-            }
-        }
-        else{
+    public void updatePlayerForms(boolean increase, int oldValue){
+        if(increase) {
             for(int i = oldValue; i<numPlayers; i++) {
                 playerForms[i].setVisible(true);
                 playerForms[i].setManaged(true);
+
+                if (playerFormData[i][1] == 1) {
+                    if (checkTaken(i, "name", players[i].getProfileName())) {
+
+                        profileBoxes[i].setValue(null);
+                        selectProfile(i, players[i]);
+
+                    }
+                    if (checkTaken(i, "colour", players[i].getColour())) {
+                        colourBoxes[i].setValue(defaultColour);
+                        selectColour(i, players[i]);
+                    }
+                } else {
+                    setConfLabels(i, false);
+                }
+            }
+        } else {
+            for (int i = numPlayers; i < oldValue; i++) {
+                playerForms[i].setVisible(false);
+                playerForms[i].setManaged(false);
             }
         }
     }
@@ -409,7 +461,6 @@ public class PlayerSelectionController implements Initializable {
         if(event.getSource()==newPlayerButt){
             stage2 = (Stage)newPlayerButt.getScene().getWindow();
             root2 = FXMLLoader.load(getClass().getResource("CreatePlayer.fxml"));
-
         }
         else{
             stage2 = (Stage) backButt.getScene().getWindow();
@@ -428,10 +479,10 @@ public class PlayerSelectionController implements Initializable {
     	Stage stage;
     	Parent root;
     	
-    	if(event.getSource()==createPlayer){
-    		createPlayer.setOnAction(a -> playerName.getText());
+    	if(event.getSource()==newPlayerButt){
+    		newPlayerButt.setOnAction(a -> playerName.getText());
     		new PlayerProfile(playerName.getText(),0,0,0);
-    		stage = (Stage)createPlayer.getScene().getWindow();
+    		stage = (Stage)newPlayerButt.getScene().getWindow();
     		root = FXMLLoader.load(getClass().getResource("CPlayer.fxml"));
         }
     	
@@ -459,23 +510,36 @@ public class PlayerSelectionController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.playerForms = new VBox[]{playerForm1,playerForm2,playerForm3,playerForm4};
+        this.playerForms = new VBox[]{playerForm1, playerForm2, playerForm3, playerForm4};
         this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2, profileBox3, profileBox4};
-        this.colourBoxes = new ChoiceBox[]{colourBox1,colourBox2, colourBox3, colourBox4};
-        this.profileLabels = new Label[]{profileLabel1,profileLabel2,profileLabel3,profileLabel4};
-        this.colourLabels = new Label[]{colourLabel1,colourLabel2,colourLabel3,colourLabel4};
-        this.startLabels = new Label[]{startLabel1,startLabel2,startLabel3, startLabel4};
-        this.confButtons = new Button[]{confButt1,confButt2, confButt3, confButt4};
-        this.startFirstChecks = new CheckBox[]{startFirst1,startFirst2,startFirst3,startFirst4};
-        this.tankViews = new ImageView[]{tankView1,tankView2,tankView3,tankView4};
+        this.colourBoxes = new ChoiceBox[]{colourBox1, colourBox2, colourBox3, colourBox4};
+        this.profileLabels = new Label[]{profileLabel1, profileLabel2, profileLabel3, profileLabel4};
+        this.colourLabels = new Label[]{colourLabel1, colourLabel2, colourLabel3, colourLabel4};
+        this.startLabels = new Label[]{startLabel1, startLabel2, startLabel3, startLabel4};
+        this.confButtons = new Button[]{confButt1, confButt2, confButt3, confButt4};
+        this.startFirstChecks = new CheckBox[]{startFirst1, startFirst2, startFirst3, startFirst4};
+        this.tankViews = new ImageView[]{tankView1, tankView2, tankView3, tankView4};
+        // key {playerNum, showing confirmations, ready}
+        this.playerFormData = new int[][]{{1,0,0},{2,0,0},{3,0,0},{4,0,0}};
+
+        players = new Player[]{
+                new Player(1, null), new Player(2, null),
+                new Player(3, null), new Player(4, null)};
+
+
+        try {
+            setProfileBoxes(FileHandler.getAllNames());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
 
 
         // set each player form
-        for(int i = 0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
 
             int index = i;
-
-            players = new NewPlayer[]{new NewPlayer(),new NewPlayer(), new NewPlayer(), new NewPlayer()};
 
             confButtons[index].setOnAction(new EventHandler<ActionEvent>() {
                 /**
@@ -483,8 +547,13 @@ public class PlayerSelectionController implements Initializable {
                  */
                 @Override
                 public void handle(ActionEvent event) {
-                    selectPlayer(index);
-                    selectColour(index);
+                    Player player = players[index];
+                    playerFormData[index][1] = 1;
+                    selectProfile(index, player);
+                    selectColour(index, player);
+                    if(player.hasProfileSet())
+                        playerFormData[index][2] = 1;
+                    System.out.println("id: "+playerFormData[index][0]+ "ready:" +playerFormData[index][2]);
                 }
             });
 
@@ -497,48 +566,76 @@ public class PlayerSelectionController implements Initializable {
                     if (startFirstChecks[index].isSelected()) {
                         setStartingPlayer(index);
                     } else {
-                        players[index].startFirst = false;
+                        players[index].setFirst(false);
                     }
                     updateStartLabels(players);
                 }
             });
 
-            numPlayersSlider.getValue();
-
-            numPlayersSlider.valueProperty().addListener(new ChangeListener<Number>() {
-                /**
-                 * @param observable
-                 * @param oldValue
-                 * @param newValue
-                 */
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    numPlayers = newValue.intValue();
-                    updatePlayerForms(oldValue.intValue() > numPlayers, oldValue.intValue());
-
-                    numPlayersLabel.setText("Number of Players: " + numPlayers);
-                }
-            });
-
-            newPlayerButt.setOnAction(new EventHandler<ActionEvent>() {
-                /**
-                 * @param event
-                 */
-                @Override
-                public void handle(ActionEvent event) {
-                    new EditPlayersScene(primaryStage,backgroundMusic.getMediaPlayer());
-                }
-            });
-
-            backButt.setOnAction(new EventHandler<ActionEvent>() {
-                /**
-                 * @param event
-                 */
-                @Override
-                public void handle(ActionEvent event) {
-                    new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
-                }
-            });
         }
+
+        numPlayersSlider.getValue();
+
+        numPlayersSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            /**
+             * @param observable
+             * @param oldValue
+             * @param newValue
+             */
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                numPlayers = newValue.intValue();
+                updatePlayerForms(oldValue.intValue() < numPlayers, oldValue.intValue());
+
+                numPlayersLabel.setText("Number of Players: " + numPlayers);
+            }
+        });
+
+        newPlayerButt.setOnAction(new EventHandler<ActionEvent>() {
+            /**
+             * @param
+             */
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("yo");
+                try {
+                    createPlayer(event);
+                } catch (Exception e) {
+                    System.out.println("yo");
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        backButt.setOnAction(new EventHandler<ActionEvent>() {
+            /**
+             * @param event Go back
+             */
+
+            @Override
+            public void handle(ActionEvent event) {
+                new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
+            }
+        });
+
+
+        //implement begin button
+
+            /*beginButt.setOnAction(new EventHandler<ActionEvent>() {
+                ///*
+                @param event
+
+
+                @Override
+                public void handle(ActionEvent event) {
+                    Game beginGame = new Game("string", new String[]{"Chung"});
+                    new GameScene(primaryStage, beginGame, backgroundMusic.getMediaPlayer());
+                }
+
+            }
+        );*/
+
+
     }
 }
