@@ -4,6 +4,9 @@ package models;
  * @author George Boumphrey    @StudentID 851192
  */
 public class BackTrackTile extends ActionTile {
+    /**
+     * sends the player back to previous position from 2 turns ago
+     */
     public void Action() {
 
     }

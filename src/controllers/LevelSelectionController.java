@@ -16,7 +16,9 @@ import java.io.FileNotFoundException;
 import java.util.Objects;
 
 /**
- *
+ * Controller class for the level selection scene
+ * @author George Boumphrey
+ * @StudentID 851192
  */
 public class LevelSelectionController {
 
@@ -35,14 +37,15 @@ public class LevelSelectionController {
     Stage primaryStage;
 
     /**
-     *
+     * method to set options in the choiceBox
      */
     public void setDropdown(){
         dropdown.setItems(getLevels());
     }
 
     /**
-     * @return
+     * method to create a list of levels from a directory containing level files
+     * @return list of level file names
      */
     public ObservableList<String> getLevels(){
         File folder = new File("src/gamefiles/levels");
@@ -54,6 +57,7 @@ public class LevelSelectionController {
     }
 
     /**
+     * when confirm button pressed, progress to player select scene
      * @param actionEvent
      * @throws FileNotFoundException
      */
@@ -66,6 +70,7 @@ public class LevelSelectionController {
     }
 
     /**
+     * when back button pressed, return to main menu
      * @param actionEvent
      */
     public void handleBack(ActionEvent actionEvent) {
@@ -74,6 +79,7 @@ public class LevelSelectionController {
     }
 
     /**
+     * mute background music
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -82,6 +88,7 @@ public class LevelSelectionController {
     }
 
     /**
+     * set background music
      * @param backgroundMusic
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
@@ -90,6 +97,7 @@ public class LevelSelectionController {
     }
 
     /**
+     * set the stage for this scene
      * @param primaryStage
      */
     public void setPrimaryStage(Stage primaryStage) {

@@ -4,6 +4,9 @@ package models;
  * @author George Boumphrey    @StudentID 851192
  */
 public class DoubleMoveTile extends ActionTile {
+    /**
+     * allows the player to move
+     */
     public void Action() {
 
     }

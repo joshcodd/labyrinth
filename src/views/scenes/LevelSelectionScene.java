@@ -13,11 +13,20 @@ import javafx.stage.Stage;
 import models.Constants;
 
 
+/**
+ * Class that represents level select screen
+ * @author George Boumphrey
+ * @StudentID 851192
+ */
 public class LevelSelectionScene {
     private Stage primaryStage;
     private LevelSelectionController controller;
 
-
+    /**
+     * Method to construct level select scene
+     * @param stage the stage to display this scene
+     * @param backgroundMusic the background music to play in this scene
+     */
     public LevelSelectionScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
 
