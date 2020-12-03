@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
- *
+ * The type Select player scene.
  */
 public class SelectPlayerScene {
 
@@ -31,9 +31,11 @@ public class SelectPlayerScene {
 
 
     /**
-     * @param stage
-     * @param level
-     * @param backgroundMusic
+     * Instantiates a new Select player scene.
+     *
+     * @param stage           the stage
+     * @param level           the level
+     * @param backgroundMusic the background music
      */
     public SelectPlayerScene (Stage stage, String level, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;

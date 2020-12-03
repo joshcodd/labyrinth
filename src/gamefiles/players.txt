@@ -6,3 +6,4 @@ james,5,6,66,
 george,6,10,12,
 luka,4,6,5,
 chi,0,0,0,
+jimma,0,0,0
