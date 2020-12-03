@@ -367,21 +367,19 @@ public class PlayerSelectionController implements Initializable {
                     }
                 }
 
-                if (isSelected){
-                    Player[] playerFinal = new Player[numPlayers];
-                    if (numPlayers >= 0) System.arraycopy(players, 0, playerFinal, 0, numPlayers);
-                    playerFinal = autoAssignColour(playerFinal);
+                Player[] playerFinal = new Player[numPlayers];
+                if (numPlayers >= 0) System.arraycopy(players, 0, playerFinal, 0, numPlayers);
+                playerFinal = autoAssignColour(playerFinal);
+
+                if (isSelected) {
                     Player temp = playerFinal[0];
                     playerFinal[0] = playerFinal[startingPlayerIndex];
                     playerFinal[startingPlayerIndex] = temp;
-                    try {
-                        new GameScene(primaryStage, new Game(gameName, playerFinal), backgroundMusic.getMediaPlayer());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Pick starting player.", ButtonType.CLOSE);
-                    alert.showAndWait();
+                }
+                try {
+                    new GameScene(primaryStage, new Game(gameName, playerFinal), backgroundMusic.getMediaPlayer());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
 
             } else {

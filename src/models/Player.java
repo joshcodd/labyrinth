@@ -106,6 +106,28 @@ public class Player {
 		this.profile = profile;
 	}
 
+	public String getColourImage(){
+		String imageName;
+
+		switch(colour) {
+			case "Green":
+				imageName = "1";
+				break;
+			case "Red":
+				imageName = "2";
+				break;
+			case "Desert Camo":
+				imageName = "3";
+				break;
+			case "Blue":
+				imageName = "4";
+				break;
+			default:
+				imageName = "5";
+		}
+		return imageName;
+	}
+
 	@Override
 	public String toString() {
 		return getProfileName() + " " + getColour();
