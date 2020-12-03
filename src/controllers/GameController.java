@@ -649,16 +649,16 @@ public class GameController implements Initializable {
 
         saveButton.setOnMouseClicked(event -> {
             if (!game.isOver()){
-                TextInputDialog input = new TextInputDialog(Instant.now().toString());
+                TextInputDialog input = new TextInputDialog(Instant.now().toString().replaceAll("[\\\\/:*?\"\"<>|]",""));
                 input.showAndWait();
                 try {
-                    String result = input.getResult().trim();
+                    String result = input.getResult().trim().replaceAll("[\\\\/:*?\"\"<>|]","");
                     if (result.equals("")) {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot be empty", ButtonType.CLOSE);
                         alert.showAndWait();
                     } else {
                         try {
-                            FileHandler.saveGameFile(input.getResult(), game);
+                            FileHandler.saveGameFile(result, game);
                             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
                         } catch (IOException exception) {
                             exception.printStackTrace();
@@ -674,7 +674,7 @@ public class GameController implements Initializable {
 
                     }
                 } catch (NullPointerException ignored){
-                    ignored.printStackTrace();
+                    //Handles the user cancelling the save action, which is permitted behaviour
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Game is over.", ButtonType.CLOSE);
