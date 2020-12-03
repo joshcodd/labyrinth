@@ -265,8 +265,9 @@ public class GameController implements Initializable {
             if (currentAction instanceof FireTile) {
                 StackPane action = (StackPane)node;
                 ImageView fire = new ImageView("/resources/FireTile.png");
-                fire.setFitWidth(40);
-                fire.setFitHeight(40);
+                fire.setFitWidth(60);
+                fire.setFitHeight(60);
+                fire.setRotate(new Random().nextInt(360));
                 action.getChildren().add(fire);
             }
             else if (currentAction instanceof IceTile) {
