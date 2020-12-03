@@ -1,8 +1,11 @@
 package controllers;
+import javafx.animation.TranslateTransition;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import models.*;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -185,20 +188,72 @@ public class GameController implements Initializable {
                 x.setFitWidth(40);
                 x.setFitHeight(40);
                 tile.getChildren().add(x);
-
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
-                    game.getCurrentPlayer().movePlayer(curr);
                     tile.getChildren().remove(x);
-                    updateGameBoard();
-                    if (continueButton.isDisabled() && drawTile.isDisabled()) {
-                        nextRound();
-                    }
-                    drawPlayers();
+                    animateMove(curr);
+                    game.getCurrentPlayer().movePlayer(curr);
                     new AudioPlayer().clickPlay();
                 });
             }
         }
+    }
+
+    /**
+     *
+     */
+    public ImageView getPlayer(StackPane tile) {
+        ImageView playerPiece = null;
+        playerPiece = (ImageView) tile.getChildren().get(tile.getChildren().size() - 1);
+        return playerPiece;
+    }
+
+    /**
+     *
+     */
+    public StackPane getTilePane(int x, int y) {
+        StackPane tile = null;
+        for (Node node : gameBoardPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == y
+                    && GridPane.getRowIndex(node) == x) {
+                tile = (StackPane) node;
+            }
+        }
+        return tile;
+    }
+
+    private void animateMove(Coord destination) {
+        Coord currPosition = game.getCurrentPlayer().getCurrentPosition();
+        StackPane currentPane = getTilePane(currPosition.getX(), currPosition.getY());
+        StackPane destPane = getTilePane(destination.getX(), destination.getY());
+        StackPane finalPane = getTilePane(gameBoard.getWidth() - 1, gameBoard.getHeight() - 1);
+        ImageView tank = getPlayer(currentPane);
+        Point2D tankReal = currentPane.localToScene(currentPane.getWidth()/2,currentPane.getWidth()/2);
+        Point2D tankDest = destPane.localToScene(destPane.getWidth()/2,destPane.getHeight()/2);
+        Point2D tankFake = finalPane.localToScene(finalPane.getWidth()/2,finalPane.getWidth()/2);
+        double fakeX = tankReal.getX() - tankFake.getX();
+        double fakeY = tankReal.getY() - tankFake.getY();
+        double transX = tankDest.getX() - tankFake.getX();
+        double transY = tankDest.getY() - tankFake.getY();
+        currentPane.getChildren().remove(tank);
+        finalPane.getChildren().add(tank);
+        tank.setTranslateX(fakeX);
+        tank.setTranslateY(fakeY);
+
+        TranslateTransition translateTransition = new TranslateTransition();
+        translateTransition.setDuration(Duration.seconds(1));
+        translateTransition.setToX(transX);
+        translateTransition.setToY(transY);
+        translateTransition.setNode(tank);
+        translateTransition.play();
+
+        translateTransition.setOnFinished(e->{
+            if (continueButton.isDisabled() && drawTile.isDisabled()) {
+                nextRound();
+            }
+            updateGameBoard();
+            drawPlayers();
+        });
     }
 
     /**
