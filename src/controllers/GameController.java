@@ -351,7 +351,7 @@ public class GameController implements Initializable {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
                     int playerNumber = player.getPlayerNumber() + 1;
-                    ImageView tank = new ImageView("resources/" + playerNumber + ".png");
+                    ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
                     tank.setOnMouseClicked(event -> {
                         backtrackPlayer(player);
                     });
