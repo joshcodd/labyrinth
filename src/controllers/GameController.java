@@ -493,12 +493,16 @@ public class GameController implements Initializable {
      * @return the rotation value of the tile (in degrees) (possible values: 0, 90, 180, 270)
      */
     private double getRotationValue(int orientation) {
-        return switch (orientation) {
-            case 1 -> 90;
-            case 2 -> 180;
-            case 3 -> 270;
-            default -> 0;
-        };
+        switch (orientation) {
+            case 1 :
+                return 90;
+            case 2 :
+                return 180;
+            case 3 :
+                return 270;
+            default:
+                return 0;
+        }
     }
 
     /**
