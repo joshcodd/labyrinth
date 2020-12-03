@@ -11,7 +11,7 @@ public class Player {
 	int playerNumber;
 	ArrayList<ActionTile> actionTiles;
 	PlayerProfile profile;
-	String colour = "Auto-assign";
+	String colour = "Auto-Assign";
 	boolean startFirst = false;
 
 
@@ -131,15 +131,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player{" +
-				"currentPosition=" + currentPosition +
-				", previousPositions=" + Arrays.toString(previousPositions) +
-				", playerNumber=" + playerNumber +
-				", actionTiles=" + actionTiles +
-				", profile=" + profile +
-				", colour='" + colour + '\'' +
-				", startFirst=" + startFirst +
-				'}';
+		return getProfileName() + " " + getColour();
 	}
 }
 	

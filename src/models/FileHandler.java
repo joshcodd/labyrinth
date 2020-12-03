@@ -399,7 +399,9 @@ public class FileHandler {
 					Coord xy0 = new Coord(x0,y0);
 					Coord xy1 = new Coord(x1,y1);
 					String name = line.next();
+					String colour = line.next();
 					Player p = new Player(playerNum,loadProfile(name));
+					p.setColour(colour);
 					players[playerNum] = p;
 					p.setCurrentPosition(xy);
 					p.setPrevPosition(0,xy0);
@@ -603,7 +605,8 @@ public class FileHandler {
 			int x1 = player.getPrevPosition(1).getX();
 			int y1 = player.getPrevPosition(1).getY();
 			String name = player.getProfile().getPlayerName();
-			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name;
+			String colour = player.getColour();
+			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name + "," + colour;
 
 			ArrayList<ActionTile> tiles = player.getActionTiles();
 			int fireTile = 0;
