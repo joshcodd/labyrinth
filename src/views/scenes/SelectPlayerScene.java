@@ -6,6 +6,8 @@ package views.scenes;
  */
 
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaView;
 import models.Constants;
 import models.FileHandler;
@@ -51,7 +53,13 @@ public class SelectPlayerScene {
 
         } catch (Exception e){
             e.printStackTrace();
-
+            Alert internalIOError = new Alert(Alert.AlertType.ERROR,
+                    "The game encountered a fatal error when attempting to load an internal file. " +
+                            "Please check the integrity of your installation." +
+                            "The game will now close.",
+                    ButtonType.OK);
+            internalIOError.showAndWait();
+            stage.close();
         }
     }
 }
