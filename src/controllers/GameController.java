@@ -2,6 +2,7 @@ package controllers;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
@@ -70,6 +71,8 @@ public class GameController implements Initializable {
     private HBox actionTilePane;
     @FXML
     private Button quitButton;
+    @FXML
+    private VBox window;
 
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
@@ -100,17 +103,13 @@ public class GameController implements Initializable {
         topButtons.setTranslateX(50);
         bottomButtons.setTranslateX(50);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
-        //setPlayerLabel("Player " + (game.getCurrentPlayerNum() + 1) + "'s turn!");
         setPlayerLabel(game.getCurrentPlayerName() +"'s turn'");
         backgroundMusic.setMediaPlayer(mediaPlayer);
         muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "Un-mute":"Mute");
         initializeEventHandlers();
         updateActionTileHand();
         drawActions();
-
-
-
-
+        setTankSpin();
         if (game.getCurrentTile() != null && game.getCurrentTile() instanceof ActionTile){
             selectedActionTile = (ActionTile) game.getCurrentTile();
             selectedTile.setImage(new Image("/resources/" + selectedActionTile.getClass().getName()
@@ -123,6 +122,19 @@ public class GameController implements Initializable {
             selectedTile.setImage(getTileImage(tile).getImage());
             drawTile.setDisable(true);
         }
+    }
+
+    private void setTankSpin() {
+        window.setOnMouseMoved(event -> {
+            Coord currentPosition = game.getCurrentPlayer().getCurrentPosition();
+            ImageView playerTank = getPlayer(getTilePane(currentPosition.getX(), currentPosition.getY()));
+            Point2D tankPosition = playerTank.localToScene(playerTank.getFitHeight()/2,
+                    playerTank.getFitWidth()/2);
+            int diffY = (int) (event.getY() - tankPosition.getY());
+            int diffX = (int) (event.getX() - tankPosition.getX());
+            float rotationValue = ((float)Math.toDegrees(Math.atan2(diffY, diffX)) % 360) - 90  ;
+            playerTank.setRotate(rotationValue);
+        });
     }
 
     /**
@@ -190,6 +202,7 @@ public class GameController implements Initializable {
                 tile.getChildren().add(x);
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
+                    window.setOnMouseMoved(null);
                     tile.getChildren().remove(x);
                     animateMove(curr);
                     game.getCurrentPlayer().movePlayer(curr);
@@ -524,9 +537,11 @@ public class GameController implements Initializable {
      * This method checks if the current player has won, and otherwise sets up the UI for the next player's turn.
      */
     private void nextRound() {
+        setTankSpin();
+
         gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
-            setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
+            setPlayerLabel(game.getCurrentPlayerName() + " wins!");
             game.setOver(true);
             handleWinSaves();
         } else {
