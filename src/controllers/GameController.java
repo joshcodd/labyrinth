@@ -2,6 +2,8 @@ package controllers;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -17,7 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import views.scenes.MenuScene;
 
-import java.io.FileNotFoundException;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
@@ -30,29 +32,29 @@ import java.util.*;
  */
 public class GameController implements Initializable {
     @FXML
-    public GridPane bottomButtons;
+    private GridPane bottomButtons;
     @FXML
-    public GridPane topButtons;
+    private GridPane topButtons;
     @FXML
-    public GridPane leftButtons;
+    private GridPane leftButtons;
     @FXML
-    public GridPane rightButtons;
+    private GridPane rightButtons;
     @FXML
-    public Label playerLabel;
+    private Label playerLabel;
     @FXML
-    public HBox boardArea;
+    private HBox boardArea;
     @FXML
-    public javafx.scene.image.ImageView selectedTile;
+    private javafx.scene.image.ImageView selectedTile;
     @FXML
-    public Button actionButton;
+    private Button actionButton;
     @FXML
-    public Button continueButton;
+    private Button continueButton;
     @FXML
-    public ImageView incrementOrientation;
+    private ImageView incrementOrientation;
     @FXML
-    public ImageView decrementOrientation;
+    private ImageView decrementOrientation;
     @FXML
-    public Button drawTile;
+    private Button drawTile;
     @FXML
     private GridPane gameBoardPane;
     @FXML
@@ -73,18 +75,32 @@ public class GameController implements Initializable {
     private Button quitButton;
     @FXML
     private VBox window;
-
+    private ActionTile selectedActionTile;
     private GameBoard gameBoard;
     private SimpleDoubleProperty tileSize = new SimpleDoubleProperty(0);
     private Game game;
     private Stage primaryStage;
     private MediaPlayer mediaPlayer;
-    private ActionTile selectedActionTile;
+
+    private final int TILE_SIZE = 50;
+    private final int TANK_SIZE = 32;
+    private final int MAX_ROTATE = 360;
+    private final int PACKAGE_LENGTH = 7;
+    private final int ACTION_TILE_SIZE = 100;
+    private final int QUARTER_TURN = 90;
+    private final int HALF_TURN = 180;
+    private final int THIRD_TURN = 270;
+    private final int NO_TURN = 0;
+    private final int DOWN_ORIENTATION = 2;
+    private final int LEFT_ORIENTATION = 1;
+    private final int RIGHT_ORIENTATION = 3;
+    private final String RESOURCES_PATH = "/resources/";
 
     /**
      * Constructs a GameController.
      * @param game The game to be played.
      * @param stage The stage that this application is being displayed on.
+     * @param backgroundMusic The audio to play in the background.
      */
     public GameController(Game game, Stage stage, MediaPlayer backgroundMusic) {
         this.gameBoard = game.getGameBoard();
@@ -94,26 +110,40 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Initializes the Game and the Game GUI so that it's ready to be played.
+     * Initializes the Game and the Game GUI to be ready for start of game.
      * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        topButtons.setTranslateX(50);
-        bottomButtons.setTranslateX(50);
+        topButtons.setTranslateX(TILE_SIZE);
+        bottomButtons.setTranslateX(TILE_SIZE);
         tileSize.bind(boardArea.heightProperty().divide(gameBoard.getHeight() + 2));
         setPlayerLabel(game.getCurrentPlayerName() +"'s turn'");
         backgroundMusic.setMediaPlayer(mediaPlayer);
         muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "Un-mute":"Mute");
-        initializeEventHandlers();
+        menuButton.setOnMouseClicked((event) -> handleMenuClick());
+        drawTile.setOnAction((event) -> handleDrawTile());
+        decrementOrientation.setOnMouseClicked(event -> handleOrientationDecrement());
+        incrementOrientation.setOnMouseClicked(event -> handleOrientationIncrement());
+        continueButton.setOnAction((event) -> handleContinue());
+        continueButton.setDisable(true);
+        actionButton.setDisable(true);
+        saveButton.setOnMouseClicked(event -> handleSaveClick());
+        quitButton.setOnMouseClicked(event -> new MenuScene(primaryStage, backgroundMusic.getMediaPlayer()));
+        actionButton.setOnMouseClicked(e -> handleActionClick());
+        muteButton.setOnMouseClicked(event -> {
+            backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
+            muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "UnMute":"Mute");
+        });
         updateActionTileHand();
         drawActions();
-        setTankSpin();
+        window.setOnMouseMoved(this::setTankSpin);
+
         if (game.getCurrentTile() != null && game.getCurrentTile() instanceof ActionTile){
             selectedActionTile = (ActionTile) game.getCurrentTile();
-            selectedTile.setImage(new Image("/resources/" + selectedActionTile.getClass().getName()
-                    .substring(7) + ".png"));
+            selectedTile.setImage(new Image(RESOURCES_PATH + selectedActionTile.getClass().getName()
+                    .substring(PACKAGE_LENGTH) + ".png"));
             continueButton.setDisable(false);
             actionButton.setDisable(false);
             drawTile.setDisable(true);
@@ -124,21 +154,68 @@ public class GameController implements Initializable {
         }
     }
 
-    private void setTankSpin() {
-        window.setOnMouseMoved(event -> {
-            Coord currentPosition = game.getCurrentPlayer().getCurrentPosition();
-            ImageView playerTank = getPlayer(getTilePane(currentPosition.getX(), currentPosition.getY()));
-            Point2D tankPosition = playerTank.localToScene(playerTank.getFitHeight()/2,
-                    playerTank.getFitWidth()/2);
-            int diffY = (int) (event.getY() - tankPosition.getY());
-            int diffX = (int) (event.getX() - tankPosition.getX());
-            float rotationValue = ((float)Math.toDegrees(Math.atan2(diffY, diffX)) % 360) - 90  ;
-            playerTank.setRotate(rotationValue);
-        });
+    /**
+     * Draws buttons for inserting tiles at the ends of every row or column where the rows are not fixed.
+     * That is, there are no fixed tiles in that row or column.
+     * @param visible If the arrows should be visible or hidden.
+     */
+    public void updateArrows(boolean visible) {
+        clearArrows();
+        ColumnConstraints gridWidth = new ColumnConstraints();
+        gridWidth.minWidthProperty().bind(tileSize);
+
+        RowConstraints gridHeight = new RowConstraints();
+        gridHeight.minHeightProperty().bind(tileSize);
+
+        for (int i = 0; i < gameBoard.getHeight(); i++) {
+            for (int j = 0; j < gameBoard.getWidth(); j++) {
+                if (j == 0) {
+                    leftButtons.getRowConstraints().add(gridHeight);
+                    ImageView arrow = getArrowImage("LEFT", i, DOWN_ORIENTATION);
+                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
+                    leftButtons.add(new StackPane(arrow), j, i);
+                } else if (j == gameBoard.getWidth() - 1) {
+                    rightButtons.getRowConstraints().add(gridHeight);
+                    ImageView arrow = getArrowImage("RIGHT",i , NO_TURN);
+                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
+                    rightButtons.add(new StackPane(arrow), j, i);
+                }
+
+                if (i == 0) {
+                    topButtons.getColumnConstraints().add(gridWidth);
+                    ImageView arrow = getArrowImage("DOWN", j, RIGHT_ORIENTATION);
+                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
+                    topButtons.add(new StackPane(arrow), j, i);
+                } else if (i == gameBoard.getHeight() - 1) {
+                    bottomButtons.getColumnConstraints().add(gridWidth);
+                    ImageView arrow = getArrowImage("UP", j, LEFT_ORIENTATION);
+                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
+                    bottomButtons.add(new StackPane(arrow), j, i);
+                }
+            }
+        }
     }
 
     /**
-     * Updates the current game board GUI being displayed in the game scene.
+     * Draws the players currently in the game to the scene at their current positions.
+     */
+    public void drawPlayers() {
+        for (Player player : game.getPlayers()) {
+            for (Node node : gameBoardPane.getChildren()) {
+                if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
+                        && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
+                    ImageView tank = new ImageView(RESOURCES_PATH + player.getColour() + ".png");
+                    tank.setFitHeight(TANK_SIZE);
+                    tank.setFitWidth(TANK_SIZE);
+                    StackPane cell = (StackPane) node;
+                    cell.getChildren().add(tank);
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the current game board GUI being displayed in the scene.
      */
     public void updateGameBoard() {
         gameBoardPane.getChildren().clear();
@@ -151,54 +228,45 @@ public class GameController implements Initializable {
     }
 
     /**
-     *
+     * Draws the action tiles that the current player has to screen.
      */
-    public void updateActionTileHand() {
+    private void updateActionTileHand() {
         actionTilePane.getChildren().clear();
         ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
         for (int i = 0; i < currentActionTiles.size(); i++) {
             int actionTileNum = i;
-            String imagePath = "/resources/" + currentActionTiles.get(i).getClass().getName().substring(7) + ".png";
+            String imagePath = RESOURCES_PATH + currentActionTiles.get(i).getClass().getName().substring(PACKAGE_LENGTH) + ".png";
             ImageView actionTile = new ImageView(new Image(imagePath));
-            actionTile.setFitWidth(100);
-            actionTile.setFitHeight(100);
+            actionTile.setFitWidth(ACTION_TILE_SIZE);
+            actionTile.setFitHeight(ACTION_TILE_SIZE);
             actionTile.getStyleClass().add("hover-effect");
             actionTile.setOnMouseClicked(event -> {
                 if (!actionButton.isDisable()) {
                     selectedActionTile = currentActionTiles.get(actionTileNum);
-                    selectedTile.setImage(new Image("/resources/" + currentActionTiles.get(actionTileNum)
-                            .getClass().getName().substring(7) + ".png"));
-                    selectedTile.setRotate(0);
+                    selectedTile.setImage(new Image(RESOURCES_PATH + currentActionTiles.get(actionTileNum)
+                            .getClass().getName().substring(PACKAGE_LENGTH) + ".png"));
+                    selectedTile.setRotate(NO_TURN);
                     game.setCurrentTile(selectedActionTile);
                 }
             });
             actionTilePane.getChildren().add(actionTile);
-
         }
     }
-
-    private ArrayList<Coord> availableMoves (ArrayList<Coord> moves){
-        for (Player player : game.getPlayers()) {
-            moves.remove(player.getCurrentPosition());
-        }
-        return moves;
-    }
-
 
     /**
      * Updates tiles so that they are selectable and can be used for a player to move on to that tile. Tiles are
      * only updated if that tile is a possible and legal move.
      * @param moves The moves that are available to the current player.
      */
-    public void updateMoves(ArrayList<Coord> moves) {
+    private void updateMoves(ArrayList<Coord> moves) {
         availableMoves(moves);
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
             if (moves.contains(curr) && !(gameBoard.getAction(curr) instanceof FireTile)){
                 StackPane tile = (StackPane)node;
-                ImageView x = new ImageView("/resources/X.png");
-                x.setFitWidth(40);
-                x.setFitHeight(40);
+                ImageView x = new ImageView(RESOURCES_PATH + "X.png");
+                x.setFitWidth(TILE_SIZE);
+                x.setFitHeight(TILE_SIZE);
                 tile.getChildren().add(x);
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
@@ -213,18 +281,21 @@ public class GameController implements Initializable {
     }
 
     /**
-     *
+     * Retrieves the player sprite for a player.
+     * @param tile The tile that the player is standing on.
+     * @return The player sprite.
      */
-    public ImageView getPlayer(StackPane tile) {
-        ImageView playerPiece = null;
-        playerPiece = (ImageView) tile.getChildren().get(tile.getChildren().size() - 1);
-        return playerPiece;
+    private ImageView getPlayer(StackPane tile) {
+        return (ImageView) tile.getChildren().get(tile.getChildren().size() - 1);
     }
 
     /**
-     *
+     * Retrieves the tile pane at a specified index of the board.
+     * @param x The x coordinate of the tile.
+     * @param y The y coordinate of the tile.
+     * @return The tile pane at that location.
      */
-    public StackPane getTilePane(int x, int y) {
+    private StackPane getTilePane(int x, int y) {
         StackPane tile = null;
         for (Node node : gameBoardPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == y
@@ -235,6 +306,22 @@ public class GameController implements Initializable {
         return tile;
     }
 
+    /**
+     * Retrieves the available moves for a player.
+     * @param moves The game board valid moves for a player.
+     * @return The actual available moves for the player on this turn.
+     */
+    private ArrayList<Coord> availableMoves (ArrayList<Coord> moves){
+        for (Player player : game.getPlayers()) {
+            moves.remove(player.getCurrentPosition());
+        }
+        return moves;
+    }
+
+    /**
+     * Animates a player sprite as it moves from one tile to another.
+     * @param destination The Coordinate of the tile the player is moving to.
+     */
     private void animateMove(Coord destination) {
         Coord currPosition = game.getCurrentPlayer().getCurrentPosition();
         StackPane currentPane = getTilePane(currPosition.getX(), currPosition.getY());
@@ -273,11 +360,16 @@ public class GameController implements Initializable {
      * Set a message to displayed in the player label.
      * @param message The message to be displayed.
      */
-    public void setPlayerLabel(String message){
+    private void setPlayerLabel(String message){
         playerLabel.setText(message);
     }
 
-    public void playAction(ActionTile action) {
+    /**
+     * Sets all tiles on the game board to be selectable. Therefore allowing a player
+     * to place a action tile.
+     * @param action The action tile to be played.
+     */
+    private void playAction(ActionTile action) {
         for (Node node : gameBoardPane.getChildren()) {
             Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
 
@@ -285,17 +377,16 @@ public class GameController implements Initializable {
             int xPos = position.getX();
             int yPos = position.getY();
             Coord[] positions = new Coord[] {
-                new Coord(xPos - 1, yPos + 1),
-                new Coord(xPos, yPos + 1),
-                new Coord(xPos + 1, yPos +1),
-                new Coord(xPos - 1, yPos),
-                position,
-                new Coord(xPos + 1, yPos),
-                new Coord(xPos - 1, yPos - 1),
-                new Coord(xPos, yPos - 1),
-                new Coord(xPos + 1, yPos - 1)
+                    new Coord(xPos - 1, yPos + 1),
+                    new Coord(xPos, yPos + 1),
+                    new Coord(xPos + 1, yPos +1),
+                    new Coord(xPos - 1, yPos),
+                    position,
+                    new Coord(xPos + 1, yPos),
+                    new Coord(xPos - 1, yPos - 1),
+                    new Coord(xPos, yPos - 1),
+                    new Coord(xPos + 1, yPos - 1)
             };
-
 
             boolean validPlacement = true;
             if (action instanceof FireTile) {
@@ -329,105 +420,44 @@ public class GameController implements Initializable {
     }
 
     /**
-     *
+     * Draws action tiles that are currently placed the board, to the screen.
      */
-    public void drawActions() {
+    private void drawActions() {
         for (Node node : gameBoardPane.getChildren()) {
             Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
             ActionTile currentAction = gameBoard.getAction(position);
 
             if (currentAction instanceof FireTile) {
                 StackPane action = (StackPane)node;
-                ImageView fire = new ImageView("/resources/FireTile.png");
-                fire.setFitWidth(60);
-                fire.setFitHeight(60);
-                fire.setRotate(new Random().nextInt(360));
+                ImageView fire = new ImageView(RESOURCES_PATH + "FireTile.png");
+                fire.setFitWidth(TILE_SIZE);
+                fire.setFitHeight(TILE_SIZE);
+                fire.setRotate(new Random().nextInt(MAX_ROTATE));
                 action.getChildren().add(fire);
             }
             else if (currentAction instanceof IceTile) {
                 StackPane action = (StackPane)node;
-                ImageView ice = new ImageView("/resources/IceTile.png");
-                ice.setFitWidth(40);
-                ice.setFitHeight(40);
+                ImageView ice = new ImageView(RESOURCES_PATH + "IceTile.png");
+                ice.setFitWidth(TILE_SIZE);
+                ice.setFitHeight(TILE_SIZE);
                 action.getChildren().add(ice);
             }
         }
     }
 
-
     /**
-     * Draws buttons for inserting tiles at the ends of every row or columns where the rows are moveable. That is, there
-     * are no fixed tiles in that row or column.
-     * @param visible If the arrows should be visible or hidden.
-     */
-    public void updateArrows(boolean visible) {
-        clearArrows();
-        ColumnConstraints gridWidth = new ColumnConstraints();
-        gridWidth.minWidthProperty().bind(tileSize);
-
-        RowConstraints gridHeight = new RowConstraints();
-        gridHeight.minHeightProperty().bind(tileSize);
-
-        for (int i = 0; i < gameBoard.getHeight(); i++) {
-            for (int j = 0; j < gameBoard.getWidth(); j++) {
-
-                if (j == 0) {
-                    leftButtons.getRowConstraints().add(gridHeight);
-                    ImageView arrow = getArrowImage("LEFT", i, 2);
-                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
-                    leftButtons.add(new StackPane(arrow), j, i);
-                } else if (j == gameBoard.getWidth() - 1) {
-                    rightButtons.getRowConstraints().add(gridHeight);
-                    ImageView arrow = getArrowImage("RIGHT", i,0);
-                    arrow.setVisible(visible && !gameBoard.isRowFixed(i));
-                    rightButtons.add(new StackPane(arrow), j, i);
-                }
-
-                if (i == 0) {
-                    topButtons.getColumnConstraints().add(gridWidth);
-                    ImageView arrow = getArrowImage("DOWN", j,3);
-                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
-                    topButtons.add(new StackPane(arrow), j, i);
-                } else if (i == gameBoard.getHeight() - 1) {
-                    bottomButtons.getColumnConstraints().add(gridWidth);
-                    ImageView arrow = getArrowImage("UP", j, 1);
-                    arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
-                    bottomButtons.add(new StackPane(arrow), j, i);
-                }
-            }
-        }
-    }
-
-    /**
-     * Draws the players currently in the game to the scene at their current positions.
-     */
-    public void drawPlayers() {
-        for (Player player : game.getPlayers()) {
-            for (Node node : gameBoardPane.getChildren()) {
-                if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
-                        && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-                    ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
-                    tank.setFitHeight(30);
-                    tank.setFitWidth(30);
-                    StackPane cell = (StackPane) node;
-                    cell.getChildren().add(tank);
-                }
-            }
-        }
-    }
-
-    /**
-     *
+     * Makes players available to be selected to be backtracked to an earlier
+     * position.
      */
     private void selectBacktrack() {
         for (Player player : game.getPlayers()) {
             for (Node node : gameBoardPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-                    ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
+                    ImageView tank = new ImageView(RESOURCES_PATH + player.getColour() + ".png");
                     tank.setOnMouseClicked(event -> backtrackPlayer(player));
-                    tank.setFitHeight(30);
-                    tank.setFitWidth(30);
+                    tank.setFitHeight(TANK_SIZE);
+                    tank.setFitWidth(TANK_SIZE);
                     StackPane cell = (StackPane) node;
                     cell.getChildren().add(tank);
                 }
@@ -436,7 +466,9 @@ public class GameController implements Initializable {
     }
 
     /**
-     * @param player the player to be backtracked to an earlier position
+     * Moves a player to their location two turns ago. If that tile is on fire
+     * then they are backtracked to 1 turn ago.
+     * @param player the player to be backtracked to an earlier position.
      */
     private void backtrackPlayer(Player player) {
         Coord pastPosition = player.getPrevPosition(1);
@@ -456,25 +488,13 @@ public class GameController implements Initializable {
     }
 
     /**
-     *
-     */
-    private void clearArrows() {
-        leftButtons.getChildren().clear();
-        leftButtons.getRowConstraints().clear();
-        rightButtons.getChildren().clear();
-        rightButtons.getRowConstraints().clear();
-        topButtons.getChildren().clear();
-        topButtons.getColumnConstraints().clear();
-        bottomButtons.getColumnConstraints().clear();
-        bottomButtons.getChildren().clear();
-    }
-
-    /**
-     * @param tile the FloorTile object to fetch a sprite for
-     * @return an ImageView object with the correct sprite rendering for the given tile
+     * Retrieves the correct sprite for a given tile.
+     * @param tile The FloorTile object to fetch a sprite for.
+     * @return an ImageView object with the correct sprite rendering for the given tile,
+     * with correct on click behaviour.
      */
     private ImageView getTileImage(FloorTile tile) {
-        ImageView tileImage = new ImageView("/resources/" + tile.isFixed()
+        ImageView tileImage = new ImageView(RESOURCES_PATH + tile.isFixed()
                 + tile.getShape() + ".png");
         tileImage.fitHeightProperty().bind(tileSize);
         tileImage.fitWidthProperty().bind(tileSize);
@@ -483,15 +503,16 @@ public class GameController implements Initializable {
     }
 
     /**
-     * @param direction the direction that affected players should be moved, if the arrow is clicked
-     * @param index the position index of the arrow on the grid
-     * @param orientation the direction that the arrow should be facing in
-     * @return an ImageView object of the tile image, with correct on click behaviour
+     * Retrieves the correct arrow 'button' for a specified side and row of the game board.
+     * @param direction The direction that tiles should be inserted into to board.
+     * @param index The row or column index of the arrow on the grid.
+     * @param orientation The orientation that the arrow should be facing.
+     * @return An ImageView object of the arrow image, with correct on click behaviour.
      */
     private ImageView getArrowImage(String direction, int index, int orientation) {
-        ImageView arrow = new ImageView("/resources/left.png");
-        arrow.setFitWidth(50);
-        arrow.setFitHeight(50);
+        ImageView arrow = new ImageView(RESOURCES_PATH + "left.png");
+        arrow.setFitWidth(TILE_SIZE);
+        arrow.setFitHeight(TILE_SIZE);
         arrow.setRotate(getRotationValue(orientation));
         arrow.setOnMouseClicked(event -> {
             Tile fallenOff = gameBoard.insertTile((FloorTile) game.getCurrentTile(), direction, index);
@@ -510,9 +531,46 @@ public class GameController implements Initializable {
         return arrow;
     }
 
+    /**
+     * Gets the value to rotate the object by, depending at which orientation
+     * the object is currently set to.
+     * @param orientation The integer value representing the orientation of a tile.
+     * @return The rotation value of the tile (in degrees) (possible values: 0, 90, 180, 270).
+     */
+    private double getRotationValue(int orientation) {
+        switch (orientation) {
+            case LEFT_ORIENTATION :
+                return QUARTER_TURN;
+            case DOWN_ORIENTATION :
+                return HALF_TURN;
+            case RIGHT_ORIENTATION :
+                return THIRD_TURN;
+            default:
+                return NO_TURN;
+        }
+    }
+
+    /**
+     * Sets the tank sprite of current player to rotate, following the mouse.
+     * @param event The event that triggered this method.
+     */
+    private void setTankSpin(MouseEvent event) {
+        Coord currentPosition = game.getCurrentPlayer().getCurrentPosition();
+        ImageView playerTank = getPlayer(getTilePane(currentPosition.getX(), currentPosition.getY()));
+        Point2D tankPosition = playerTank.localToScene(playerTank.getFitHeight()/2,
+                playerTank.getFitWidth()/2);
+        int diffY = (int) (event.getY() - tankPosition.getY());
+        int diffX = (int) (event.getX() - tankPosition.getX());
+        float rotationValue = ((float)Math.toDegrees(Math.atan2(diffY, diffX)) % MAX_ROTATE) - QUARTER_TURN  ;
+        playerTank.setRotate(rotationValue);
+    }
+
+    /**
+     * For each player, their newly updated stats from this game are saved
+     * to their respective record.
+     */
     private void handleWinSaves() {
         for (Player player : game.getPlayers()){
-
             try {
                 if (player.getProfileName().equals(game.getCurrentPlayerName())) {
                     player.getProfile().incrementWins();
@@ -523,7 +581,6 @@ public class GameController implements Initializable {
                 player.getProfile().save();
                 FileHandler.saveLeaderboard(game.getLevelName(), player.getProfileName());
             } catch (IOException e){
-                e.printStackTrace();
                 Alert leaderboardError = new Alert(Alert.AlertType.ERROR,
                         "An error was encountered while attempting to update the leaderboards. " +
                                 "Any updates to the leaderboard status have not been saved.",
@@ -534,11 +591,25 @@ public class GameController implements Initializable {
     }
 
     /**
-     * This method checks if the current player has won, and otherwise sets up the UI for the next player's turn.
+     * Removes arrow buttons from around the game board.
+     */
+    private void clearArrows() {
+        leftButtons.getChildren().clear();
+        leftButtons.getRowConstraints().clear();
+        rightButtons.getChildren().clear();
+        rightButtons.getRowConstraints().clear();
+        topButtons.getChildren().clear();
+        topButtons.getColumnConstraints().clear();
+        bottomButtons.getColumnConstraints().clear();
+        bottomButtons.getChildren().clear();
+    }
+
+    /**
+     * Sets the game up for the next round of the game.
      */
     private void nextRound() {
-        setTankSpin();
-
+        selectedActionTile = null;
+        window.setOnMouseMoved(this::setTankSpin);
         gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel(game.getCurrentPlayerName() + " wins!");
@@ -557,175 +628,155 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles a click of the menu button, therefore showing and hiding the menu.
+     */
+    private void handleMenuClick() {
+        menu.setVisible(!menu.isVisible());
+        playerConsole.setVisible(!menu.isVisible());
+        new AudioPlayer().clickPlay();
+    }
 
     /**
-     * @param orientation the integer value representing the orientation of a tile
-     * @return the rotation value of the tile (in degrees) (possible values: 0, 90, 180, 270)
+     * Produces a random tile from the silk bag of tiles, and displays on screen.
      */
-    private double getRotationValue(int orientation) {
-        switch (orientation) {
-            case 1 :
-                return 90;
-            case 2 :
-                return 180;
-            case 3 :
-                return 270;
-            default:
-                return 0;
+    private void handleDrawTile() {
+        if (game.getCurrentTile() == null) {
+            game.setCurrentTile(game.getTileBag().drawTile());
+            if (game.getCurrentTile() instanceof FloorTile) {
+                updateArrows(true);
+                selectedTile.setImage((getTileImage((FloorTile) game.getCurrentTile())).getImage());
+                selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
+            } else {
+                selectedTile.setImage(new Image(RESOURCES_PATH + game.getCurrentTile()
+                        .getClass().getName().substring(PACKAGE_LENGTH) + ".png"));
+                selectedTile.setRotate(NO_TURN);
+                if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                    actionButton.setDisable(false);
+                }
+            }
+            drawTile.setDisable(true);
+            if (!(game.getCurrentTile() instanceof FloorTile)) {
+                continueButton.setDisable(false);
+            }
+        }
+        new AudioPlayer().clickPlay();
+    }
+
+    /**
+     * Decrements the players current tile, rotating the tile anti-clockwise on screen.
+     */
+    private void handleOrientationDecrement(){
+        if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile){
+            ((FloorTile) game.getCurrentTile()).decrementOrientation();
+            selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
+        }
+        new AudioPlayer().clickPlay();
+    }
+
+    /**
+     * Increments the players current tile, rotating the tile clockwise on screen.
+     */
+    private void handleOrientationIncrement(){
+        if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile){
+            ((FloorTile) game.getCurrentTile()).incrementOrientation();
+            selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
+        }
+        new AudioPlayer().clickPlay();
+    }
+
+    /**
+     * Handles the continue button click, progresses the game onto player movement.
+     */
+    private void handleContinue(){
+        if (drawTile.isDisabled()) {
+            if (ActionTile.class.isAssignableFrom(game.getCurrentTile().getClass())) {
+                game.getCurrentPlayer().addActionTile((ActionTile)game.getCurrentTile());
+            }
+            ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getCurrentPlayer());
+            if (availableMoves(validMoves).size() == 0) {
+                nextRound();
+            } else {
+                this.continueButton.setDisable(true);
+                updateMoves(validMoves);
+            }
+        }
+        new AudioPlayer().clickPlay();
+        actionButton.setDisable(true);
+        selectedTile.setImage(null);
+    }
+
+    /**
+     * Handles saving a game to file and the name that the file should be saved as.
+     * The player can either enter a string or use the default timestamp.
+     */
+    private void handleSaveClick() {
+        if (!game.isOver()){
+            TextInputDialog input = new TextInputDialog(Instant.now().toString()
+                    .replaceAll("[\\\\/:*?\"\"<>|]",""));
+            input.showAndWait();
+            String result = input.getResult().trim().replaceAll("[\\\\/:*?\"\"<>|]","");
+            if (result.equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot be empty", ButtonType.CLOSE);
+                alert.showAndWait();
+            } else {
+                saveGame(result);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Game is over.", ButtonType.CLOSE);
+            alert.showAndWait();
         }
     }
 
     /**
-     *
+     * Saves the games current state to file.
      */
-    private void initializeEventHandlers(){
-        menuButton.setOnMouseClicked((event) -> {
-            menu.setVisible(!menu.isVisible());
-            playerConsole.setVisible(!menu.isVisible());
-            new AudioPlayer().clickPlay();
-        });
-
-        drawTile.setOnAction((event) -> {
-            if (game.getCurrentTile() == null) {
-                game.setCurrentTile(game.getTileBag().drawTile());
-                if (game.getCurrentTile() instanceof FloorTile) {
-                    updateArrows(true);
-                    selectedTile.setImage((getTileImage((FloorTile) game.getCurrentTile())).getImage());
-                    selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
-                } else {
-                    selectedTile.setImage(new Image("/resources/" + game.getCurrentTile()
-                            .getClass().getName().substring(7) + ".png"));
-                    selectedTile.setRotate(0);
-                    if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
-                        actionButton.setDisable(false);
-                    }
-                }
-                drawTile.setDisable(true);
-                if (!(game.getCurrentTile() instanceof FloorTile)) {
-                    continueButton.setDisable(false);
-                }
-            } else {
-                System.out.println(game.getCurrentTile());
+    private void saveGame(String fileName){
+        try {
+            FileHandler.saveGameFile(fileName, game);
+            new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            Alert saveError = new Alert(Alert.AlertType.ERROR,
+                    "An error was encountered while attempting to save the game. " +
+                            "The game state has not been saved.",
+                    ButtonType.OK, ButtonType.CANCEL);
+            saveError.showAndWait();
+            if (saveError.getResult() == ButtonType.OK) {
+                new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
             }
-            new AudioPlayer().clickPlay();
-        });
+        }
+    }
 
-        decrementOrientation.setOnMouseClicked(event -> {
-            if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile){
-                ((FloorTile) game.getCurrentTile()).decrementOrientation();
-                selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
-            }
-            new AudioPlayer().clickPlay();
-        });
-
-        incrementOrientation.setOnMouseClicked(event -> {
-            if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile){
-                ((FloorTile) game.getCurrentTile()).incrementOrientation();
-                selectedTile.setRotate(getRotationValue(((FloorTile) game.getCurrentTile()).getOrientation()));
-            }
-            new AudioPlayer().clickPlay();
-        });
-
-        continueButton.setOnAction((event) -> {
-            if (drawTile.isDisabled()) {
-                if (ActionTile.class.isAssignableFrom(game.getCurrentTile().getClass())) {
-                    game.getCurrentPlayer().addActionTile((ActionTile)game.getCurrentTile());
-                }
-                ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getCurrentPlayer());
-                if (availableMoves(validMoves).size() == 0) {
-                    nextRound();
-                } else {
-                    this.continueButton.setDisable(true);
-                    updateMoves(validMoves);
-                }
-            }
-            new AudioPlayer().clickPlay();
+    /**
+     * Plays the currently selected action tile.
+     */
+    private void handleActionClick(){
+        if (selectedActionTile instanceof DoubleMoveTile) {
+            updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
             actionButton.setDisable(true);
             selectedTile.setImage(null);
-        });
-
-        continueButton.setDisable(true);
-        actionButton.setDisable(true);
-
-        saveButton.setOnMouseClicked(event -> {
-            if (!game.isOver()){
-                TextInputDialog input = new TextInputDialog(Instant.now().toString().replaceAll("[\\\\/:*?\"\"<>|]",""));
-                input.showAndWait();
-                try {
-                    String result = input.getResult().trim().replaceAll("[\\\\/:*?\"\"<>|]","");
-                    if (result.equals("")) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot be empty", ButtonType.CLOSE);
-                        alert.showAndWait();
-                    } else {
-                        try {
-                            FileHandler.saveGameFile(result, game);
-                            MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
-                        } catch (IOException exception) {
-                            exception.printStackTrace();
-                            Alert saveError = new Alert(Alert.AlertType.ERROR,
-                                    "An error was encountered while attempting to save the game. " +
-                                            "The game state has not been saved.",
-                                    ButtonType.OK, ButtonType.CANCEL);
-                            saveError.showAndWait();
-                            if (saveError.getResult() == ButtonType.OK) {
-                                MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
-                            }
-                        }
-
-                    }
-                } catch (NullPointerException ignored){
-                    //Handles the user cancelling the save action, which is permitted behaviour
-                }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Game is over.", ButtonType.CLOSE);
-                alert.showAndWait();
-            }
-        });
-
-        quitButton.setOnMouseClicked(event -> {
-            MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
-        });
-
-        muteButton.setOnMouseClicked(event -> {
-            backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
-            muteButton.setText(backgroundMusic.getMediaPlayer().isMute() ? "UnMute":"Mute");
-        });
-
-        actionButton.setOnMouseClicked(e -> {
-                if (selectedActionTile instanceof DoubleMoveTile) {
-                    updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
-                    actionButton.setDisable(true);
-                    selectedTile.setImage(null);
-                    selectedActionTile = null;
-                    game.getCurrentPlayer().removeActionTile(new DoubleMoveTile());
-                    updateActionTileHand();
-                }
-                else if (selectedActionTile instanceof BackTrackTile) {
-                    selectBacktrack();
-                    actionButton.setDisable(true);
-                    selectedTile.setImage(null);
-                    selectedActionTile = null;
-                    game.getCurrentPlayer().removeActionTile(new BackTrackTile());
-                    updateActionTileHand();
-                }
-                else if (selectedActionTile instanceof FireTile) {
-                    playAction(new FireTile());
-                    actionButton.setDisable(true);
-                    continueButton.setDisable(true);
-                    selectedTile.setImage(null);
-                    selectedActionTile = null;
-                    game.getCurrentPlayer().removeActionTile(new FireTile());
-                    updateActionTileHand();
-                }
-                else if (selectedActionTile instanceof IceTile) {
-                    playAction(new IceTile());
-                    actionButton.setDisable(true);
-                    continueButton.setDisable(true);
-                    selectedTile.setImage(null);
-                    selectedActionTile = null;
-                    game.getCurrentPlayer().removeActionTile(new IceTile());
-                    updateActionTileHand();
-                }
-        });
+            game.getCurrentPlayer().removeActionTile(selectedActionTile);
+            selectedActionTile = null;
+            updateActionTileHand();
+        }
+        else if (selectedActionTile instanceof BackTrackTile) {
+            selectBacktrack();
+            actionButton.setDisable(true);
+            continueButton.setDisable(true);
+            selectedTile.setImage(null);
+            game.getCurrentPlayer().removeActionTile(selectedActionTile);
+            selectedActionTile = null;
+            updateActionTileHand();
+        }
+        else if (selectedActionTile != null) {
+            playAction(selectedActionTile);
+            actionButton.setDisable(true);
+            continueButton.setDisable(true);
+            selectedTile.setImage(null);
+            game.getCurrentPlayer().removeActionTile(selectedActionTile);
+            selectedActionTile = null;
+            updateActionTileHand();
+        }
     }
 }
