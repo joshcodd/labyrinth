@@ -7,6 +7,7 @@ package views.scenes;
 
 
 import javafx.scene.media.MediaView;
+import models.Constants;
 import models.FileHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,7 +44,7 @@ public class SelectPlayerScene {
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setColourBoxes();
             controller.setGameName(level);
-            Scene scene = new Scene(root, 1200, 650);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
