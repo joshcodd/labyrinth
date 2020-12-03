@@ -162,6 +162,13 @@ public class GameController implements Initializable {
         }
     }
 
+    private ArrayList<Coord> availableMoves (ArrayList<Coord> moves){
+        for (Player player : game.getPlayers()) {
+            moves.remove(player.getCurrentPosition());
+        }
+        return moves;
+    }
+
 
     /**
      * Updates tiles so that they are selectable and can be used for a player to move on to that tile. Tiles are
@@ -169,10 +176,7 @@ public class GameController implements Initializable {
      * @param moves The moves that are available to the current player.
      */
     public void updateMoves(ArrayList<Coord> moves) {
-        for (Player player : game.getPlayers()) {
-            moves.remove(player.getCurrentPosition());
-        }
-
+        availableMoves(moves);
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
             if (moves.contains(curr) && !(gameBoard.getAction(curr) instanceof FireTile)){
@@ -462,7 +466,6 @@ public class GameController implements Initializable {
      * This method checks if the current player has won, and otherwise sets up the UI for the next player's turn.
      */
     private void nextRound() {
-        this.setPlayerLabel("No available moves:(");
         gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
@@ -481,6 +484,7 @@ public class GameController implements Initializable {
             drawPlayers();
         }
     }
+
 
     /**
      * @param orientation
@@ -556,7 +560,7 @@ public class GameController implements Initializable {
                     game.getCurrentPlayer().addActionTile((ActionTile)game.getCurrentTile());
                 }
                 ArrayList<Coord> validMoves = gameBoard.getValidMoves(game.getCurrentPlayer());
-                if (validMoves.size() == 0) {
+                if (availableMoves(validMoves).size() == 0) {
                     nextRound();
                 } else {
                     this.continueButton.setDisable(true);
