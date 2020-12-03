@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -78,7 +79,7 @@ public class FileHandler {
 		int bendTile = line.nextInt();
 		for (int i = 0; i != bendTile; i++) {
 			newShape = ShapeOfTile.BEND;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -86,7 +87,7 @@ public class FileHandler {
 		int tTile = line.nextInt();
 		for (int i = 0; i != tTile; i++) {
 			newShape = ShapeOfTile.T_SHAPE;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -94,7 +95,7 @@ public class FileHandler {
 		int straightTile = line.nextInt();
 		for (int i = 0; i != straightTile; i++) {
 			newShape = ShapeOfTile.STRAIGHT;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -102,7 +103,7 @@ public class FileHandler {
 		int crossTile = line.nextInt();
 		for (int i = 0; i != crossTile; i++) {
 			newShape = ShapeOfTile.CROSSROADS;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -138,7 +139,7 @@ public class FileHandler {
 		int goalTile = line.nextInt();
 		for (int i = 0; i != goalTile; i++) {
 			newShape = ShapeOfTile.GOAL_TILE;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 		//construct Game board for the level
@@ -638,6 +639,11 @@ public class FileHandler {
 		FileWriter write = new FileWriter(file);
 		write.write(newFile);
 		write.close();
+	}
+
+	public static int randomOrientation(){
+		Random orientation = new Random();
+		return orientation.nextInt(4);
 	}
 
 	/**
