@@ -169,6 +169,10 @@ public class GameController implements Initializable {
      * @param moves The moves that are available to the current player.
      */
     public void updateMoves(ArrayList<Coord> moves) {
+        for (Player player : game.getPlayers()) {
+            moves.remove(player.getCurrentPosition());
+        }
+
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
             if (moves.contains(curr) && !(gameBoard.getAction(curr) instanceof FireTile)){
