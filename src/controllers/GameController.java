@@ -338,7 +338,6 @@ public class GameController implements Initializable {
             for (Node node : gameBoardPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-                    int playerNumber = player.getPlayerNumber() + 1;
                     ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
@@ -357,11 +356,8 @@ public class GameController implements Initializable {
             for (Node node : gameBoardPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-                    int playerNumber = player.getPlayerNumber() + 1;
                     ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
-                    tank.setOnMouseClicked(event -> {
-                        backtrackPlayer(player);
-                    });
+                    tank.setOnMouseClicked(event -> backtrackPlayer(player));
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
@@ -406,8 +402,8 @@ public class GameController implements Initializable {
     }
 
     /**
-     * @param tile
-     * @return
+     * @param tile the FloorTile object to fetch a sprite for
+     * @return an ImageView object with the correct sprite rendering for the given tile
      */
     private ImageView getTileImage(FloorTile tile) {
         ImageView tileImage = new ImageView("/resources/" + tile.isFixed()
@@ -419,10 +415,10 @@ public class GameController implements Initializable {
     }
 
     /**
-     * @param direction
-     * @param index
-     * @param orientation
-     * @return
+     * @param direction the direction that affected players should be moved, if the arrow is clicked
+     * @param index the position index of the arrow on the grid
+     * @param orientation the direction that the arrow should be facing in
+     * @return an ImageView object of the tile image, with correct on click behaviour
      */
     private ImageView getArrowImage(String direction, int index, int orientation) {
         ImageView arrow = new ImageView("/resources/left.png");
@@ -459,7 +455,12 @@ public class GameController implements Initializable {
                 player.getProfile().save();
                 FileHandler.saveLeaderboard(game.getLevelName(), player.getProfileName());
             } catch (IOException e){
-
+                e.printStackTrace();
+                Alert leaderboardError = new Alert(Alert.AlertType.ERROR,
+                        "An error was encountered while attempting to update the leaderboards. " +
+                                "Any updates to the leaderboard status have not been saved.",
+                        ButtonType.OK);
+                leaderboardError.showAndWait();
             }
         }
     }
@@ -473,7 +474,6 @@ public class GameController implements Initializable {
             setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
             game.setOver(true);
             handleWinSaves();
-            //TODO Exit game with win screen + related audio
         } else {
             game.nextPlayer();
             selectedTile.setImage(null);
@@ -489,20 +489,16 @@ public class GameController implements Initializable {
 
 
     /**
-     * @param orientation
-     * @return
+     * @param orientation the integer value representing the orientation of a tile
+     * @return the rotation value of the tile (in degrees) (possible values: 0, 90, 180, 270)
      */
     private double getRotationValue(int orientation) {
-        switch (orientation) {
-            case 1 :
-                return 90;
-            case 2 :
-                return 180;
-            case 3 :
-                return 270;
-            default:
-                return 0;
-        }
+        return switch (orientation) {
+            case 1 -> 90;
+            case 2 -> 180;
+            case 3 -> 270;
+            default -> 0;
+        };
     }
 
     /**
@@ -592,10 +588,19 @@ public class GameController implements Initializable {
                             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
                         } catch (IOException exception) {
                             exception.printStackTrace();
+                            Alert saveError = new Alert(Alert.AlertType.ERROR,
+                                    "An error was encountered while attempting to save the game. " +
+                                            "The game state has not been saved.",
+                                    ButtonType.OK, ButtonType.CANCEL);
+                            saveError.showAndWait();
+                            if (saveError.getResult() == ButtonType.OK) {
+                                MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+                            }
                         }
 
                     }
                 } catch (NullPointerException ignored){
+                    ignored.printStackTrace();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Game is over.", ButtonType.CLOSE);
