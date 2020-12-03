@@ -284,16 +284,17 @@ public class GameController implements Initializable {
             //Selects surrounding tiles for a 3x3
             int xPos = position.getX();
             int yPos = position.getY();
-            ArrayList<Coord> positions = new ArrayList<>();
-            positions.add(new Coord(xPos - 1, yPos + 1));
-            positions.add(new Coord(xPos, yPos + 1));
-            positions.add(new Coord(xPos + 1, yPos +1));
-            positions.add(new Coord(xPos - 1, yPos));
-            positions.add(position);
-            positions.add(new Coord(xPos + 1, yPos));
-            positions.add(new Coord(xPos - 1, yPos - 1));
-            positions.add(new Coord(xPos, yPos - 1));
-            positions.add(new Coord(xPos + 1, yPos - 1));
+            Coord[] positions = new Coord[] {
+                new Coord(xPos - 1, yPos + 1),
+                new Coord(xPos, yPos + 1),
+                new Coord(xPos + 1, yPos +1),
+                new Coord(xPos - 1, yPos),
+                position,
+                new Coord(xPos + 1, yPos),
+                new Coord(xPos - 1, yPos - 1),
+                new Coord(xPos, yPos - 1),
+                new Coord(xPos + 1, yPos - 1)
+            };
 
 
             boolean validPlacement = true;
@@ -302,8 +303,6 @@ public class GameController implements Initializable {
                     for (Coord surroundingTile : positions) {
                         if (player.getCurrentPosition().equals(surroundingTile)) {
                             validPlacement = false;
-                        } else if(surroundingTile.isEmpty()) {
-                            positions.remove(surroundingTile);
                         }
                     }
                 }
@@ -313,11 +312,12 @@ public class GameController implements Initializable {
                 tile.getStyleClass().add("tile-selection");
                 tile.setOnMouseClicked(event -> {
                     for (Coord pos: positions) {
-                        if (action instanceof FireTile) {
-                            gameBoard.addAction(new FireTile(), pos);
-                        }
-                        else if (action instanceof IceTile) {
-                            gameBoard.addAction(new IceTile(), pos);
+                        if (!pos.isEmpty()) {
+                            if (action instanceof FireTile) {
+                                gameBoard.addAction(new FireTile(), pos);
+                            } else if (action instanceof IceTile) {
+                                gameBoard.addAction(new IceTile(), pos);
+                            }
                         }
                     }
                     updateGameBoard();
