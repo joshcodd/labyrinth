@@ -791,14 +791,15 @@ public class FileHandler {
 		playerName = playerName.toLowerCase();
 		while (read.hasNextLine()) {
 			line = read.nextLine();
-			if (line.contains(playerName)) {
+			String[] lineSplit = line.split(",", 2);
+			if (lineSplit[0].equals(playerName)) {
 				line = playerName + "," + wins + "," + losses + "," + gamesPlayed + ",";
 				found = true;
 			}
 			newFile = newFile + line + "\n";
 		}
 		if (!found){
-			newFile = newFile + playerName + "," + wins + "," + losses + "," + gamesPlayed + "\n";
+			newFile = newFile + playerName + "," + wins + "," + losses + "," + gamesPlayed + "," + "\n";
 		}
 		read.close();
 

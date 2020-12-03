@@ -1,2 +1,2 @@
-game:andrew,andreas,neil,james,luka,george
+game:andrew,andreas,neil,james,luka,george,new,new1
 test:andreas,george,andrew,james
