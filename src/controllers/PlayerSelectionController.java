@@ -17,111 +17,232 @@ import views.scenes.LevelSelectionScene;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
  * Player Selection Scene Controller
+ *
  * @author James Charnock
  * @StudentID 1909700
  */
 public class PlayerSelectionController implements Initializable {
+    /**
+     * The Mute button.
+     */
     @FXML
     public Button muteButton;
+    /**
+     * The Background music.
+     */
     @FXML
     public MediaView backgroundMusic;
+    /**
+     * The Player form 1.
+     */
     @FXML
     public VBox playerForm1;
+    /**
+     * The Player form 2.
+     */
     @FXML
     public VBox playerForm2;
+    /**
+     * The Player form 3.
+     */
     @FXML
     public VBox playerForm3;
+    /**
+     * The Player form 4.
+     */
     @FXML
     public VBox playerForm4;
+    /**
+     * The Player label 1.
+     */
     @FXML
     public Label playerLabel1;
+    /**
+     * The Player label 2.
+     */
     @FXML
     public Label playerLabel2;
+    /**
+     * The Player label 3.
+     */
     @FXML
     public Label playerLabel3;
+    /**
+     * The Player label 4.
+     */
     @FXML
     public Label playerLabel4;
+    /**
+     * The Profile box 1.
+     */
     @FXML
     public ChoiceBox<String> profileBox1;
+    /**
+     * The Profile box 2.
+     */
     @FXML
     public ChoiceBox<String> profileBox2;
+    /**
+     * The Profile box 3.
+     */
     @FXML
     public ChoiceBox<String> profileBox3;
+    /**
+     * The Profile box 4.
+     */
     @FXML
     public ChoiceBox<String> profileBox4;
+    /**
+     * The Colour box 1.
+     */
     @FXML
     public ChoiceBox<String> colourBox1;
+    /**
+     * The Colour box 2.
+     */
     @FXML
     public ChoiceBox<String> colourBox2;
+    /**
+     * The Colour box 3.
+     */
     @FXML
     public ChoiceBox<String> colourBox3;
+    /**
+     * The Colour box 4.
+     */
     @FXML
     public ChoiceBox<String> colourBox4;
+    /**
+     * The Start first 1.
+     */
     @FXML
     public CheckBox startFirst1;
+    /**
+     * The Start first 2.
+     */
     @FXML
     public CheckBox startFirst2;
+    /**
+     * The Start first 3.
+     */
     @FXML
     public CheckBox startFirst3;
+    /**
+     * The Start first 4.
+     */
     @FXML
     public CheckBox startFirst4;
+    /**
+     * The Profile label 1.
+     */
     @FXML
     public Label profileLabel1;
+    /**
+     * The Profile label 2.
+     */
     @FXML
     public Label profileLabel2;
+    /**
+     * The Profile label 3.
+     */
     @FXML
     public Label profileLabel3;
+    /**
+     * The Profile label 4.
+     */
     @FXML
     public Label profileLabel4;
+    /**
+     * The Tank view 1.
+     */
     @FXML
     public ImageView tankView1;
+    /**
+     * The Tank view 2.
+     */
     @FXML
     public ImageView tankView2;
+    /**
+     * The Tank view 3.
+     */
     @FXML
     public ImageView tankView3;
+    /**
+     * The Tank view 4.
+     */
     @FXML
     public ImageView tankView4;
+    /**
+     * The Start label 1.
+     */
     @FXML
     public Label startLabel1;
+    /**
+     * The Start label 2.
+     */
     @FXML
     public Label startLabel2;
+    /**
+     * The Start label 3.
+     */
     @FXML
     public Label startLabel3;
+    /**
+     * The Start label 4.
+     */
     @FXML
     public Label startLabel4;
+    /**
+     * The Num players label.
+     */
     @FXML
     public Label numPlayersLabel;
+    /**
+     * The Num players slider.
+     */
     @FXML
     public Slider numPlayersSlider;
+    /**
+     * The Butt bar.
+     */
     @FXML
     public HBox buttBar;
+    /**
+     * The Back butt.
+     */
     @FXML
     public Button backButt;
+    /**
+     * The New player butt.
+     */
     @FXML
     public Button newPlayerButt;
+    /**
+     * The Begin butt.
+     */
     @FXML
     public Button beginButt;
-    public VBox[] playerForms;
-    public Label[] profileLabels;
-    public Label[] startLabels;
-    public ChoiceBox<String>[] profileBoxes;
-    public ChoiceBox<String>[] colourBoxes;
-    public String defaultColour = "Auto-Assign";
-    public CheckBox[] startFirstChecks;
-    public ImageView[] tankViews;
-    public String gameName;
-    public Stage primaryStage;
-    public Player[] players;
-    public int numPlayers = 4;
+
+    private VBox[] playerForms;
+    private Label[] profileLabels;
+    private Label[] startLabels;
+    private ChoiceBox<String>[] profileBoxes;
+    private ChoiceBox<String>[] colourBoxes;
+    private String defaultColour = "Auto-Assign";
+    private CheckBox[] startFirstChecks;
+    private ImageView[] tankViews;
+    private String gameName;
+    private Stage primaryStage;
+    private Player[] players;
+    private int numPlayers = 4;
 
     /**
-     *
+     * Set colour boxes.
      */
     @FXML
     public void setColourBoxes(){
@@ -133,7 +254,9 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param names
+     * Set profile boxes.
+     *
+     * @param names ArrayList of profile names
      */
     @FXML
     public void setProfileBoxes(ArrayList<String> names){
@@ -143,24 +266,38 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param backgroundMusic
+     * Sets background music.
+     *
+     * @param backgroundMusic Background music
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }
 
+    /**
+     * Sets game name.
+     *
+     * @param gameName the game name
+     */
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
 
     /**
-     * @param primaryStage
+     * Sets primary stage.
+     *
+     * @param primaryStage primary stage
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * Update start labels.
+     *
+     * @param players the players
+     */
     public void updateStartLabels(Player[] players){
         for(int i=0;i<players.length;i++) {
             startLabels[i].setVisible(players[i].isStartingFirst());
@@ -168,8 +305,10 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param index
-     * @param colour
+     * Update tank view.
+     *
+     * @param index  tankView identifier
+     * @param colour tank colour
      */
     public void updateTankView(int index, String colour){
         tankViews[index].setImage(new Image("resources/"+colour+".png"));
@@ -180,7 +319,9 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param index
+     * Set starting player.
+     *
+     * @param index player identifier
      */
     public void setStartingPlayer(int index){
         for(int i = 0; i<4; i++){
@@ -195,8 +336,10 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param decrease
-     * @param oldValue
+     * Update player forms.
+     *
+     * @param decrease true if numPlayers less than oldValue
+     * @param oldValue numPlayers before value change
      */
     public void updatePlayerForms(boolean decrease, int oldValue){
         if(decrease) {
@@ -217,6 +360,13 @@ public class PlayerSelectionController implements Initializable {
         }
     }
 
+
+    /**
+     * Automatically assigns the remaining colours to players who did not select one.
+     *
+     * @param players the players
+     * @return the player [ ]
+     */
     public Player[] autoAssignColour(Player[] players){
         ArrayList<String> availableColours = new ArrayList<String>();
         availableColours.add("Green");
@@ -238,6 +388,7 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
+     * Handle mute event.
      */
     public void handleMute() {
         backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
@@ -245,8 +396,10 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * @param location
-     * @param resources
+     * Initializer. Establishes necessary variables and, sets action events and listeners.
+     *
+     * @param location URL
+     * @param resources Resource
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -266,6 +419,7 @@ public class PlayerSelectionController implements Initializable {
                 new Player(3, null), new Player(4, null)
         };
 
+        // tries to load profile names and set them in profile boxes
         try {
             setProfileBoxes(FileHandler.getAllNames());
         } catch (FileNotFoundException e) {
@@ -285,8 +439,11 @@ public class PlayerSelectionController implements Initializable {
                 updateStartLabels(players);
             });
 
+            // when profile selected: tries to load profile and allows user access to colour choice box,
+            //                       then removes selected profile from other choice boxes
+
             profileBoxes[index].setOnAction(event -> {
-                ChoiceBox currProfileBox = (ChoiceBox) event.getSource();
+                ChoiceBox<String> currProfileBox = profileBoxes[index];
                 if (currProfileBox.getValue() != null) {
                     String playerName = currProfileBox.getValue().toString();
                     try {
@@ -315,6 +472,8 @@ public class PlayerSelectionController implements Initializable {
                 }
             });
 
+            // When colour selected: set as player's colour and remove it as an option in other colour boxes
+
             colourBoxes[index].setOnAction(event -> {
                 players[index].setColour(colourBoxes[index].getValue());
                 updateTankView(index, players[index].getColour());
@@ -334,6 +493,8 @@ public class PlayerSelectionController implements Initializable {
             });
         }
 
+        // set numPlayers to new value and update the number of player forms
+
         numPlayersSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             numPlayers = newValue.intValue();
             updatePlayerForms(oldValue.intValue() > numPlayers, oldValue.intValue());
@@ -348,6 +509,9 @@ public class PlayerSelectionController implements Initializable {
             new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
         });
 
+        // begin game, if all necessary fields are filled:
+        //      enters players into the game with correct starting order
+
         beginButt.setOnAction (event -> {
             boolean isFilled = true;
             for (int i = 0; i < numPlayers; i++){
@@ -355,7 +519,7 @@ public class PlayerSelectionController implements Initializable {
                     isFilled = false;
                 }
             }
-
+            // check if necessary details are filled
             if (isFilled){
                 int startingPlayerIndex = -1;
                 boolean isSelected = false;
@@ -371,6 +535,7 @@ public class PlayerSelectionController implements Initializable {
                 if (numPlayers >= 0) System.arraycopy(players, 0, playerFinal, 0, numPlayers);
                 playerFinal = autoAssignColour(playerFinal);
 
+                // if a player is selected to start first swap them with player in first pos
                 if (isSelected) {
                     Player temp = playerFinal[0];
                     playerFinal[0] = playerFinal[startingPlayerIndex];
