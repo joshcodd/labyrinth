@@ -208,12 +208,12 @@ public class PlayerSelectionController implements Initializable {
     @FXML
     public Slider numPlayersSlider;
     /**
-     * The Butt bar.
+     * The Button bar.
      */
     @FXML
     public HBox buttBar;
     /**
-     * The Back butt.
+     * The Back button.
      */
     @FXML
     public Button backButt;
@@ -229,11 +229,10 @@ public class PlayerSelectionController implements Initializable {
     public Button beginButt;
 
     private VBox[] playerForms;
-    private Label[] profileLabels;
     private Label[] startLabels;
     private ChoiceBox<String>[] profileBoxes;
     private ChoiceBox<String>[] colourBoxes;
-    private String defaultColour = "Auto-Assign";
+    private final String defaultColour = "Auto-Assign";
     private CheckBox[] startFirstChecks;
     private ImageView[] tankViews;
     private String gameName;
@@ -406,7 +405,6 @@ public class PlayerSelectionController implements Initializable {
         this.playerForms = new VBox[]{playerForm1, playerForm2, playerForm3, playerForm4};
         this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2, profileBox3, profileBox4};
         this.colourBoxes = new ChoiceBox[]{colourBox1, colourBox2, colourBox3, colourBox4};
-        this.profileLabels = new Label[]{profileLabel1, profileLabel2, profileLabel3, profileLabel4};
         this.startLabels = new Label[]{startLabel1, startLabel2, startLabel3, startLabel4};
         this.startFirstChecks = new CheckBox[]{startFirst1, startFirst2, startFirst3, startFirst4};
         this.tankViews = new ImageView[]{tankView1, tankView2, tankView3, tankView4};
@@ -445,7 +443,7 @@ public class PlayerSelectionController implements Initializable {
             profileBoxes[index].setOnAction(event -> {
                 ChoiceBox<String> currProfileBox = profileBoxes[index];
                 if (currProfileBox.getValue() != null) {
-                    String playerName = currProfileBox.getValue().toString();
+                    String playerName = currProfileBox.getValue();
                     try {
                         Player player = new Player(index, FileHandler.loadProfile(playerName));
                         players[index] = player;
