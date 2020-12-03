@@ -43,7 +43,6 @@ public class SelectPlayerScene {
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setColourBoxes();
             controller.setGameName(level);
-            System.out.println(level);
             Scene scene = new Scene(root, 1200, 650);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
