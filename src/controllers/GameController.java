@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import views.scenes.MenuScene;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
@@ -168,6 +169,10 @@ public class GameController implements Initializable {
      * @param moves The moves that are available to the current player.
      */
     public void updateMoves(ArrayList<Coord> moves) {
+        for (Player player : game.getPlayers()) {
+            moves.remove(player.getCurrentPosition());
+        }
+
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
             if (moves.contains(curr) && !(gameBoard.getAction(curr) instanceof FireTile)){
@@ -327,8 +332,7 @@ public class GameController implements Initializable {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
                     int playerNumber = player.getPlayerNumber() + 1;
-                    String newUrl = "resources/" + player.getColourImage() + ".png";
-                    ImageView tank = new ImageView("resources/" + player.getColourImage() + ".png");
+                    ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
                     tank.setFitHeight(30);
                     tank.setFitWidth(30);
                     StackPane cell = (StackPane) node;
@@ -347,7 +351,7 @@ public class GameController implements Initializable {
                 if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
                         && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
                     int playerNumber = player.getPlayerNumber() + 1;
-                    ImageView tank = new ImageView("resources/" + player.getColourImage() + ".png");
+                    ImageView tank = new ImageView("resources/" + player.getColour() + ".png");
                     tank.setOnMouseClicked(event -> {
                         backtrackPlayer(player);
                     });
@@ -435,6 +439,24 @@ public class GameController implements Initializable {
         return arrow;
     }
 
+    private void handleWinSaves() {
+        for (Player player : game.getPlayers()){
+
+            try {
+                if (player.getProfileName().equals(game.getCurrentPlayerName())) {
+                    player.getProfile().incrementWins();
+                } else {
+                    player.getProfile().incrementLosses();
+                }
+                player.getProfile().incrementGamesPlayed();
+                player.getProfile().save();
+                FileHandler.saveLeaderboard(game.getLevelName(), player.getProfileName());
+            } catch (IOException e){
+
+            }
+        }
+    }
+
     /**
      * This method checks if the current player has won, and otherwise sets up the UI for the next player's turn.
      */
@@ -444,6 +466,7 @@ public class GameController implements Initializable {
         if (game.checkWin(game.getCurrentPlayer())) {
             setPlayerLabel(game.getCurrentPlayerName() + " Wins!");
             game.setOver(true);
+            handleWinSaves();
             //TODO Exit game with win screen + related audio
         } else {
             game.nextPlayer();
@@ -549,21 +572,20 @@ public class GameController implements Initializable {
 
         saveButton.setOnMouseClicked(event -> {
             if (!game.isOver()){
-                TextInputDialog td = new TextInputDialog(Instant.now().toString());
-                td.showAndWait();
+                TextInputDialog input = new TextInputDialog(Instant.now().toString());
+                input.showAndWait();
                 try {
-                    String result = td.getResult().trim();
+                    String result = input.getResult().trim();
                     if (result.equals("")) {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot be empty", ButtonType.CLOSE);
                         alert.showAndWait();
                     } else {
                         try {
-                            FileHandler.saveGameFile(td.getResult(), game);
+                            FileHandler.saveGameFile(input.getResult(), game);
                             MenuScene menu = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
-                        System.out.println("WE SAVED");
 
                     }
                 } catch (NullPointerException ignored){

@@ -83,7 +83,6 @@ public class Player {
 	}
 
 	public String getProfileName(){
-		System.out.println(profile.getPlayerName());
 		return this.profile.getPlayerName();
 	}
 

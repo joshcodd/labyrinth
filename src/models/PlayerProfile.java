@@ -4,11 +4,8 @@ import java.io.IOException;
 
 /**
  * Class that represents payer profile info
- * 
  * @author Luka Zec 
  * @StudentID: 987856
- * 
- *
  */
 public class PlayerProfile {
 	private int gamesPlayed;
@@ -39,15 +36,25 @@ public class PlayerProfile {
 
 	}
 
+	/**
+	 * increments users wins
+	 */
 	public void incrementWins(){
 		this.wins = wins + 1;
 		
 	}
+
+	/**
+	 * increments user losses
+	 */
 	public void incrementLosses(){
 		this.losses = losses + 1;
 		
 	}
 
+	/**
+	 * increment how many games user played
+	 */
 	public  void incrementGamesPlayed() {
 		this.gamesPlayed = gamesPlayed + 1;
 

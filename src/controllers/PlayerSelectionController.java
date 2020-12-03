@@ -173,6 +173,10 @@ public class PlayerSelectionController implements Initializable {
      */
     public void updateTankView(int index, String colour){
         tankViews[index].setImage(new Image("resources/"+colour+".png"));
+        tankViews[index].setFitHeight(60);
+        tankViews[index].setFitWidth(60);
+
+
     }
 
     /**
@@ -227,7 +231,6 @@ public class PlayerSelectionController implements Initializable {
 
         for (Player player : players) {
             if (player.getColour().equals(defaultColour)) {
-                System.out.print("changing" + player.getProfileName() + player.getColour());
                 player.setColour(availableColours.remove(0));
             }
         }
@@ -371,7 +374,6 @@ public class PlayerSelectionController implements Initializable {
                     Player temp = playerFinal[0];
                     playerFinal[0] = playerFinal[startingPlayerIndex];
                     playerFinal[startingPlayerIndex] = temp;
-                    System.out.print(Arrays.toString(playerFinal));
                     try {
                         new GameScene(primaryStage, new Game(gameName, playerFinal), backgroundMusic.getMediaPlayer());
                     } catch (FileNotFoundException e) {

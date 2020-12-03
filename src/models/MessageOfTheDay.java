@@ -24,7 +24,6 @@ public class MessageOfTheDay {
         try {
             message = decryption(httpRequestSend(URL_CS230));
         } catch(Exception e){
-            System.out.println("The following error is : " + e.getMessage());
         }
 
     }

@@ -1,9 +1,8 @@
-josh,4,4,5
-neil,10,4,6
-andreas,1,4,7
-andrew,3,4,5
-james,0,0,55
-george,5,3,4
-luka,4,5,4
-chi,0,0,0
-jimma,0,0,0
+josh,4,4,5,
+neil,12,8,12,
+andreas,2,12,16,
+andrew,4,12,14,
+james,5,4,64,
+george,6,8,10,
+luka,4,6,5,
+chi,0,0,0,
