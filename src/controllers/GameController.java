@@ -586,7 +586,6 @@ public class GameController implements Initializable {
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
-                        System.out.println("WE SAVED");
 
                     }
                 } catch (NullPointerException ignored){
