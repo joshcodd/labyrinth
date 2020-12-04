@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Andreas Eleftheriades    @StudentID 1906277
  */
 public class TileBag {
-    
+    // list of the tiles needed in the game
     private ArrayList<Tile> tileBag;
 
     /**
@@ -36,6 +36,9 @@ public class TileBag {
         tileBag.add(tile);
     }
 
+    /**
+     * @return length of list of tiles
+     */
     public int getSize(){
         return tileBag.size();
     }

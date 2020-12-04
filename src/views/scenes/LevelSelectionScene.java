@@ -15,8 +15,8 @@ import models.Constants;
 
 /**
  * Class that represents level select screen
- * @author George Boumphrey
- * @StudentID 851192
+ * @author George Boumphrey StudentID 851192
+ * version 1.0
  */
 public class LevelSelectionScene {
     private Stage primaryStage;

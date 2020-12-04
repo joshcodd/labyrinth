@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
- * The type Select player scene.
+ * Class that represents the player selection scene.
  */
 public class SelectPlayerScene {
 

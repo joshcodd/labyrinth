@@ -6,19 +6,25 @@ import java.util.Arrays;
  *
  */
 public class Player {
-	Coord currentPosition;
-	Coord[] previousPositions;
-	int playerNumber;
-	ArrayList<ActionTile> actionTiles;
-	PlayerProfile profile;
-	String colour = "Auto-Assign";
-	boolean startFirst = false;
-
-
+	//
+	private Coord currentPosition;
+	//
+	private Coord[] previousPositions;
+	//
+	private int playerNumber;
+	//
+	private ArrayList<ActionTile> actionTiles;
+	//
+	private PlayerProfile profile;
+	//
+	private String colour = "Auto-Assign";
+	//
+	private boolean startFirst = false;
 
 	/**
-	 * @param playerNumber
-	 * @param playerProfile
+	 * initialises the player object, sets profiles details, bag for the users tile and sets players positions
+	 * @param playerNumber players given number
+	 * @param playerProfile users details
 	 */
 	public Player(int playerNumber, PlayerProfile playerProfile) {
 		this.playerNumber = playerNumber;
@@ -28,22 +34,31 @@ public class Player {
 	}
 
 	/**
-	 * @return
+	 * used to edit the players positions throughout the game
+	 * @return the location of player
 	 */
 	public Coord getCurrentPosition() {
 		return currentPosition;
 	}
-	
+
+	/**
+	 * used to sets the players starting position
+	 * @param xy x and y updated co ordinates to be set
+	 */
 	public void setCurrentPosition(Coord xy) {
 		this.currentPosition = xy;
 	}
 
+	/**
+	 * @return users player's number
+	 */
 	public int getPlayerNumber() {
 		return playerNumber;
 	}
 
 	/**
-	 * @param destination
+	 * updates players location on the board throughout the game
+	 * @param destination users selected position
 	 */
 	public void movePlayer (Coord destination) {
 		previousPositions[1] = previousPositions[0];
@@ -51,83 +66,98 @@ public class Player {
 		currentPosition = destination;
 	}
 
+	/**
+	 * appends action tiles to players list once drawn
+	 * @param tile action tile that the player drew
+	 */
 	public void addActionTile (ActionTile tile) {
 		actionTiles.add(tile);
 	}
 
 	/**
-	 * @param tile
+	 * removes action tiles to players list once used
+	 * @param tile action tile to be added to players
 	 */
 	public void removeActionTile (ActionTile tile) {
 		actionTiles.removeIf(x -> x.getClass() == tile.getClass());
 	}
 
+	/**
+	 * used to display players list of action tiles to use in their current turn
+	 * @return list of action tiles in hand
+	 */
 	public ArrayList<ActionTile> getActionTiles () {
 		return actionTiles;
 	}
 
+	/**
+	 * used to locates players previous moves if the backtrack tile is placed on the player
+	 * @param index the index of position to be returned
+	 * @return players previous position
+	 */
 	public Coord getPrevPosition (int index) {
 		return previousPositions[index];
 	}
-	
+
+	/**
+	 * used to record players previous moves
+	 * @param index to store the move in
+	 * @param xy the players position
+	 */
 	public void setPrevPosition(int index, Coord xy) {
 		previousPositions[index] = xy;
 	}
 
-	public boolean hasProfileSet(){
-		return profile!=null;
-	}
-	
+	/**
+	 * used to pass the user profile
+	 * @return the profile of the user for that game
+	 */
 	public PlayerProfile getProfile() {
 		return profile;
 	}
 
+	/**
+	 * @return the name of the user for that game
+	 */
 	public String getProfileName(){
 		return this.profile.getPlayerName();
 	}
 
+	/**
+	 * @return the colour of the player in that game
+	 */
 	public String getColour(){
 		return this.colour;
 	}
 
+	/**
+	 * sets the players colour selected by the user
+	 * @param newColour the players colour selected
+	 */
 	public void setColour(String newColour){
 		this.colour = newColour;
 	}
 
+	/**
+	 * used to determine which player is to start at the beginning
+	 * @return if the player is starting or not
+	 */
 	public boolean isStartingFirst(){
 		return this.startFirst;
 	}
 
+	/**
+	 * sets the player who will play the first move
+	 * @param Starting if the player is playing first or not
+	 */
 	public void setFirst(boolean Starting){
 		this.startFirst = Starting;
 	}
 
-	public void setProfile(PlayerProfile profile) {
-		this.profile = profile;
-	}
-
-	public String getColourImage(){
-		String imageName;
-
-		switch(colour) {
-			case "Green":
-				imageName = "1";
-				break;
-			case "Red":
-				imageName = "2";
-				break;
-			case "Desert Camo":
-				imageName = "3";
-				break;
-			case "Blue":
-				imageName = "4";
-				break;
-			default:
-				imageName = "5";
-		}
-		return imageName;
-	}
-
+	/**
+	 * used to display details of the player class for developers
+	 * @return details of the player
+	 */
 	@Override
 	public String toString() {
 		return getProfileName() + " " + getColour();

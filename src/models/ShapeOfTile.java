@@ -10,7 +10,4 @@ public enum ShapeOfTile {
     STRAIGHT,
     CROSSROADS,
     GOAL_TILE;
-
-    private ShapeOfTile() {
-    }
 }

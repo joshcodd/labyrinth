@@ -8,11 +8,12 @@ import java.io.File;
 /**
  * Class created to allow a theme background audio to improve aesthetics.
  * @author
+ * @version 1.0
  */
 public class AudioPlayer {
 
-    MediaPlayer click;
-    MediaPlayer backgroundMusic;
+    MediaPlayer click; // starts the music
+    MediaPlayer backgroundMusic; // music to play
 
     /**
      * initialises the audio to play in the background

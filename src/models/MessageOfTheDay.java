@@ -10,22 +10,26 @@ import java.net.URLConnection;
  * fetches  the encrypted text from website, decrypts it and uses it to
  * determine the website to get the message of the day
  * @author Andreas Eleftheriades   StudentID 1906277
+ * @version 1.0
  */
 public class MessageOfTheDay {
 
+    // link to get encrypted text
     private final static String URL_CS230 = "http://cswebcat.swansea.ac.uk/puzzle";
+    // link to send decrypted text to get message of the day
     private final static String URL_CS230_SOLUTION = "http://cswebcat.swansea.ac.uk/message?solution=CS-230";
+    // the message of the day to be displayed on the menu
     private String message = "";
 
     /**
-     * initialises and creates message
+     * initialises and creates message of the day
      */
-    public MessageOfTheDay(){
+    public MessageOfTheDay() {
         try {
             message = decryption(httpRequestSend(URL_CS230));
         } catch(Exception e){
+            System.out.println(e.getMessage());
         }
-
     }
 
     /**
@@ -33,15 +37,16 @@ public class MessageOfTheDay {
      * @param cypherText - encrypted message
      * @return decrypted message
      */
-    private String decryption(String cypherText) throws Exception{
-        String plainText = "";
-        int shift = 1;
-        for(int i=0; i < cypherText.length();i++) {
+    private String decryption(String cypherText) throws Exception {
+        String plainText = "";// holds the decrypted text
+        int shift = 1;// used to decodes the encrypted text
 
-            char character = (char)(((int)cypherText.charAt(i) - shift + 26 - 65) % 26 + 65);
+        for(int i=0; i < cypherText.length(); i++) {
+
+            char character = (char) ( ( (int) cypherText.charAt(i) - shift + 26 - 65) % 26 + 65);
             plainText += character;
 
-            if((shift *= -1) > 0 ) {
+            if( (shift *= -1) > 0 ) {
                 shift ++;
             }else{
                 shift --;

@@ -16,7 +16,7 @@ import models.Constants;
 /**
  * Class that represents the menu game scene.
  * @author Luka Zec and Andreas Eleftheriades
- * @studentID 987856 and 1906277
+ * @version 1.0
  */
 public class MenuScene {
         private Stage primaryStage;
@@ -24,7 +24,7 @@ public class MenuScene {
     /**
      * Method to construct and initialize a menu scene.
      * @param stage the stage to display this scene.
-     * @param backgroundMusic teh games background music will play.
+     * @param backgroundMusic the games background music will play.
      */
         public MenuScene (Stage stage, MediaPlayer backgroundMusic) {
             this.primaryStage = stage;

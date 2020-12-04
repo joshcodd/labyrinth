@@ -5,6 +5,5 @@ package models;
  * @StudentID 1909700
  */
 public abstract class Tile {
-    public Tile() {
-    }
+
 }

@@ -10,5 +10,5 @@ public class DoubleMoveTile extends ActionTile {
     public void Action() {
 
     }
-    
+
 }

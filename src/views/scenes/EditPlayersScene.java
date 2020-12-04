@@ -11,14 +11,17 @@ import javafx.stage.Stage;
 import models.Constants;
 
 /**
- *
+ * Class that represents the users editing scene.
+ * @suthor
+ * @version 1.0
  */
 public class EditPlayersScene {
     private Stage primaryStage;
 
     /**
-     * @param stage
-     * @param backgroundMusic
+     * sets up the screen for which the user can changes players details
+     * @param stage the stage in use
+     * @param backgroundMusic the games background music will play.
      */
     public EditPlayersScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;

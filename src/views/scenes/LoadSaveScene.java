@@ -9,11 +9,21 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Constants;
 
+/**
+ * Class that represents the main game scene.
+ * @author
+ * @version 1.0
+ */
 public class LoadSaveScene {
     private Stage primaryStage;
     private LoadSaveController controller;
 
 
+    /**
+     * Method to construct and initialize a load and save scene.
+     * @param stage the stage to display this scene.
+     * @param backgroundMusic the games background music will play.
+     */
     public LoadSaveScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
 

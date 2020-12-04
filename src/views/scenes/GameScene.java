@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 /**
  * Class that represents the main game scene.
  * @author Josh Codd, Neil Woodhouse
+ * @version 1.0
  */
 public class GameScene {
     private GameController controller;

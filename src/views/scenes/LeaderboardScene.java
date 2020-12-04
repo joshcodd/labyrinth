@@ -9,14 +9,17 @@ import javafx.stage.Stage;
 import models.Constants;
 
 /**
- *
+ * Class that represents the main game scene.
+ * @author
+ * @version 1.0
  */
 public class LeaderboardScene {
     private Stage primaryStage;
 
     /**
-     * @param stage
-     * @param backgroundMusic
+     * Method to construct and initialize a leaderboard scene.
+     * @param stage the stage to display this scene.
+     * @param backgroundMusic the games background music will play.
      */
     public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;

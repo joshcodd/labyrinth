@@ -14,11 +14,11 @@ public class PlayerProfile {
 	private String playerName;
 
 	/**
-	 *
-	 * @param playerName
-	 * @param wins
-	 * @param losses
-	 * @param gamesPlayed
+	 * used to initialise the users profile when created as well sets their leaderboard details
+	 * @param playerName users name
+	 * @param wins number of game wins normally 0
+	 * @param losses number of game losses normally 0
+	 * @param gamesPlayed number of game played normally 0
 	 */
 	public PlayerProfile(String playerName, int wins,int losses,int gamesPlayed) {
 		setplayerName(playerName);
@@ -28,7 +28,7 @@ public class PlayerProfile {
 	}
 
 	/**
-	 * sets the users choosen name to the player objects name
+	 * sets the users chosen name to the player objects name
 	 * @param Name name to be set
 	 */
 	public void setplayerName(String Name) {
@@ -68,17 +68,30 @@ public class PlayerProfile {
 		FileHandler.saveProfile(playerName, wins, losses, gamesPlayed);
 	}
 
+	/**
+	 * @return users name to used or displayed
+	 */
 	public  String getPlayerName() {
 		return playerName;
 	}
-	
+
+	/**
+	 * @return number of user wins to used or displayed
+	 */
 	public  int getNumberofWins() {
 		return wins;
 	}
 
+	/**
+	 * @return number of user loss to used or displayed
+	 */
 	public  int getNumberofLosses() {
 		return losses;
 	}
+
+	/**
+	 * @return number of user games to used or displayed
+	 */
 	public  int getNumberofGamesPlayed() {
 		return gamesPlayed;
 	}
