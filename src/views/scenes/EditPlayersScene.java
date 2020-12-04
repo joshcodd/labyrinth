@@ -1,7 +1,6 @@
 package views.scenes;
 
 import controllers.EditPlayersController;
-import controllers.LeaderboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,14 +10,17 @@ import javafx.stage.Stage;
 import models.Constants;
 
 /**
- *
+ * Class that represents an edit players scene.
+ * Generates the GUI for viewing, adding and deleting players.
+ * @author Josh Codd
  */
 public class EditPlayersScene {
     private Stage primaryStage;
 
     /**
-     * @param stage
-     * @param backgroundMusic
+     * Constructs and initializes a edit players scene. Then display it on the stage.
+     * @param stage The stage to display this scene on.
+     * @param backgroundMusic The audio to play in the background.
      */
     public EditPlayersScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;

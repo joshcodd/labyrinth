@@ -9,14 +9,18 @@ import javafx.stage.Stage;
 import models.Constants;
 
 /**
- *
+ * Class that represents a leaderboard scene, and displays this to screen.
+ * The leaderboard scene is the scene allows the user to select a level name
+ * and view the leaderboard for that level.
+ * @author Josh Codd
  */
 public class LeaderboardScene {
     private Stage primaryStage;
 
     /**
-     * @param stage
-     * @param backgroundMusic
+     * Constructs and initializes a leaderboard scene. Then display it on the stage.
+     * @param stage The stage to display this scene on.
+     * @param backgroundMusic The audio to play in the background.
      */
     public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;

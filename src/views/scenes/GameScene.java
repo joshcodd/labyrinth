@@ -10,7 +10,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
- * Class that represents the main game scene.
+ * Class that represents the main game scene to be displayed on screen.
+ * The game scene is the scene in which the actual game is played.
  * @author Josh Codd, Neil Woodhouse
  */
 public class GameScene {
@@ -18,9 +19,9 @@ public class GameScene {
     private Stage primaryStage;
 
     /**
-     * Construct and initialize a game scene. Then display it on the stage.
-     * @param stage the stage to display this scene on.
-     * @param game the game to play.
+     * Constructs and initializes a game scene. Then display it on the stage.
+     * @param stage The stage to display this scene on.
+     * @param game The game to play.
      * @param backgroundMusic The audio to play in the background.
      */
     public GameScene (Stage stage, Game game, MediaPlayer backgroundMusic){

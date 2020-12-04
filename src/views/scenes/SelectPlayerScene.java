@@ -1,41 +1,32 @@
 package views.scenes;
-/**
- * Player Selection scene class
- * @author James Charnock
- * @StudentID 1909700
- */
-
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaView;
 import models.Constants;
-import models.FileHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import controllers.PlayerSelectionController;
 import javafx.scene.media.MediaPlayer;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
- * The type Select player scene.
+ * Class that represents a player selection scene, and displays this to screen.
+ * This scene is the GUI that allows a user to select players and their colours
+ * and then continue to play.
+ * @author James Charnock
  */
 public class SelectPlayerScene {
-
     private Stage primaryStage;
     private ArrayList<String> profiles;
     private PlayerSelectionController controller;
 
-
     /**
-     * Instantiates a new Select player scene.
-     *
-     * @param stage           the stage
-     * @param level           the level
-     * @param backgroundMusic the background music
+     * Construct and initialize a game scene. Then display it on the stage.
+     * @param stage The stage to display this scene on.
+     * @param level The level selected to play the game on.
+     * @param backgroundMusic The audio to play in the background.
      */
     public SelectPlayerScene (Stage stage, String level, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
@@ -54,7 +45,6 @@ public class SelectPlayerScene {
             primaryStage.show();
 
         } catch (Exception e){
-            e.printStackTrace();
             Alert internalIOError = new Alert(Alert.AlertType.ERROR,
                     "The game encountered a fatal error when attempting to load an internal file. " +
                             "Please check the integrity of your installation." +

@@ -8,19 +8,19 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Constants;
 
-
 /**
- * Class that represents the menu game scene.
+ * Class that represents a menu scene, and displays this to screen.
+ * The load menu scene is the GUI that allows a player to move around
+ * to different sections of the game.
  * @author Luka Zec and Andreas Eleftheriades
- * @studentID 987856 and 1906277
  */
 public class MenuScene {
         private Stage primaryStage;
 
     /**
      * Method to construct and initialize a menu scene.
-     * @param stage the stage to display this scene.
-     * @param backgroundMusic teh games background music will play.
+     * @param stage The stage to display this scene on.
+     * @param backgroundMusic The audio to play in the background.
      */
         public MenuScene (Stage stage, MediaPlayer backgroundMusic) {
             this.primaryStage = stage;

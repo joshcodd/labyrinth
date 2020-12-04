@@ -1,9 +1,5 @@
 package views.scenes;
-
-
 import controllers.LevelSelectionController;
-import controllers.MenuController;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,20 +8,19 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Constants;
 
-
 /**
- * Class that represents level select screen
+ * Class that represents level select screen.
+ * Allows a player to select a level file and continue.
  * @author George Boumphrey
- * @StudentID 851192
  */
 public class LevelSelectionScene {
     private Stage primaryStage;
     private LevelSelectionController controller;
 
     /**
-     * Method to construct level select scene
-     * @param stage the stage to display this scene
-     * @param backgroundMusic the background music to play in this scene
+     * Constructs and initializes a level selection scene. Then display it on the stage.
+     * @param stage The stage to display this scene on.
+     * @param backgroundMusic The audio to play in the background.
      */
     public LevelSelectionScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;

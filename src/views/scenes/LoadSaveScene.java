@@ -1,5 +1,4 @@
 package views.scenes;
-import controllers.LevelSelectionController;
 import controllers.LoadSaveController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,11 +8,21 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Constants;
 
+/**
+ * Class that represents a load save scene, and displays this to screen.
+ * The load save scene is the GUI that allows a user to pick a previously saved game
+ * to play.
+ * @author Josh Codd
+ */
 public class LoadSaveScene {
     private Stage primaryStage;
     private LoadSaveController controller;
 
-
+    /**
+     * Constructs and initializes a load save scene. Then display it on the stage.
+     * @param stage The stage to display this scene on.
+     * @param backgroundMusic The audio to play in the background.
+     */
     public LoadSaveScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
 
