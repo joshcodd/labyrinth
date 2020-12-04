@@ -7,7 +7,7 @@ public class FireTile extends ActionTile {
     private int turnsSinceUse;
 
     /**
-     * activates the area in which the user cant enter
+     * constructor for fire tile
      */
     public FireTile() {
         this.turnsSinceUse = -1;
@@ -15,7 +15,7 @@ public class FireTile extends ActionTile {
 
 
     /**
-     * activates the area in which the user cant enter
+     * activates the area in which the players can't enter
      */
     public void Action() {
 

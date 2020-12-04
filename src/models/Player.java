@@ -83,7 +83,6 @@ public class Player {
 	}
 
 	public String getProfileName(){
-		System.out.println(profile.getPlayerName());
 		return this.profile.getPlayerName();
 	}
 
@@ -105,6 +104,28 @@ public class Player {
 
 	public void setProfile(PlayerProfile profile) {
 		this.profile = profile;
+	}
+
+	public String getColourImage(){
+		String imageName;
+
+		switch(colour) {
+			case "Green":
+				imageName = "1";
+				break;
+			case "Red":
+				imageName = "2";
+				break;
+			case "Desert Camo":
+				imageName = "3";
+				break;
+			case "Blue":
+				imageName = "4";
+				break;
+			default:
+				imageName = "5";
+		}
+		return imageName;
 	}
 
 	@Override

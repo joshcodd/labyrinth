@@ -6,7 +6,10 @@ package views.scenes;
  */
 
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaView;
+import models.Constants;
 import models.FileHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
- *
+ * The type Select player scene.
  */
 public class SelectPlayerScene {
 
@@ -28,9 +31,11 @@ public class SelectPlayerScene {
 
 
     /**
-     * @param stage
-     * @param level
-     * @param backgroundMusic
+     * Instantiates a new Select player scene.
+     *
+     * @param stage           the stage
+     * @param level           the level
+     * @param backgroundMusic the background music
      */
     public SelectPlayerScene (Stage stage, String level, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
@@ -43,15 +48,20 @@ public class SelectPlayerScene {
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setColourBoxes();
             controller.setGameName(level);
-            System.out.println(level);
-            Scene scene = new Scene(root, 1200, 650);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
 
         } catch (Exception e){
             e.printStackTrace();
-
+            Alert internalIOError = new Alert(Alert.AlertType.ERROR,
+                    "The game encountered a fatal error when attempting to load an internal file. " +
+                            "Please check the integrity of your installation." +
+                            "The game will now close.",
+                    ButtonType.OK);
+            internalIOError.showAndWait();
+            stage.close();
         }
     }
 }

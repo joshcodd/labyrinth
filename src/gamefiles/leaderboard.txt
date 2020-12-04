@@ -1,2 +1,2 @@
-level:josh,neil,andreas,andrew,george
-game:luka,george
+game:andrew,andreas,neil,james,luka,george
+test:andreas,george,andrew,james

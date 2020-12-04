@@ -10,13 +10,23 @@ import javafx.scene.Scene;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import models.Constants;
 
 
+/**
+ * Class that represents level select screen
+ * @author George Boumphrey
+ * @StudentID 851192
+ */
 public class LevelSelectionScene {
     private Stage primaryStage;
     private LevelSelectionController controller;
 
-
+    /**
+     * Method to construct level select scene
+     * @param stage the stage to display this scene
+     * @param backgroundMusic the background music to play in this scene
+     */
     public LevelSelectionScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
 
@@ -27,7 +37,7 @@ public class LevelSelectionScene {
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setPrimaryStage(stage);
             controller.setDropdown();
-            Scene scene = new Scene(root, 1200, 650);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();

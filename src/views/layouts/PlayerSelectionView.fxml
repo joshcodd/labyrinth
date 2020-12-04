@@ -17,7 +17,7 @@
 
 <BorderPane id="borderPane" maxHeight="900.0" minHeight="600.0" prefHeight="1004.0" prefWidth="1186.0" styleClass="background-image" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlayerSelectionController">
    <top>
-      <VBox minHeight="100">
+      <VBox minHeight="50.0">
       <HBox alignment="TOP_RIGHT" styleClass="tool-bar" VBox.vgrow="ALWAYS"><MediaView fx:id="backgroundMusic" />
          <Button fx:id="muteButton" mnemonicParsing="false" onAction="#handleMute" />
       </HBox>
@@ -25,18 +25,18 @@
    </top>
    <bottom>
       <HBox fx:id="buttBar" BorderPane.alignment="CENTER">
-         <VBox alignment="CENTER" style="-fx-padding: 10 20 10 20;" HBox.hgrow="NEVER">
+         <VBox alignment="CENTER" style="-fx-padding: 10 20 15 115;" HBox.hgrow="NEVER">
             <children>
                <Button fx:id="backButt" mnemonicParsing="false" styleClass="default-button" text="Back" />
             </children>
          </VBox>
          <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-            <VBox style="-fx-padding: 10 20 10 20;" HBox.hgrow="NEVER">
+            <VBox alignment="CENTER" style="-fx-padding: 10 20 15 20;" HBox.hgrow="NEVER">
                <children>
                   <Button fx:id="newPlayerButt" mnemonicParsing="false" styleClass="default-button" text="Create new Player" />
                </children>
             </VBox>
-            <VBox style="-fx-padding: 10 20 10 20;" HBox.hgrow="NEVER">
+            <VBox alignment="CENTER" prefWidth="255.0" style="-fx-padding: 10 115 15 20;" HBox.hgrow="NEVER">
                <children>
                   <Button fx:id="beginButt" mnemonicParsing="false" styleClass="default-button" text="Begin Game" />
                </children>
@@ -51,20 +51,21 @@
       <Pane minWidth="60.0" prefHeight="1330.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <VBox maxHeight="600.0" maxWidth="1200.0" minHeight="400.0" minWidth="300.0" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="600.0" maxWidth="1200.0" minHeight="400.0" minWidth="300.0" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <HBox fx:id="hBox" prefHeight="600.0" prefWidth="900.0">
+            <Label alignment="TOP_CENTER" styleClass="large-label" text="Select players" />
+            <HBox fx:id="hBox" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" style="-fx-padding: 0;">
                <children>
                   <VBox fx:id="playerForm1" minHeight="200.0" minWidth="200.0" prefWidth="500.0">
                      <children>
-                        <Label fx:id="playerLabel1" text="Player 1">
+                        <Label fx:id="playerLabel1" style="-fx-padding: 0 0 0 10;" text="Player 1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="300.0">
                            <children>
-                              <ChoiceBox fx:id="profileBox1" minWidth="150.0" prefWidth="450">
+                              <ChoiceBox fx:id="profileBox1" minWidth="150.0" prefWidth="450" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -73,7 +74,7 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <ChoiceBox fx:id="colourBox1" prefWidth="360.0">
+                              <ChoiceBox fx:id="colourBox1" prefWidth="450.0" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -93,10 +94,10 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <StackPane fx:id="tankStack1" prefHeight="150.0" prefWidth="200.0">
+                        <StackPane fx:id="tankStack1" prefHeight="150.0">
                            <children>
                               <ImageView fx:id="tankView1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="colourLabel1" text="Label" visible="false"/>
+                              <Label fx:id="colourLabel1" text="Label" visible="false" />
                            </children>
                         </StackPane>
                         <Label fx:id="startLabel1" text="Will start first" visible="false">
@@ -108,14 +109,17 @@
                   </VBox>
                   <VBox fx:id="playerForm2" minHeight="200.0" minWidth="200.0" prefWidth="500.0">
                      <children>
-                        <Label fx:id="playerLabel2" text="Player 2">
+                        <Label fx:id="playerLabel2" style="-fx-padding: 0 0 0 10;" text="Player 2">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="300.0">
                            <children>
-                              <ChoiceBox fx:id="profileBox2" minWidth="150.0" prefWidth="450">
+                              <ChoiceBox fx:id="profileBox2" minWidth="150.0" prefWidth="450" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -124,7 +128,7 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <ChoiceBox fx:id="colourBox2" prefWidth="360.0">
+                              <ChoiceBox fx:id="colourBox2" prefWidth="450.0" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -136,7 +140,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </CheckBox>
-                        <Label fx:id="profileLabel2" text="Label"  visible="false">
+                        <Label fx:id="profileLabel2" text="Label" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -147,10 +151,10 @@
                         <StackPane fx:id="tankStack2" prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="tankView2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="colourLabel2" text="Label" visible="false"/>
+                              <Label fx:id="colourLabel2" text="Label" visible="false" />
                            </children>
                         </StackPane>
-                        <Label fx:id="startLabel2" text="Will start first"  visible="false">
+                        <Label fx:id="startLabel2" text="Will start first" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -159,14 +163,14 @@
                   </VBox>
                   <VBox fx:id="playerForm3" minHeight="200.0" minWidth="200.0" prefWidth="500.0">
                      <children>
-                        <Label fx:id="playerLabel3" text="Player 3">
+                        <Label fx:id="playerLabel3" style="-fx-padding: 0 0 0 10;" text="Player 3">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="300.0">
                            <children>
-                              <ChoiceBox fx:id="profileBox3" minWidth="150.0" prefWidth="450">
+                              <ChoiceBox fx:id="profileBox3" minWidth="150.0" prefWidth="450" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -175,7 +179,7 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <ChoiceBox fx:id="colourBox3" prefWidth="360.0">
+                              <ChoiceBox fx:id="colourBox3" prefWidth="450.0" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -210,14 +214,14 @@
                   </VBox>
                   <VBox fx:id="playerForm4" minHeight="200.0" minWidth="200.0" prefWidth="500.0">
                      <children>
-                        <Label fx:id="playerLabel4" text="Player 4">
+                        <Label fx:id="playerLabel4" style="-fx-padding: 0 0 0 10;" text="Player 4">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="300.0">
                            <children>
-                              <ChoiceBox fx:id="profileBox4" minWidth="150.0" prefWidth="450">
+                              <ChoiceBox fx:id="profileBox4" minWidth="150.0" prefWidth="450" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -226,7 +230,7 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <ChoiceBox fx:id="colourBox4" prefWidth="360.0">
+                              <ChoiceBox fx:id="colourBox4" prefWidth="450.0" styleClass="drop-down-alt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -252,7 +256,7 @@
                               <Label fx:id="colourLabel4" text="Label" visible="false" />
                            </children>
                         </StackPane>
-                        <Label fx:id="startLabel4" text="Will start first"  visible="false">
+                        <Label fx:id="startLabel4" text="Will start first" visible="false">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
@@ -261,16 +265,16 @@
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="numPlayersLabel" text="Number of Players: 4">
+            <Label fx:id="numPlayersLabel" style="-fx-padding: 0 0 0 10;" text="Number of Players: 4">
                <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="20.0" />
+                  <Insets right="20.0" top="20.0" />
                </VBox.margin>
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Slider fx:id="numPlayersSlider" majorTickUnit="1.0" max="4.0" maxWidth="400.0" min="2.0" minWidth="100.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="4.0">
+            <Slider fx:id="numPlayersSlider" majorTickUnit="1.0" max="4.0" maxWidth="400.0" min="2.0" minWidth="100.0" minorTickCount="0" prefHeight="38.0" prefWidth="356.0" showTickLabels="true" snapToTicks="true" style="-fx-padding: 0 0 0 5;" value="4.0">
                <VBox.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                  <Insets bottom="30.0" right="30.0" top="10.0" />
                </VBox.margin>
             </Slider>
          </children>

@@ -20,6 +20,7 @@
     -fx-font-size: 42;
 }
 
+
 .dropdown-box .label {
     -fx-text-fill: white;
     -fx-font-size: 25;
@@ -191,4 +192,61 @@
     -fx-font-size: 18;
     -fx-wrap-text: true;
     -fx-text-alignment: center;
+}
+
+
+.drop-down-alt .label {
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+}
+
+.drop-down-alt .menu-item > .label {
+    -fx-text-fill: black;
+    -fx-font-size: 16;
+
+}
+
+.drop-down-alt{
+    -fx-padding: 0;
+    -fx-background-color: black;
+    -fx-opacity: 0.7;
+    -fx-text-fill: white;
+}
+
+.drop-down-alt > .label {
+
+}
+
+
+.drop-down-alt:disabled {
+    -fx-opacity: 0.4;
+}
+
+.check-box .box {
+    -fx-background-color: #003C1F;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #BDBDBD;
+    -fx-border-color: #BDBDBD;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #003C1F;
+}
+
+.slider .track {
+    -fx-pref-height:10;
+    -fx-background-color: black;
+    -fx-opacity: 0.6;
+}
+
+.slider .thumb {
+    -fx-pref-height: 30;
+    -fx-pref-width: 30;
+    -fx-background-radius: 100px;
+    -fx-background-color: black;
+    -fx-opacity: 0.8;
 }

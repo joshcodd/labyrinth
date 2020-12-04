@@ -1,7 +1,8 @@
 package views.scenes;
 import controllers.GameController;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import models.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,9 +18,10 @@ public class GameScene {
     private Stage primaryStage;
 
     /**
-     * Method to construct and initialize a game scene.
-     * @param stage the stage to display this scene.
-     * @param game the game that this scene will play.
+     * Construct and initialize a game scene. Then display it on the stage.
+     * @param stage the stage to display this scene on.
+     * @param game the game to play.
+     * @param backgroundMusic The audio to play in the background.
      */
     public GameScene (Stage stage, Game game, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
@@ -28,12 +30,16 @@ public class GameScene {
             this.controller = new GameController(game, stage, backgroundMusic);
             fxmlLoader.setController(controller);
             Pane root = fxmlLoader.load(getClass().getResource("../layouts/gameView.fxml").openStream());
-            Scene scene = new Scene(root, 1200, 650);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            new MenuScene(stage, backgroundMusic);
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "An error was encountered while attempting load game.",
+                    ButtonType.OK);
+            error.showAndWait();
         }
 
         controller.updateGameBoard();

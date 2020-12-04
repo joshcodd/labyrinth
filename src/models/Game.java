@@ -1,7 +1,5 @@
 package models;
-
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 /**
  * Initialises gameplay objects. Starts and ends game. Manages game turns.
@@ -16,41 +14,34 @@ public class Game {
     private Tile currentTile = null;
     private boolean isOver = false;
     private int currentPlayer = 0;
+    private String levelName;
 
     /**
-     * initialise the game object if its a loaded game
-     * @param gameFilename
-     * @param players
-     * @throws FileNotFoundException
+     * Constructs a new game from a level file.
+     * @param gameFilename The file to load the game board from.
+     * @param players The players playing this game.
      */
     public Game(String gameFilename, Player[] players) throws FileNotFoundException {
         this.players = players;
         this.numPlayers = players.length;
         this.gameBoard = FileHandler.loadNewGame(gameFilename, players, tileBag);
+        this.levelName = gameFilename;
     }
 
     /**
-     * initialise the game object when the current game is re selected
-     * @param board the game boards details to run the game on
-     * @param playerNames list of players playing
-     * @throws FileNotFoundException
+     * Constructs an existing or already saved game.
+     * @param board The game board for this game.
+     * @param players The players playing this game.
+     * @param fileName The name of the file this game was previously construced from.
      */
-    public Game(GameBoard board, String[] playerNames) throws FileNotFoundException {
-        players = new Player[playerNames.length];
-        numPlayers = players.length;
-        for (int i = 0; i < playerNames.length; i++) {
-            PlayerProfile currentProfile = FileHandler.loadProfile(playerNames[i]);
-            players[i] = new Player(i, currentProfile);
-        }
-        gameBoard = board;
-    }
-
-    public Game(GameBoard board) {
+    public Game(GameBoard board, Player[] players, String fileName) {
 		this.gameBoard = board;
+		this.players = players;
+		this.levelName = fileName;
 	}
 
 	/**
-     *  Allows the next player to play
+     * Sets the next player to be the current player.
      */
     public void nextPlayer() {
         currentTile = null;
@@ -68,9 +59,10 @@ public class Game {
     }
 
     /**
-     * changers the players location on the board when they have selected a possible tile to move to
-     * @param direction
-     * @param index
+     * Wraps the player around to the other side of the game board if when a tile is inserted,
+     * they are pushed off.
+     * @param direction The direction from which a tile is being inserted from.
+     * @param index The row or column index the tile is being inserted into.
      */
     public void updatePlayerPositions(String direction, int index){
         for (Player player : players) {
@@ -157,10 +149,6 @@ public class Game {
         this.numPlayers = numPlayers;
     }
 
-    public void setGameBoard(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
     public void setTileBag(TileBag tileBag) {
         this.tileBag = tileBag;
     }
@@ -171,5 +159,9 @@ public class Game {
     
     public void setCurrentPlayer(int p) {
     	this.currentPlayer = p;
+    }
+
+    public String getLevelName() {
+        return levelName;
     }
 }

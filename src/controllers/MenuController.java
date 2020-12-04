@@ -1,5 +1,4 @@
 package controllers;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
@@ -64,47 +63,37 @@ public class MenuController  {
     }
 
     /**
-     * @param actionEvent
+     *
      * @throws FileNotFoundException
      */
-    public void handleButtonNewGame(ActionEvent actionEvent) throws FileNotFoundException {
+    public void handleButtonNewGame() throws FileNotFoundException {
         new AudioPlayer().clickPlay();
         newGame.setText("opening");
-        LevelSelectionScene levelSelectionScene = new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
+        new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
-     * @param actionEvent
+     *
      */
-    public void handleButtonLoadGame(ActionEvent actionEvent) {
+    public void handleButtonLoadGame() {
         new AudioPlayer().clickPlay();
-//        try {
-//            loadGame.setText("opening");
-//            Game game = new Game("level", new String[]{"josh", "neil", "andreas"});
-//            GameScene gameScene = new GameScene(primaryStage, game, backgroundMusic.getMediaPlayer());
-//        } catch (FileNotFoundException e) {
-//            loadGame.setText("Load Game");
-//            loadGame.setDisable(true);
-//            Alert alert = new Alert(Alert.AlertType.ERROR, FILE_NOT_FOUND_MESSAGE, ButtonType.CLOSE);
-//            alert.showAndWait();
-//        }
-       LoadSaveScene test = new LoadSaveScene(primaryStage, backgroundMusic.getMediaPlayer());
+        new LoadSaveScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
-     * @param actionEvent
+     *
      */
-    public void handleButtonLeaderboard(ActionEvent actionEvent) {
+    public void handleButtonLeaderboard() {
         new AudioPlayer().clickPlay();
-            LeaderboardScene leaderboardScene = new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
+            new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
-     * @param actionEvent
+     *
      */
-    public void handleButtonEditPlayers(ActionEvent actionEvent) {
+    public void handleButtonEditPlayers() {
         new AudioPlayer().clickPlay();
-        EditPlayersScene editPlayersScene = new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
+        new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
@@ -125,9 +114,8 @@ public class MenuController  {
 
     /**
      * silences the audio in the background
-     * @param actionEvent
      */
-    public void handleMute(ActionEvent actionEvent) {
+    public void handleMute() {
         backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
         muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
     }

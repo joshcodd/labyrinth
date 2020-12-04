@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -76,10 +77,9 @@ public class FileHandler {
 		ShapeOfTile newShape = null;
 
 		int bendTile = line.nextInt();
-		System.out.println(bendTile);
 		for (int i = 0; i != bendTile; i++) {
 			newShape = ShapeOfTile.BEND;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -87,7 +87,7 @@ public class FileHandler {
 		int tTile = line.nextInt();
 		for (int i = 0; i != tTile; i++) {
 			newShape = ShapeOfTile.T_SHAPE;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -95,7 +95,7 @@ public class FileHandler {
 		int straightTile = line.nextInt();
 		for (int i = 0; i != straightTile; i++) {
 			newShape = ShapeOfTile.STRAIGHT;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -103,7 +103,7 @@ public class FileHandler {
 		int crossTile = line.nextInt();
 		for (int i = 0; i != crossTile; i++) {
 			newShape = ShapeOfTile.CROSSROADS;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 
@@ -139,7 +139,7 @@ public class FileHandler {
 		int goalTile = line.nextInt();
 		for (int i = 0; i != goalTile; i++) {
 			newShape = ShapeOfTile.GOAL_TILE;
-			Tile newTile = new FloorTile(1,false,newShape);
+			Tile newTile = new FloorTile(randomOrientation(),false,newShape);
 			bag.addTile(newTile);
 		}
 		//construct Game board for the level
@@ -185,6 +185,7 @@ public class FileHandler {
 		int numPlayers = 0;
 		Player[] players = null;
 		ShapeOfTile shape = null;
+		String fileName = "";
 
 		while(read.hasNext()){
 			if(read.next().equals(">Height+Width")) {
@@ -196,6 +197,7 @@ public class FileHandler {
 			}
 			if(read.hasNext(">Board")) {
 				read.next();
+				fileName = read.next();
 				for (int i = 0; i < height; i++) {
 					for (int j = 0; j < width; j++) {
 						String lines = read.next();
@@ -211,7 +213,7 @@ public class FileHandler {
 						case "BEND":
 							shape = ShapeOfTile.BEND;
 							break;
-						case "T":
+						case "T_SHAPE":
 							shape = ShapeOfTile.T_SHAPE;
 							break;
 						case "STRAIGHT":
@@ -220,7 +222,7 @@ public class FileHandler {
 						case "CROSSROADS":
 							shape = ShapeOfTile.CROSSROADS;
 							break;
-						case "GOAL":
+						case "GOAL_TILE":
 							shape = ShapeOfTile.GOAL_TILE;
 							break;
 						}
@@ -432,7 +434,7 @@ public class FileHandler {
 			read.nextLine();
 		}
 		GameBoard board = new GameBoard(height,width,boardMap,actionMap);
-		Game game = new Game(board);
+		Game game = new Game(board, players, fileName);
 		game.setCurrentTile(currentTile);
 		game.setTileBag(bag);
 		game.setCurrentPlayer(currentPlayer);
@@ -461,6 +463,7 @@ public class FileHandler {
 
 		//next, all tiles on the board: FloorTile(x,y,orientation ,isFixed,shape) 
 		newFile = newFile + ">Board\n";
+		newFile = newFile + game.getLevelName() + "\n";
 		for (int i = 0; i < height; i++) {
 			for (int j = 0 ; j < width ; j++) {
 				FloorTile t = g.getTileAt(new Coord(i,j));
@@ -478,7 +481,6 @@ public class FileHandler {
 			for (int j = 0 ; j < width ; j++) {
 				if (g.getAction(new Coord(i,j)) != null){
 					ActionTile t = g.getAction(new Coord(i,j));
-					System.out.println(t);
 					int turns = t.getTurnsSinceUse();
 
 					String type = "";
@@ -639,6 +641,11 @@ public class FileHandler {
 		write.close();
 	}
 
+	public static int randomOrientation(){
+		Random orientation = new Random();
+		return orientation.nextInt(4);
+	}
+
 	/**
 	 * Reads in leaderboard information about players for a specified level
 	 * @param levelName name of level leaderboard to be loaded.
@@ -694,7 +701,7 @@ public class FileHandler {
 			if (line.contains(levelName)) {
 				found = true;
 				if(!line.contains(playerName)) {
-					line.concat(","+playerName);
+					line = line.concat(","+playerName);
 				}
 			}
 			newFile = newFile + line + "\n";
@@ -756,6 +763,7 @@ public class FileHandler {
 				name = line.next();
 				wins = line.nextInt();
 				losses = line.nextInt();
+				gamesPlayed = line.nextInt();
 			}
 			line.nextLine();
 		}
@@ -783,15 +791,15 @@ public class FileHandler {
 		playerName = playerName.toLowerCase();
 		while (read.hasNextLine()) {
 			line = read.nextLine();
-			System.out.println(line);
-			if (line.contains(playerName)) {
-				line = playerName + "," + wins + "," + losses + "," + gamesPlayed;
+			String[] lineSplit = line.split(",", 2);
+			if (lineSplit[0].equals(playerName)) {
+				line = playerName + "," + wins + "," + losses + "," + gamesPlayed + ",";
 				found = true;
 			}
 			newFile = newFile + line + "\n";
 		}
 		if (!found){
-			newFile = newFile + playerName + "," + wins + "," + losses + "," + gamesPlayed + "\n";
+			newFile = newFile + playerName + "," + wins + "," + losses + "," + gamesPlayed + "," + "\n";
 		}
 		read.close();
 
@@ -812,7 +820,6 @@ public class FileHandler {
 		String line = "";
 		while (read.hasNextLine()) {
 			line = read.nextLine();
-			System.out.println(line);
 			if (!line.contains(playerName)) {
 				newFile = newFile + line + "\n";
 			}
