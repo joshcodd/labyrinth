@@ -1,8 +1,10 @@
 package models;
 
 /**
- * Stores a integer (x,y) game position, and allows it to be updated, or retrieved
- * @author Neil Woodhouse  studentID 851182
+ * Represents a coordinate on the game board.
+ * Stores a integer (x,y) game position, and allows it to be updated,
+ * or retrieved.
+ * @author Neil Woodhouse
  * @version 1.0
  */
 public class Coord {
@@ -10,6 +12,7 @@ public class Coord {
     private int yPos;
 
     /**
+     * Create a coordinate.
      * @param x The position's x coordinate.
      * @param y The position's y coordinate.
      */
@@ -19,6 +22,7 @@ public class Coord {
     }
 
     /**
+     * Get the x coordinate.
      * @return The position's x coordinate.
      */
     public int getX() {
@@ -26,6 +30,7 @@ public class Coord {
     }
 
     /**
+     * Get the y coordinate.
      * @return The position's y coordinate.
      */
     public int getY() {
@@ -33,6 +38,7 @@ public class Coord {
     }
 
     /**
+     * Sets new values for the x and y positions.
      * @param x The new x coordinate to be assigned.
      * @param y The new y coordinate to be assigned.
      */
@@ -42,30 +48,22 @@ public class Coord {
     }
 
     /**
-     * @return True if the coordinate represents an invalid position, false otherwise.
+     * Get if the coord is empty or not.
+     * @return True if the coordinate represents an invalid position,
+     * false otherwise.
      */
     public boolean isEmpty() {
         return xPos == -1 || yPos == -1;
     }
 
     /**
-     * @return A text representation of the Coord object, displaying its X and Y position.
-     */
-    @Override
-    public String toString() {
-        return "Coord{" +
-                "xPos=" + xPos +
-                ", yPos=" + yPos +
-                '}';
-    }
-
-    /**
+     * Checks to see if the coord is equivalent to some object.
      * @param obj The object to be compared against.
-     * @return Returns true if obj is a Coord type object, with equal X and Y values to this object.
+     * @return If the coord is equivalent to specified object.
      */
     @Override
-    public boolean equals(Object obj){
-        if (obj instanceof Coord){
+    public boolean equals(Object obj) {
+        if (obj instanceof Coord) {
             return xPos == ((Coord) obj).getX() && yPos == ((Coord) obj).getY();
         } else {
             return false;
