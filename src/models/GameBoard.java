@@ -27,11 +27,11 @@ public class GameBoard {
     }
     
     /**
-     * Constructs a game board from an existing board
-     * @param height height of the game board
-     * @param width width of the game board
-     * @param boardMap map of the floorTiles on the board
-     * @param actionMap map of the actionTiles on the board
+     * Constructs a game board from an existing board.
+     * @param height The height of the game board.
+     * @param width The width of the game board.
+     * @param boardMap The Floor Tiles on the board.
+     * @param actionMap The Action Tiles on the board.
      */
     public GameBoard(int height, int width, HashMap<Coord, FloorTile> boardMap,
 			HashMap<Coord, ActionTile> actionMap) {
@@ -50,6 +50,36 @@ public class GameBoard {
             actionBoard[key.getX()][key.getY()] = value;
         }
 	}
+
+    /**
+     * Initializes the board with the specified tiles.
+     * @param tiles The tiles to be placed at the exact coordinates specified.
+     * @param tileBag Tiles to fill up any empty spaces with.
+     */
+    private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
+        for (Map.Entry<Coord, FloorTile> tile : tiles.entrySet()) {
+            Coord key = tile.getKey();
+            FloorTile value = tile.getValue();
+            board[key.getX()][key.getY()] = value;
+        }
+
+        for (int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[i].length; j++){
+                if (board[i][j] == null){
+                    boolean pulledFloorTile = false;
+                    while (!pulledFloorTile) {
+                        Tile tile = tileBag.drawTile();
+                        if (tile instanceof FloorTile){
+                            pulledFloorTile = true;
+                            board[i][j] = (FloorTile) tile;
+                        } else {
+                            tileBag.addTile(tile);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 	/**
      * Method to insert a tile into the game board from a specified edge and row.
@@ -201,39 +231,9 @@ public class GameBoard {
     }
 
     /**
-     * creates teh board ffor the game to be played on depending on the loaded game
-     * @param tiles list of all the tiles on the board at the start
-     * @param tileBag list of all the tile to start in the tile bag
-     */
-    private void initializeBoard(HashMap<Coord, FloorTile> tiles, TileBag tileBag){
-        for (Map.Entry<Coord, FloorTile> tile : tiles.entrySet()) {
-            Coord key = tile.getKey();
-            FloorTile value = tile.getValue();
-            board[key.getX()][key.getY()] = value;
-        }
-
-        for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[i].length; j++){
-                if (board[i][j] == null){
-                    boolean pulledFloorTile = false;
-                    while (!pulledFloorTile) {
-                        Tile tile = tileBag.drawTile();
-                        if (tile instanceof FloorTile){
-                            pulledFloorTile = true;
-                            board[i][j] = (FloorTile) tile;
-                        } else {
-                            tileBag.addTile(tile);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * plays the action tile on tho the board
-     * @param action the selected action tile = fire, ice, double move, back track
-     * @param position the location on the board
+     * Plays a specified action tile on to the board.
+     * @param action The selected action tile to be placed.
+     * @param position The location on the board to place.
      */
     public void addAction(ActionTile action, Coord position) {
         int x = position.getX();
@@ -244,27 +244,27 @@ public class GameBoard {
     }
 
     /**
-     * @param position the position on the board
-     * @return  the actions tile placed location in terms of x and y locations
+     * Gets a action tile at a specified location on the board.
+     * @param position The position on the board.
+     * @return The actions tile at the specified location.
      */
     public ActionTile getAction(Coord position) {
         return actionBoard[position.getX()][position.getY()];
     }
 
     /**
-     * updates the board depending on the number of players playing ********
-     * @param numPlayers
+     * Removes action tiles from the board once they have expired.
+     * @param numPlayers The number of players.
      */
     public void refreshActionBoard(int numPlayers) {
-        int turnsPerRound = numPlayers;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (actionBoard[x][y] != null){
                     ActionTile currentAction = actionBoard[x][y];
                     currentAction.incrementTurnsSinceUse();
-                    if (currentAction instanceof FireTile && ((currentAction.getTurnsSinceUse() >= (turnsPerRound * 2)))) {
+                    if (currentAction instanceof FireTile && ((currentAction.getTurnsSinceUse() >= (numPlayers * 2)))) {
                         actionBoard[x][y] = null;
-                    } else if (currentAction instanceof IceTile && ((currentAction.getTurnsSinceUse() >= turnsPerRound))) {
+                    } else if (currentAction instanceof IceTile && ((currentAction.getTurnsSinceUse() >= numPlayers))) {
                         actionBoard[x][y] = null;
                     }
                 }
