@@ -16,9 +16,9 @@ import java.io.FileNotFoundException;
 import java.util.Objects;
 
 /**
- * Controller class for the level selection scene
+ * Controller class for the level selection scene.
+ * Finds and displays level files for players to choose from.
  * @author George Boumphrey
- * @StudentID 851192
  */
 public class LevelSelectionController {
 
@@ -37,15 +37,15 @@ public class LevelSelectionController {
     Stage primaryStage;
 
     /**
-     * method to set options in the choiceBox
+     * Method to set choices for which level to select.
      */
     public void setDropdown(){
         dropdown.setItems(getLevels());
     }
 
     /**
-     * method to create a list of levels from a directory containing level files
-     * @return list of level file names
+     * Create a list of level names from the directory containing level files.
+     * @return A list of level file names.
      */
     public ObservableList<String> getLevels(){
         File folder = new File("src/gamefiles/levels");
@@ -57,7 +57,7 @@ public class LevelSelectionController {
     }
 
     /**
-     * when confirm button pressed, progress to player select scene
+     * Progress to next scene on button press.
      * @param actionEvent
      * @throws FileNotFoundException
      */
@@ -70,7 +70,7 @@ public class LevelSelectionController {
     }
 
     /**
-     * when back button pressed, return to main menu
+     * Return to main menu on button press.
      * @param actionEvent
      */
     public void handleBack(ActionEvent actionEvent) {
@@ -79,7 +79,7 @@ public class LevelSelectionController {
     }
 
     /**
-     * mute background music
+     * Mute background music on button press.
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -88,8 +88,8 @@ public class LevelSelectionController {
     }
 
     /**
-     * set background music
-     * @param backgroundMusic
+     * Set background music for this scene.
+     * @param backgroundMusic The background audio to use.
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
@@ -97,8 +97,8 @@ public class LevelSelectionController {
     }
 
     /**
-     * set the stage for this scene
-     * @param primaryStage
+     * Set the stage for this scene.
+     * @param primaryStage The stage to display.
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;

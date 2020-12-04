@@ -1,11 +1,11 @@
 package models;
 /**
- * When used, the player can move
- * @author George Boumphrey    @StudentID 851192
+ * When used, the player can move twice in one turn.
+ * @author George Boumphrey
  */
 public class DoubleMoveTile extends ActionTile {
     /**
-     * allows the player to move
+     * Allows the player to move.
      */
     public void Action() {
 
