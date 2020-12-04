@@ -20,25 +20,29 @@ public class LevelSelectionScene {
     private LevelSelectionController controller;
 
     /**
-     * Constructs and initializes a level selection scene. Then display it on the stage.
+     * Constructs and initializes a level selection scene. Then display it on
+     * the stage.
      * @param stage The stage to display this scene on.
      * @param backgroundMusic The audio to play in the background.
      */
-    public LevelSelectionScene(Stage stage, MediaPlayer backgroundMusic){
+    public LevelSelectionScene(Stage stage, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/LevelSelectionView.fxml").openStream());
-            LevelSelectionController controller = loader.getController();
+            Parent root = loader.load(getClass().getClassLoader()
+                    .getResource("views/layouts/LevelSelectionView.fxml")
+                    .openStream());
+            controller = loader.getController();
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setPrimaryStage(stage);
             controller.setDropdown();
-            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH,
+                    Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (Exception e){
+        } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR,
                     "An error was encountered while attempting load levels.",
                     ButtonType.OK);

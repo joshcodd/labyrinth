@@ -20,26 +20,31 @@ public class LeaderboardScene {
     private Stage primaryStage;
 
     /**
-     * Constructs and initializes a leaderboard scene. Then display it on the stage.
+     * Constructs and initializes a leaderboard scene. Then display it on the
+     * stage.
      * @param stage The stage to display this scene on.
      * @param backgroundMusic The audio to play in the background.
      */
-    public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic){
+    public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
         try {
             FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/LeaderboardView.fxml").openStream());
+            Parent root = loader.load(getClass().getClassLoader()
+                    .getResource("views/layouts/LeaderboardView.fxml")
+                    .openStream());
             LeaderboardController controller = loader.getController();
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setPrimaryStage(stage);
             controller.setDropdown();
-            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH,
+                    Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (Exception e){
+        } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR,
-                    "An error was encountered while attempting to load leaderboard.",
+                    "An error was encountered while attempting to load "
+                            + "leaderboard.",
                     ButtonType.OK);
             error.showAndWait();
             new MenuScene(stage, backgroundMusic);
