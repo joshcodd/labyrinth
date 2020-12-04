@@ -16,6 +16,7 @@ public class Player {
 	private PlayerProfile profile;	//details about the user
 	private String colour = "Auto-Assign";	// sets the colour the player will have
 	private boolean startFirst = false; // indicates if player start
+	private boolean canBackTrack = true;
 
 	/**
 	 * initialises the player object, sets profiles details, bag for the users tile and sets players positions
@@ -126,6 +127,18 @@ public class Player {
 		return this.colour;
 	}
 
+	/**
+	 * @return Whether the player can have backtrack actions used on them.
+	 */
+	public boolean canBackTrack() {
+		return this.canBackTrack;
+	}
+	/**
+	 * @param canBackTrack The value to be assigned to canBackTrack.
+	 */
+	public void setCanBackTrack(boolean canBackTrack) {
+		this.canBackTrack = canBackTrack;
+	}
 	/**
 	 * sets the players colour selected by the user
 	 * @param newColour the players colour selected
