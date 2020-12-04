@@ -2,46 +2,49 @@ package models;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
 import java.io.File;
 
 /**
- * Class created to allow a theme background audio to improve aesthetics.
- * @author
+ * Represents the audio that is used throughout the game.
+ * Consists of background music, as well as button click sounds.
+ * @author Josh Codd
  * @version 1.0
  */
 public class AudioPlayer {
-
-    MediaPlayer click; // starts the music
-    MediaPlayer backgroundMusic; // music to play
+    private final double BACKGROUND_MUSIC_VOLUME = 0.05;
+    private MediaPlayer click; // Button click
+    private MediaPlayer backgroundMusic;
 
     /**
-     * initialises the audio to play in the background
+     * Creates and initializes the audio to ensure it is ready for use.
      */
     public AudioPlayer() {
         String clickURL = "src/resources/audio/click.mp3";
         Media click = new Media(new File(clickURL).toURI().toString());
         String backgroundURL = "src/resources/audio/background.mp3";
-        Media background = new Media(new File(backgroundURL).toURI().toString());
+        Media background = new Media(new File(backgroundURL)
+                .toURI().toString());
         this.click = new MediaPlayer(click);
         this.backgroundMusic = new MediaPlayer(background);
     }
 
     /**
-     *  Activates the background music
+     *  Activates the background music.
      */
-    public void clickPlay(){
+    public void clickPlay() {
         click.play();
     }
 
     /**
-     * Allows the audion to play continually
-     * @return audio for the user to hear
+     * Initialises the background music to loop, and returns it.
+     * @return The background music to play in scenes.
      */
-    public MediaPlayer backgroundPlay(){
-        backgroundMusic.setOnEndOfMedia(() -> backgroundMusic.seek(Duration.ZERO));
+    public MediaPlayer backgroundPlay() {
+        // On end of track, restart.
+        backgroundMusic.setOnEndOfMedia(() -> backgroundMusic
+                .seek(Duration.ZERO));
         backgroundMusic.setAutoPlay(true);
-        backgroundMusic.setVolume(0.05);
+        backgroundMusic.setVolume(BACKGROUND_MUSIC_VOLUME);
         return backgroundMusic;
     }
 }
