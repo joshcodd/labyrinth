@@ -6,14 +6,14 @@ import java.util.Arrays;
  *
  */
 public class Player {
-	Coord currentPosition;
-	Coord[] previousPositions;
-	int playerNumber;
-	ArrayList<ActionTile> actionTiles;
-	PlayerProfile profile;
-	String colour = "Auto-Assign";
-	boolean startFirst = false;
-	boolean canBackTrack = true;
+	private Coord currentPosition;
+	private Coord[] previousPositions;
+	private int playerNumber;
+	private ArrayList<ActionTile> actionTiles;
+	private PlayerProfile profile;
+	private String colour = "Auto-Assign";
+	private boolean startFirst = false;
+	private boolean canBackTrack = true;
 
 
 
