@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Player {
-
     private Coord currentPosition;
     private Coord[] previousPositions;
     private int playerNumber;
