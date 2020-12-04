@@ -14,6 +14,7 @@ public class Player {
     private PlayerProfile profile;
     private String colour = "Auto-Assign";
     private boolean canBackTrack = true;
+    private boolean startFirst = false;
 
     /**
      * Creates a player.
@@ -152,5 +153,20 @@ public class Player {
      */
     public void setColour(String newColour) {
         this.colour = newColour;
+    }
+
+    /**
+     * Gets if the player is starting first or not.
+     * @return If the player is starting or not.
+     */
+    public boolean isStartingFirst() {
+        return this.startFirst;
+    }
+    /**
+     * Sets if the player is starting first or not.
+     * @param starting If the player is playing first or not.
+     */
+    public void setFirst(boolean starting) {
+        this.startFirst = starting;
     }
 }
