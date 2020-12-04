@@ -45,13 +45,11 @@ public class SelectPlayerScene {
             primaryStage.show();
 
         } catch (Exception e){
-            Alert internalIOError = new Alert(Alert.AlertType.ERROR,
-                    "The game encountered a fatal error when attempting to load an internal file. " +
-                            "Please check the integrity of your installation." +
-                            "The game will now close.",
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "An error was encountered while attempting load players.",
                     ButtonType.OK);
-            internalIOError.showAndWait();
-            stage.close();
+            error.showAndWait();
+            new MenuScene(stage, backgroundMusic);
         }
     }
 }

@@ -3,6 +3,8 @@ import controllers.MenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
@@ -36,8 +38,11 @@ public class MenuScene {
                 primaryStage.setScene(scene);
                 primaryStage.show();
             } catch (Exception e){
-                e.getStackTrace();
+                Alert error = new Alert(Alert.AlertType.ERROR,
+                        "An error was encountered.",
+                        ButtonType.OK);
+                error.showAndWait();
+                stage.close();
             }
-
         }
     }

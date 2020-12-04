@@ -36,11 +36,11 @@ public class GameScene {
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
-            new MenuScene(stage, backgroundMusic);
             Alert error = new Alert(Alert.AlertType.ERROR,
                     "An error was encountered while attempting load game.",
                     ButtonType.OK);
             error.showAndWait();
+            new MenuScene(stage, backgroundMusic);
         }
 
         controller.updateGameBoard();

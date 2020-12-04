@@ -3,6 +3,8 @@ import controllers.LeaderboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
@@ -24,7 +26,6 @@ public class LeaderboardScene {
      */
     public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic){
         this.primaryStage = stage;
-
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/LeaderboardView.fxml").openStream());
@@ -36,9 +37,12 @@ public class LeaderboardScene {
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
-
         } catch (Exception e){
-            e.printStackTrace();
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "An error was encountered while attempting to load leaderboard.",
+                    ButtonType.OK);
+            error.showAndWait();
+            new MenuScene(stage, backgroundMusic);
         }
     }
 }
