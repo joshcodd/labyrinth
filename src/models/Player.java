@@ -14,7 +14,6 @@ public class Player {
     private ArrayList<ActionTile> actionTiles;
     private PlayerProfile profile;
     private String colour = "Auto-Assign";
-    private boolean startFirst = false;
     private boolean canBackTrack = true;
 
     /**
