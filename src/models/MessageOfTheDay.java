@@ -5,88 +5,84 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-
 /**
- * fetches  the encrypted text from website, decrypts it and uses it to
- * determine the website to get the message of the day
- * @author Andreas Eleftheriades   StudentID 1906277
+ * Represents a message of the day to be displayed in game.
+ * @author Andreas Eleftheriades
  * @version 1.0
  */
 public class MessageOfTheDay {
 
     // link to get encrypted text
-    private final static String URL_CS230 = "http://cswebcat.swansea.ac.uk/puzzle";
+    private static final String URL_CS230 =
+            "http://cswebcat.swansea.ac.uk/puzzle";
     // link to send decrypted text to get message of the day
-    private final static String URL_CS230_SOLUTION = "http://cswebcat.swansea.ac.uk/message?solution=CS-230";
+    private static final String URL_CS230_SOLUTION =
+            "http://cswebcat.swansea.ac.uk/message?solution=CS-230";
     // the message of the day to be displayed on the menu
     private String message = "";
 
     /**
-     * initialises and creates message of the day
+     * Creates a message of the day.
      */
     public MessageOfTheDay() {
         try {
             message = decryption(httpRequestSend(URL_CS230));
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     /**
-     * Decrypts encrypted message from @URL_CS230 and returns it
-     * @param cypherText - encrypted message
-     * @return decrypted message
+     * Decrypts encrypted message from @URL_CS230 and returns it.
+     * @param cypherText The encrypted message.
+     * @return The decrypted message.
      */
     private String decryption(String cypherText) throws Exception {
-        String plainText = "";// holds the decrypted text
-        int shift = 1;// used to decodes the encrypted text
+        String plainText = ""; // holds the decrypted text
+        int shift = 1; // used to decodes the encrypted text
 
-        for(int i=0; i < cypherText.length(); i++) {
+        for (int i = 0; i < cypherText.length(); i++) {
 
-            char character = (char) ( ( (int) cypherText.charAt(i) - shift + 26 - 65) % 26 + 65);
+            char character = (char) (((int) cypherText
+                    .charAt(i) - shift + 26 - 65) % 26 + 65);
             plainText += character;
 
-            if( (shift *= -1) > 0 ) {
-                shift ++;
-            }else{
-                shift --;
+            if ((shift *= -1) > 0) {
+                shift++;
+            } else {
+                shift--;
             }
         }
         plainText += plainText.length() + 6;
-        return httpRequestSend( URL_CS230_SOLUTION + plainText);
+        return httpRequestSend(URL_CS230_SOLUTION + plainText);
     }
 
 
     /**
-     * fetches a message from the URL both encrypted and solution message
-     * link https://alvinalexander.com/blog/post/java/java-how-read-from-url-string-text/
-     * @param uniformedResourceLocator - the URL that the message of the day is found
-     * @return the message
+     * Fetches a message of the day.
+     * @param uniformedResourceLocator The URL that the message
+     *                                 of the day is found.
+     * @return The message.
      */
-    private String httpRequestSend(String uniformedResourceLocator)throws Exception{
+    private String httpRequestSend(String uniformedResourceLocator)
+            throws Exception {
         String text = "";
 
             URL url = new URL(uniformedResourceLocator);
-
-            //create url connection with url
             URLConnection urlConnection = url.openConnection();
-            // wrap the urlconnection in a bufferedreader cant use Scanner well i havn't figured it out
-            BufferedReader scan = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
+            BufferedReader scan = new BufferedReader(
+                    new InputStreamReader(urlConnection.
+                            getInputStream()));
             String line;
-
-            // read from urlconnection via scan
             while ((line = scan.readLine()) != null) {
                 text += line;
             }
-
-
         return text;
     }
 
     /**
-     * Returns the message for the menu to display
-     * @return The message of the day as a String
+     * Returns the message of the day.
+     * @return The message of the day.
      */
     @Override
     public String toString() {
