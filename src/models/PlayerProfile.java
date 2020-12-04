@@ -3,86 +3,92 @@ package models;
 import java.io.IOException;
 
 /**
- * Class that represents payer profile info
- * @author Luka Zec 
- * @StudentID: 987856
+ * Represents a player profile.
+ * Stores all information about a person playing the game.
+ * @author Luka Zec
  */
 public class PlayerProfile {
+    private int gamesPlayed;
+    private int wins;
+    private int losses;
+    private String playerName;
 
-	private int gamesPlayed; //number of games played
-	private int wins; //number of users won
-	private int losses; //number of user losses
-	private String playerName; //name of the user
+    /**
+     * Creates a player profile.
+     * @param playerName The name of the person playing.
+     * @param wins The amount of wins the player has.
+     * @param losses The amount of losses the player has.
+     * @param gamesPlayed The amount of games the player has played.
+     */
+    public PlayerProfile(String playerName, int wins, int losses,
+                         int gamesPlayed) {
+        this.playerName = playerName;
+        this.wins = wins;
+        this.losses = losses;
+        this.gamesPlayed = gamesPlayed;
+    }
 
-	/**
-	 *
-	 * @param playerName
-	 * @param wins
-	 * @param losses
-	 * @param gamesPlayed
-	 */
-	public PlayerProfile(String playerName, int wins,int losses,int gamesPlayed) {
-		setplayerName(playerName);
-		this.wins = wins;
-		this.losses = losses;
-		this.gamesPlayed = gamesPlayed;
-	}
+    /**
+     * Increments the amount of wins the player has.
+     */
+    public void incrementWins() {
+        this.wins = wins + 1;
 
-	/**
-	 * sets the users choosen name to the player objects name
-	 * @param Name name to be set
-	 */
-	public void setplayerName(String Name) {
-		this.playerName = Name;
+    }
 
-	}
+    /**
+     * Increments the amount of losses the player has.
+     */
+    public void incrementLosses() {
+        this.losses = losses + 1;
 
-	/**
-	 * increments users wins
-	 */
-	public void incrementWins(){
-		this.wins = wins + 1;
-		
-	}
+    }
 
-	/**
-	 * increments user losses
-	 */
-	public void incrementLosses(){
-		this.losses = losses + 1;
-		
-	}
+    /**
+     * Increments the amount of games the player has played.
+     */
+    public  void incrementGamesPlayed() {
+        this.gamesPlayed = gamesPlayed + 1;
 
-	/**
-	 * increment how many games user played
-	 */
-	public  void incrementGamesPlayed() {
-		this.gamesPlayed = gamesPlayed + 1;
+    }
 
-	}
+    /**
+     * Saves the players current statistics to file.
+     */
+    public void save() throws IOException {
+        FileHandler.saveProfile(playerName, wins, losses, gamesPlayed);
+    }
 
-	/**
-	 * enables the possibility to save the player to the file for the leaderboard
-	 * @throws IOException
-	 */
-	public void save() throws IOException {
-		FileHandler.saveProfile(playerName, wins, losses, gamesPlayed);
-	}
+    /**
+     * Gets the name of the player.
+     * @return The name of the player.
+     */
+    public  String getPlayerName() {
+        return playerName;
+    }
 
-	public  String getPlayerName() {
-		return playerName;
-	}
-	
-	public  int getNumberofWins() {
-		return wins;
-	}
+    /**
+     * Gets players number of wins.
+     * @return The number of wins.
+     */
+    public  int getNumberOfWins() {
+        return wins;
+    }
 
-	public  int getNumberofLosses() {
-		return losses;
-	}
-	public  int getNumberofGamesPlayed() {
-		return gamesPlayed;
-	}
+    /**
+     * Gets players number of losses.
+     * @return The number of losses.
+     */
+    public  int getNumberOfLosses() {
+        return losses;
+    }
 
+    /**
+     * Gets players number of games played.
+     * @return The number of games played.
+     */
+    public  int getNumberOfGamesPlayed() {
+        return gamesPlayed;
+    }
 
 }
