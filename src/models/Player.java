@@ -91,6 +91,9 @@ public class Player {
 		return this.colour;
 	}
 
+	/**
+	 * @return Whether the player can have backtrack actions used on them.
+	 */
 	public boolean canBackTrack() {
 		return this.canBackTrack;
 	}
@@ -111,6 +114,9 @@ public class Player {
 		this.profile = profile;
 	}
 
+	/**
+	 * @param canBackTrack The value to be assigned to canBackTrack.
+	 */
 	public void setCanBackTrack(boolean canBackTrack) {
 		this.canBackTrack = canBackTrack;
 	}
