@@ -236,5 +236,4 @@ public class Game {
     public String getLevelName() {
         return levelName;
     }
-    
 }
