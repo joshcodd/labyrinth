@@ -451,15 +451,14 @@ public class GameController implements Initializable {
      */
     private void selectBacktrack() {
         for (Player player : game.getPlayers()) {
-            for (Node node : gameBoardPane.getChildren()) {
-                if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
-                        && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-                    ImageView tank = new ImageView(RESOURCES_PATH + player.getColour() + ".png");
-                    tank.setOnMouseClicked(event -> backtrackPlayer(player));
-                    tank.setFitHeight(TANK_SIZE);
-                    tank.setFitWidth(TANK_SIZE);
-                    StackPane cell = (StackPane) node;
-                    cell.getChildren().add(tank);
+            if (player.canBackTrack()) {
+                for (Node node : gameBoardPane.getChildren()) {
+                    if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
+                            && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
+                        node.setOnMouseClicked(event -> backtrackPlayer(player));
+                        StackPane cell = (StackPane) node;
+                        cell.getStyleClass().add("tile-selection");
+                    }
                 }
             }
         }
@@ -475,16 +474,21 @@ public class GameController implements Initializable {
         ActionTile targetTile = gameBoard.getAction(pastPosition);
         if (!pastPosition.isEmpty() && !(targetTile instanceof FireTile)) {
             player.movePlayer(pastPosition);
+            player.setCanBackTrack(false);
+            continueButton.setDisable(false);
         }
         else {
             pastPosition = player.getPrevPosition(0);
             targetTile = gameBoard.getAction(pastPosition);
             if (pastPosition.isEmpty() && !(targetTile instanceof FireTile)) {
                 player.movePlayer(pastPosition);
+                player.setCanBackTrack(false);
+                continueButton.setDisable(false);
             }
         }
         updateGameBoard();
         drawPlayers();
+
     }
 
     /**

@@ -13,6 +13,7 @@ public class Player {
 	PlayerProfile profile;
 	String colour = "Auto-Assign";
 	boolean startFirst = false;
+	boolean canBackTrack = true;
 
 
 
@@ -90,6 +91,10 @@ public class Player {
 		return this.colour;
 	}
 
+	public boolean canBackTrack() {
+		return this.canBackTrack;
+	}
+
 	public void setColour(String newColour){
 		this.colour = newColour;
 	}
@@ -104,6 +109,10 @@ public class Player {
 
 	public void setProfile(PlayerProfile profile) {
 		this.profile = profile;
+	}
+
+	public void setCanBackTrack(boolean canBackTrack) {
+		this.canBackTrack = canBackTrack;
 	}
 
 	public String getColourImage(){
