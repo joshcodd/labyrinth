@@ -1,8 +1,7 @@
 package models;
 /**
- * ShapeOfTile enum
+ * Represents all possible shapes that a tile can be.
  * @author James Charnock
- * @StudentID 1909700
  */
 public enum ShapeOfTile {
     BEND,
