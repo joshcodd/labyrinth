@@ -1,29 +1,16 @@
 package controllers;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import models.AudioPlayer;
-import models.Game;
 import models.MessageOfTheDay;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import views.scenes.*;
-
-import java.applet.AudioClip;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Time;
-import java.time.Instant;
-import java.time.LocalTime;
 
-import static com.oracle.jrockit.jfr.ContentType.Timestamp;
 
 /**
  *  Controller class for MenuScene. Deals with the buttons music and display message of the day
@@ -33,10 +20,8 @@ import static com.oracle.jrockit.jfr.ContentType.Timestamp;
  */
 public class MenuController  {
     public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
-
     public Button newGame;
     public Button loadGame;
-
     @FXML
     public Button leaderboard;
     public Button muteButton;
@@ -49,7 +34,7 @@ public class MenuController  {
     private Stage primaryStage;
 
     /**
-     *
+     * Method that initializes game title image and message of the day
      */
     @FXML
     public void initialize(){
@@ -63,7 +48,7 @@ public class MenuController  {
     }
 
     /**
-     *
+     * Method that deals with new game button actions
      * @throws FileNotFoundException
      */
     public void handleButtonNewGame() throws FileNotFoundException {
@@ -73,7 +58,7 @@ public class MenuController  {
     }
 
     /**
-     *
+     * Method that deals with load game button
      */
     public void handleButtonLoadGame() {
         new AudioPlayer().clickPlay();
@@ -81,7 +66,7 @@ public class MenuController  {
     }
 
     /**
-     *
+     *  Method that deals with leaderboard button
      */
     public void handleButtonLeaderboard() {
         new AudioPlayer().clickPlay();
@@ -89,7 +74,7 @@ public class MenuController  {
     }
 
     /**
-     *
+     * Method that deals with edit players button
      */
     public void handleButtonEditPlayers() {
         new AudioPlayer().clickPlay();
@@ -97,7 +82,8 @@ public class MenuController  {
     }
 
     /**
-     * @param primaryStage
+     * Method to set a primary stage
+     * @param primaryStage Stage
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -105,7 +91,7 @@ public class MenuController  {
 
     /**
      * plays the audio in the background
-     * @param backgroundMusic
+     * @param backgroundMusic MediaView
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;

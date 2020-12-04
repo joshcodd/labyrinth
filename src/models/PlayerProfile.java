@@ -1,11 +1,9 @@
 package models;
-
 import java.io.IOException;
 
 /**
- * Class that represents payer profile info
- * @author Luka Zec 
- * @StudentID: 987856
+ * Class that represents player profile info
+ * @author Luka Zec @StudentID: 987856
  */
 public class PlayerProfile {
 	private int gamesPlayed;
@@ -14,11 +12,11 @@ public class PlayerProfile {
 	private String playerName;
 
 	/**
-	 *
-	 * @param playerName
-	 * @param wins
-	 * @param losses
-	 * @param gamesPlayed
+	 *	PlayerProfile constructor
+	 * @param playerName String player name
+	 * @param wins int number of wins
+	 * @param losses int number of losses
+	 * @param gamesPlayed int how many games played
 	 */
 	public PlayerProfile(String playerName, int wins,int losses,int gamesPlayed) {
 		setplayerName(playerName);
