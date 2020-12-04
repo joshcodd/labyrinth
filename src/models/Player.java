@@ -1,180 +1,158 @@
 package models;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
- * Class that initializes player for the current game
- * @author
+ * Class that represent a player piece.
+ * @author RAIN TSE
  * @version 1.0
  */
 public class Player {
 
-	private Coord currentPosition;	// current players location on the board
-	private Coord[] previousPositions;	//list or players previous moves
-	private int playerNumber;	//players number
-	private ArrayList<ActionTile> actionTiles;	// list of the players tiles
-	private PlayerProfile profile;	//details about the user
-	private String colour = "Auto-Assign";	// sets the colour the player will have
-	private boolean startFirst = false; // indicates if player start
-	private boolean canBackTrack = true;
+    private Coord currentPosition;
+    private Coord[] previousPositions;
+    private int playerNumber;
+    private ArrayList<ActionTile> actionTiles;
+    private PlayerProfile profile;
+    private String colour = "Auto-Assign";
+    private boolean startFirst = false;
+    private boolean canBackTrack = true;
 
-	/**
-	 * initialises the player object, sets profiles details, bag for the users tile and sets players positions
-	 * @param playerNumber players given number
-	 * @param playerProfile users details
-	 */
-	public Player(int playerNumber, PlayerProfile playerProfile) {
-		this.playerNumber = playerNumber;
-		this.profile = playerProfile;
-		actionTiles = new ArrayList<>();
-		this.previousPositions = new Coord[]{new Coord(-1, -1), new Coord(-1, -1)};
-	}
+    /**
+     * Creates a player.
+     * @param playerNumber Player number in game.
+     * @param playerProfile The player profile of the player.
+     */
+    public Player(int playerNumber, PlayerProfile playerProfile) {
+        this.playerNumber = playerNumber;
+        this.profile = playerProfile;
+        actionTiles = new ArrayList<>();
+        this.previousPositions = new Coord[]{new Coord(-1, -1),
+                new Coord(-1, -1)};
+    }
 
-	/**
-	 * used to edit the players positions throughout the game
-	 * @return the location of player
-	 */
-	public Coord getCurrentPosition() {
-		return currentPosition;
-	}
+    /**
+     * Gets the current position of the player.
+     * @return The coordinate of the player on the board.
+     */
+    public Coord getCurrentPosition() {
+        return currentPosition;
+    }
 
-	/**
-	 * used to sets the players starting position
-	 * @param xy x and y updated co ordinates to be set
-	 */
-	public void setCurrentPosition(Coord xy) {
-		this.currentPosition = xy;
-	}
+    /**
+     * Sets the players current position.
+     * @param xy The coordinate of their current position.
+     */
+    public void setCurrentPosition(Coord xy) {
+        this.currentPosition = xy;
+    }
 
-	/**
-	 * @return users player's number
-	 */
-	public int getPlayerNumber() {
-		return playerNumber;
-	}
+    /**
+     * Gets the players number.
+     * @return The users number.
+     */
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 
-	/**
-	 * updates players location on the board throughout the game
-	 * @param destination users selected position
-	 */
-	public void movePlayer (Coord destination) {
-		previousPositions[1] = previousPositions[0];
-		previousPositions[0] = currentPosition;
-		currentPosition = destination;
-	}
+    /**
+     * Moves the players position to a new position.
+     * @param destination The position to move to.
+     */
+    public void movePlayer(Coord destination) {
+        previousPositions[1] = previousPositions[0];
+        previousPositions[0] = currentPosition;
+        currentPosition = destination;
+    }
 
-	/**
-	 * appends action tiles to players list once drawn
-	 * @param tile action tile that the player drew
-	 */
-	public void addActionTile (ActionTile tile) {
-		actionTiles.add(tile);
-	}
+    /**
+     * Adds a action tile to the players available action tiles.
+     * @param tile The action tile to add.
+     */
+    public void addActionTile(ActionTile tile) {
+        actionTiles.add(tile);
+    }
 
-	/**
-	 * removes action tiles to players list once used
-	 * @param tile action tile to be added to players
-	 */
-	public void removeActionTile (ActionTile tile) {
-		actionTiles.removeIf(x -> x.getClass() == tile.getClass());
-	}
+    /**
+     * Removes a specified action tile from the players available
+     * action tiles.
+     * @param tile The action tile to be removed.
+     */
+    public void removeActionTile(ActionTile tile) {
+        actionTiles
+                .removeIf(x -> x.getClass() == tile.getClass());
+    }
 
-	/**
-	 * used to display players list of action tiles to use in their current turn
-	 * @return list of action tiles in hand
-	 */
-	public ArrayList<ActionTile> getActionTiles () {
-		return actionTiles;
-	}
+    /**
+     * Gets all of the players available action tiles.
+     * @return The players available action tiles.
+     */
+    public ArrayList<ActionTile> getActionTiles() {
+        return actionTiles;
+    }
 
-	/**
-	 * used to locates players previous moves if the backtrack tile is placed on the player
-	 * @param index the index of position to be returned
-	 * @return players previous position
-	 */
-	public Coord getPrevPosition (int index) {
-		return previousPositions[index];
-	}
+    /**
+     * Gets one of the specified previous positions of a player.
+     * @param index The index of position to be returned.
+     * @return The players previous position.
+     */
+    public Coord getPrevPosition(int index) {
+        return previousPositions[index];
+    }
 
-	/**
-	 * used to record players previous moves
-	 * @param index to store the move in
-	 * @param xy the players position
-	 */
-	public void setPrevPosition(int index, Coord xy) {
-		previousPositions[index] = xy;
-	}
+    /**
+     * Sets the users previous position.
+     * @param index Index of the previous position to set.
+     * @param xy The players previous position.
+     */
+    public void setPrevPosition(int index, Coord xy) {
+        previousPositions[index] = xy;
+    }
 
-	/**
-	 * used to pass the user profile
-	 * @return the profile of the user for that game
-	 */
-	public PlayerProfile getProfile() {
-		return profile;
-	}
+    /**
+     * Gets the profile of the player.
+     * @return The profile of the user.
+     */
+    public PlayerProfile getProfile() {
+        return profile;
+    }
 
-	/**
-	 * @return the name of the user for that game
-	 */
-	public String getProfileName(){
-		return this.profile.getPlayerName();
-	}
+    /**
+     * Gets the name of the players player profile.
+     * @return The name of the players player profile.
+     */
+    public String getProfileName() {
+        return this.profile.getPlayerName();
+    }
 
-	/**
-	 * @return the colour of the player in that game
-	 */
-	public String getColour(){
-		return this.colour;
-	}
+    /**
+     * Gets the current colour of the player.
+     * @return The colour of the player.
+     */
+    public String getColour() {
+        return this.colour;
+    }
 
-	/**
-	 * @return Whether the player can have backtrack actions used on them.
-	 */
-	public boolean canBackTrack() {
-		return this.canBackTrack;
-	}
-	/**
-	 * @param canBackTrack The value to be assigned to canBackTrack.
-	 */
-	public void setCanBackTrack(boolean canBackTrack) {
-		this.canBackTrack = canBackTrack;
-	}
-	/**
-	 * sets the players colour selected by the user
-	 * @param newColour the players colour selected
-	 */
-	public void setColour(String newColour){
-		this.colour = newColour;
-	}
+    /**
+     * Gets if it is possible for the player to backtrack.
+     * @return Whether the player can backtrack or not.
+     */
+    public boolean canBackTrack() {
+        return this.canBackTrack;
+    }
 
-	/**
-	 * used to determine which player is to start at the beginning
-	 * @return if the player is starting or not
-	 */
-	public boolean isStartingFirst(){
-		return this.startFirst;
-	}
+    /**
+     * Sets if it is possible for the player to backtrack.
+     * @param canBackTrack The value to be assigned to canBackTrack.
+     */
+    public void setCanBackTrack(boolean canBackTrack) {
+        this.canBackTrack = canBackTrack;
+    }
 
-	/**
-	 * sets the player who will play the first move
-	 * @param Starting if the player is playing first or not
-	 */
-	public void setFirst(boolean Starting){
-		this.startFirst = Starting;
-	}
-
-	/**
-	 * used to display details of the player class for developers
-	 * @return details of the player
-	 */
-	@Override
-	public String toString() {
-		return getProfileName() + " " + getColour();
-	}
+    /**
+     * Sets the colour of the player.
+     * @param newColour The colour to be set.
+     */
+    public void setColour(String newColour) {
+        this.colour = newColour;
+    }
 }
-	
-
-	
-	
-
-	
