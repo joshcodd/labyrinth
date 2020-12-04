@@ -17,12 +17,15 @@ public class MessageOfTheDay {
             "http://cswebcat.swansea.ac.uk/puzzle";
     // link to send decrypted text to get message of the day
     private static final String URL_CS230_SOLUTION =
-            "http://cswebcat.swansea.ac.uk/message?solution=CS-230";
+            "http://cswebcat.swansea.ac.uk/message?solution=";
     // the message of the day to be displayed on the menu
     private String message = "";
+    final private String CS230_STARTING_SOLUTION = "CS-230";
+    final private int ALPHABET_LENGHT = 26;
+    final private int ASCII_VALUE = 65;
 
     /**
-     * Creates a message of the day.
+     * Creates a message of the day. length
      */
     public MessageOfTheDay() {
         try {
@@ -39,12 +42,14 @@ public class MessageOfTheDay {
      */
     private String decryption(String cypherText) throws Exception {
         String plainText = ""; // holds the decrypted text
+        plainText = plainText + CS230_STARTING_SOLUTION;
         int shift = 1; // used to decodes the encrypted text
 
         for (int i = 0; i < cypherText.length(); i++) {
 
             char character = (char) (((int) cypherText
-                    .charAt(i) - shift + 26 - 65) % 26 + 65);
+                    .charAt(i) - shift + ALPHABET_LENGHT - ASCII_VALUE)
+                    % ALPHABET_LENGHT + ASCII_VALUE); // the decryption
             plainText += character;
 
             if ((shift *= -1) > 0) {
@@ -53,7 +58,7 @@ public class MessageOfTheDay {
                 shift--;
             }
         }
-        plainText += plainText.length() + 6;
+        plainText += plainText.length(); // part of the solution for location the url
         return httpRequestSend(URL_CS230_SOLUTION + plainText);
     }
 
@@ -88,4 +93,6 @@ public class MessageOfTheDay {
     public String toString() {
         return message;
     }
+
 }
+
