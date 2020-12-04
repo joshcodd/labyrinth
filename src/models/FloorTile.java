@@ -1,99 +1,92 @@
 package models;
 
 /**
- * FloorTile sub class of Tile
- * @author James Charnock  @StudentID 1909700
+ * Represents a floor tile.
+ * @author James Charnock
  * @version 1.0
  */
 public class FloorTile extends Tile {
+    private final int ORIENTATION_MAX = 3;
+    private final int ORIENTATION_MIN = 0;
     private int orientation;
     private boolean isFixed;
     private ShapeOfTile shape;
 
     /**
-     * initialises the floor object
-     * @param orientation original direction of the tile
-     * @param isFixed if the tile moves or not
-     * @param shape the type of tile
+     * Creates a floor tile.
+     * @param orientation The orientation of the tile.
+     * @param isFixed If the file is fixed to the board or not.
+     * @param shape The shape of the tile.
      */
     public FloorTile(int orientation, boolean isFixed, ShapeOfTile shape) {
-        this.orientation = orientation % 4;
+        this.orientation = orientation % (ORIENTATION_MAX + 1);
         this.isFixed = isFixed;
         this.shape = shape;
     }
 
     /**
-     * @return sets and prevents the time from being moved
+     * Gets if the tile is fixed to the board or not.
+     * @return If the tile is fixed to the board or not.
      */
     public boolean isFixed() {
         return this.isFixed;
     }
 
     /**
-     * @param fixed checks whether a tile cant move
-     */
-    public void setFixed(boolean fixed) {
-        this.isFixed = fixed;
-    }
-
-    /**
-     * @return the type of tile
+     * Gets the shape of the tile.
+     * @return The shape of the tile.
      */
     public ShapeOfTile getShape() {
         return this.shape;
     }
 
     /**
-     * sets the direction that the tile will face
-     * @param direction the angle the tile is facing
-     */
-    public void setOrientation(int direction) {
-        this.orientation = direction % 4;
-    }
-
-    /**
-     * changes the direction the tile is facing towards the right
+     * Decrements the orientation of the tile. This rotates
+     * the tile anti-clockwise.
      */
     public void decrementOrientation() {
-        if (this.orientation == 0) {
-            this.orientation = 3;
+        if (this.orientation == ORIENTATION_MIN) {
+            this.orientation = ORIENTATION_MAX;
         } else {
             this.orientation--;
         }
     }
 
     /**
-     * changes the direction the tile is facing towards the left
+     * Increments the orientation of the tile. This rotates
+     * the tile clockwise.
      */
     public void incrementOrientation() {
-        if (this.orientation == 3) {
-            this.orientation = 0;
+        if (this.orientation == ORIENTATION_MAX) {
+            this.orientation = ORIENTATION_MIN;
         } else {
             this.orientation++;
         }
     }
 
     /**
-     * @return the entry point if the user can enter the tile or not
+     * Gets the entry points for the tile. These are the sides of the
+     * tile that a player can move in to.
+     * @return The entry points of the tile.
      */
     public boolean[] getEntryPoints() {
-        boolean[] entryPoints;// points that the player can enter
+        boolean[] entryPoints;
 
+        //Array indexing = [top edge, left edge, bottom edge, right edge]
         if (shape == ShapeOfTile.BEND) {
-            entryPoints = new boolean[] { false, false, true, true };
+            entryPoints = new boolean[] {false, false, true, true};
         } else if (shape == ShapeOfTile.T_SHAPE) {
-            entryPoints = new boolean[] { true, true, false, true };
+            entryPoints = new boolean[] {true, true, false, true};
         } else if (shape == ShapeOfTile.STRAIGHT) {
-            entryPoints = new boolean[] { false, true, false, true };
+            entryPoints = new boolean[] {false, true, false, true};
         } else {
-            entryPoints = new boolean[] { true, true, true, true };
+            entryPoints = new boolean[] {true, true, true, true};
         }
 
+        //Rotates the entry points depending on current orientation.
         for (int i = 0; i < getOrientation(); i++) {
-            int j; //
-            boolean temp; //
-            temp = entryPoints[entryPoints.length - 1]; //
-
+            int j;
+            boolean temp = entryPoints[entryPoints.length - 1];
             for (j = entryPoints.length - 1; j > 0; j--) {
                 entryPoints[j] = entryPoints[j - 1];
             }
@@ -103,16 +96,11 @@ public class FloorTile extends Tile {
     }
 
     /**
-     * @return the direction the tile is facing
+     * Get the orientation of the tile.
+     * @return The tile's orientation.
      */
     public int getOrientation() {
         return this.orientation;
     }
 
-    /**
-     * @return some details about the floor tile to help with developing the game
-     */
-    public String toString() {
-        return "Orientation: " + this.orientation + ", isFixed: " + this.isFixed + ", Shape: " + this.shape;
-    }
 }
