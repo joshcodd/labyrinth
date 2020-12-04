@@ -1,45 +1,41 @@
 package models;
-
-
 import java.util.ArrayList;
 
 /**
- * Tile bag is used to store tiles for which the player can draw from
- * @author Andreas Eleftheriades    @StudentID 1906277
+ * Tile bag is used to store tiles for which the player can draw from.
+ * @author Andreas Eleftheriades
  */
 public class TileBag {
-    // list of the tiles needed in the game
     private ArrayList<Tile> tileBag;
 
     /**
-     * Creates TileBag
+     * Creates a tile bag.
      */
-    public TileBag(){
+    public TileBag() {
         tileBag = new ArrayList<>();
-
     }
 
     /**
-     * Randomly removes and returns a tile from the tile bag
-     * @return Random tile from TileBag
+     * Gets a random tile from the bag, while also removing it from the bag.
+     * @return Random tile from TileBag.
      */
-    public Tile drawTile(){
-        int randomIndex = (int)(Math.random() * tileBag.size());
+    public Tile drawTile() {
+        int randomIndex = (int) (Math.random() * tileBag.size());
         return tileBag.remove(randomIndex);
     }
 
     /**
-     * Adds tile to tile bag
-     * @param tile - passed tile to be added
+     * Adds a tile to the bag.
+     * @param tile The tile to be added.
      */
-    public void addTile(Tile tile){
+    public void addTile(Tile tile) {
         tileBag.add(tile);
     }
 
     /**
-     * @return length of list of tiles
+     * @return The amount of tiles in the bag.
      */
-    public int getSize(){
+    public int getSize() {
         return tileBag.size();
     }
 
