@@ -3,41 +3,51 @@ import controllers.LeaderboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Constants;
 
 /**
- * Class that represents the main game scene.
- * @author
- * @version 1.0
+ * Class that represents a leaderboard scene, and displays this to screen.
+ * The leaderboard scene is the scene allows the user to select a level name
+ * and view the leaderboard for that level.
+ * @author Josh Codd
  */
 public class LeaderboardScene {
     private Stage primaryStage;
 
     /**
-     * Method to construct and initialize a leaderboard scene.
-     * @param stage the stage to display this scene.
-     * @param backgroundMusic the games background music will play.
+     * Constructs and initializes a leaderboard scene. Then display it on the
+     * stage.
+     * @param stage The stage to display this scene on.
+     * @param backgroundMusic The audio to play in the background.
      */
-    public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic){
+    public LeaderboardScene(Stage stage, MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
-
         try {
             FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getClassLoader().getResource("views/layouts/LeaderboardView.fxml").openStream());
+            Parent root = loader.load(getClass().getClassLoader()
+                    .getResource("views/layouts/LeaderboardView.fxml")
+                    .openStream());
             LeaderboardController controller = loader.getController();
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             controller.setPrimaryStage(stage);
             controller.setDropdown();
-            Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+            Scene scene = new Scene(root, Constants.SCENE_WIDTH,
+                    Constants.SCENE_HEIGHT);
             scene.getStylesheets().add("styles.css");
             primaryStage.setScene(scene);
             primaryStage.show();
-
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "An error was encountered while attempting to load "
+                            + "leaderboard.",
+                    ButtonType.OK);
+            error.showAndWait();
+            new MenuScene(stage, backgroundMusic);
         }
     }
 }

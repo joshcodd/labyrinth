@@ -117,5 +117,5 @@ false,1,CROSSROADS
 0
 >Players
 2
-0,0,1,-1,-1,-1,-1,james,Green,0,0,0,0
-1,0,2,-1,-1,-1,-1,andrew,Red,0,0,0,0
+0,0,1,-1,-1,-1,-1,james,Green,true,0,0,0,0
+1,0,2,-1,-1,-1,-1,andrew,Red,true,0,0,0,0

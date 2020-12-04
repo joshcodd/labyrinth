@@ -402,12 +402,14 @@ public class FileHandler {
 					Coord xy1 = new Coord(x1,y1);
 					String name = line.next();
 					String colour = line.next();
+					boolean canBackTrack = line.nextBoolean();
 					Player p = new Player(playerNum,loadProfile(name));
 					p.setColour(colour);
 					players[playerNum] = p;
 					p.setCurrentPosition(xy);
 					p.setPrevPosition(0,xy0);
 					p.setPrevPosition(1,xy1);
+					p.setCanBackTrack(canBackTrack);
 					int fire = line.nextInt();
 					for (int j = 0; j < fire; j++) {
 						ActionTile t = new FireTile();
@@ -608,7 +610,8 @@ public class FileHandler {
 			int y1 = player.getPrevPosition(1).getY();
 			String name = player.getProfile().getPlayerName();
 			String colour = player.getColour();
-			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name + "," + colour;
+			Boolean canBackTrack = player.canBackTrack();
+			line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + "," + x1 + "," + y1 + "," + name + "," + colour + "," + canBackTrack;
 
 			ArrayList<ActionTile> tiles = player.getActionTiles();
 			int fireTile = 0;
