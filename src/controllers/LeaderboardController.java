@@ -87,7 +87,7 @@ public class LeaderboardController {
 
             profiles.sort(new Comparator<PlayerProfile>() {
                 public int compare(PlayerProfile p1, PlayerProfile p2) {
-                    return p2.getNumberofWins() - p1.getNumberofWins();
+                    return p2.getNumberOfWins() - p1.getNumberOfWins();
                 }
             });
 
@@ -97,9 +97,9 @@ public class LeaderboardController {
 
                 String name = currentProfile.getPlayerName();
                 String space = new String(new char[10 - name.length()]).replace("\0", "0");
-                int wins = currentProfile.getNumberofWins();
-                int losses = currentProfile.getNumberofLosses();
-                int games = currentProfile.getNumberofGamesPlayed();
+                int wins = currentProfile.getNumberOfWins();
+                int losses = currentProfile.getNumberOfLosses();
+                int games = currentProfile.getNumberOfGamesPlayed();
 
                 Text playerText = new Text(name);
                 Text whitespace = new Text(space);
