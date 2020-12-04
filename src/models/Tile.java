@@ -1,8 +1,7 @@
 package models;
 /**
- * Tile superclass
+ * Represents a tile in the game.
  * @author James Charnock
- * @StudentID 1909700
  */
 public abstract class Tile {
 
