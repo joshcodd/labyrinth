@@ -10,8 +10,8 @@ public class Coord {
     private int yPos;
 
     /**
-     * @param x the position's x coordinate
-     * @param y the position's y coordinate
+     * @param x The position's x coordinate.
+     * @param y The position's y coordinate.
      */
     public Coord(int x, int y) {
         xPos = x;
@@ -19,22 +19,22 @@ public class Coord {
     }
 
     /**
-     * @return the x coordinate
+     * @return The position's x coordinate.
      */
     public int getX() {
         return xPos;
     }
 
     /**
-     * @return the y coordinate
+     * @return The position's y coordinate.
      */
     public int getY() {
         return yPos;
     }
 
     /**
-     * @param x the new x coordinate to be assigned
-     * @param y the new y coordinate to be assigned
+     * @param x The new x coordinate to be assigned.
+     * @param y The new y coordinate to be assigned.
      */
     public void setPos(int x, int y) {
         xPos = x;
@@ -42,14 +42,14 @@ public class Coord {
     }
 
     /**
-     * @return Returns true if the coordinate represents an invalid position, false otherwise
+     * @return True if the coordinate represents an invalid position, false otherwise.
      */
     public boolean isEmpty() {
         return xPos == -1 || yPos == -1;
     }
 
     /**
-     * @return A string representation of the Coord object, displaying its X and Y position.
+     * @return A text representation of the Coord object, displaying its X and Y position.
      */
     @Override
     public String toString() {
@@ -60,8 +60,8 @@ public class Coord {
     }
 
     /**
-     * @param obj the object to be compared against
-     * @return Returns true if obj is a Coord type object, with equal X and Y values to this object
+     * @param obj The object to be compared against.
+     * @return Returns true if obj is a Coord type object, with equal X and Y values to this object.
      */
     @Override
     public boolean equals(Object obj){
