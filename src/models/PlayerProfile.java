@@ -8,10 +8,11 @@ import java.io.IOException;
  * @StudentID: 987856
  */
 public class PlayerProfile {
-	private int gamesPlayed;
-	private int wins;
-	private int losses;
-	private String playerName;
+
+	private int gamesPlayed; //number of games played
+	private int wins; //number of users won
+	private int losses; //number of user losses
+	private String playerName; //name of the user
 
 	/**
 	 *

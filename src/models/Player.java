@@ -3,18 +3,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- *
+ * Class that initializes player for the current game
+ * @author
+ * @version 1.0
  */
 public class Player {
-	
-	private Coord currentPosition;//
-	private Coord[] previousPositions;//
-	private int playerNumber;//
-	private ArrayList<ActionTile> actionTiles;//
-	private PlayerProfile profile;//
-	private String colour = "Auto-Assign";//
-	private boolean startFirst = false;//
-	private boolean canBackTrack = true;//
+
+	private Coord currentPosition;	// current players location on the board
+	private Coord[] previousPositions;	//list or players previous moves
+	private int playerNumber;	//players number
+	private ArrayList<ActionTile> actionTiles;	// list of the players tiles
+	private PlayerProfile profile;	//details about the user
+	private String colour = "Auto-Assign";	// sets the colour the player will have
+	private boolean startFirst = false; // indicates if player start
 
 	/**
 	 * initialises the player object, sets profiles details, bag for the users tile and sets players positions
@@ -126,20 +127,6 @@ public class Player {
 	}
 
 	/**
-	 * @return Whether the player can have backtrack actions used on them.
-	 */
-	public boolean canBackTrack() {
-		return this.canBackTrack;
-	}
-
-	/**
-	 * @param canBackTrack The value to be assigned to canBackTrack.
-	 */
-	public void setCanBackTrack(boolean canBackTrack) {
-		this.canBackTrack = canBackTrack;
-	}
-
-	/**
 	 * sets the players colour selected by the user
 	 * @param newColour the players colour selected
 	 */
@@ -172,3 +159,9 @@ public class Player {
 		return getProfileName() + " " + getColour();
 	}
 }
+	
+
+	
+	
+
+	
