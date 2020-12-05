@@ -555,6 +555,8 @@ public class GameController implements Initializable {
                 player.movePlayer(pastPosition2);
                 player.setCanBackTrack(false);
                 continueButton.setDisable(false);
+            } else {
+                continueButton.setDisable(false);
             }
         }
         updateGameBoard();
@@ -878,14 +880,22 @@ public class GameController implements Initializable {
             selectedActionTile = null;
             updateActionTileHand();
         } else if (selectedActionTile instanceof BackTrackTile) {
-            setPlayerLabel("back track");
-            selectBacktrack();
-            actionButton.setDisable(true);
-            continueButton.setDisable(true);
-            selectedTile.setImage(null);
-            game.getCurrentPlayer().removeActionTile(selectedActionTile);
-            selectedActionTile = null;
-            updateActionTileHand();
+            Boolean canBacktrack = false;
+            for (Player player : game.getPlayers()) {
+                if (player.canBackTrack()) {
+                    canBacktrack = true;
+                }
+            }
+            if (canBacktrack) {
+                setPlayerLabel("back track");
+                selectBacktrack();
+                actionButton.setDisable(true);
+                continueButton.setDisable(true);
+                selectedTile.setImage(null);
+                game.getCurrentPlayer().removeActionTile(selectedActionTile);
+                selectedActionTile = null;
+                updateActionTileHand();
+            }
         } else if (selectedActionTile != null) {
             setPlayerLabel("action");
             playActionToBoard(selectedActionTile);
