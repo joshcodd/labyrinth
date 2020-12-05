@@ -77,8 +77,7 @@ public class Player {
      * @param tile The action tile to be removed.
      */
     public void removeActionTile(ActionTile tile) {
-        actionTiles
-                .removeIf(x -> x.getClass() == tile.getClass());
+        actionTiles.remove(tile);
     }
 
     /**
