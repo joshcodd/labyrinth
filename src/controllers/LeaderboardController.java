@@ -31,7 +31,9 @@ import static javafx.scene.paint.Color.TRANSPARENT;
 import static javafx.scene.paint.Color.WHITE;
 
 /**
- *
+ * Leaderboard controller.
+ * @author 
+ * @studentID 
  */
 public class LeaderboardController {
 
@@ -49,18 +51,18 @@ public class LeaderboardController {
     ImageView silver = new ImageView(new Image("/resources/silver.png"));
     ImageView bronze = new ImageView(new Image("/resources/bronze.png"));
 
-
     Stage primaryStage;
 
     /**
-     *
+     * The dropdown menu to display the level.
      */
     public void setDropdown(){
         dropdown.setItems(getLevels());
     }
 
     /**
-     * @return
+     * To show the information by level.
+     * @return listFoFiles
      */
     public ObservableList<String> getLevels(){
         File folder = new File("src/gamefiles/levels");
@@ -72,6 +74,7 @@ public class LeaderboardController {
     }
 
     /**
+     * To get who is the gold silver and bronze by players, and also display the number of wins for others .
      * @param actionEvent
      * @throws FileNotFoundException
      */
@@ -146,6 +149,7 @@ public class LeaderboardController {
     }
 
     /**
+     * Back to the main menu scene.
      * @param actionEvent
      */
     public void handleBack(ActionEvent actionEvent) {
@@ -154,6 +158,7 @@ public class LeaderboardController {
     }
 
     /**
+     * Mute the music.
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -162,6 +167,7 @@ public class LeaderboardController {
     }
 
     /**
+     * Set the background music keeps playing.
      * @param backgroundMusic
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
@@ -170,6 +176,7 @@ public class LeaderboardController {
     }
 
     /**
+     * Set the primary stage.
      * @param primaryStage
      */
     public void setPrimaryStage(Stage primaryStage) {
