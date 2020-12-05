@@ -250,3 +250,7 @@
     -fx-background-color: black;
     -fx-opacity: 0.8;
 }
+
+.leaderboard-cell {
+    -fx-padding: 5 0 5 30;
+}
