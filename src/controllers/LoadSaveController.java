@@ -1,7 +1,6 @@
 package controllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -12,8 +11,6 @@ import models.FileHandler;
 import models.Game;
 import views.scenes.GameScene;
 import views.scenes.MenuScene;
-import views.scenes.SelectPlayerScene;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Objects;
@@ -21,85 +18,90 @@ import java.util.Objects;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
- *
+ * Load save controller.
+ * Allows the user to select a saved game and then proceed to play it.
+ * @author Josh Codd
  */
 public class LoadSaveController {
-
+    private final int DOT_TXT = 4;
     @FXML
-    public Button backButton;
-
+    private ChoiceBox<String> dropdown;
     @FXML
-    public Button confirmButton;
-
+    private MediaView backgroundMusic;
     @FXML
-    public ChoiceBox<String> dropdown;
-    @FXML
-    public MediaView backgroundMusic;
-    public Button muteButton;
-
-    Stage primaryStage;
+    private Button muteButton;
+    private Stage primaryStage;
 
     /**
-     *
+     * Sets the dropdown box to include all saved game file names.
      */
-    public void setDropdown(){
+    public void setDropdown() {
         dropdown.setItems(getSaves());
     }
 
     /**
-     * @return
+     * Creates a game from the selected filename and proceeds to play.
+     * @throws FileNotFoundException If the game file does not exist.
      */
-    public ObservableList<String> getSaves(){
-        File folder = new File("src/gamefiles/saves");
-        ObservableList<String> listOfFiles = observableArrayList();
-        for (File i : Objects.requireNonNull(folder.listFiles())) {
-            listOfFiles.add(i.getName().substring(0, i.getName().length() - 4));
-        }
-        return listOfFiles;
-    }
-
-    /**
-     * @param actionEvent
-     * @throws FileNotFoundException
-     */
-    public void handleConfirm(ActionEvent actionEvent) throws FileNotFoundException {
+    public void handleConfirm() throws FileNotFoundException {
         new AudioPlayer().clickPlay();
         String saveName = dropdown.getValue();
-        if (saveName != null){
+        if (saveName != null) {
             Game loadedGame = FileHandler.continueGame(saveName);
-            new GameScene(primaryStage, loadedGame, backgroundMusic.getMediaPlayer());
+            new GameScene(primaryStage, loadedGame,
+                    backgroundMusic.getMediaPlayer());
         }
     }
 
     /**
-     * @param actionEvent
+     * Returns back to the main menu.
      */
-    public void handleBack(ActionEvent actionEvent) {
+    public void handleBack() {
         new AudioPlayer().clickPlay();
-        MenuScene menuScene = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+        new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
-     * @param actionEvent
+     * Mutes the background audio if its currently un-muted, and un-mutes
+     * the background audio if it is currently muted.
      */
-    public void handleMute(ActionEvent actionEvent) {
-        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    public void handleMute() {
+        new AudioPlayer().clickPlay();
+        backgroundMusic.getMediaPlayer()
+                .setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic
+                .getMediaPlayer().isMute()));
     }
 
     /**
-     * @param backgroundMusic
+     * Sets the media (audio) to be played in the background of the menu.
+     * @param backgroundMusic The audio to be played.
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+        muteButton.getStyleClass().set(0, ("mute-"
+                + backgroundMusic.getMediaPlayer().isMute()));
     }
 
     /**
-     * @param primaryStage
+     * Sets the stage in which the application is being displayed on.
+     * @param primaryStage The stage being displayed on.
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-}
 
+    /**
+     * Gets the names of all saved game files.
+     * @return All saved game file names.
+     */
+    private ObservableList<String> getSaves() {
+        File folder = new File("src/gamefiles/saves");
+        ObservableList<String> listOfFiles = observableArrayList();
+        for (File i : Objects.requireNonNull(folder.listFiles())) {
+            listOfFiles.add(i.getName().substring(0, i.getName()
+                    .length() - DOT_TXT));
+        }
+        return listOfFiles;
+    }
+}
