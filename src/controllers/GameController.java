@@ -44,7 +44,7 @@ public class GameController implements Initializable {
     private final int LEFT_ORIENTATION = 1;
     private final int RIGHT_ORIENTATION = 3;
     private final String RESOURCES_PATH = "/resources/";
-
+    
     @FXML
     private GridPane bottomButtons;
     @FXML
@@ -860,6 +860,7 @@ public class GameController implements Initializable {
      */
     private void handleActionClick() {
         if (selectedActionTile instanceof DoubleMoveTile) {
+            setPlayerLabel("double move");
             updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
             actionButton.setDisable(true);
             selectedTile.setImage(null);
@@ -867,6 +868,7 @@ public class GameController implements Initializable {
             selectedActionTile = null;
             updateActionTileHand();
         } else if (selectedActionTile instanceof BackTrackTile) {
+            setPlayerLabel("back track");
             selectBacktrack();
             actionButton.setDisable(true);
             continueButton.setDisable(true);
@@ -875,6 +877,7 @@ public class GameController implements Initializable {
             selectedActionTile = null;
             updateActionTileHand();
         } else if (selectedActionTile != null) {
+            setPlayerLabel("action");
             playActionToBoard(selectedActionTile);
             actionButton.setDisable(true);
             continueButton.setDisable(true);
