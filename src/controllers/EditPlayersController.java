@@ -1,55 +1,42 @@
 package controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.AudioPlayer;
 import models.FileHandler;
 import models.PlayerProfile;
 import views.scenes.MenuScene;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static javafx.collections.FXCollections.observableArrayList;
-
 /**
- * Edit the information of the player.
- * @author ???
+ * Edit players controller.
+ * Allows the user to add, view as well as delete player profiles.
+ * @author Josh Codd, Chi Hang Tse
  */
 public class EditPlayersController implements Initializable {
-
     @FXML
-    public Button backButton;
-
+    private MediaView backgroundMusic;
     @FXML
-    public MediaView backgroundMusic;
+    private ListView<String> profiles;
     @FXML
-    public ListView profiles;
+    private TextField playerName;
     @FXML
-    public Button addPlayer;
+    private Button muteButton;
     @FXML
-    public TextField playerName;
-    public Button muteButton;
-    Stage primaryStage;
-
-    ArrayList<PlayerProfile> playerProfiles;
-    public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
+    private Stage primaryStage;
 
     /**
-     * To initialize the player by calling generatePlayer method.
-     * @param location
-     * @param resources
+     * Initializes the player editing GUI so that it's ready to be displayed.
+     * @param location The location used to resolve relative paths for the
+     *                 root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object,
+     *                  or null if the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,85 +44,100 @@ public class EditPlayersController implements Initializable {
     }
     
     /**
-     * Method to add the player to the PlayerProfile.
-     * @param actionEvent
-     * @throws IOException
+     * Handles add player button click by creating and saving a new player, with
+     * the name specified.
      */
-    public void handleAddPlayerClick(ActionEvent actionEvent) throws IOException {
+    public void handleAddPlayerClick() {
         new AudioPlayer().clickPlay();
         String name = playerName.getText().toLowerCase();
-
         if (name.trim().isEmpty()) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "No name entered.", ButtonType.CLOSE);
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "No name entered.", ButtonType.CLOSE);
             error.showAndWait();
-        }else if (profiles.getItems().contains(name)){
-            Alert error = new Alert(Alert.AlertType.ERROR, "Profile already exists.", ButtonType.CLOSE);
+        } else if (profiles.getItems().contains(name)) {
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "Profile already exists.", ButtonType.CLOSE);
             error.showAndWait();
         } else {
             PlayerProfile newProfile = new PlayerProfile(name, 0, 0, 0);
-            newProfile.save();
+            try {
+                newProfile.save();
+            } catch (IOException e) {
+                Alert error = new Alert(Alert.AlertType.ERROR,
+                        "Cannot save player.", ButtonType.CLOSE);
+                error.showAndWait();
+            }
             generatePlayers();
             playerName.clear();
         }
     }
 
     /**
-     * To delete player's profile from file.
-     * @param actionEvent
-     * @throws IOException
+     * Deletes a selected player from file.
      */
-    public void handleDeleteClick(ActionEvent actionEvent) throws IOException {
-        FileHandler.deleteProfile(profiles.getSelectionModel().getSelectedItem().toString());
+    public void handleDeleteClick() {
+        try {
+            FileHandler.deleteProfile(profiles.getSelectionModel()
+                    .getSelectedItem());
+        } catch (IOException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "Cannot delete player.", ButtonType.CLOSE);
+            error.showAndWait();
+        }
         generatePlayers();
     }
 
     /**
-     * * Back to the main menu function.
-     * @param actionEvent
+     * Returns back to the menu.
      */
-    public void handleBack(ActionEvent actionEvent) {
+    public void handleBack() {
         new AudioPlayer().clickPlay();
-        MenuScene menuScene = new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
+        new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
-     *To get all the player's name .
+     * Mutes the background audio if its currently un-muted, and un-mutes
+     * the background audio if it is currently muted.
      */
-    public void generatePlayers() {
-        profiles.getItems().clear();
-        try {
-            for (String player : FileHandler.getAllNames()){
-                profiles.getItems().add(player);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void handleMute() {
+        backgroundMusic.getMediaPlayer()
+                .setMute(!backgroundMusic.getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-"
+                + backgroundMusic.getMediaPlayer().isMute()));
     }
 
     /**
-     * Mute the background music.
-     * @param actionEvent
-     */
-    public void handleMute(ActionEvent actionEvent) {
-        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
-    }
-
-    /**
-     *  Carries on playing the music from the previous scene
-     * @param backgroundMusic the background music to be played.
+     * Sets the media (audio) to be played in the background of the menu.
+     * @param backgroundMusic The audio to be played.
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
     }
 
     /**
-     *  Set the primary stage to have music keep playing.
-     * @param primaryStage
+     * Sets the stage in which the application is being displayed on.
+     * @param primaryStage The stage being displayed on.
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+        muteButton.getStyleClass().set(0,
+                ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+    }
+
+    /**
+     * Gets all saved players.
+     */
+    private void generatePlayers() {
+        profiles.getItems().clear();
+        try {
+            for (String player : FileHandler.getAllNames()) {
+                profiles.getItems().add(player);
+            }
+        } catch (FileNotFoundException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "Cannot load players.", ButtonType.CLOSE);
+            error.showAndWait();
+        }
     }
 
 }
