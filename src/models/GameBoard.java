@@ -249,7 +249,13 @@ public class GameBoard {
      * @return The actions tile at the specified location.
      */
     public ActionTile getAction(Coord position) {
-        return actionBoard[position.getX()][position.getY()];
+        int xPos = position.getX();
+        int yPos = position.getY();
+        if (xPos > -1 && yPos > -1 && xPos < width && yPos < height) {
+            return actionBoard[position.getX()][position.getY()];
+        } else {
+            return null;
+        }
     }
 
     /**

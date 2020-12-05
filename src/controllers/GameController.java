@@ -533,17 +533,26 @@ public class GameController implements Initializable {
      * @param player the player to be backtracked to an earlier position.
      */
     private void backtrackPlayer(Player player) {
-        Coord pastPosition = player.getPrevPosition(1);
-        ActionTile targetTile = gameBoard.getAction(pastPosition);
-        if (!pastPosition.isEmpty() && !(targetTile instanceof FireTile)) {
-            player.movePlayer(pastPosition);
+        Coord pastPosition1 = player.getPrevPosition(1);
+        Coord pastPosition2 = player.getPrevPosition(2);
+        for (Player currPlayer : game.getPlayers()) {
+            Coord currPosition = currPlayer.getCurrentPosition();
+            if (currPosition == pastPosition1) {
+                pastPosition1.setPos(-1, -1);
+            } else if (currPosition == pastPosition2) {
+                pastPosition2.setPos(-1, -1);
+            }
+        }
+
+        ActionTile targetTile = gameBoard.getAction(pastPosition1);
+        if (!pastPosition1.isEmpty() && !(targetTile instanceof FireTile)) {
+            player.movePlayer(pastPosition1);
             player.setCanBackTrack(false);
             continueButton.setDisable(false);
         } else {
-            pastPosition = player.getPrevPosition(0);
-            targetTile = gameBoard.getAction(pastPosition);
-            if (pastPosition.isEmpty() && !(targetTile instanceof FireTile)) {
-                player.movePlayer(pastPosition);
+            targetTile = gameBoard.getAction(pastPosition2);
+            if (pastPosition2.isEmpty() && !(targetTile instanceof FireTile)) {
+                player.movePlayer(pastPosition2);
                 player.setCanBackTrack(false);
                 continueButton.setDisable(false);
             }
