@@ -31,7 +31,8 @@ import static javafx.scene.paint.Color.TRANSPARENT;
 import static javafx.scene.paint.Color.WHITE;
 
 /**
- * Leaderboard controller.
+ * Controller class for leader board scene.
+ * To display the details for game's result and level.
  * @author 
  * @studentID 
  */
@@ -54,15 +55,15 @@ public class LeaderboardController {
     Stage primaryStage;
 
     /**
-     * The dropdown menu to display the level.
+     * Display the level to set choice for level.
      */
     public void setDropdown(){
         dropdown.setItems(getLevels());
     }
 
     /**
-     * To show the information by level.
-     * @return listFoFiles
+     * To create the level name in the level files.
+     * @return A list of level file names.
      */
     public ObservableList<String> getLevels(){
         File folder = new File("src/gamefiles/levels");
@@ -149,7 +150,7 @@ public class LeaderboardController {
     }
 
     /**
-     * Back to the main menu scene.
+     * Back to the main menu scene when the buton is press.
      * @param actionEvent
      */
     public void handleBack(ActionEvent actionEvent) {
@@ -158,7 +159,7 @@ public class LeaderboardController {
     }
 
     /**
-     * Mute the music.
+     * Mute the music when the button is press.
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -167,7 +168,7 @@ public class LeaderboardController {
     }
 
     /**
-     * Set the background music keeps playing.
+     * Set the background music keeps playing for the scene.
      * @param backgroundMusic
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
@@ -176,7 +177,7 @@ public class LeaderboardController {
     }
 
     /**
-     * Set the primary stage.
+     * Set the stage of the scene.
      * @param primaryStage
      */
     public void setPrimaryStage(Stage primaryStage) {
