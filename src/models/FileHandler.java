@@ -15,6 +15,7 @@ import java.util.Scanner;
  * @author Andrew Carruthers
  */
 public class FileHandler {
+    private static final int MAX_ORIENTATION = 4;
 
     /**
      * Reads in a level from file, populates TileBag and sets player.
@@ -179,14 +180,13 @@ public class FileHandler {
      */
     private static int randomOrientation() {
         Random orientation = new Random();
-        return orientation.nextInt(4);
+        return orientation.nextInt(MAX_ORIENTATION);
     }
 
     /**
      * Reads in a game from file, loads the game and all attributes.
      * @param fileName file name of game to be loaded.
      * @return A constructed game with all attributes preserved.
-     * @throws FileNotFoundException
      */
     public static Game continueGame(String fileName)
             throws FileNotFoundException {
@@ -200,10 +200,9 @@ public class FileHandler {
      * Private method to read in a saved game from file.
      * @param read Scanner of save file.
      * @return a constructed game.
-     * @throws FileNotFoundException
      */
     private static Game continueGame(Scanner read)
-			throws FileNotFoundException {
+            throws FileNotFoundException {
         HashMap<Coord, FloorTile> boardMap = new HashMap<>();
         HashMap<Coord, ActionTile> actionMap = new HashMap<>();
         Scanner line;
@@ -239,7 +238,7 @@ public class FileHandler {
                         boolean fixed = line.next().equals("true");
                         int o = line.nextInt();
                         String tileShape = line.next();
-                        switch(tileShape) {
+                        switch (tileShape) {
                             case "BEND":
                                 shape = ShapeOfTile.BEND;
                                 break;
@@ -480,7 +479,6 @@ public class FileHandler {
      * Saves a game to file.
      * @param saveName save name for current game.
      * @param game current game.
-     * @throws IOException
      */
     public static void saveGameFile(String saveName,
                                     Game game) throws IOException {
@@ -648,8 +646,8 @@ public class FileHandler {
             String colour = player.getColour();
             Boolean canBackTrack = player.canBackTrack();
             line = playerNum + "," + x + "," + y + "," + x0 + "," + y0 + ","
-					+ x1 + "," + y1 + "," + name + "," + colour + ","
-					+ canBackTrack;
+                    + x1 + "," + y1 + "," + name + "," + colour + ","
+                    + canBackTrack;
 
             ArrayList<ActionTile> tiles = player.getActionTiles();
             int fireTile = 0;
@@ -687,7 +685,6 @@ public class FileHandler {
      * Reads in leaderboard information about players for a specified level.
      * @param levelName name of level leaderboard to be loaded.
      * @return An arraylist of player names
-     * @throws FileNotFoundException
      */
     public static ArrayList<String> loadLeaderboard(String levelName)
             throws FileNotFoundException {
@@ -701,7 +698,7 @@ public class FileHandler {
      * Private method to load leaderboard data about a level.
      * @param line Scanner of leaderboard.txt.
      * @param levelName Level name.
-     * @return An array of player names.
+     * @return Player names.
      */
     private static ArrayList<String> loadLeaderboard(Scanner line,
                                                      String levelName) {
@@ -733,7 +730,6 @@ public class FileHandler {
      * Saves a new player name to the specified level's leaderboard.
      * @param levelName current level
      * @param playerName player name
-     * @throws IOException
      */
     public static void saveLeaderboard(String levelName,
                                        String playerName) throws IOException {
@@ -766,7 +762,6 @@ public class FileHandler {
     /**
      * Gets a list of all player names from existing profiles.
      * @return Arraylist of player names.
-     * @throws FileNotFoundException
      */
     public static ArrayList<String> getAllNames() throws FileNotFoundException {
         File file = new File("src/gamefiles/players.txt");
@@ -833,7 +828,6 @@ public class FileHandler {
      * @param wins player's wins.
      * @param losses player's losses.
      * @param gamesPlayed player's total games played.
-     * @throws IOException
      */
     public static void saveProfile(String playerName,
                                    int wins, int losses,
@@ -868,7 +862,6 @@ public class FileHandler {
     /**
      * Deletes a player's profile from file.
      * @param playerName name of user to be deleted
-     * @throws IOException
      */
     public static void deleteProfile(String playerName) throws IOException {
         File file = new File("src/gamefiles/players.txt");
