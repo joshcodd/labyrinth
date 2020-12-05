@@ -254,3 +254,15 @@
 .leaderboard-cell {
     -fx-padding: 5 0 5 30;
 }
+
+.scroll-bar:horizontal .track{
+    -fx-background-color: black;
+    -fx-opacity: 0.3;
+    -fx-padding: 3;
+}
+
+.scroll-bar:horizontal .thumb{
+    -fx-background-color: black;
+    -fx-opacity: 0.8;
+    -fx-padding: 2;
+}
