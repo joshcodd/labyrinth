@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * Class that represent a player piece.
- * @author RAIN TSE
+ * @author Chi Hang Tse
  * @version 1.0
  */
 public class Player {
@@ -162,6 +162,7 @@ public class Player {
     public boolean isStartingFirst() {
         return this.startFirst;
     }
+    
     /**
      * Sets if the player is starting first or not.
      * @param starting If the player is playing first or not.
