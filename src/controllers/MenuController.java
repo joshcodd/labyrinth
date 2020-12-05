@@ -66,8 +66,8 @@ public class MenuController  {
      */
     public void handleButtonLeaderboard() {
         new AudioPlayer().clickPlay();
-            new LeaderboardScene(primaryStage, backgroundMusic
-                    .getMediaPlayer());
+        new LeaderboardScene(primaryStage, backgroundMusic
+                .getMediaPlayer());
     }
 
     /**
