@@ -44,7 +44,7 @@ public class GameController implements Initializable {
     private final int LEFT_ORIENTATION = 1;
     private final int RIGHT_ORIENTATION = 3;
     private final String RESOURCES_PATH = "/resources/";
-    
+
     @FXML
     private GridPane bottomButtons;
     @FXML
@@ -282,6 +282,21 @@ public class GameController implements Initializable {
         }
     }
 
+
+    /**
+     * Retrieves the available moves for a player.
+     * @param moves The game board valid moves for a player.
+     * @return The actual available moves for the player on this turn.
+     */
+    private ArrayList<Coord> availableMoves(ArrayList<Coord> moves) {
+        for (Player player : game.getPlayers()) {
+            moves.remove(player.getCurrentPosition());
+        }
+        //Remove fire tiles.
+        moves.removeIf(move -> gameBoard.getAction(move) instanceof FireTile);
+        return moves;
+    }
+
     /**
      * Updates tiles so that they are selectable and can be used for a player
      * to move on to that tile. Tiles are only updated if that tile is a
@@ -293,10 +308,8 @@ public class GameController implements Initializable {
         for (Node node : gameBoardPane.getChildren()) {
             Coord curr = new Coord(GridPane.getRowIndex(node),
                     GridPane.getColumnIndex(node));
-            boolean isValidTile = moves.contains(curr)
-                    && !(gameBoard.getAction(curr) instanceof FireTile);
 
-            if (isValidTile) {
+            if (moves.contains(curr)) {
                 StackPane tile = (StackPane) node;
                 ImageView x = new ImageView(RESOURCES_PATH + "X.png");
                 x.setFitWidth(TILE_SIZE);
@@ -354,18 +367,6 @@ public class GameController implements Initializable {
                 tile.getStyleClass().add("tile-selection");
             }
         }
-    }
-
-    /**
-     * Retrieves the available moves for a player.
-     * @param moves The game board valid moves for a player.
-     * @return The actual available moves for the player on this turn.
-     */
-    private ArrayList<Coord> availableMoves(ArrayList<Coord> moves) {
-        for (Player player : game.getPlayers()) {
-            moves.remove(player.getCurrentPosition());
-        }
-        return moves;
     }
 
     /**
