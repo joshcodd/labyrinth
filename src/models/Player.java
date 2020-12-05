@@ -170,4 +170,5 @@ public class Player {
     public void setFirst(boolean starting) {
         this.startFirst = starting;
     }
+    
 }
