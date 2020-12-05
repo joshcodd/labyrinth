@@ -118,6 +118,7 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //All button event handlers.
         topButtons.setTranslateX(TILE_SIZE);
         bottomButtons.setTranslateX(TILE_SIZE);
         tileSize.bind(boardArea.heightProperty()
@@ -149,14 +150,21 @@ public class GameController implements Initializable {
         drawActions();
         window.setOnMouseMoved(this::setTankSpin);
 
-        if (game.getCurrentTile() != null && game.getCurrentTile() instanceof ActionTile) {
+        boolean isActionTile = game.getCurrentTile() != null
+                && game.getCurrentTile() instanceof ActionTile;
+        boolean isFloorTile = game.getCurrentTile() != null
+                && game.getCurrentTile() instanceof FloorTile;
+
+        // Handles if a saved game has been loaded.
+        if (isActionTile) {
             selectedActionTile = (ActionTile) game.getCurrentTile();
-            selectedTile.setImage(new Image(RESOURCES_PATH + selectedActionTile.getClass().getName()
+            selectedTile.setImage(new Image(RESOURCES_PATH
+                    + selectedActionTile.getClass().getName()
                     .substring(PACKAGE_LENGTH) + ".png"));
             continueButton.setDisable(false);
             actionButton.setDisable(false);
             drawTile.setDisable(true);
-        } else if (game.getCurrentTile() != null && game.getCurrentTile() instanceof FloorTile) {
+        } else if (isFloorTile) {
             FloorTile tile = (FloorTile) game.getCurrentTile();
             selectedTile.setImage(getTileImage(tile).getImage());
             drawTile.setDisable(true);
@@ -164,40 +172,45 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Draws buttons for inserting tiles at the ends of every row or column where the rows are not fixed.
-     * That is, there are no fixed tiles in that row or column.
+     * Draws buttons for inserting tiles at the ends of every row or column
+     * where the rows are not fixed. That is, there are no fixed tiles in
+     * that row or column.
      * @param visible If the arrows should be visible or hidden.
      */
     public void updateArrows(boolean visible) {
         clearArrows();
+        // So arrow size holds even when cleared
         ColumnConstraints gridWidth = new ColumnConstraints();
         gridWidth.minWidthProperty().bind(tileSize);
-
         RowConstraints gridHeight = new RowConstraints();
         gridHeight.minHeightProperty().bind(tileSize);
 
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
+                // Left and right arrows
                 if (j == 0) {
                     leftButtons.getRowConstraints().add(gridHeight);
-                    ImageView arrow = getArrowImage("LEFT", i, DOWN_ORIENTATION);
+                    ImageView arrow = getArrow("LEFT", i,
+                            DOWN_ORIENTATION);
                     arrow.setVisible(visible && !gameBoard.isRowFixed(i));
                     leftButtons.add(new StackPane(arrow), j, i);
                 } else if (j == gameBoard.getWidth() - 1) {
                     rightButtons.getRowConstraints().add(gridHeight);
-                    ImageView arrow = getArrowImage("RIGHT", i, NO_TURN);
+                    ImageView arrow = getArrow("RIGHT", i, NO_TURN);
                     arrow.setVisible(visible && !gameBoard.isRowFixed(i));
                     rightButtons.add(new StackPane(arrow), j, i);
                 }
 
+                //Up and down arrows.
                 if (i == 0) {
                     topButtons.getColumnConstraints().add(gridWidth);
-                    ImageView arrow = getArrowImage("DOWN", j, RIGHT_ORIENTATION);
+                    ImageView arrow = getArrow("DOWN", j,
+                            RIGHT_ORIENTATION);
                     arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
                     topButtons.add(new StackPane(arrow), j, i);
                 } else if (i == gameBoard.getHeight() - 1) {
                     bottomButtons.getColumnConstraints().add(gridWidth);
-                    ImageView arrow = getArrowImage("UP", j, LEFT_ORIENTATION);
+                    ImageView arrow = getArrow("UP", j, LEFT_ORIENTATION);
                     arrow.setVisible(visible && !gameBoard.isColumnFixed(j));
                     bottomButtons.add(new StackPane(arrow), j, i);
                 }
@@ -206,20 +219,18 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Draws the players currently in the game to the scene at their current positions.
+     * Draws the players currently in the game to the scene at their
+     * current positions.
      */
     public void drawPlayers() {
         for (Player player : game.getPlayers()) {
-            for (Node node : gameBoardPane.getChildren()) {
-                if (GridPane.getColumnIndex(node) == player.getCurrentPosition().getY()
-                        && GridPane.getRowIndex(node) == player.getCurrentPosition().getX()) {
-                    ImageView tank = new ImageView(RESOURCES_PATH + player.getColour() + ".png");
-                    tank.setFitHeight(TANK_SIZE);
-                    tank.setFitWidth(TANK_SIZE);
-                    StackPane cell = (StackPane) node;
-                    cell.getChildren().add(tank);
-                }
-            }
+            StackPane tile = getTilePane(player.getCurrentPosition().getX(),
+                    player.getCurrentPosition().getY());
+            ImageView tank = new ImageView(RESOURCES_PATH
+                    + player.getColour() + ".png");
+            tank.setFitHeight(TANK_SIZE);
+            tank.setFitWidth(TANK_SIZE);
+            tile.getChildren().add(tank);
         }
     }
 
@@ -230,7 +241,8 @@ public class GameController implements Initializable {
         gameBoardPane.getChildren().clear();
         for (int i = 0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
-                gameBoardPane.add(new StackPane(getTileImage(gameBoard.getTileAt(new Coord(i, j)))), j, i);
+                gameBoardPane.add(new StackPane(getTileImage(gameBoard
+                        .getTileAt(new Coord(i, j)))), j, i);
             }
         }
         drawActions();
@@ -241,37 +253,50 @@ public class GameController implements Initializable {
      */
     private void updateActionTileHand() {
         actionTilePane.getChildren().clear();
-        ArrayList<ActionTile> currentActionTiles = game.getCurrentPlayer().getActionTiles();
+        ArrayList<ActionTile> currentActionTiles
+                = game.getCurrentPlayer().getActionTiles();
         for (int i = 0; i < currentActionTiles.size(); i++) {
             int actionTileNum = i;
-            String imagePath = RESOURCES_PATH + currentActionTiles.get(i).getClass().getName().substring(PACKAGE_LENGTH) + ".png";
+
+            String imagePath = RESOURCES_PATH + currentActionTiles
+                    .get(i).getClass().getName().substring(PACKAGE_LENGTH)
+                    + ".png";
             ImageView actionTile = new ImageView(new Image(imagePath));
             actionTile.setFitWidth(ACTION_TILE_SIZE);
             actionTile.setFitHeight(ACTION_TILE_SIZE);
             actionTile.getStyleClass().add("hover-effect");
+
             actionTile.setOnMouseClicked(event -> {
                 if (!actionButton.isDisable()) {
                     selectedActionTile = currentActionTiles.get(actionTileNum);
-                    selectedTile.setImage(new Image(RESOURCES_PATH + currentActionTiles.get(actionTileNum)
-                            .getClass().getName().substring(PACKAGE_LENGTH) + ".png"));
+                    selectedTile.setImage(new Image(RESOURCES_PATH
+                            + currentActionTiles.get(actionTileNum)
+                            .getClass().getName().substring(PACKAGE_LENGTH)
+                            + ".png"));
                     selectedTile.setRotate(NO_TURN);
                     game.setCurrentTile(selectedActionTile);
                 }
             });
+
             actionTilePane.getChildren().add(actionTile);
         }
     }
 
     /**
-     * Updates tiles so that they are selectable and can be used for a player to move on to that tile. Tiles are
-     * only updated if that tile is a possible and legal move.
+     * Updates tiles so that they are selectable and can be used for a player
+     * to move on to that tile. Tiles are only updated if that tile is a
+     * possible and legal move.
      * @param moves The moves that are available to the current player.
      */
     private void updateMoves(ArrayList<Coord> moves) {
         availableMoves(moves);
         for (Node node : gameBoardPane.getChildren()) {
-            Coord curr = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
-            if (moves.contains(curr) && !(gameBoard.getAction(curr) instanceof FireTile)) {
+            Coord curr = new Coord(GridPane.getRowIndex(node),
+                    GridPane.getColumnIndex(node));
+            boolean isValidTile = moves.contains(curr)
+                    && !(gameBoard.getAction(curr) instanceof FireTile);
+
+            if (isValidTile) {
                 StackPane tile = (StackPane) node;
                 ImageView x = new ImageView(RESOURCES_PATH + "X.png");
                 x.setFitWidth(TILE_SIZE);
@@ -295,7 +320,8 @@ public class GameController implements Initializable {
      * @return The player sprite.
      */
     private ImageView getPlayer(StackPane tile) {
-        return (ImageView) tile.getChildren().get(tile.getChildren().size() - 1);
+        return (ImageView) tile.getChildren().get(tile.getChildren()
+                .size() - 1);
     }
 
     /**
@@ -321,9 +347,9 @@ public class GameController implements Initializable {
      */
     private void selectBacktrack() {
         for (Player player : game.getPlayers()) {
-            if (player.canBackTrack()) {
-                StackPane tile = getTilePane(player.getCurrentPosition().getY(),
-                        player.getCurrentPosition().getX());
+            if (player.canBackTrack() && player != game.getCurrentPlayer()) {
+                StackPane tile = getTilePane(player.getCurrentPosition().getX(),
+                        player.getCurrentPosition().getY());
                 tile.setOnMouseClicked(event -> backtrackPlayer(player));
                 tile.getStyleClass().add("tile-selection");
             }
@@ -335,7 +361,7 @@ public class GameController implements Initializable {
      * @param moves The game board valid moves for a player.
      * @return The actual available moves for the player on this turn.
      */
-    private ArrayList<Coord> availableMoves (ArrayList<Coord> moves) {
+    private ArrayList<Coord> availableMoves(ArrayList<Coord> moves) {
         for (Player player : game.getPlayers()) {
             moves.remove(player.getCurrentPosition());
         }
@@ -348,13 +374,21 @@ public class GameController implements Initializable {
      */
     private void animateMove(Coord destination) {
         Coord currPosition = game.getCurrentPlayer().getCurrentPosition();
-        StackPane currentPane = getTilePane(currPosition.getX(), currPosition.getY());
-        StackPane destPane = getTilePane(destination.getX(), destination.getY());
-        StackPane finalPane = getTilePane(gameBoard.getWidth() - 1, gameBoard.getHeight() - 1);
+        StackPane currentPane = getTilePane(currPosition.getX(),
+                currPosition.getY());
+        StackPane destPane = getTilePane(destination.getX(),
+                destination.getY());
+        StackPane finalPane = getTilePane(gameBoard.getWidth() - 1,
+                gameBoard.getHeight() - 1);
         ImageView tank = getPlayer(currentPane);
-        Point2D tankReal = currentPane.localToScene(currentPane.getWidth() / 2, currentPane.getWidth() / 2);
-        Point2D tankDest = destPane.localToScene(destPane.getWidth() / 2, destPane.getHeight() / 2);
-        Point2D tankFake = finalPane.localToScene(finalPane.getWidth() / 2, finalPane.getWidth() / 2);
+
+        Point2D tankReal = currentPane.localToScene(currentPane.getWidth() / 2,
+                currentPane.getWidth() / 2);
+        Point2D tankDest = destPane.localToScene(destPane.getWidth() / 2,
+                destPane.getHeight() / 2);
+        Point2D tankFake = finalPane.localToScene(finalPane.getWidth() / 2,
+                finalPane.getWidth() / 2);
+
         double fakeX = tankReal.getX() - tankFake.getX();
         double fakeY = tankReal.getY() - tankFake.getY();
         double transX = tankDest.getX() - tankFake.getX();
@@ -389,14 +423,61 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Sets all tiles on the game board to be selectable. Therefore allowing a player
-     * to place a action tile.
+     * Adds selectable ability to tiles, allowing an action tile to be placed
+     * on it.
+     * @param action The action tile to be played.
+     * @param node The current tile being inspected.
+     * @param positions The surrounding tiles of placement.
+     */
+    private void allowSelect(Coord[] positions, Node node, ActionTile action) {
+        StackPane tile = (StackPane) node;
+        tile.getStyleClass().add("tile-selection");
+        tile.setOnMouseClicked(event -> {
+            for (Coord pos: positions) {
+                if (!pos.isEmpty()) {
+                    if (action instanceof FireTile) {
+                        gameBoard.addAction(new FireTile(), pos);
+                    } else if (action instanceof IceTile) {
+                        gameBoard.addAction(new IceTile(), pos);
+                    }
+                }
+            }
+            updateGameBoard();
+            drawPlayers();
+            continueButton.setDisable(false);
+        });
+    }
+
+    /**
+     * Checks if its valid for an action tile to be placed at a position
+     * on the board.
+     * @param action The action tile to be played.
+     * @param positions The surrounding tiles of placement.
+     * @return If the action placement is valid or not.
+     */
+    private boolean isPlacementValid(ActionTile action, Coord[] positions) {
+        if (action instanceof FireTile) {
+            for (Player player : game.getPlayers()) {
+                for (Coord surroundingTile : positions) {
+                    Coord currentPos = player.getCurrentPosition();
+                    if (currentPos.equals(surroundingTile)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Sets all tiles on the game board to be selectable. Therefore allowing
+     * a player to place a action tile.
      * @param action The action tile to be played.
      */
-    private void playAction(ActionTile action) {
+    private void playActionToBoard(ActionTile action) {
         for (Node node : gameBoardPane.getChildren()) {
-            Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
-
+            Coord position = new Coord(GridPane.getRowIndex(node),
+                    GridPane.getColumnIndex(node));
             //Selects surrounding tiles for a 3x3
             int xPos = position.getX();
             int yPos = position.getY();
@@ -412,33 +493,9 @@ public class GameController implements Initializable {
                     new Coord(xPos + 1, yPos - 1)
             };
 
-            boolean validPlacement = true;
-            if (action instanceof FireTile) {
-                for (Player player : game.getPlayers()) {
-                    for (Coord surroundingTile : positions) {
-                        if (player.getCurrentPosition().equals(surroundingTile)) {
-                            validPlacement = false;
-                        }
-                    }
-                }
-            }
+            boolean validPlacement = isPlacementValid(action, positions);
             if ((gameBoard.getAction(position) == null) && (validPlacement)) {
-                StackPane tile = (StackPane) node;
-                tile.getStyleClass().add("tile-selection");
-                tile.setOnMouseClicked(event -> {
-                    for (Coord pos: positions) {
-                        if (!pos.isEmpty()) {
-                            if (action instanceof FireTile) {
-                                gameBoard.addAction(new FireTile(), pos);
-                            } else if (action instanceof IceTile) {
-                                gameBoard.addAction(new IceTile(), pos);
-                            }
-                        }
-                    }
-                    updateGameBoard();
-                    drawPlayers();
-                    continueButton.setDisable(false);
-                });
+                allowSelect(positions, node, action);
             }
         }
     }
@@ -448,7 +505,8 @@ public class GameController implements Initializable {
      */
     private void drawActions() {
         for (Node node : gameBoardPane.getChildren()) {
-            Coord position = new Coord(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            Coord position = new Coord(GridPane.getRowIndex(node),
+                    GridPane.getColumnIndex(node));
             ActionTile currentAction = gameBoard.getAction(position);
 
             if (currentAction instanceof FireTile) {
@@ -467,7 +525,6 @@ public class GameController implements Initializable {
             }
         }
     }
-
 
     /**
      * Moves a player to their location two turns ago. If that tile is on fire
@@ -492,7 +549,6 @@ public class GameController implements Initializable {
         }
         updateGameBoard();
         drawPlayers();
-
     }
 
     /**
@@ -520,7 +576,7 @@ public class GameController implements Initializable {
      * @return An ImageView object of the arrow image, with correct on click
      * behaviour.
      */
-    private ImageView getArrowImage(String direction, int index, int orientation) {
+    private ImageView getArrow(String direction, int index, int orientation) {
         ImageView arrow = new ImageView(RESOURCES_PATH + "left.png");
         arrow.setFitWidth(TILE_SIZE);
         arrow.setFitHeight(TILE_SIZE);
@@ -758,6 +814,7 @@ public class GameController implements Initializable {
      */
     private void handleSaveClick() {
         if (!game.isOver()) {
+            // Remove timestamp chars
             TextInputDialog input = new TextInputDialog(Instant.now().toString()
                     .replaceAll("[\\\\/:*?\"\"<>|]", ""));
             input.showAndWait();
@@ -818,7 +875,7 @@ public class GameController implements Initializable {
             selectedActionTile = null;
             updateActionTileHand();
         } else if (selectedActionTile != null) {
-            playAction(selectedActionTile);
+            playActionToBoard(selectedActionTile);
             actionButton.setDisable(true);
             continueButton.setDisable(true);
             selectedTile.setImage(null);
@@ -827,4 +884,5 @@ public class GameController implements Initializable {
             updateActionTileHand();
         }
     }
+
 }
