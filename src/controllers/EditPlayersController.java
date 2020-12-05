@@ -30,7 +30,8 @@ import java.util.ResourceBundle;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
- *
+ * Edit the information of the player.
+ * @author ???
  */
 public class EditPlayersController implements Initializable {
 
@@ -49,8 +50,10 @@ public class EditPlayersController implements Initializable {
     Stage primaryStage;
 
     ArrayList<PlayerProfile> playerProfiles;
+    public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
 
     /**
+     * To initialize the player by calling generatePlayer method.
      * @param location
      * @param resources
      */
@@ -58,9 +61,9 @@ public class EditPlayersController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         generatePlayers();
     }
-    public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
-
+    
     /**
+     * Method to add the player to the PlayerProfile.
      * @param actionEvent
      * @throws IOException
      */
@@ -83,6 +86,7 @@ public class EditPlayersController implements Initializable {
     }
 
     /**
+     * To delete player's profile from file.
      * @param actionEvent
      * @throws IOException
      */
@@ -92,6 +96,7 @@ public class EditPlayersController implements Initializable {
     }
 
     /**
+     * * Back to the main menu function.
      * @param actionEvent
      */
     public void handleBack(ActionEvent actionEvent) {
@@ -100,7 +105,7 @@ public class EditPlayersController implements Initializable {
     }
 
     /**
-     *
+     *To get all the player's name .
      */
     public void generatePlayers() {
         profiles.getItems().clear();
@@ -114,6 +119,7 @@ public class EditPlayersController implements Initializable {
     }
 
     /**
+     * Mute the background music.
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -122,7 +128,7 @@ public class EditPlayersController implements Initializable {
     }
 
     /**
-     *  carries on playing the music from the previous scene
+     *  Carries on playing the music from the previous scene
      * @param backgroundMusic the background music to be played.
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
@@ -130,6 +136,7 @@ public class EditPlayersController implements Initializable {
     }
 
     /**
+     *  Set the primary stage to have music keep playing.
      * @param primaryStage
      */
     public void setPrimaryStage(Stage primaryStage) {
