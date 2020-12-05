@@ -533,8 +533,8 @@ public class GameController implements Initializable {
      * @param player the player to be backtracked to an earlier position.
      */
     private void backtrackPlayer(Player player) {
-        Coord pastPosition1 = player.getPrevPosition(1);
-        Coord pastPosition2 = player.getPrevPosition(2);
+        Coord pastPosition1 = player.getPrevPosition(0);
+        Coord pastPosition2 = player.getPrevPosition(1);
         for (Player currPlayer : game.getPlayers()) {
             Coord currPosition = currPlayer.getCurrentPosition();
             if (currPosition == pastPosition1) {
@@ -548,17 +548,14 @@ public class GameController implements Initializable {
         if (!pastPosition1.isEmpty() && !(targetTile instanceof FireTile)) {
             player.movePlayer(pastPosition1);
             player.setCanBackTrack(false);
-            continueButton.setDisable(false);
         } else {
             targetTile = gameBoard.getAction(pastPosition2);
             if (pastPosition2.isEmpty() && !(targetTile instanceof FireTile)) {
                 player.movePlayer(pastPosition2);
                 player.setCanBackTrack(false);
-                continueButton.setDisable(false);
-            } else {
-                continueButton.setDisable(false);
             }
         }
+        continueButton.setDisable(false);
         updateGameBoard();
         drawPlayers();
     }
@@ -872,7 +869,6 @@ public class GameController implements Initializable {
      */
     private void handleActionClick() {
         if (selectedActionTile instanceof DoubleMoveTile) {
-            setPlayerLabel("double move");
             updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
             actionButton.setDisable(true);
             selectedTile.setImage(null);
@@ -880,14 +876,13 @@ public class GameController implements Initializable {
             selectedActionTile = null;
             updateActionTileHand();
         } else if (selectedActionTile instanceof BackTrackTile) {
-            Boolean canBacktrack = false;
+            boolean canBacktrack = false;
             for (Player player : game.getPlayers()) {
                 if (player.canBackTrack()) {
                     canBacktrack = true;
                 }
             }
             if (canBacktrack) {
-                setPlayerLabel("back track");
                 selectBacktrack();
                 actionButton.setDisable(true);
                 continueButton.setDisable(true);
@@ -897,7 +892,6 @@ public class GameController implements Initializable {
                 updateActionTileHand();
             }
         } else if (selectedActionTile != null) {
-            setPlayerLabel("action");
             playActionToBoard(selectedActionTile);
             actionButton.setDisable(true);
             continueButton.setDisable(true);
