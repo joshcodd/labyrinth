@@ -162,7 +162,7 @@ public class Player {
     public boolean isStartingFirst() {
         return this.startFirst;
     }
-    
+
     /**
      * Sets if the player is starting first or not.
      * @param starting If the player is playing first or not.
@@ -170,5 +170,5 @@ public class Player {
     public void setFirst(boolean starting) {
         this.startFirst = starting;
     }
-    
+
 }
