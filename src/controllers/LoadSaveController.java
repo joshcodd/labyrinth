@@ -21,7 +21,9 @@ import java.util.Objects;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
- *
+ * Controller class for load game and save game.
+ * @author 
+ * @studentID 
  */
 public class LoadSaveController {
 
@@ -40,14 +42,15 @@ public class LoadSaveController {
     Stage primaryStage;
 
     /**
-     *
+     * Method to set choices for which level to select.
      */
     public void setDropdown(){
         dropdown.setItems(getSaves());
     }
 
     /**
-     * @return
+     * To create the game saves in the level files.
+     * @return A list of level file names.
      */
     public ObservableList<String> getSaves(){
         File folder = new File("src/gamefiles/saves");
@@ -59,6 +62,7 @@ public class LoadSaveController {
     }
 
     /**
+     * To load the game saved before and continue play with it.
      * @param actionEvent
      * @throws FileNotFoundException
      */
@@ -72,6 +76,7 @@ public class LoadSaveController {
     }
 
     /**
+     * Back to the main menu scene when the buton is press.
      * @param actionEvent
      */
     public void handleBack(ActionEvent actionEvent) {
@@ -80,6 +85,7 @@ public class LoadSaveController {
     }
 
     /**
+     * Mute the music when the button is press.
      * @param actionEvent
      */
     public void handleMute(ActionEvent actionEvent) {
@@ -88,6 +94,7 @@ public class LoadSaveController {
     }
 
     /**
+     * Set the background music keeps playing for the scene.
      * @param backgroundMusic
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
@@ -96,6 +103,7 @@ public class LoadSaveController {
     }
 
     /**
+     * Set the stage of the scene.
      * @param primaryStage
      */
     public void setPrimaryStage(Stage primaryStage) {
