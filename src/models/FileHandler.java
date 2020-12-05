@@ -24,8 +24,7 @@ public class FileHandler {
 	 * @param bag empty tile bag.
 	 * @return a constructed game board.
 	 */
-	public static GameBoard loadNewGame(String fileName, Player[] players,
-										TileBag bag) throws FileNotFoundException {
+	public static GameBoard loadNewGame(String fileName, Player[] players,TileBag bag) throws FileNotFoundException {
 		File level = new File("src/gamefiles/levels/" + fileName.concat(".txt"));
 		Scanner line = new Scanner(level);
 		GameBoard board = loadNewGame(line, bag);
@@ -33,6 +32,12 @@ public class FileHandler {
 		line.close();
 		return board;
 	}
+	/**
+	 * Private method to read in a level & TileBag from file.
+	 * @param line Scanner of file.
+	 * @param bag tilebag to be filled.
+	 * @return a constructed gameboard.
+	 */
 	private static GameBoard loadNewGame(Scanner line, TileBag bag) {
 		HashMap<Coord, FloorTile> fixedTiles = new HashMap<>();
 		Scanner scan = new Scanner(line.next());
@@ -148,6 +153,11 @@ public class FileHandler {
 		GameBoard board = new GameBoard(height, width, fixedTiles, bag);
 		return board;
 	}
+	/**
+	 * Private method to set player's start positions.
+	 * @param line Scanner of file with player locations.
+	 * @param players list of players.
+	 */
 	private static void playerStartLocations(Scanner line, Player[] players) {
 		Scanner read;
 		for (Player player: players) {
@@ -161,7 +171,15 @@ public class FileHandler {
 			player.setCurrentPosition(xy);
 		}
 	}
-
+	/**
+	 * Private method to generate random orientation.
+	 * @return random integer.
+	 */
+	private static int randomOrientation() {
+		Random orientation = new Random();
+		return orientation.nextInt(4);
+	}
+	
 	/**
 	 * Reads in a game from file, loads the game and all attributes.
 	 * @param fileName file name of game to be loaded.
@@ -175,6 +193,12 @@ public class FileHandler {
 		read.close();
 		return game;
 	}
+	/**
+	 * Private method to read in a saved game from file.
+	 * @param read Scanner of save file.
+	 * @return a constructed game.
+	 * @throws FileNotFoundException
+	 */
 	private static Game continueGame(Scanner read) throws FileNotFoundException {
 		HashMap<Coord, FloorTile> boardMap = new HashMap<>();
 		HashMap<Coord, ActionTile> actionMap = new HashMap<>();
@@ -646,11 +670,6 @@ public class FileHandler {
 		write.close();
 	}
 
-	public static int randomOrientation() {
-		Random orientation = new Random();
-		return orientation.nextInt(4);
-	}
-
 	/**
 	 * Reads in leaderboard information about players for a specified level.
 	 * @param levelName name of level leaderboard to be loaded.
@@ -664,6 +683,12 @@ public class FileHandler {
 		line.close();
 		return playerlist;
 	}
+	/**
+	 * Private method to load leaderboard data about a level.
+	 * @param line Scanner of leaderboard.txt.
+	 * @param levelName Level name.
+	 * @return An array of player names.
+	 */
 	private static ArrayList<String> loadLeaderboard(Scanner line, String levelName) {
 		ArrayList<String> players = new ArrayList<String>();
 		String name = "";
@@ -757,6 +782,12 @@ public class FileHandler {
 		line.close();
 		return p;
 	}
+	/**
+	 * Private method to load in a player's profile from file.
+	 * @param line Scanner of profiles file.
+	 * @param playerName String Player's Name.
+	 * @return a PlayerProfile of specified player name.
+	 */
 	private static PlayerProfile loadProfile(Scanner line, String playerName) {
 		line.useDelimiter(",");
 		String name = null;
