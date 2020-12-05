@@ -48,8 +48,7 @@ public class LevelSelectionController {
     }
 
     /**
-     * Mutes the background audio if its currently un-muted, and un-mutes
-     * the background audio if it is currently muted.
+     * Returns back to the main menu.
      */
     public void handleBack() {
         new AudioPlayer().clickPlay();
@@ -57,7 +56,8 @@ public class LevelSelectionController {
     }
 
     /**
-     * Mute background music on button press.
+     * Mutes the background audio if its currently un-muted, and un-mutes
+     * the background audio if it is currently muted.
      */
     public void handleMute() {
         backgroundMusic.getMediaPlayer()
