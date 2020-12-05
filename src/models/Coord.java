@@ -53,7 +53,16 @@ public class Coord {
      * false otherwise.
      */
     public boolean isEmpty() {
-        return xPos == -1 || yPos == -1;
+        return xPos < 0 || yPos < 0;
+    }
+
+    /**
+     * @param xMax The value that the X Position must be lower than.
+     * @param yMax The value that the Y Position must be lower than.
+     * @return True if the coordinate is bounded by xMax, yMax, and 0; false otherwise.
+     */
+    public boolean isInBounds(int xMax, int yMax) {
+        return this.xPos < xMax && this.yPos < yMax && !isEmpty();
     }
 
     /**

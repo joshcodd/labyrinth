@@ -238,7 +238,7 @@ public class GameBoard {
     public void addAction(ActionTile action, Coord position) {
         int x = position.getX();
         int y = position.getY();
-        if (actionBoard[x][y] == null) {
+        if (position.isInBounds(width, height) && actionBoard[x][y] == null) {
             actionBoard[x][y] = action;
         }
     }
@@ -249,7 +249,11 @@ public class GameBoard {
      * @return The actions tile at the specified location.
      */
     public ActionTile getAction(Coord position) {
-        return actionBoard[position.getX()][position.getY()];
+        if (position.isInBounds(width, height)) {
+            return actionBoard[position.getX()][position.getY()];
+        } else {
+            return null;
+        }
     }
 
     /**
