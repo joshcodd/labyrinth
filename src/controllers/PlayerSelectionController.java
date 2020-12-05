@@ -4,7 +4,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
@@ -21,310 +20,231 @@ import java.util.ResourceBundle;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
- * Player Selection Scene Controller
- *
+ * Player Selection Scene Controller.
+ * Links the player and player profile models to the GUI.
  * @author James Charnock
- * @StudentID 1909700
  */
 public class PlayerSelectionController implements Initializable {
-    /**
-     * The Mute button.
-     */
+    private final String DEFAULT_COLOUR = "Auto-Assign";
+    private final int FIRST_PLAYER = 1;
+    private final int SECOND_PLAYER = 2;
+    private final int THIRD_PLAYER = 3;
+    private final int MAX_PLAYERS = 4;
+    private final int TANK_SIZE = 60;
     @FXML
-    public Button muteButton;
-    /**
-     * The Background music.
-     */
+    private Button muteButton;
     @FXML
-    public MediaView backgroundMusic;
-    /**
-     * The Player form 1.
-     */
+    private MediaView backgroundMusic;
     @FXML
-    public VBox playerForm1;
-    /**
-     * The Player form 2.
-     */
+    private VBox playerForm1;
     @FXML
-    public VBox playerForm2;
-    /**
-     * The Player form 3.
-     */
+    private VBox playerForm2;
     @FXML
-    public VBox playerForm3;
-    /**
-     * The Player form 4.
-     */
+    private VBox playerForm3;
     @FXML
-    public VBox playerForm4;
-    /**
-     * The Player label 1.
-     */
+    private VBox playerForm4;
     @FXML
-    public Label playerLabel1;
-    /**
-     * The Player label 2.
-     */
+    private ChoiceBox<String> profileBox1;
     @FXML
-    public Label playerLabel2;
-    /**
-     * The Player label 3.
-     */
+    private ChoiceBox<String> profileBox2;
     @FXML
-    public Label playerLabel3;
-    /**
-     * The Player label 4.
-     */
+    private ChoiceBox<String> profileBox3;
     @FXML
-    public Label playerLabel4;
-    /**
-     * The Profile box 1.
-     */
+    private ChoiceBox<String> profileBox4;
     @FXML
-    public ChoiceBox<String> profileBox1;
-    /**
-     * The Profile box 2.
-     */
+    private ChoiceBox<String> colourBox1;
     @FXML
-    public ChoiceBox<String> profileBox2;
-    /**
-     * The Profile box 3.
-     */
+    private ChoiceBox<String> colourBox2;
     @FXML
-    public ChoiceBox<String> profileBox3;
-    /**
-     * The Profile box 4.
-     */
+    private ChoiceBox<String> colourBox3;
     @FXML
-    public ChoiceBox<String> profileBox4;
-    /**
-     * The Colour box 1.
-     */
+    private ChoiceBox<String> colourBox4;
     @FXML
-    public ChoiceBox<String> colourBox1;
-    /**
-     * The Colour box 2.
-     */
+    private CheckBox startFirst1;
     @FXML
-    public ChoiceBox<String> colourBox2;
-    /**
-     * The Colour box 3.
-     */
+    private CheckBox startFirst2;
     @FXML
-    public ChoiceBox<String> colourBox3;
-    /**
-     * The Colour box 4.
-     */
+    private CheckBox startFirst3;
     @FXML
-    public ChoiceBox<String> colourBox4;
-    /**
-     * The Start first 1.
-     */
+    private CheckBox startFirst4;
     @FXML
-    public CheckBox startFirst1;
-    /**
-     * The Start first 2.
-     */
+    private ImageView tankView1;
     @FXML
-    public CheckBox startFirst2;
-    /**
-     * The Start first 3.
-     */
+    private ImageView tankView2;
     @FXML
-    public CheckBox startFirst3;
-    /**
-     * The Start first 4.
-     */
+    private ImageView tankView3;
     @FXML
-    public CheckBox startFirst4;
-    /**
-     * The Profile label 1.
-     */
+    private ImageView tankView4;
     @FXML
-    public Label profileLabel1;
-    /**
-     * The Profile label 2.
-     */
+    private Label startLabel1;
     @FXML
-    public Label profileLabel2;
-    /**
-     * The Profile label 3.
-     */
+    private Label startLabel2;
     @FXML
-    public Label profileLabel3;
-    /**
-     * The Profile label 4.
-     */
+    private Label startLabel3;
     @FXML
-    public Label profileLabel4;
-    /**
-     * The Tank view 1.
-     */
+    private Label startLabel4;
     @FXML
-    public ImageView tankView1;
-    /**
-     * The Tank view 2.
-     */
+    private Label numPlayersLabel;
     @FXML
-    public ImageView tankView2;
-    /**
-     * The Tank view 3.
-     */
+    private Slider numPlayersSlider;
     @FXML
-    public ImageView tankView3;
-    /**
-     * The Tank view 4.
-     */
+    private Button backButt;
     @FXML
-    public ImageView tankView4;
-    /**
-     * The Start label 1.
-     */
+    private Button newPlayerButt;
     @FXML
-    public Label startLabel1;
-    /**
-     * The Start label 2.
-     */
-    @FXML
-    public Label startLabel2;
-    /**
-     * The Start label 3.
-     */
-    @FXML
-    public Label startLabel3;
-    /**
-     * The Start label 4.
-     */
-    @FXML
-    public Label startLabel4;
-    /**
-     * The Num players label.
-     */
-    @FXML
-    public Label numPlayersLabel;
-    /**
-     * The Num players slider.
-     */
-    @FXML
-    public Slider numPlayersSlider;
-    /**
-     * The Button bar.
-     */
-    @FXML
-    public HBox buttBar;
-    /**
-     * The Back button.
-     */
-    @FXML
-    public Button backButt;
-    /**
-     * The New player butt.
-     */
-    @FXML
-    public Button newPlayerButt;
-    /**
-     * The Begin butt.
-     */
-    @FXML
-    public Button beginButt;
+    private Button beginButt;
 
     private VBox[] playerForms;
     private Label[] startLabels;
     private ChoiceBox<String>[] profileBoxes;
     private ChoiceBox<String>[] colourBoxes;
-    private final String defaultColour = "Auto-Assign";
     private CheckBox[] startFirstChecks;
     private ImageView[] tankViews;
     private String gameName;
     private Stage primaryStage;
     private Player[] players;
-    private int numPlayers = 4;
+    private int numPlayers = MAX_PLAYERS;
 
     /**
-     * Set colour boxes.
+     * Initializes the player selection GUI so that it's ready to be displayed.
+     * @param location The location used to resolve relative paths for the
+     *                 root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object,
+     *                  or null if the root object was not localized.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.playerForms = new VBox[]{playerForm1, playerForm2,
+                playerForm3, playerForm4};
+        this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2,
+                profileBox3, profileBox4};
+        this.colourBoxes = new ChoiceBox[]{colourBox1, colourBox2,
+                colourBox3, colourBox4};
+        this.startLabels = new Label[]{startLabel1, startLabel2,
+                startLabel3, startLabel4};
+        this.startFirstChecks = new CheckBox[]{startFirst1, startFirst2,
+                startFirst3, startFirst4};
+        this.tankViews = new ImageView[]{tankView1, tankView2, tankView3,
+                tankView4};
+        String[] prevNameValues = {null, null, null, null};
+        String[] prevColourValues = {DEFAULT_COLOUR, DEFAULT_COLOUR,
+                DEFAULT_COLOUR, DEFAULT_COLOUR};
+        players = new Player[]{
+                new Player(FIRST_PLAYER, null), new Player(SECOND_PLAYER, null),
+                new Player(THIRD_PLAYER, null), new Player(MAX_PLAYERS, null)
+        };
+        setProfileBoxes();
+        // set each player form
+        for (int i = 0; i < MAX_PLAYERS; i++) {
+            int index = i;
+            updateTankView(index, DEFAULT_COLOUR);
+            startFirstChecks[index].setOnAction(event ->
+                    handleStartingCheckBox(index));
+
+            profileBoxes[index].setOnAction(event ->
+                    handleProfileChange(index, prevNameValues));
+
+            colourBoxes[index].setOnAction(event ->
+                    handleColourChange(index, prevColourValues));
+        }
+
+        numPlayersSlider.valueProperty()
+                .addListener((observable, oldValue, newValue) -> {
+            numPlayers = newValue.intValue();
+            updatePlayerForms(oldValue.intValue() > numPlayers,
+                    oldValue.intValue());
+            numPlayersLabel.setText("Number of Players: " + numPlayers);
+        });
+
+        backButt.setOnAction(event ->
+                new LevelSelectionScene(primaryStage, backgroundMusic.
+                        getMediaPlayer()));
+
+        newPlayerButt.setOnAction(event ->
+                new EditPlayersScene(primaryStage, backgroundMusic
+                        .getMediaPlayer()));
+
+        beginButt.setOnAction(event -> handleBeginClick());
+    }
+
+    /**
+     * Adds all colour options to the select colour drop down boxes.
      */
     @FXML
-    public void setColourBoxes(){
-        for(int i = 0; i<4; i++){
-            colourBoxes[i].setItems(observableArrayList("Green","Red", "Blue", "Desert-Camo", defaultColour));
-            colourBoxes[i].setValue(defaultColour);
+    public void setColourBoxes() {
+        for (int i = 0; i < MAX_PLAYERS; i++) {
+            colourBoxes[i].setItems(observableArrayList("Green", "Red",
+                    "Blue", "Desert-Camo", DEFAULT_COLOUR));
+            colourBoxes[i].setValue(DEFAULT_COLOUR);
             colourBoxes[i].setDisable(true);
         }
     }
 
     /**
-     * Set profile boxes.
-     *
-     * @param names ArrayList of profile names
-     */
-    @FXML
-    public void setProfileBoxes(ArrayList<String> names){
-        for(int i = 0; i<4; i++) {
-            profileBoxes[i].setItems(observableArrayList(names));
-        }
-    }
-
-    /**
-     * Sets background music.
-     *
-     * @param backgroundMusic Background music
+     * Sets the background music for the scene.
+     * @param backgroundMusic The background music.
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic
+                .getMediaPlayer().isMute()));
     }
 
     /**
-     * Sets game name.
-     *
-     * @param gameName the game name
+     * Sets the level file name to be used in the game, when started.
+     * @param gameName The level name.
      */
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
 
     /**
-     * Sets primary stage.
-     *
-     * @param primaryStage primary stage
+     * Sets stage that the application is being displayed on.
+     * @param primaryStage The stage application is being displayed on.
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     /**
-     * Update start labels.
-     *
-     * @param players the players
+     * Mutes the background audio if its currently un-muted, and un-mutes
+     * the background audio if it is currently muted.
      */
-    public void updateStartLabels(Player[] players){
-        for(int i=0;i<players.length;i++) {
+    public void handleMute() {
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic
+                .getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic
+                .getMediaPlayer().isMute()));
+    }
+
+    /**
+     * Sets the label for the player that is starting the game.
+     * @param players The players playing the game.
+     */
+    private void updateStartLabels(Player[] players) {
+        for (int i = 0; i < players.length; i++) {
             startLabels[i].setVisible(players[i].isStartingFirst());
         }
     }
 
     /**
-     * Update tank view.
-     *
-     * @param index  tankView identifier
-     * @param colour tank colour
+     * Sets player tank images to the correct tank and colour.
+     * @param index Player number/index.
+     * @param colour The colour to set the tank image to.
      */
-    public void updateTankView(int index, String colour){
-        tankViews[index].setImage(new Image("resources/"+colour+".png"));
-        tankViews[index].setFitHeight(60);
-        tankViews[index].setFitWidth(60);
-
-
+    private void updateTankView(int index, String colour) {
+        tankViews[index].setImage(new Image("resources/" + colour + ".png"));
+        tankViews[index].setFitHeight(TANK_SIZE);
+        tankViews[index].setFitWidth(TANK_SIZE);
     }
 
     /**
-     * Set starting player.
-     *
-     * @param index player identifier
+     * Sets the player that is to start the game.
+     * @param index The player identifier.
      */
-    public void setStartingPlayer(int index){
-        for(int i = 0; i<4; i++){
-            if(i!=index) {
+    private void setStartingPlayer(int index) {
+        for (int i = 0; i < MAX_PLAYERS; i++) {
+            if (i != index) {
                 if (players[i].isStartingFirst()) {
                     players[i].setFirst(false);
                 }
@@ -335,23 +255,22 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * Update player forms.
-     *
-     * @param decrease true if numPlayers less than oldValue
-     * @param oldValue numPlayers before value change
+     * Removes and adds player forms depending on how the number
+     * of players selected to play.
+     * @param decrease If the number of player forms is being decreased or not.
+     * @param oldValue Number of player forms currently.
      */
-    public void updatePlayerForms(boolean decrease, int oldValue){
-        if(decrease) {
+    private void updatePlayerForms(boolean decrease, int oldValue) {
+        if (decrease) {
             for (int i = numPlayers; i < oldValue; i++) {
                 playerForms[i].setVisible(false);
                 playerForms[i].setManaged(false);
                 profileBoxes[i].getSelectionModel().clearSelection();
-                colourBoxes[i].setValue(defaultColour);
+                colourBoxes[i].setValue(DEFAULT_COLOUR);
                 colourBoxes[i].setDisable(true);
             }
-        }
-        else{
-            for(int i = oldValue; i<numPlayers; i++) {
+        } else {
+            for (int i = oldValue; i < numPlayers; i++) {
                 playerForms[i].setVisible(true);
                 playerForms[i].setManaged(true);
                 colourBoxes[i].setDisable(true);
@@ -359,27 +278,27 @@ public class PlayerSelectionController implements Initializable {
         }
     }
 
-
     /**
-     * Automatically assigns the remaining colours to players who did not select one.
-     *
-     * @param players the players
-     * @return the player [ ]
+     * If a players colour is set to auto assign, then a colour that is not
+     * selected by any player is assigned.
+     * @param players The players selected.
+     * @return The players selected with their new, unique colours now
+     * assigned.
      */
-    public Player[] autoAssignColour(Player[] players){
-        ArrayList<String> availableColours = new ArrayList<String>();
+    private Player[] autoAssignColour(Player[] players) {
+        ArrayList<String> availableColours = new ArrayList<>();
         availableColours.add("Green");
         availableColours.add("Red");
         availableColours.add("Blue");
         availableColours.add("Desert-Camo");
         for (Player player : players) {
-            if (!player.getColour().equals(defaultColour)) {
+            if (!player.getColour().equals(DEFAULT_COLOUR)) {
                 availableColours.remove(player.getColour());
             }
         }
 
         for (Player player : players) {
-            if (player.getColour().equals(defaultColour)) {
+            if (player.getColour().equals(DEFAULT_COLOUR)) {
                 player.setColour(availableColours.remove(0));
             }
         }
@@ -387,168 +306,149 @@ public class PlayerSelectionController implements Initializable {
     }
 
     /**
-     * Handle mute event.
+     * Handles a change of a profile selection box. That is, removes a selected
+     * player from all other profile selection boxes.
+     * @param index The index of the player form.
+     * @param prevNameValues The previous values of all profile
+     *                       selection boxes.
      */
-    public void handleMute() {
-        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
-    }
+    private void handleProfileChange(int index, String[] prevNameValues) {
+        ChoiceBox<String> currProfileBox = profileBoxes[index];
+        if (currProfileBox.getValue() != null) {
+            String playerName = currProfileBox.getValue();
+            try {
+                Player player = new Player(index, FileHandler
+                        .loadProfile(playerName));
+                players[index] = player;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            colourBoxes[index].setDisable(false);
+            String selectedItem = profileBoxes[index].getSelectionModel()
+                    .getSelectedItem();
 
-    /**
-     * Initializer. Establishes necessary variables and, sets action events and listeners.
-     *
-     * @param location URL
-     * @param resources Resource
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.playerForms = new VBox[]{playerForm1, playerForm2, playerForm3, playerForm4};
-        this.profileBoxes = new ChoiceBox[]{profileBox1, profileBox2, profileBox3, profileBox4};
-        this.colourBoxes = new ChoiceBox[]{colourBox1, colourBox2, colourBox3, colourBox4};
-        this.startLabels = new Label[]{startLabel1, startLabel2, startLabel3, startLabel4};
-        this.startFirstChecks = new CheckBox[]{startFirst1, startFirst2, startFirst3, startFirst4};
-        this.tankViews = new ImageView[]{tankView1, tankView2, tankView3, tankView4};
-        // key {playerNum, showing confirmations, ready}
-        String[] prevNameValues = {null,null,null,null};
-        String[] prevColourValues = {defaultColour,defaultColour,defaultColour,defaultColour};
-
-        players = new Player[]{
-                new Player(1, null), new Player(2, null),
-                new Player(3, null), new Player(4, null)
-        };
-
-        // tries to load profile names and set them in profile boxes
-        try {
-            setProfileBoxes(FileHandler.getAllNames());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        // set each player form
-        for (int i = 0; i < 4; i++) {
-            int index = i;
-            updateTankView(index, defaultColour);
-            startFirstChecks[index].setOnAction( event -> {
-                if (startFirstChecks[index].isSelected()) {
-                    setStartingPlayer(index);
-                } else {
-                    players[index].setFirst(false);
-                }
-                updateStartLabels(players);
-            });
-
-            // when profile selected: tries to load profile and allows user access to colour choice box,
-            //                       then removes selected profile from other choice boxes
-
-            profileBoxes[index].setOnAction(event -> {
-                ChoiceBox<String> currProfileBox = profileBoxes[index];
-                if (currProfileBox.getValue() != null) {
-                    String playerName = currProfileBox.getValue();
-                    try {
-                        Player player = new Player(index, FileHandler.loadProfile(playerName));
-                        players[index] = player;
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    colourBoxes[index].setDisable(false);
-                    String selectedItem = profileBoxes[index].getSelectionModel().getSelectedItem();
-
-                    for (int j = 0; j < 4; j++){
-                        if (j != index) {
-                            profileBoxes[j].getItems().remove(selectedItem);
-                            if (prevNameValues[index] != null){
-                                profileBoxes[j].getItems().add(prevNameValues[index]);
-                            }
-                        }
-                    }
-                    prevNameValues[index] = selectedItem;
-                } else {
-                    profileBoxes[index].getItems().remove(prevNameValues[index]);
-                    for (int j = 0; j < 4; j++){
+            for (int j = 0; j < MAX_PLAYERS; j++) {
+                if (j != index) {
+                    profileBoxes[j].getItems().remove(selectedItem);
+                    if (prevNameValues[index] != null) {
                         profileBoxes[j].getItems().add(prevNameValues[index]);
                     }
                 }
-            });
-
-            // When colour selected: set as player's colour and remove it as an option in other colour boxes
-
-            colourBoxes[index].setOnAction(event -> {
-                players[index].setColour(colourBoxes[index].getValue());
-                updateTankView(index, players[index].getColour());
-                String selectedItem = colourBoxes[index].getValue();
-                for (int j = 0; j < 4; j++) {
-                    if (j != index && !selectedItem.equals(defaultColour)) {
-                        colourBoxes[j].getItems().remove(selectedItem);
-                        if (!prevColourValues[index].equals(defaultColour)) {
-                            colourBoxes[j].getItems().add(prevColourValues[index]);
-                        }
-                    } else if (j != index && !prevColourValues[index].equals(defaultColour) &&
-                            !prevColourValues[index].equals(selectedItem)){
-                        colourBoxes[j].getItems().add(prevColourValues[index]);
-                    }
-                }
-                prevColourValues[index] = selectedItem;
-            });
+            }
+            prevNameValues[index] = selectedItem;
+        } else {
+            profileBoxes[index].getItems().remove(prevNameValues[index]);
+            for (int j = 0; j < MAX_PLAYERS; j++) {
+                profileBoxes[j].getItems().add(prevNameValues[index]);
+            }
         }
+    }
 
-        // set numPlayers to new value and update the number of player forms
+    /**
+     * Handles a change of a colour selection box. Removes a selected
+     * colour if it is not auto-assign, from all other colour selection boxes.
+     * @param index The index of the player form.
+     * @param prevColourValues The previous values of all profile
+     *                       selection boxes.
+     */
+    private void handleColourChange(int index, String[] prevColourValues) {
+        players[index].setColour(colourBoxes[index].getValue());
+        updateTankView(index, players[index].getColour());
+        String selectedItem = colourBoxes[index].getValue();
+        for (int j = 0; j < MAX_PLAYERS; j++) {
+            if (j != index && !selectedItem.equals(DEFAULT_COLOUR)) {
+                colourBoxes[j].getItems().remove(selectedItem);
+                if (!prevColourValues[index].equals(DEFAULT_COLOUR)) {
+                    colourBoxes[j].getItems().add(prevColourValues[index]);
+                }
+            } else if (j != index && !prevColourValues[index]
+                    .equals(DEFAULT_COLOUR) && !prevColourValues[index]
+                    .equals(selectedItem)) {
+                colourBoxes[j].getItems().add(prevColourValues[index]);
+            }
+        }
+        prevColourValues[index] = selectedItem;
+    }
 
-        numPlayersSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            numPlayers = newValue.intValue();
-            updatePlayerForms(oldValue.intValue() > numPlayers, oldValue.intValue());
-            numPlayersLabel.setText("Number of Players: " + numPlayers);
-        });
+    /**
+     * Sets the selected checkbox player as the starting player.
+     * @param index The index of player/checkbox.
+     */
+    private void handleStartingCheckBox(int index) {
+        if (startFirstChecks[index].isSelected()) {
+            setStartingPlayer(index);
+        } else {
+            players[index].setFirst(false);
+        }
+        updateStartLabels(players);
+    }
 
-        backButt.setOnAction(event -> {
-            new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
-        });
-
-        newPlayerButt.setOnAction(event -> {
-            new EditPlayersScene(primaryStage, backgroundMusic.getMediaPlayer());
-        });
-
-        // begin game, if all necessary fields are filled:
-        //      enters players into the game with correct starting order
-
-        beginButt.setOnAction (event -> {
-            boolean isFilled = true;
-            for (int i = 0; i < numPlayers; i++){
-                if (profileBoxes[i].getValue() == null){
-                    isFilled = false;
+    /**
+     * Handles the begin button click, starts the game from the
+     * selected player colours and profiles.
+     */
+    private void handleBeginClick() {
+        boolean isFilled = true;
+        for (int i = 0; i < numPlayers; i++) {
+            if (profileBoxes[i].getValue() == null) {
+                isFilled = false;
+            }
+        }
+        // check if necessary details are filled
+        if (isFilled) {
+            int startingPlayerIndex = -1;
+            boolean isSelected = false;
+            for (int i = 0; i < numPlayers; i++) {
+                if (startFirstChecks[i].isSelected()) {
+                    isSelected = true;
+                    startingPlayerIndex = i;
                 }
             }
-            // check if necessary details are filled
-            if (isFilled){
-                int startingPlayerIndex = -1;
-                boolean isSelected = false;
 
-                for (int i = 0; i < numPlayers; i++){
-                    if (startFirstChecks[i].isSelected()){
-                        isSelected = true;
-                        startingPlayerIndex = i;
-                    }
-                }
+            // Removes any null players.
+            Player[] playerFinal = new Player[numPlayers];
+            if (numPlayers >= 0) {
+                System.arraycopy(players, 0, playerFinal, 0, numPlayers);
+            }
+            playerFinal = autoAssignColour(playerFinal);
 
-                Player[] playerFinal = new Player[numPlayers];
-                if (numPlayers >= 0) System.arraycopy(players, 0, playerFinal, 0, numPlayers);
-                playerFinal = autoAssignColour(playerFinal);
-
-                // if a player is selected to start first swap them with player in first pos
-                if (isSelected) {
-                    Player temp = playerFinal[0];
-                    playerFinal[0] = playerFinal[startingPlayerIndex];
-                    playerFinal[startingPlayerIndex] = temp;
-                }
-                try {
-                    new GameScene(primaryStage, new Game(gameName, playerFinal), backgroundMusic.getMediaPlayer());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Empty players.", ButtonType.CLOSE);
+            /*if a player is selected to start first swap them with player
+            in first position*/
+            if (isSelected) {
+                Player temp = playerFinal[0];
+                playerFinal[0] = playerFinal[startingPlayerIndex];
+                playerFinal[startingPlayerIndex] = temp;
+            }
+            try {
+                new GameScene(primaryStage, new Game(gameName, playerFinal),
+                        backgroundMusic.getMediaPlayer());
+            } catch (FileNotFoundException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "Error starting game.", ButtonType.CLOSE);
                 alert.showAndWait();
             }
-        });
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Empty players.",
+                    ButtonType.CLOSE);
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Adds all player profile options to the select profile drop down boxes.
+     */
+    @FXML
+    public void setProfileBoxes() {
+        try {
+            for (int i = 0; i < MAX_PLAYERS; i++) {
+                profileBoxes[i].setItems(observableArrayList(FileHandler
+                        .getAllNames()));
+            }
+        } catch (FileNotFoundException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR,
+                    "An error was encountered while attempting to load players",
+                    ButtonType.OK);
+            error.showAndWait();
+        }
     }
 }
