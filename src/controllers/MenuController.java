@@ -9,72 +9,69 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import views.scenes.*;
-import java.io.FileNotFoundException;
-
 
 /**
- *  Controller class for MenuScene. Deals with the buttons music and display message of the day
+ *  Controller class for the menu. Deals with the buttons, music and
+ *  displays message of the day.
  *  Class that represents the menu game scene.
  *  @author Luka Zec and Andreas Eleftheriades
- *  @studentID 987856 and 1906277
  */
 public class MenuController  {
-    public static final String FILE_NOT_FOUND_MESSAGE = "One or more of the required game files could not be loaded. Please verify the integrity of the game files and try again.";
-    public Button newGame;
-    public Button loadGame;
+    private final int TITLE_WIDTH = 400;
+    private final int TITLE_HEIGHT = 300;
     @FXML
-    public Button leaderboard;
-    public Button muteButton;
-    public ImageView title;
+    private Button newGame;
+    @FXML
+    private Button muteButton;
+    @FXML
+    private ImageView title;
     @FXML
     private Label message;
     @FXML
     private MediaView backgroundMusic;
-
     private Stage primaryStage;
 
     /**
-     * Method that initializes game title image and message of the day
+     * Method that initializes game title image and message of the day.
      */
     @FXML
-    public void initialize(){
+    public void initialize() {
         message.setText(String.valueOf(new MessageOfTheDay()));
         Image titleImage = new Image("/resources/title.png");
         title.setImage(titleImage);
-        title.setFitWidth(400);
-        title.setFitHeight(300);
-
-
+        title.setFitWidth(TITLE_WIDTH);
+        title.setFitHeight(TITLE_HEIGHT);
     }
 
     /**
-     * Method that deals with new game button actions
-     * @throws FileNotFoundException
+     * Directs players to an area in which they can start a new game.
      */
-    public void handleButtonNewGame() throws FileNotFoundException {
+    public void handleButtonNewGame() {
         new AudioPlayer().clickPlay();
         newGame.setText("opening");
         new LevelSelectionScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
 
     /**
-     * Method that deals with load game button
+     * Directs players to an area in which they can load a game from save file.
      */
     public void handleButtonLoadGame() {
         new AudioPlayer().clickPlay();
-        new LoadSaveScene(primaryStage, backgroundMusic.getMediaPlayer());
+        new LoadSaveScene(primaryStage, backgroundMusic
+                .getMediaPlayer());
     }
 
     /**
-     *  Method that deals with leaderboard button
+     * Directs players to the leaderboard.
      */
     public void handleButtonLeaderboard() {
         new AudioPlayer().clickPlay();
-            new LeaderboardScene(primaryStage, backgroundMusic.getMediaPlayer());
+            new LeaderboardScene(primaryStage, backgroundMusic
+                    .getMediaPlayer());
     }
 
     /**
-     * Method that deals with edit players button
+     * Directs players to the edit players GUI.
      */
     public void handleButtonEditPlayers() {
         new AudioPlayer().clickPlay();
@@ -82,27 +79,31 @@ public class MenuController  {
     }
 
     /**
-     * Method to set a primary stage
-     * @param primaryStage Stage
+     * Sets the stage in which the application is being displayed on.
+     * @param primaryStage The stage being displayed on.
      */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     /**
-     * plays the audio in the background
-     * @param backgroundMusic MediaView
+     * Sets the media (audio) to be played in the background of the menu.
+     * @param backgroundMusic The audio to be played.
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic
+                .getMediaPlayer().isMute()));
     }
 
     /**
-     * silences the audio in the background
+     * Mutes the background audio if its currently un-muted, and un-mutes
+     * the background audio if it is currently muted.
      */
     public void handleMute() {
-        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic.getMediaPlayer().isMute());
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic.getMediaPlayer().isMute()));
+        backgroundMusic.getMediaPlayer().setMute(!backgroundMusic
+                .getMediaPlayer().isMute());
+        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic
+                .getMediaPlayer().isMute()));
     }
 }
