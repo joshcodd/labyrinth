@@ -150,11 +150,11 @@ public class PlayerSelectionController implements Initializable {
 
         numPlayersSlider.valueProperty()
                 .addListener((observable, oldValue, newValue) -> {
-            numPlayers = newValue.intValue();
-            updatePlayerForms(oldValue.intValue() > numPlayers,
-                    oldValue.intValue());
-            numPlayersLabel.setText("Number of Players: " + numPlayers);
-        });
+                    numPlayers = newValue.intValue();
+                    updatePlayerForms(oldValue.intValue() > numPlayers,
+                            oldValue.intValue());
+                    numPlayersLabel.setText("Number of Players: " + numPlayers);
+                });
 
         backButt.setOnAction(event ->
                 new LevelSelectionScene(primaryStage, backgroundMusic.
