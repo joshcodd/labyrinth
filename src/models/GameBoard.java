@@ -82,6 +82,7 @@ public class GameBoard {
                     actionBoard[row][i] = actionBoard[row][i - 1];
                 }
                 board[row][0] = tile;
+                actionBoard[row][0] = null;
                 break;
 
             case "RIGHT" :
@@ -288,11 +289,11 @@ public class GameBoard {
                     currentAction.incrementTurnsSinceUse();
                     if (currentAction instanceof FireTile
                             && ((currentAction
-                            .getTurnsSinceUse() >= (numPlayers * 2)))) {
+                            .getTurnsSinceUse() >= ((numPlayers * 2) - 1)))) {
                         actionBoard[x][y] = null;
                     } else if (currentAction instanceof IceTile
                             && ((currentAction
-                            .getTurnsSinceUse() >= numPlayers))) {
+                            .getTurnsSinceUse() >= (numPlayers - 1)))) {
                         actionBoard[x][y] = null;
                     }
                 }
