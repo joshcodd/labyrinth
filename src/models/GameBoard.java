@@ -238,7 +238,7 @@ public class GameBoard {
     public void addAction(ActionTile action, Coord position) {
         int x = position.getX();
         int y = position.getY();
-        if (position.isInBounds(width, height) && actionBoard[x][y] == null) {
+        if (position.isInBounds(height, width) && actionBoard[x][y] == null) {
             actionBoard[x][y] = action;
         }
     }
@@ -249,7 +249,7 @@ public class GameBoard {
      * @return The actions tile at the specified location.
      */
     public ActionTile getAction(Coord position) {
-        if (position.isInBounds(width, height)) {
+        if (position.isInBounds(height, width)) {
             return actionBoard[position.getX()][position.getY()];
         } else {
             return null;
@@ -261,8 +261,8 @@ public class GameBoard {
      * @param numPlayers The number of players.
      */
     public void refreshActionBoard(int numPlayers) {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
                 if (actionBoard[x][y] != null) {
                     ActionTile currentAction = actionBoard[x][y];
                     currentAction.incrementTurnsSinceUse();

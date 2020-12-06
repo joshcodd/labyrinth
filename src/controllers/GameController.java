@@ -379,16 +379,16 @@ public class GameController implements Initializable {
                 currPosition.getY());
         StackPane destPane = getTilePane(destination.getX(),
                 destination.getY());
-        StackPane finalPane = getTilePane(gameBoard.getWidth() - 1,
-                gameBoard.getHeight() - 1);
+        StackPane finalPane = getTilePane(gameBoard.getHeight() - 1,
+                gameBoard.getWidth() - 1);
         ImageView tank = getPlayer(currentPane);
 
         Point2D tankReal = currentPane.localToScene(currentPane.getWidth() / 2,
-                currentPane.getWidth() / 2);
+                currentPane.getHeight() / 2);
         Point2D tankDest = destPane.localToScene(destPane.getWidth() / 2,
                 destPane.getHeight() / 2);
         Point2D tankFake = finalPane.localToScene(finalPane.getWidth() / 2,
-                finalPane.getWidth() / 2);
+                finalPane.getHeight() / 2);
 
         double fakeX = tankReal.getX() - tankFake.getX();
         double fakeY = tankReal.getY() - tankFake.getY();
