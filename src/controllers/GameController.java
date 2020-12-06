@@ -707,9 +707,17 @@ public class GameController implements Initializable {
             selectedTile.setImage(null);
             updateActionTileHand();
             this.setPlayerLabel(game.getCurrentPlayerName() + "'s turn!");
-            drawTile.setDisable(false);
-            this.updateArrows(false);
-            continueButton.setDisable(true);
+
+            if (!gameBoard.isBoardFixed()) {
+                drawTile.setDisable(false);
+                this.updateArrows(false);
+                continueButton.setDisable(true);
+            } else {
+                if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                    actionButton.setDisable(false);
+                }
+                continueButton.setDisable(false);
+            }
             updateGameBoard();
             drawPlayers();
         }
@@ -792,9 +800,12 @@ public class GameController implements Initializable {
      */
     private void handleContinue() {
         if (drawTile.isDisabled()) {
-            boolean isActionTile =
-                    ActionTile.class.isAssignableFrom(game
-                            .getCurrentTile().getClass());
+            boolean isActionTile = false;
+            if (game.getCurrentTile() != null) {
+                isActionTile = ActionTile.class
+                        .isAssignableFrom(game
+                                .getCurrentTile().getClass());
+            }
 
             if (isActionTile) {
                 game.getCurrentPlayer().addActionTile(

@@ -152,6 +152,30 @@ public class GameBoard {
     }
 
     /**
+     * Gets if the entire board is fixed. That is, the board is locked
+     * and tile insert is unavailable.
+     * @return Whether the board is locked or not.
+     */
+    public boolean isBoardFixed(){
+        for (int i = 0; i < height; i++) {
+            if (!isColumnFixed(i)) {
+                System.out.println(i);
+                System.out.println("");
+                return false;
+            }
+        }
+        for (int i = 0; i < width; i++) {
+            if (!isRowFixed(i)) {
+                System.out.println(i);
+                System.out.println("");
+                return false;
+            }
+        }
+        System.out.println("FIXED");
+        return true;
+    }
+
+    /**
      * Gets the height of the game board.
      * @return Height of the game board.
      */
