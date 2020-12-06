@@ -159,15 +159,11 @@ public class GameBoard {
     public boolean isBoardFixed(){
         for (int i = 0; i < height; i++) {
             if (!isColumnFixed(i)) {
-                System.out.println(i);
-                System.out.println("");
                 return false;
             }
         }
         for (int i = 0; i < width; i++) {
             if (!isRowFixed(i)) {
-                System.out.println(i);
-                System.out.println("");
                 return false;
             }
         }
