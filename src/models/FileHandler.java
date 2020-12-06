@@ -38,7 +38,7 @@ public class FileHandler {
     /**
      * Private method to read in a level & TileBag from file.
      * @param line Scanner of file.
-     * @param bag tilebag to be filled.
+     * @param bag Tilebag to be filled.
      * @return a constructed gameboard.
      */
     private static GameBoard loadNewGame(Scanner line, TileBag bag) {
@@ -215,7 +215,7 @@ public class FileHandler {
         Player[] players = null;
         ShapeOfTile shape = null;
         String fileName = "";
-
+        //read file and check for section markers.
         while (read.hasNext()) {
             if (read.next().equals(">Height+Width")) {
                 String lines = read.next();
@@ -465,6 +465,7 @@ public class FileHandler {
             }
             read.nextLine();
         }
+        //construct game and set attributes.
         GameBoard board = new GameBoard(height, width, boardMap, actionMap);
         Game game = new Game(board, players, fileName);
         game.setCurrentTile(currentTile);
@@ -704,10 +705,10 @@ public class FileHandler {
                                                      String levelName) {
         ArrayList<String> players = new ArrayList<String>();
         String name = "";
-        while (line.hasNext()) {
+        while (line.hasNext()) { //check line for levelName.
             Scanner check = new Scanner(line.next());
             check.useDelimiter(":");
-            if (check.hasNext(levelName)) {
+            if (check.hasNext(levelName)) { //read names for levelName.
                 check.next();
                 Scanner names = new Scanner(check.next());
                 names.useDelimiter(",");
@@ -738,9 +739,9 @@ public class FileHandler {
         String newFile = "";
         String line = "";
         Boolean found = false;
-        while (read.hasNextLine()) {
+        while (read.hasNextLine()) { //check for levelName.
             line = read.nextLine();
-            if (line.contains(levelName)) {
+            if (line.contains(levelName)) { //add name to levelName.
                 found = true;
                 if (!line.contains(playerName)) {
                     line = line.concat("," + playerName);
@@ -748,12 +749,13 @@ public class FileHandler {
             }
             newFile = newFile + line + "\n";
         }
-        if (!found) {
+        if (!found) { //add level and player to file.
             line = levelName + ":" + playerName;
             newFile = newFile + line + "\n";
         }
 
         read.close();
+        //Write file.
         FileWriter write = new FileWriter(file);
         write.write(newFile);
         write.close();
