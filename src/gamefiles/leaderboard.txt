@@ -1,4 +1,5 @@
-OilyLake:andreas,josh,neil,andrew,ellie
+OilyLake:andreas,josh,neil,andrew,ellie,george,chi
 BarbedBattlefield:andrew,josh,neil
 WidePlains:josh,neil,andreas,andrew
 BigBattlegrounds:neil
+test:james,andrew

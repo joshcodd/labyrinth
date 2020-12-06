@@ -16,7 +16,9 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
+import views.scenes.LevelSelectionScene;
 import views.scenes.MenuScene;
+import views.scenes.WinnerScene;
 
 import java.io.IOException;
 import java.net.URL;
@@ -692,7 +694,8 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Sets the game up for the next round of the game.
+     * Sets the game up for the next round of the game and checks if the
+     * player is the winner.
      */
     private void nextRound() {
         selectedActionTile = null;
@@ -702,6 +705,7 @@ public class GameController implements Initializable {
             setPlayerLabel(game.getCurrentPlayerName() + " wins!");
             game.setOver(true);
             handleWinSaves();
+            new WinnerScene(primaryStage, backgroundMusic.getMediaPlayer(), game.getCurrentPlayer());
         } else {
             game.nextPlayer();
             selectedTile.setImage(null);

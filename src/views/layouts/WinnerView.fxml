@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="371.0" prefWidth="451.0" styleClass="background-image" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+
+      <VBox alignment="CENTER">
+         <HBox alignment="TOP_RIGHT" styleClass="tool-bar" VBox.vgrow="ALWAYS">
+            <Button fx:id="muteButton" mnemonicParsing="false" />
+         </HBox>
+         <Label fx:id="winLabel" alignment="CENTER" prefHeight="48.0" styleClass="large-label" text="is the winner!" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+      </VBox>
+
+   </top>
+   <bottom>
+   </bottom>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="248.0" prefWidth="430.0" BorderPane.alignment="BOTTOM_LEFT">
+         <StackPane prefHeight="150.0" prefWidth="200.0">
+            <children>
+               <ImageView fx:id="tankView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            </children>
+         </StackPane>
+         <HBox alignment="BOTTOM_CENTER" prefHeight="73.0" prefWidth="451.0" style="-fx-padding: 25;" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button fx:id="menuButton" mnemonicParsing="false" styleClass="default-button" text="Menu" />
+               </children>
+            </VBox>
+         </HBox>
+      </VBox>
+   </center>
+</BorderPane>
