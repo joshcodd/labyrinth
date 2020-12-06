@@ -522,6 +522,7 @@ public class GameController implements Initializable {
                 ImageView ice = new ImageView(RESOURCES_PATH + "IceTile.png");
                 ice.setFitWidth(TILE_SIZE);
                 ice.setFitHeight(TILE_SIZE);
+                ice.setRotate(new Random().nextInt(MAX_ROTATE));
                 action.getChildren().add(ice);
             }
         }
