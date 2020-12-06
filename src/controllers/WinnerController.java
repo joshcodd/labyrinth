@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,15 +10,16 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.AudioPlayer;
-import models.Game;
 import models.Player;
 import views.scenes.MenuScene;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- *
+ * Controller class for WinnerScene. Displays the winner and tank
+ * also displays the button functionality
+ * @author Andreas Eleftheriades
+ * @version 1.0
  */
 public class WinnerController implements Initializable {
     private final int TANK_SIZE = 60;
@@ -44,18 +44,15 @@ public class WinnerController implements Initializable {
      * @param stage The stage that this application is being displayed on.
      * @param backgroundMusic The audio to play in the background.
      */
-    public WinnerController(Player winner, Stage stage, MediaPlayer backgroundMusic) {
+    public WinnerController(Player winner, Stage stage,
+                            MediaPlayer backgroundMusic) {
         this.winner = winner;
         this.primaryStage = stage;
         this.mediaPlayer = backgroundMusic;
-        this.winLabel.setText(winner.getProfileName() + " is the winner!");
-        System.out.println(winner.getColour() + "  "+ winner.getProfileName());
-
     }
 
-
     /**
-     * Initializes the player selection GUI so that it's ready to be displayed.
+     * Initializes the winner of the game with tank
      * @param location The location used to resolve relative paths for the
      *                 root object, or null if the location is not known.
      * @param resources The resources used to localize the root object,
@@ -63,19 +60,18 @@ public class WinnerController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        muteButton.setOnAction(event -> {handleMute();});
-        menuButton.setOnAction(event -> {handleMenu();});
-
-        backgroundMusic.setMediaPlayer(mediaPlayer);
+        muteButton.setOnMouseClicked((event) -> handleMute());
+        menuButton.setOnMouseClicked((event) -> handleMenu());
+        this.winLabel.setText(winner.getProfileName() + " is the winner!");
         updateTankView();
     }
-
 
     /**
      * Sets player tank images to the correct tank and colour.
      */
     private void updateTankView() {
-        tankView.setImage(new Image("resources/" + winner.getColour() + ".png"));
+        tankView.setImage(new Image("resources/"
+                + winner.getColour() + ".png"));
         tankView.setFitHeight(TANK_SIZE);
         tankView.setFitWidth(TANK_SIZE);
     }
@@ -98,14 +94,6 @@ public class WinnerController implements Initializable {
         new AudioPlayer().clickPlay();
         new MenuScene(primaryStage, backgroundMusic.getMediaPlayer());
     }
-    /**
-     * Sets the stage in which the application is being displayed on.
-     * @param primaryStage The stage being displayed on.
-     */
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
 
     /**
      * Sets the media (audio) to be played in the background of the menu.
@@ -113,7 +101,7 @@ public class WinnerController implements Initializable {
      */
     public void setBackgroundMusic(MediaView backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
-        muteButton.getStyleClass().set(0, ("mute-" + backgroundMusic
-                .getMediaPlayer().isMute()));
+        muteButton.getStyleClass().set(0, ("mute-"
+                + backgroundMusic.getMediaPlayer().isMute()));
     }
 }
