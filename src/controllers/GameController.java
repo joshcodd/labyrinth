@@ -544,14 +544,14 @@ public class GameController implements Initializable {
             }
         }
 
-        ActionTile targetTile = gameBoard.getAction(pastPosition1);
-        if (!pastPosition1.isEmpty() && !(targetTile instanceof FireTile)) {
-            player.movePlayer(pastPosition1);
+        ActionTile targetTile = gameBoard.getAction(pastPosition2);
+        if (!pastPosition2.isEmpty() && !(targetTile instanceof FireTile)) {
+            player.movePlayer(pastPosition2);
             player.setCanBackTrack(false);
         } else {
-            targetTile = gameBoard.getAction(pastPosition2);
-            if (pastPosition2.isEmpty() && !(targetTile instanceof FireTile)) {
-                player.movePlayer(pastPosition2);
+            targetTile = gameBoard.getAction(pastPosition1);
+            if (!pastPosition1.isEmpty() && !(targetTile instanceof FireTile)) {
+                player.movePlayer(pastPosition1);
                 player.setCanBackTrack(false);
             }
         }
