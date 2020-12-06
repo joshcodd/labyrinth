@@ -292,7 +292,14 @@ public class GameBoard {
             FloorTile value = tile.getValue();
             board[key.getX()][key.getY()] = value;
         }
+        fillEmptySpace(tileBag);
+    }
 
+    /**
+     * Fills remaining spaces on the board with tiles from a tile bag.
+     * @param tileBag Tiles to fill up any empty spaces with.
+     */
+    public void fillEmptySpace(TileBag tileBag) {
         //Fill empty spaces will tiles from tile bag.
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
