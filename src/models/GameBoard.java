@@ -300,12 +300,12 @@ public class GameBoard {
      * @param tileBag Tiles to fill up any empty spaces with.
      */
     public void fillEmptySpace(TileBag tileBag) {
-        //Fill empty spaces will tiles from tile bag.
+        //Fill empty spaces with tiles from the tile bag.
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == null) {
                     boolean pulledFloorTile = false;
-                    /* Draw and place back until floor tile
+                    /* Draw and place back until a floor tile
                     is drawn */
                     while (!pulledFloorTile) {
                         Tile tile = tileBag.drawTile();
