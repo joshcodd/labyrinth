@@ -524,6 +524,7 @@ public class GameController implements Initializable {
                 ImageView ice = new ImageView(RESOURCES_PATH + "IceTile.png");
                 ice.setFitWidth(TILE_SIZE);
                 ice.setFitHeight(TILE_SIZE);
+                ice.setRotate(new Random().nextInt(MAX_ROTATE));
                 action.getChildren().add(ice);
             }
         }
@@ -546,14 +547,14 @@ public class GameController implements Initializable {
             }
         }
 
-        ActionTile targetTile = gameBoard.getAction(pastPosition1);
-        if (!pastPosition1.isEmpty() && !(targetTile instanceof FireTile)) {
-            player.movePlayer(pastPosition1);
+        ActionTile targetTile = gameBoard.getAction(pastPosition2);
+        if (!pastPosition2.isEmpty() && !(targetTile instanceof FireTile)) {
+            player.movePlayer(pastPosition2);
             player.setCanBackTrack(false);
         } else {
-            targetTile = gameBoard.getAction(pastPosition2);
-            if (pastPosition2.isEmpty() && !(targetTile instanceof FireTile)) {
-                player.movePlayer(pastPosition2);
+            targetTile = gameBoard.getAction(pastPosition1);
+            if (!pastPosition1.isEmpty() && !(targetTile instanceof FireTile)) {
+                player.movePlayer(pastPosition1);
                 player.setCanBackTrack(false);
             }
         }
@@ -711,9 +712,17 @@ public class GameController implements Initializable {
             selectedTile.setImage(null);
             updateActionTileHand();
             this.setPlayerLabel(game.getCurrentPlayerName() + "'s turn!");
-            drawTile.setDisable(false);
-            this.updateArrows(false);
-            continueButton.setDisable(true);
+
+            if (!gameBoard.isBoardFixed()) {
+                drawTile.setDisable(false);
+                this.updateArrows(false);
+                continueButton.setDisable(true);
+            } else {
+                if ((game.getCurrentPlayer().getActionTiles()).size() > 0) {
+                    actionButton.setDisable(false);
+                }
+                continueButton.setDisable(false);
+            }
             updateGameBoard();
             drawPlayers();
         }
@@ -796,9 +805,12 @@ public class GameController implements Initializable {
      */
     private void handleContinue() {
         if (drawTile.isDisabled()) {
-            boolean isActionTile =
-                    ActionTile.class.isAssignableFrom(game
-                            .getCurrentTile().getClass());
+            boolean isActionTile = false;
+            if (game.getCurrentTile() != null) {
+                isActionTile = ActionTile.class
+                        .isAssignableFrom(game
+                                .getCurrentTile().getClass());
+            }
 
             if (isActionTile) {
                 game.getCurrentPlayer().addActionTile(

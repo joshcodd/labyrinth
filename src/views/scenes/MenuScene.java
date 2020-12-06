@@ -27,7 +27,7 @@ public class MenuScene {
      */
         public MenuScene(Stage stage, MediaPlayer backgroundMusic) {
             this.primaryStage = stage;
-            stage.setTitle("Labyrinth by Space Invaders");
+            stage.setTitle("Labyrinth: Battle Field");
             try {
                 FXMLLoader loader = new FXMLLoader();
                 Parent root = loader.load(getClass().getClassLoader()

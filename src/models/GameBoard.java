@@ -82,6 +82,7 @@ public class GameBoard {
                     actionBoard[row][i] = actionBoard[row][i - 1];
                 }
                 board[row][0] = tile;
+                actionBoard[row][0] = null;
                 break;
 
             case "RIGHT" :
@@ -149,6 +150,26 @@ public class GameBoard {
             }
         }
         return false;
+    }
+
+    /**
+     * Gets if the entire board is fixed. That is, the board is locked
+     * and tile insert is unavailable.
+     * @return Whether the board is locked or not.
+     */
+    public boolean isBoardFixed(){
+        for (int i = 0; i < height; i++) {
+            if (!isColumnFixed(i)) {
+                return false;
+            }
+        }
+        for (int i = 0; i < width; i++) {
+            if (!isRowFixed(i)) {
+                return false;
+            }
+        }
+        System.out.println("FIXED");
+        return true;
     }
 
     /**
@@ -268,11 +289,11 @@ public class GameBoard {
                     currentAction.incrementTurnsSinceUse();
                     if (currentAction instanceof FireTile
                             && ((currentAction
-                            .getTurnsSinceUse() >= (numPlayers * 2)))) {
+                            .getTurnsSinceUse() >= ((numPlayers * 2) - 1)))) {
                         actionBoard[x][y] = null;
                     } else if (currentAction instanceof IceTile
                             && ((currentAction
-                            .getTurnsSinceUse() >= numPlayers))) {
+                            .getTurnsSinceUse() >= (numPlayers - 1)))) {
                         actionBoard[x][y] = null;
                     }
                 }

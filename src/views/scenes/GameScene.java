@@ -34,7 +34,7 @@ public class GameScene {
             this.controller = new GameController(game, stage, backgroundMusic);
             fxmlLoader.setController(controller);
             Pane root = fxmlLoader.load(getClass()
-                    .getResource("../layouts/gameView.fxml")
+                    .getResource("../layouts/GameView.fxml")
                     .openStream());
             Scene scene = new Scene(root, Constants.SCENE_WIDTH,
                     Constants.SCENE_HEIGHT);
