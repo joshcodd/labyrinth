@@ -702,10 +702,10 @@ public class GameController implements Initializable {
         window.setOnMouseMoved(this::setTankSpin);
         gameBoard.refreshActionBoard(game.getNumPlayers());
         if (game.checkWin(game.getCurrentPlayer())) {
-            setPlayerLabel(game.getCurrentPlayerName() + " wins!");
             game.setOver(true);
             handleWinSaves();
-            new WinnerScene(primaryStage, backgroundMusic.getMediaPlayer(), game.getCurrentPlayer());
+            new WinnerScene(primaryStage, backgroundMusic.getMediaPlayer(),
+                    game.getCurrentPlayer());
         } else {
             game.nextPlayer();
             selectedTile.setImage(null);

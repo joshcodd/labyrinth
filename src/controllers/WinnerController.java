@@ -33,7 +33,6 @@ public class WinnerController implements Initializable {
     private Button menuButton;
     @FXML
     private MediaView backgroundMusic;
-
     private Player winner;
     private Stage primaryStage;
     private MediaPlayer mediaPlayer;

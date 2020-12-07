@@ -25,8 +25,7 @@ public class LevelSelectionController {
     private MediaView backgroundMusic;
     @FXML
     private Button muteButton;
-
-    Stage primaryStage;
+    private Stage primaryStage;
 
     /**
      * Sets choices for which level to select.
