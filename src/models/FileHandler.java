@@ -26,7 +26,8 @@ public class FileHandler {
      * @return a constructed game board.
      */
     public static GameBoard loadNewGame(String file, Player[] players,
-                                        TileBag bag) throws FileNotFoundException {
+                                        TileBag bag)
+            throws FileNotFoundException {
         File level = new File("src/gamefiles/levels/"
                 + file.concat(".txt"));
         Scanner line = new Scanner(level);

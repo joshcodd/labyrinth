@@ -12,7 +12,7 @@ import java.net.URLConnection;
  */
 public class MessageOfTheDay {
     private final String CS230_STARTING_SOLUTION = "CS-230";
-    private final int ALPHABET_LENGHT = 26;
+    private final int ALPHABET_LENGTH = 26;
     private final int ASCII_VALUE = 65;
 
     // link to get encrypted text
@@ -57,8 +57,8 @@ public class MessageOfTheDay {
         for (int i = 0; i < cypherText.length(); i++) {
 
             char character = (char) (((int) cypherText
-                    .charAt(i) - shift + ALPHABET_LENGHT - ASCII_VALUE)
-                    % ALPHABET_LENGHT + ASCII_VALUE); // the decryption
+                    .charAt(i) - shift + ALPHABET_LENGTH - ASCII_VALUE)
+                    % ALPHABET_LENGTH + ASCII_VALUE); // the decryption
             plainText += character;
 
             if ((shift *= -1) > 0) {

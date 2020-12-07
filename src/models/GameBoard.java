@@ -157,7 +157,7 @@ public class GameBoard {
      * and tile insert is unavailable.
      * @return Whether the board is locked or not.
      */
-    public boolean isBoardFixed(){
+    public boolean isBoardFixed() {
         for (int i = 0; i < height; i++) {
             if (!isColumnFixed(i)) {
                 return false;
