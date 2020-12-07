@@ -24,6 +24,7 @@ public class FileHandler {
      * @param players list of players.
      * @param bag empty tile bag.
      * @return a constructed game board.
+     * @throws FileNotFoundException If game file cant not be found.
      */
     public static GameBoard loadNewGame(String file, Player[] players,
                                         TileBag bag)
@@ -37,10 +38,10 @@ public class FileHandler {
         return board;
     }
     /**
-     * Private method to read in a level & TileBag from file.
+     * Private method to read in a level and TileBag from file.
      * @param line Scanner of file.
-     * @param bag Tilebag to be filled.
-     * @return a constructed gameboard.
+     * @param bag Tile bag to be filled.
+     * @return a constructed game board.
      */
     private static GameBoard loadNewGame(Scanner line, TileBag bag) {
         HashMap<Coord, FloorTile> fixedTiles = new HashMap<>();
@@ -188,10 +189,12 @@ public class FileHandler {
      * Reads in a game from file, loads the game and all attributes.
      * @param fileName file name of game to be loaded.
      * @return A constructed game with all attributes preserved.
+     * @throws FileNotFoundException If game file is not found.
      */
     public static Game continueGame(String fileName)
             throws FileNotFoundException {
-        File level = new File("source/gamefiles/saves/" + fileName.concat(".txt"));
+        File level = new File("source/gamefiles/saves/"
+                + fileName.concat(".txt"));
         Scanner read = new Scanner(level);
         Game game = continueGame(read);
         read.close();
@@ -201,6 +204,7 @@ public class FileHandler {
      * Private method to read in a saved game from file.
      * @param read Scanner of save file.
      * @return a constructed game.
+     * @throws FileNotFoundException If game file is not found.
      */
     private static Game continueGame(Scanner read)
             throws FileNotFoundException {
@@ -481,6 +485,7 @@ public class FileHandler {
      * Saves a game to file.
      * @param saveName save name for current game.
      * @param game current game.
+     * @throws IOException If game file cannot be created.
      */
     public static void saveGameFile(String saveName,
                                     Game game) throws IOException {
@@ -686,7 +691,8 @@ public class FileHandler {
     /**
      * Reads in leaderboard information about players for a specified level.
      * @param levelName name of level leaderboard to be loaded.
-     * @return An arraylist of player names
+     * @return Player names
+     * @throws FileNotFoundException If leaderboard file does not exist.
      */
     public static ArrayList<String> loadLeaderboard(String levelName)
             throws FileNotFoundException {
@@ -730,8 +736,9 @@ public class FileHandler {
 
     /**
      * Saves a new player name to the specified level's leaderboard.
-     * @param levelName current level
-     * @param playerName player name
+     * @param levelName current level.
+     * @param playerName player name.
+     * @throws IOException If leaderboard cannot be created.
      */
     public static void saveLeaderboard(String levelName,
                                        String playerName) throws IOException {
@@ -765,6 +772,7 @@ public class FileHandler {
     /**
      * Gets a list of all player names from existing profiles.
      * @return Arraylist of player names.
+     * @throws FileNotFoundException If profiles cannot be found.
      */
     public static ArrayList<String> getAllNames() throws FileNotFoundException {
         File file = new File("source/gamefiles/players.txt");
@@ -788,6 +796,7 @@ public class FileHandler {
      * Loads in a player profile from the profiles file.
      * @param playerName player's name.
      * @return a player's profile.
+     * @throws FileNotFoundException If profile file cannot be found.
      */
     public static PlayerProfile loadProfile(String playerName)
             throws FileNotFoundException {
@@ -831,6 +840,7 @@ public class FileHandler {
      * @param wins player's wins.
      * @param losses player's losses.
      * @param gamesPlayed player's total games played.
+     * @throws IOException If profile cannot be created.
      */
     public static void saveProfile(String playerName,
                                    int wins, int losses,
@@ -865,6 +875,7 @@ public class FileHandler {
     /**
      * Deletes a player's profile from file.
      * @param playerName name of user to be deleted
+     * @throws IOException If profile cannot be created.
      */
     public static void deleteProfile(String playerName) throws IOException {
         File file = new File("source/gamefiles/players.txt");

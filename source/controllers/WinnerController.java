@@ -51,7 +51,7 @@ public class WinnerController implements Initializable {
     }
 
     /**
-     * Initializes the winner of the game with tank
+     * Initializes the winner of the game with tank.
      * @param location The location used to resolve relative paths for the
      *                 root object, or null if the location is not known.
      * @param resources The resources used to localize the root object,
