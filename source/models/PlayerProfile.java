@@ -54,6 +54,7 @@ public class PlayerProfile {
 
     /**
      * Saves the players current statistics to file.
+     * @throws IOException If profile cannot be saved
      */
     public void save() throws IOException {
         FileHandler.saveProfile(playerName, wins, losses, gamesPlayed);

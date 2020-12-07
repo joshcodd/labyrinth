@@ -48,6 +48,7 @@ public class MessageOfTheDay {
      * Decrypts encrypted message from @URL_CS230 and returns it.
      * @param cypherText The encrypted message.
      * @return The decrypted message.
+     * @throws Exception If message cannot be retrieved.
      */
     private String decryption(String cypherText) throws Exception {
         String plainText = ""; // holds the decrypted text
@@ -77,6 +78,7 @@ public class MessageOfTheDay {
      * @param uniformedResourceLocator The URL that the message
      *                                 of the day is found.
      * @return The message.
+     * @throws Exception If message cannot be received.
      */
     private String httpRequestSend(String uniformedResourceLocator)
             throws Exception {

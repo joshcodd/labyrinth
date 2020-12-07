@@ -20,6 +20,7 @@ public class Game {
      * Creates a new game from a level file.
      * @param gameFilename The file to load the game board from.
      * @param players The players playing this game.
+     * @throws FileNotFoundException If game file does not exist.
      */
     public Game(String gameFilename, Player[] players)
             throws FileNotFoundException {
