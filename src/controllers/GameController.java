@@ -16,7 +16,6 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
-import views.scenes.LevelSelectionScene;
 import views.scenes.MenuScene;
 import views.scenes.WinnerScene;
 

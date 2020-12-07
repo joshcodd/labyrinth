@@ -29,7 +29,7 @@ public class SelectPlayerScene {
      * @param backgroundMusic The audio to play in the background.
      */
     public SelectPlayerScene(Stage stage, String level,
-                              MediaPlayer backgroundMusic) {
+                             MediaPlayer backgroundMusic) {
         this.primaryStage = stage;
 
         try {
