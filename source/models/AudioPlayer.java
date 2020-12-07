@@ -20,10 +20,11 @@ public class AudioPlayer {
      */
     public AudioPlayer() {
         String clickURL = "source/resources/audio/click.mp3";
-        Media click = new Media(new File(clickURL).toURI().toString());
+        Media click = new Media(getClass()
+                .getResource(clickURL).toExternalForm());
         String backgroundURL = "source/resources/audio/background.mp3";
-        Media background = new Media(new File(backgroundURL)
-                .toURI().toString());
+        Media background = new Media(getClass()
+                .getResource(backgroundURL).toExternalForm());
         this.click = new MediaPlayer(click);
         this.backgroundMusic = new MediaPlayer(background);
     }
