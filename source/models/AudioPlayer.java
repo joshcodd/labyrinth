@@ -19,10 +19,10 @@ public class AudioPlayer {
      * Creates and initializes the audio to ensure it is ready for use.
      */
     public AudioPlayer() {
-        String clickURL = "source/resources/audio/click.mp3";
+        String clickURL = "/resources/audio/click.mp3";
         Media click = new Media(getClass()
                 .getResource(clickURL).toExternalForm());
-        String backgroundURL = "source/resources/audio/background.mp3";
+        String backgroundURL = "/resources/audio/background.mp3";
         Media background = new Media(getClass()
                 .getResource(backgroundURL).toExternalForm());
         this.click = new MediaPlayer(click);
