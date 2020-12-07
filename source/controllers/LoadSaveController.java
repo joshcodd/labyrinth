@@ -96,7 +96,7 @@ public class LoadSaveController {
      * @return All saved game file names.
      */
     private ObservableList<String> getSaves() {
-        File folder = new File("src/gamefiles/saves");
+        File folder = new File("source/gamefiles/saves");
         ObservableList<String> listOfFiles = observableArrayList();
         for (File i : Objects.requireNonNull(folder.listFiles())) {
             listOfFiles.add(i.getName().substring(0, i.getName()

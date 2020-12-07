@@ -28,7 +28,7 @@ public class FileHandler {
     public static GameBoard loadNewGame(String file, Player[] players,
                                         TileBag bag)
             throws FileNotFoundException {
-        File level = new File("src/gamefiles/levels/"
+        File level = new File("source/gamefiles/levels/"
                 + file.concat(".txt"));
         Scanner line = new Scanner(level);
         GameBoard board = loadNewGame(line, bag);
@@ -191,7 +191,7 @@ public class FileHandler {
      */
     public static Game continueGame(String fileName)
             throws FileNotFoundException {
-        File level = new File("src/gamefiles/saves/" + fileName.concat(".txt"));
+        File level = new File("source/gamefiles/saves/" + fileName.concat(".txt"));
         Scanner read = new Scanner(level);
         Game game = continueGame(read);
         read.close();
@@ -484,7 +484,7 @@ public class FileHandler {
      */
     public static void saveGameFile(String saveName,
                                     Game game) throws IOException {
-        File file = new File("src/gamefiles/saves/" + saveName + ".txt");
+        File file = new File("source/gamefiles/saves/" + saveName + ".txt");
         String newFile = "";
         String line = "";
         GameBoard g = game.getGameBoard();
@@ -690,7 +690,7 @@ public class FileHandler {
      */
     public static ArrayList<String> loadLeaderboard(String levelName)
             throws FileNotFoundException {
-        File leaderboard = new File("src/gamefiles/leaderboard.txt");
+        File leaderboard = new File("source/gamefiles/leaderboard.txt");
         Scanner line = new Scanner(leaderboard);
         ArrayList<String> playerlist = loadLeaderboard(line, levelName);
         line.close();
@@ -735,7 +735,7 @@ public class FileHandler {
      */
     public static void saveLeaderboard(String levelName,
                                        String playerName) throws IOException {
-        File file = new File("src/gamefiles/leaderboard.txt");
+        File file = new File("source/gamefiles/leaderboard.txt");
         Scanner read = new Scanner(new FileReader(file));
         String newFile = "";
         String line = "";
@@ -767,7 +767,7 @@ public class FileHandler {
      * @return Arraylist of player names.
      */
     public static ArrayList<String> getAllNames() throws FileNotFoundException {
-        File file = new File("src/gamefiles/players.txt");
+        File file = new File("source/gamefiles/players.txt");
         Scanner line = new Scanner(file);
         line.useDelimiter(",");
         ArrayList<String> players = new ArrayList<String>();
@@ -791,7 +791,7 @@ public class FileHandler {
      */
     public static PlayerProfile loadProfile(String playerName)
             throws FileNotFoundException {
-        File playerFile = new File("src/gamefiles/players.txt");
+        File playerFile = new File("source/gamefiles/players.txt");
         Scanner line = new Scanner(playerFile);
         PlayerProfile p = loadProfile(line, playerName);
         line.close();
@@ -835,7 +835,7 @@ public class FileHandler {
     public static void saveProfile(String playerName,
                                    int wins, int losses,
                                    int gamesPlayed) throws IOException {
-        File file = new File("src/gamefiles/players.txt");
+        File file = new File("source/gamefiles/players.txt");
         Scanner read = new Scanner(new FileReader(file));
         String newFile = "";
         String line = "";
@@ -867,7 +867,7 @@ public class FileHandler {
      * @param playerName name of user to be deleted
      */
     public static void deleteProfile(String playerName) throws IOException {
-        File file = new File("src/gamefiles/players.txt");
+        File file = new File("source/gamefiles/players.txt");
         Scanner read = new Scanner(new FileReader(file));
         String newFile = "";
         String line = "";
