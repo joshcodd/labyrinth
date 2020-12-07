@@ -96,8 +96,8 @@ public class PlayerSelectionController implements Initializable {
 
     private VBox[] playerForms;
     private Label[] startLabels;
-    private ChoiceBox<String>[] profileBoxes;
-    private ChoiceBox<String>[] colourBoxes;
+    private ChoiceBox[] profileBoxes;
+    private ChoiceBox[] colourBoxes;
     private CheckBox[] startFirstChecks;
     private ImageView[] tankViews;
     private String gameName;
@@ -324,7 +324,7 @@ public class PlayerSelectionController implements Initializable {
                 e.printStackTrace();
             }
             colourBoxes[index].setDisable(false);
-            String selectedItem = profileBoxes[index].getSelectionModel()
+            String selectedItem = (String) profileBoxes[index].getSelectionModel()
                     .getSelectedItem();
 
             for (int j = 0; j < MAX_PLAYERS; j++) {
@@ -352,9 +352,9 @@ public class PlayerSelectionController implements Initializable {
      *                       selection boxes.
      */
     private void handleColourChange(int index, String[] prevColourValues) {
-        players[index].setColour(colourBoxes[index].getValue());
+        players[index].setColour((String) colourBoxes[index].getValue());
         updateTankView(index, players[index].getColour());
-        String selectedItem = colourBoxes[index].getValue();
+        String selectedItem = (String) colourBoxes[index].getValue();
         for (int j = 0; j < MAX_PLAYERS; j++) {
             if (j != index && !selectedItem.equals(DEFAULT_COLOUR)) {
                 colourBoxes[j].getItems().remove(selectedItem);
