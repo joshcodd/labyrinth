@@ -885,6 +885,7 @@ public class GameController implements Initializable {
     private void handleActionClick() {
         if (selectedActionTile instanceof DoubleMoveTile) {
             updateMoves(gameBoard.getValidMoves(game.getCurrentPlayer()));
+            continueButton.setDisable(false);
             actionButton.setDisable(true);
             selectedTile.setImage(null);
             game.getCurrentPlayer().removeActionTile(selectedActionTile);

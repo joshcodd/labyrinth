@@ -168,7 +168,6 @@ public class GameBoard {
                 return false;
             }
         }
-        System.out.println("FIXED");
         return true;
     }
 
