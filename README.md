@@ -14,10 +14,8 @@ In this project I took the role of project manager. I learned a lot about how to
 In the command line run the following instructions.
 Run the following, replacing <Path> with the absolute path to root of Labyrinth directory:
 
-### `javac -cp .:<Path>/source/source/Main.java`
+### `javac -cp .:<Path>/source/ source/Main.java`
 
-<br/>
-
-### `java -cp .:/<Path to Group23-A2>/source/ Main`
+### `java -cp .:<Path>/source/ Main`
 
 <br/>
