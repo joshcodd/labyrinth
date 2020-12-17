@@ -8,3 +8,16 @@ In this project I took the role of project manager. I learned a lot about how to
 
 ![game1](https://user-images.githubusercontent.com/65715894/102504608-f2e0bd00-4078-11eb-96ab-839eede2dae3.gif)
 ![game2](https://user-images.githubusercontent.com/65715894/102504892-481cce80-4079-11eb-90c2-15c68e0f5465.gif)
+
+## How to compile and run Labyrinth
+
+In the command line run the following instructions.
+Run the following, replacing <Path> with the absolute path to root of Labyrinth directory:
+
+### `javac -cp .:<Path>/source/source/Main.java`
+
+<br/>
+
+### `java -cp .:/<Path to Group23-A2>/source/ Main`
+
+<br/>
