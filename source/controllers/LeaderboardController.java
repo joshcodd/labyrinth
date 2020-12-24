@@ -123,7 +123,7 @@ public class LeaderboardController {
      * @return All game file names.
      */
     private ObservableList<String> getLevels() {
-        File folder = new File("source/gamefiles/levels");
+        File folder = new File("./gamefiles/levels");
         ObservableList<String> listOfFiles = observableArrayList();
         for (File i : Objects.requireNonNull(folder.listFiles())) {
             listOfFiles.add(i.getName().substring(0, i

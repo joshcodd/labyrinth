@@ -233,7 +233,7 @@ public class PlayerSelectionController implements Initializable {
      * @param colour The colour to set the tank image to.
      */
     private void updateTankView(int index, String colour) {
-        tankViews[index].setImage(new Image("resources/" + colour + ".png"));
+        tankViews[index].setImage(new Image("/resources/" + colour + ".png"));
         tankViews[index].setFitHeight(TANK_SIZE);
         tankViews[index].setFitWidth(TANK_SIZE);
     }

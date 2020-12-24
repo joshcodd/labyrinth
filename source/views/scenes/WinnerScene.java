@@ -37,7 +37,7 @@ public class WinnerScene {
                     primaryStage, backgroundMusic);
             loader.setController(controller);
             Parent root = loader.load(getClass()
-                    .getResource("../layouts/WinnerView.fxml")
+                    .getResource("/views/layouts/WinnerView.fxml")
                     .openStream());
             controller.setBackgroundMusic(new MediaView(backgroundMusic));
             Scene scene = new Scene(root, Constants.SCENE_WIDTH,

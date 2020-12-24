@@ -321,7 +321,6 @@ public class GameController implements Initializable {
                     window.setOnMouseMoved(null);
                     tile.getChildren().remove(x);
                     animateMove(curr);
-                    game.getCurrentPlayer().movePlayer(curr);
                     new AudioPlayer().clickPlay();
                 });
             }
@@ -408,6 +407,9 @@ public class GameController implements Initializable {
         translateTransition.play();
 
         translateTransition.setOnFinished(e -> {
+            game.getCurrentPlayer().movePlayer(destination);
+            updateGameBoard();
+            drawPlayers();
             if (continueButton.isDisabled() && drawTile.isDisabled()) {
                 nextRound();
             }
@@ -698,6 +700,7 @@ public class GameController implements Initializable {
      * player is the winner.
      */
     private void nextRound() {
+        setPlayerLabel(game.getCurrentPlayer().getCurrentPosition().toString());
         selectedActionTile = null;
         window.setOnMouseMoved(this::setTankSpin);
         gameBoard.refreshActionBoard(game.getNumPlayers());
